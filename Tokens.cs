@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
 namespace Run2
 {
+  [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class Tokens : Queue<object>
   {
     internal Tokens()
@@ -23,6 +25,7 @@ namespace Run2
       return Evaluate(Dequeue(), evaluate);
     }
 
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public string ToCode()
     {
       var result = new StringBuilder();
@@ -37,9 +40,15 @@ namespace Run2
       return result.ToString();
     }
 
-    internal Tokens Clone()
+    internal Tokens Clone(int skip = 0)
     {
-      return new Tokens(this);
+      var result = new Tokens(this);
+      while (0 < skip)
+      {
+        result.Dequeue();
+        --skip;
+      }
+      return result;
     }
 
     internal object DequeueBestType(bool evaluate = true)

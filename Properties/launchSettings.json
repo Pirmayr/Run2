@@ -2,7 +2,7 @@
   "profiles": {
     "Run2": {
       "commandName": "Project",
-      "commandLineArgs": "-scriptName test.run2 -scriptArguments babalou 2 3"
+      "commandLineArgs": "-scriptName test.run2"
     }
   }
 }

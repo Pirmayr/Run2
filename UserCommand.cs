@@ -24,7 +24,7 @@ namespace Run2
           Run2.SetLocalVariable(parameter.ToString(), arguments.DequeueBestType());
         }
       }
-      Run2.SetLocalVariable("arguments", arguments);
+      Run2.SetLocalVariable("arguments", arguments.ToList(false));
       foreach (var subCommand in SubCommands)
       {
         result = Run2.RunCommand(subCommand.CommandName, subCommand.Arguments);

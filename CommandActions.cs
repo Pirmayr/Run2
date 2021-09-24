@@ -38,6 +38,38 @@ namespace Run2
       return value1 == value2;
     }
 
+    [CommandAction(2, 2, "<")]
+    public static object Less(Tokens arguments)
+    {
+      var value1 = arguments.DequeueDynamic();
+      var value2 = arguments.DequeueDynamic();
+      return value1 < value2;
+    }
+
+    [CommandAction(2, 2, "<=")]
+    public static object LessOrEqual(Tokens arguments)
+    {
+      var value1 = arguments.DequeueDynamic();
+      var value2 = arguments.DequeueDynamic();
+      return value1 <= value2;
+    }
+
+    [CommandAction(2, 2, ">")]
+    public static object Greater(Tokens arguments)
+    {
+      var value1 = arguments.DequeueDynamic();
+      var value2 = arguments.DequeueDynamic();
+      return value1 > value2;
+    }
+
+    [CommandAction(2, 2, ">=")]
+    public static object GreaterOrEqual(Tokens arguments)
+    {
+      var value1 = arguments.DequeueDynamic();
+      var value2 = arguments.DequeueDynamic();
+      return value1 >= value2;
+    }
+
     [CommandAction(2, 2, "!=")]
     public static object NotEqual(Tokens arguments)
     {

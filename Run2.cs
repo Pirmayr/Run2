@@ -44,8 +44,7 @@ namespace Run2
         }
         case Tokens tokensValue:
         {
-          var tokensValueClone = tokensValue.Clone();
-          return RunCommand(tokensValueClone.DequeueString(), tokensValueClone);
+          return RunCommand(tokensValue.PeekString(), tokensValue.Clone(1));
         }
       }
       return value;
@@ -235,7 +234,7 @@ namespace Run2
       if (0 < subtokens.Count)
       {
         (commandName != null).Check("Unexpected null while searching for command-definitions");
-        definitions.Add(commandName, subtokens.Clone());
+        definitions.Add(commandName, subtokens);
       }
     }
 
@@ -243,12 +242,11 @@ namespace Run2
     {
       var result = new Tokens();
       var currentToken = "";
-      var terminate = false;
       var blockLevel = 0;
       var expectedBlockEnders = new Stack<char>();
       var expectedBlockLevels = new Stack<int>();
       var characters = new Queue<char>(code);
-      while (!terminate && 0 < characters.Count)
+      while (0 < characters.Count)
       {
         var currentCharacter = characters.Dequeue();
         if (char.IsWhiteSpace(currentCharacter) && blockLevel == 0)
@@ -320,18 +318,6 @@ namespace Run2
                   break;
               }
               break;
-            /*
-            case '!':
-              if (blockLevel == 0)
-              {
-                terminate = true;
-              }
-              else
-              {
-                currentToken += currentCharacter;
-              }
-              break;
-            */
             default:
               currentToken += currentCharacter;
               break;

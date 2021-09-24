@@ -1,19 +1,37 @@
-a b c
-performtests
+invoketests
 
-command performtests 
-  set testsok True
+command performtests
+  performtest (+ 47 11) 58
+  performtest (- 47 11) 36
+  performtest (* 47 11) 517
+  performtest (/ 47 11) 4
+  performtest (== 47 11) false
+  performtest (!= 47 11) true
+  performtest (< 47 11) false
+  performtest (<= 47 11) false
+  performtest (> 47 11) true
+  performtest (>= 47 11) true
+  performtest (ToString (at 'Hello' 1)) 'e'
+  performtest (performfortest) 55
+  performtest (performforeachtest) 9
+  performtest (performmaptest) 12
   performtest (square 2) 4
   performtest (factorial 5) 120
-  write (if testsok 'tests ok' 'tests failed')
+  performtest (Length 'Hello World!') 12
+  performtest (upperbound (list 1 2 3)) 2
 
-command performtest (tokens) expected
-  if (!= (set actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)
+command performfortest
+  setlocal sum 0
+  for i 1 10 1 (setlocal sum (+ sum i))
 
-command setfailure code actual expected
-  set testsok False
-  write '(failure) code: ([code]) actual: [actual] expected: [expected]'
-  
+command performforeachtest
+  setlocal sum 0
+  foreach i (list 3 1 4 1) (setlocal sum (+ sum i))
+
+command performmaptest
+  setlocal product 1
+  map (list 3 1 4 1) (setlocal product (* product item))
+
 command initialize
   set windowsdirectory 'C:\Windows'
   set programfilesdirectory 'C:\Program Files'
@@ -21,22 +39,22 @@ command initialize
   set visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
   set msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
 
-command array return arguments
+command list return arguments
 command dir directory run cmd /c "dir" directory
 command factorial n if (== n 1) 1 (* (factorial (- n 1)) n)
 command finddirectory basedirectory pattern return (Helpers.FindDirectory basedirectory pattern)
 command findfile basedirectory pattern return (Helpers.FindFile basedirectory pattern)
 command split value return (Split value (at \n 0))
 command square n return (* n n)
-command upperbound value return (- (Length value) 1)
+command upperbound value return (- (Count value) 1)
 command write message Console.WriteLine (ToString message)  
 
-command tests
+command archive
   initialize
   write (evaluate (factorial 5))
   map (split (dir c:\windows)) (write item)
-  map (array 1 2 3) (write item)
-  map (array 'hans' 'hugo') (write (ToUpper item))
+  map (list 1 2 3) (write item)
+  map (list 'hans' 'hugo') (write (ToUpper item))
   write (factorial 15)
   write msbuildpath
   map (GetKeys variables) (write item)
@@ -58,3 +76,16 @@ command tests
   print (at (split (run cmd /c dir c:\windows)) 10)
   print (CreateMessage (fact 10))
   print $a
+
+command invoketests 
+  set testsok True
+  performtests
+  write (if testsok 'tests ok' 'tests failed')
+
+command performtest (tokens) expected
+  if (!= (set actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)
+
+command setfailure code actual expected
+  set testsok False
+  write '(failure) code: ([code]) actual: [actual] expected: [expected]'
+ 
