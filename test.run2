@@ -51,14 +51,14 @@ command upperbound value return (- (Length value) 1)
 command write message Console.WriteLine (ToString message)  
 
 command setfailure code actual expected
-  set testsok False
+  set testsok False 
   write '(failure) code: ([code]) actual: [actual] expected: [expected]'
 
 command invoketests 
   initialize
   set testsok True
   performtests
-  write (if testsok 'tests ok' 'tests failed')
+  write (if testsok (return 'tests ok') 'tests failed')
 
 command performtest (tokens) expected
   if (!= (set actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)

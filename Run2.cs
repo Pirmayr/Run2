@@ -13,7 +13,7 @@ namespace Run2
     private const string CommandToken = "command";
     private const char StrongQuote = '"';
     private const char WeakQuote = '\'';
-    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens" };
+    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands" };
     private static readonly Dictionary<string, Command> commands = new();
     private static readonly Variables variables = new();
 
@@ -42,9 +42,9 @@ namespace Run2
           }
           return stringValue;
         }
-        case Tokens tokensValue:
+        case SubCommands subCommands:
         {
-          return RunCommand(tokensValue.PeekString(), tokensValue.Clone(1));
+          return RunSubCommands(subCommands);
         }
       }
       return value;
@@ -66,12 +66,6 @@ namespace Run2
       Helpers.WriteLine("Script terminated successfully");
     }
 
-    private static void OnGlobalScopeCreated(object sender, EventArgs e)
-    {
-      SetGlobalVariable("commands", commands);
-      SetGlobalVariable("variables", variables);
-    }
-
     public static void LeaveScope()
     {
       variables.LeaveScope();
@@ -88,6 +82,16 @@ namespace Run2
       if (Globals.Debug)
       {
         Helpers.WriteLine($"End '{name}'");
+      }
+      return result;
+    }
+
+    public static object RunSubCommands(SubCommands subCommands)
+    {
+      object result = null;
+      foreach (var subCommand in subCommands)
+      {
+        result = RunCommand(subCommand.CommandName, subCommand.Arguments);
       }
       return result;
     }
@@ -195,6 +199,7 @@ namespace Run2
           userCommand.ParameterNames.Enqueue(token);
           tokens.Dequeue();
         }
+        /*
         while (0 < tokens.Count)
         {
           var subCommand = new SubCommand { CommandName = tokens.Dequeue().ToString() };
@@ -204,6 +209,8 @@ namespace Run2
             subCommand.Arguments.Enqueue(tokens.Dequeue());
           }
         }
+        */
+        userCommand.SubCommands = GetSubCommands(tokens);
       }
     }
 
@@ -238,6 +245,29 @@ namespace Run2
       }
     }
 
+    private static SubCommands GetSubCommands(Tokens tokens)
+    {
+      var result = new SubCommands();
+      while (0 < tokens.Count)
+      {
+        var subCommand = new SubCommand { CommandName = tokens.Dequeue().ToString() };
+        result.Add(subCommand);
+        while (0 < tokens.Count && !commands.ContainsKey(tokens.PeekString()))
+        {
+          var token = tokens.Dequeue();
+          if (token is Tokens tokensValue)
+          {
+            subCommand.Arguments.Enqueue(GetSubCommands(tokensValue));
+          }
+          else
+          {
+            subCommand.Arguments.Enqueue(token);
+          }
+        }
+      }
+      return result;
+    }
+
     private static Tokens GetTokens(string code, bool keepQuotes)
     {
       var result = new Tokens();
@@ -255,6 +285,7 @@ namespace Run2
           {
             continue;
           }
+          // result.Enqueue(IsBlock(ref currentToken) ? GetSubCommands(GetTokens(currentToken, keepQuotes)) : currentToken);
           result.Enqueue(IsBlock(ref currentToken) ? GetTokens(currentToken, keepQuotes) : currentToken);
           currentToken = "";
         }
@@ -326,6 +357,7 @@ namespace Run2
       }
       if (currentToken != "")
       {
+        // result.Enqueue(IsBlock(ref currentToken) ? GetSubCommands(GetTokens(currentToken, keepQuotes)) : currentToken);
         result.Enqueue(IsBlock(ref currentToken) ? GetTokens(currentToken, keepQuotes) : currentToken);
       }
       return result;
@@ -347,6 +379,12 @@ namespace Run2
       var tokens = GetTokens(File.ReadAllText(path), false);
       GetCommandDefinitions(Path.GetFileNameWithoutExtension(path), tokens, out var definitions);
       BuildUserCommands(definitions);
+    }
+
+    private static void OnGlobalScopeCreated(object sender, EventArgs e)
+    {
+      SetGlobalVariable("commands", commands);
+      SetGlobalVariable("variables", variables);
     }
 
     private static object RunCommand(string line)

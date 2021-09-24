@@ -80,8 +80,8 @@ namespace Run2
 
     public static object Evaluate(Tokens arguments)
     {
-      var tokens = arguments.DequeueObject() as Tokens;
-      var result = Run2.Evaluate(tokens);
+      var value = arguments.DequeueObject();
+      var result = Run2.Evaluate(value);
       return result;
     }
 

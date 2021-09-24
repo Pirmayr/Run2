@@ -1,6 +1,6 @@
 ﻿namespace Run2
 {
-  internal sealed class SubCommand
+  public sealed class SubCommand
   {
     public Tokens Arguments { get; } = new();
 
