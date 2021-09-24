@@ -18,7 +18,8 @@ command performtests
   performtest (square 2) 4
   performtest (factorial 5) 120
   performtest (Length 'Hello World!') 12
-  performtest (upperbound (list 1 2 3)) 2
+  performtest (upperbound (array 1 2 3)) 2
+  performtest (upperbound (split "Hello\nworld!")) 1
 
 command performfortest
   setlocal sum 0
@@ -26,11 +27,11 @@ command performfortest
 
 command performforeachtest
   setlocal sum 0
-  foreach i (list 3 1 4 1) (setlocal sum (+ sum i))
+  foreach i (array 3 1 4 1) (setlocal sum (+ sum i))
 
 command performmaptest
   setlocal product 1
-  map (list 3 1 4 1) (setlocal product (* product item))
+  map (array 3 1 4 1) (setlocal product (* product item))
 
 command initialize
   set windowsdirectory 'C:\Windows'
@@ -39,53 +40,25 @@ command initialize
   set visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
   set msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
 
-command list return arguments
+command array return (ToArray arguments)
 command dir directory run cmd /c "dir" directory
 command factorial n if (== n 1) 1 (* (factorial (- n 1)) n)
 command finddirectory basedirectory pattern return (Helpers.FindDirectory basedirectory pattern)
 command findfile basedirectory pattern return (Helpers.FindFile basedirectory pattern)
 command split value return (Split value (at \n 0))
 command square n return (* n n)
-command upperbound value return (- (Count value) 1)
+command upperbound value return (- (Length value) 1)
 command write message Console.WriteLine (ToString message)  
 
-command archive
-  initialize
-  write (evaluate (factorial 5))
-  map (split (dir c:\windows)) (write item)
-  map (list 1 2 3) (write item)
-  map (list 'hans' 'hugo') (write (ToUpper item))
-  write (factorial 15)
-  write msbuildpath
-  map (GetKeys variables) (write item)
-  set files (split (dir c:\windows))
-  for i 0 (upperbound files) 1 
-    (write (at files i))
-  write (factorial 10)
-  write (length files)
-  print (Directory.Exists c:\windows1)
-  print (Length "hallo")
-  set TestLong 47
-  set Message 'Hi Hugo'
-  set Condition (Equal 1 1)
-  print 
-    (if $Condition                                                          
-      (add $TestLong 'hugo') 
-      'Die Botschaft ist: $Message')
-  print (dir c:\windows)
-  print (at (split (run cmd /c dir c:\windows)) 10)
-  print (CreateMessage (fact 10))
-  print $a
+command setfailure code actual expected
+  set testsok False
+  write '(failure) code: ([code]) actual: [actual] expected: [expected]'
 
 command invoketests 
+  initialize
   set testsok True
   performtests
   write (if testsok 'tests ok' 'tests failed')
 
 command performtest (tokens) expected
   if (!= (set actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)
-
-command setfailure code actual expected
-  set testsok False
-  write '(failure) code: ([code]) actual: [actual] expected: [expected]'
- 
