@@ -38,31 +38,20 @@ namespace Run2
       return value1 == value2;
     }
 
-    [CommandAction(2, 2)]
-    public static object FindDirectory(Tokens arguments)
+    [CommandAction(2, 2, "!=")]
+    public static object NotEqual(Tokens arguments)
     {
-      var baseDirectory = arguments.DequeueString();
-      var pattern = arguments.DequeueString();
-      return Helpers.FindDirectory(baseDirectory, pattern);
+      var value1 = arguments.DequeueDynamic();
+      var value2 = arguments.DequeueDynamic();
+      return value1 != value2;
     }
 
-    [CommandAction(2, 2)]
-    public static object FindFile(Tokens arguments)
+    public static object Evaluate(Tokens arguments)
     {
-      var baseDirectory = arguments.DequeueString();
-      var pattern = arguments.DequeueString();
-      return Helpers.FindFile(baseDirectory, pattern);
+      var tokens = arguments.DequeueObject() as Tokens;
+      var result = Run2.Evaluate(tokens);
+      return result;
     }
-
-    /*
-    [CommandAction(2, 2)]
-    public static object FindDirectory(Tokens arguments)
-    {
-      var baseDirectory = arguments.DequeueString();
-      var pattern = arguments.DequeueString();
-      return Helpers.FindDirectory(baseDirectory, pattern);
-    }
-    */
 
     [CommandAction(5, 5)]
     public static object For(Tokens arguments)
@@ -147,7 +136,7 @@ namespace Run2
     [CommandAction(2, 2)]
     public static object Set(Tokens arguments)
     {
-      var variableName = arguments.DequeueString();
+      var variableName = arguments.DequeueString(false);
       var variableValue = arguments.DequeueBestType();
       Run2.SetGlobalVariable(variableName, variableValue);
       return variableValue;
@@ -156,7 +145,7 @@ namespace Run2
     [CommandAction(2, 2)]
     public static object SetLocal(Tokens arguments)
     {
-      var variableName = arguments.DequeueString();
+      var variableName = arguments.DequeueString(false);
       var variableValue = arguments.DequeueBestType();
       Run2.SetLocalVariable(variableName, variableValue);
       return variableValue;

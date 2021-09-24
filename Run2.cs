@@ -13,7 +13,7 @@ namespace Run2
     private const string CommandToken = "command";
     private const char StrongQuote = '"';
     private const char WeakQuote = '\'';
-    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables" };
+    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens" };
     private static readonly Dictionary<string, Command> commands = new();
     private static readonly Variables variables = new();
 
@@ -24,26 +24,29 @@ namespace Run2
 
     public static object Evaluate(object value)
     {
-      if (value is string stringValue)
+      switch (value)
       {
-        if (variables.TryGetValue(stringValue, out var result))
+        case string stringValue:
         {
-          return result;
+          if (variables.TryGetValue(stringValue, out var result))
+          {
+            return result;
+          }
+          foreach (var key in variables.GetKeys())
+          {
+            stringValue = stringValue.Replace("[" + key + "]", variables.Get(key).ToString());
+          }
+          if (stringValue.StartsWith(BlockStart) && stringValue.EndsWith(BlockEnd))
+          {
+            return RunCommand(stringValue.Substring(1, stringValue.Length - 2));
+          }
+          return stringValue;
         }
-        foreach (var key in variables.GetKeys())
+        case Tokens tokensValue:
         {
-          stringValue = stringValue.Replace("[" + key + "]", variables.Get(key).ToString());
+          var tokensValueClone = tokensValue.Clone();
+          return RunCommand(tokensValueClone.DequeueString(), tokensValueClone);
         }
-        if (stringValue.StartsWith(BlockStart) && stringValue.EndsWith(BlockEnd))
-        {
-          return RunCommand(stringValue.Substring(1, stringValue.Length - 2));
-        }
-        return stringValue;
-      }
-      if (value is Tokens tokensValue)
-      {
-        var tokensValueClone = tokensValue.Clone();
-        return RunCommand(tokensValueClone.DequeueString(), tokensValueClone);
       }
       return value;
     }
@@ -185,12 +188,12 @@ namespace Run2
         (userCommand != null).Check("Assertion");
         while (0 < tokens.Count)
         {
-          var token = tokens.PeekString();
-          if (commands.ContainsKey(token))
+          var token = tokens.Peek();
+          if (commands.ContainsKey(token.ToString() ?? string.Empty))
           {
             break;
           }
-          userCommand.ParameterNames.Add(token);
+          userCommand.ParameterNames.Enqueue(token);
           tokens.Dequeue();
         }
         while (0 < tokens.Count)
@@ -317,6 +320,7 @@ namespace Run2
                   break;
               }
               break;
+            /*
             case '!':
               if (blockLevel == 0)
               {
@@ -327,6 +331,7 @@ namespace Run2
                 currentToken += currentCharacter;
               }
               break;
+            */
             default:
               currentToken += currentCharacter;
               break;

@@ -8,7 +8,8 @@ using System.Threading;
 
 namespace Run2
 {
-  internal static class Helpers
+  [SuppressMessage("ReSharper", "MemberCanBeInternal")]
+  public static class Helpers
   {
     public static void Check([DoesNotReturnIf(false)] this bool condition, string message)
     {

@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace Run2
 {
-  internal sealed class Tokens : Queue<object>
+  public sealed class Tokens : Queue<object>
   {
-    public Tokens()
+    internal Tokens()
     {
     }
 
-    public Tokens(IEnumerable<string> values) : base(values)
+    internal Tokens(IEnumerable<string> values) : base(values)
     {
     }
 
@@ -17,19 +18,38 @@ namespace Run2
     {
     }
 
-    public Tokens Clone()
+    public object DequeueObject(bool evaluate = true)
+    {
+      return Evaluate(Dequeue(), evaluate);
+    }
+
+    public string ToCode()
+    {
+      var result = new StringBuilder();
+      foreach (var item in this)
+      {
+        if (0 < result.Length)
+        {
+          result.Append(' ');
+        }
+        result.Append(item);
+      }
+      return result.ToString();
+    }
+
+    internal Tokens Clone()
     {
       return new Tokens(this);
     }
 
-    public object DequeueBestType(bool evaluate = true)
+    internal object DequeueBestType(bool evaluate = true)
     {
-      return BestType(Dequeue(evaluate));
+      return BestType(DequeueObject(evaluate));
     }
 
-    public bool DequeueBool(bool evaluate = true)
+    internal bool DequeueBool(bool evaluate = true)
     {
-      var result = Dequeue(evaluate);
+      var result = DequeueObject(evaluate);
       if (result is string stringValue)
       {
         return bool.Parse(stringValue);
@@ -37,22 +57,22 @@ namespace Run2
       return (bool) result;
     }
 
-    public dynamic DequeueDynamic(bool evaluate = true)
+    internal dynamic DequeueDynamic(bool evaluate = true)
     {
       return DequeueBestType(evaluate);
     }
 
-    public string DequeueString(bool evaluate = true)
+    internal string DequeueString(bool evaluate = true)
     {
-      return Dequeue(evaluate).ToString();
+      return DequeueObject(evaluate).ToString();
     }
 
-    public string PeekString()
+    internal string PeekString()
     {
       return Peek().ToString();
     }
 
-    public List<object> ToList(bool evaluate)
+    internal List<object> ToList(bool evaluate)
     {
       var result = new List<object>();
       foreach (var token in this)
@@ -86,11 +106,6 @@ namespace Run2
     private static object Evaluate(object value, bool evaluate)
     {
       return evaluate ? Run2.Evaluate(value) : value;
-    }
-
-    private object Dequeue(bool evaluate)
-    {
-      return Evaluate(Dequeue(), evaluate);
     }
   }
 }
