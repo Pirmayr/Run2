@@ -3,7 +3,7 @@ initialize
 map (split (dir c:\windows)) (write item)
 map (array 1 2 3) (write item)
 map (array 'hans' 'hugo') (write (ToUpper item))
-write (factorial 16)
+write (factorial 15)
 write msbuildpath
 map (GetKeys variables) (write item)
 
