@@ -1,0 +1,46 @@
+a b c
+initialize
+map (split (dir c:\windows)) (write item)
+map (array 1 2 3) (write item)
+map (array 'hans' 'hugo') (write (ToUpper item))
+write (factorial 16)
+write msbuildpath
+map (GetKeys variables) (write item)
+
+command initialize
+  set windowsdirectory 'C:\Windows'
+  set programfilesdirectory 'C:\Program Files'
+  set programfiles32directory 'C:\Program Files (x86)'
+  set visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
+  set msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
+
+command CreateMessage message
+  return 'The message is: $message'
+
+command dir directory run cmd /c "dir" directory
+command factorial n if (== n 1) 1 (* (factorial (- n 1)) n)
+command split value return (Split value (at \n 0))
+command square n return (* n n)
+command upperbound value return (- (Length value) 1)
+command write message Console.WriteLine (ToString message)  
+command array return arguments
+
+command tests
+  set files (split (dir c:\windows))
+  for i 0 (upperbound files) 1 
+    (write (at files i))
+  write (factorial 10)
+  write (length files)
+  print (Directory.Exists c:\windows1)
+  print (Length "hallo")
+  set TestLong 47
+  set Message 'Hi Hugo'
+  set Condition (Equal 1 1)
+  print 
+    (if $Condition                                                          
+      (add $TestLong 'hugo') 
+      'Die Botschaft ist: $Message')
+  print (dir c:\windows)
+  print (at (split (run cmd /c dir c:\windows)) 10)
+  print (CreateMessage (fact 10))
+  print $a
