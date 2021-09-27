@@ -86,14 +86,14 @@ namespace Run2
       variables.SetGlobal(name, value);
     }
 
-    public static void SetVariable(string name, object value)
-    {
-      variables.Set(name, value);
-    }
-
     public static void SetLocalVariable(string name, object value)
     {
       variables.SetLocal(name, value);
+    }
+
+    public static void SetVariable(string name, object value)
+    {
+      variables.Set(name, value);
     }
 
     private static bool AcceptMember(MemberInfo member)
@@ -173,7 +173,7 @@ namespace Run2
     {
       foreach (var name in definitions.Keys)
       {
-        commands.Add(name, new UserCommand());
+        commands.Add(name, new UserCommand { Name = name });
       }
       foreach (var (key, tokens) in definitions)
       {

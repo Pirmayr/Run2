@@ -1,4 +1,5 @@
-﻿namespace Run2
+﻿#pragma warning disable 660, 661
+namespace Run2
 {
   internal sealed class WeakQuotedString : object
   {

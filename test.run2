@@ -1,5 +1,6 @@
 invoketests
-  write (averageof 1 2 3 4)
+
+map (sort (getfiles c:\windows)) (write item) 
 
 command performtests
   performtest (+ 47 11) 58
@@ -15,12 +16,16 @@ command performtests
   performtest (== (array 1 2 3) (array 1 2 3)) true
   performtest (== (array 1 2 3) (array 1 2 4)) false
   performtest (== (array 1 2 3 4) (array 1 2 3)) false
-  performtest (ToString (at 'Hello' 1)) 'e'
-  performtest (setlocal result 0 for i 1 10 1 (setlocal result (+ result i))) 55
-  performtest (setlocal result 0 foreach i (array 3 1 4 1) (setlocal result (+ result i))) 9
-  performtest (setlocal product 1 map (array 3 1 4 1) (setlocal product (* product item))) 12
+  performtest (sum (array 1 2 3)) 6
+  performtest (sumof 1 2 3) 6
+  performtest (averageof 1 2 3 4) 2.5
+  performtest (average (array 1 2 3 4)) 2.5
   performtest (square 2) 4
   performtest (factorial 5) 120
+  performtest (ToString (at 'Hello' 1)) 'e'
+  performtest (local result 0 for i 1 10 1 (local result (+ result i))) 55
+  performtest (local result 0 foreach i (array 3 1 4 1) (local result (+ result i))) 9
+  performtest (local product 1 map (array 3 1 4 1) (local product (* product item))) 12
   performtest (Length 'Hello World!') 12
   performtest (at (split 'Hello~nworld!') 1) 'world!'
   performtest (Count (list 1 2 3 4 5)) 5
@@ -36,37 +41,35 @@ command performtests
   performtest (createdirectory c:\testdirectory directoryexists c:\testdirectory) true
   performtest (writefile c:\testdirectory\hello.txt hello readfile c:\testdirectory\hello.txt) 'hello'
   performtest (writefile c:\testdirectory\world.txt world readfile c:\testdirectory\world.txt) 'world'
-  performtest (size (getfiles c:\testdirectory)) 2
+  performtest (writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9' average (split (readfile c:\testdirectory\values.txt))) 6
+  performtest (size (getfiles c:\testdirectory)) 3
   performtest (deletedirectory c:\testdirectory directoryexists c:\testdirectory) false
   performtest (sort 'hugo') 'ghou'
   performtest (sort (split '3~n1~n4~n1~n5~n9')) (array '1' '1' '3' '4' '5' '9')
-  performtest (setglobal value 4711 increment value 1 return value) 4712
-  performtest (sum (array 1 2 3)) 6
-  performtest (sumof 1 2 3) 6
-  performtest (averageof 1 2 3 4) 2.5
+  performtest (global value 4711 increment value 1 return value) 4712
 
 command invoketests 
-  initialize
-  setglobal testsok True
+  global testsok true
   performtests
   write (if testsok 'tests ok' 'tests failed')
 
 command performtest (tokens) expected
-  if (!= (setglobal actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)
+  if (!= (local actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)
 
 command setfailure code actual expected
-  setglobal testsok False 
+  global testsok false 
   write '(failure) code: ([code]) actual: [actual] expected: [expected]'
 
 command initialize
-  setglobal windowsdirectory 'C:\Windows'
-  setglobal programfilesdirectory 'C:\Program Files'
-  setglobal programfiles32directory 'C:\Program Files (x86)'
-  setglobal visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
-  setglobal msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
+  global windowsdirectory 'C:\Windows'
+  global programfilesdirectory 'C:\Program Files'
+  global programfiles32directory 'C:\Program Files (x86)'
+  global visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
+  global msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
 
 command array ToArray arguments
-command averageof / (todouble (sum arguments)) (size arguments)
+command averageof average arguments
+command average values / (todouble (sum values)) (size values)
 command createdirectory directory Directory.CreateDirectory directory 
 command deletedirectory directory Directory.Delete directory (return true) 
 command dir directory run cmd /c "dir" directory
@@ -87,10 +90,10 @@ command readfile path File.ReadAllText path
 command size instance if (hasmember instance 'Length') (Length instance) (Count instance)
 command sort instance switch (isarray instance) (sortarray instance) (isstring instance) (sortstring instance) (Sort instance)
 command sortarray instance Array.Sort instance return instance
-command sortstring value setglobal characters (ToCharArray value) Array.Sort characters String.new characters
+command sortstring value local characters (ToCharArray value) Array.Sort characters String.new characters
 command split value Split value (at "~n" 1)
 command square n * n n
-command sum values setlocal result 0 map values (increment result item)
+command sum values local result 0 map values (increment result item)
 command sumof sum arguments
 command todouble n + n 0.0
 command typename instance invokeinstancemember 'Name' (typeof instance)

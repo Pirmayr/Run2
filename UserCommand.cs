@@ -2,6 +2,8 @@
 {
   internal sealed class UserCommand : Command
   {
+    public string Name { get; init; }
+
     public Tokens ParameterNames { get; } = new();
 
     public SubCommands SubCommands { get; set; } = new();
@@ -9,7 +11,7 @@
     public override object Run(Tokens arguments)
     {
       Run2.EnterScope();
-      (ParameterNames.Count == 0 || arguments.Count == ParameterNames.Count).Check($"Arguments-count {arguments.Count} is different from parameters-count {ParameterNames.Count}");
+      (ParameterNames.Count == 0 || arguments.Count == ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
       foreach (var parameter in ParameterNames)
       {
         if (parameter is Tokens tokensValue)

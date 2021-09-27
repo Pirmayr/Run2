@@ -50,16 +50,6 @@ namespace Run2
       scopes.Pop();
     }
 
-    public void SetGlobal(string name, object value)
-    {
-      globalScope[name] = value;
-    }
-
-    public void SetLocal(string name, object value)
-    {
-      scopes.Peek()[name] = value;
-    }
-
     public void Set(string name, object value)
     {
       foreach (var scope in scopes)
@@ -70,6 +60,16 @@ namespace Run2
           return;
         }
       }
+    }
+
+    public void SetGlobal(string name, object value)
+    {
+      globalScope[name] = value;
+    }
+
+    public void SetLocal(string name, object value)
+    {
+      scopes.Peek()[name] = value;
     }
 
     public bool TryGetValue(string name, out object value)

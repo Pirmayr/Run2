@@ -182,15 +182,6 @@ namespace Run2
     }
 
     [CommandAction(2, 2)]
-    public static object SetGlobal(Tokens arguments)
-    {
-      var variableName = arguments.DequeueString();
-      var variableValue = arguments.DequeueBestType();
-      Run2.SetGlobalVariable(variableName, variableValue);
-      return variableValue;
-    }
-
-    [CommandAction(2, 2)]
     public static object Set(Tokens arguments)
     {
       var variableName = arguments.DequeueString();
@@ -200,7 +191,16 @@ namespace Run2
     }
 
     [CommandAction(2, 2)]
-    public static object SetLocal(Tokens arguments)
+    public static object Global(Tokens arguments)
+    {
+      var variableName = arguments.DequeueString(false);
+      var variableValue = arguments.DequeueBestType();
+      Run2.SetGlobalVariable(variableName, variableValue);
+      return variableValue;
+    }
+
+    [CommandAction(2, 2)]
+    public static object Local(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
       var variableValue = arguments.DequeueBestType();
