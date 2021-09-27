@@ -49,6 +49,7 @@ namespace Run2
     public static string GetHelp()
     {
       var result = new StringBuilder();
+      result.Append("<style>th {background: red;}</style>");
       foreach (var (name, command) in commands.OrderBy(static item => item.Key))
       {
         if (command is SystemCommand or UserCommand)
@@ -66,7 +67,7 @@ namespace Run2
           if (command is UserCommand userCommand && 0 < userCommand.ParameterNames.Count)
           {
             result.Append('\n');
-            result.Append("|<span style='display: inline-block; width:10em'>Name</span>|<span style='display: inline-block; width:20em'>Name</span>|");
+            result.Append("|<span style='display:inline-block;width:10em;'>Name</span>|<span style='display: inline-block; width:20em'>Name</span>|");
             result.Append('\n');
             result.Append("|-|-|");
             foreach (var token in userCommand.ParameterNames)
@@ -74,14 +75,7 @@ namespace Run2
               result.Append('\n');
               var parameterName = Helpers.ParameterName(token);
               result.Append("|" + parameterName + "|");
-              if (userCommand.ParameterDescriptions.TryGetValue(parameterName ?? string.Empty, out var parameterDescription))
-              {
-                result.Append(parameterDescription);
-              }
-              else
-              {
-                result.Append(parameterName);
-              }
+              result.Append(userCommand.ParameterDescriptions.TryGetValue(parameterName ?? string.Empty, out var parameterDescription) ? parameterDescription : parameterName);
               result.Append('|');
             }
           }
