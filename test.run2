@@ -1,6 +1,6 @@
 invoketests
 
-write (gethelp)
+writefile c:\run2.md (gethelp)
 
 command performtests
   performtest (+ 47 11) 58
@@ -68,35 +68,35 @@ command initialize
   global msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
 
 command array 'converts arguments an array' ToArray arguments
-command averageof average arguments
-command average values / (todouble (sum values)) (size values)
+command averageof 'computes the average of the arguments' average arguments
+command average 'computes the average of the given values' values / (todouble (sum values)) (size values)
 command createdirectory directory Directory.CreateDirectory directory 
 command deletedirectory directory Directory.Delete directory (return true) 
 command dir directory run cmd /c "dir" directory
 command directoryexists directory Directory.Exists directory 
-command factorial n if (== n 1) 1 (* (factorial (- n 1)) n)
+command factorial 'computes the factorial of a number' number if (== number 1) 1 (* (factorial (- number 1)) number)
 command finddirectory basedirectory pattern return (Helpers.FindDirectory basedirectory pattern)
 command findfile basedirectory pattern return (Helpers.FindFile basedirectory pattern)
-command getfiles path Directory.GetFiles path
+command getfiles 'returns an array of paths of the files in a directory' directory Directory.GetFiles directory
 command getmember instance name invokeinstancemember 'GetMember' (typeof instance) name
 command hasmember instance name > (Length (getmember instance name)) 0
 command hastype instance type == (typename instance) type
-command increment (name) 'name of the variable' _increment set name (+ (get name) _increment)
-command isarray instance invokeinstancemember 'IsArray' (typeof instance)
-command isstring instance hastype instance String
-command list return arguments
+command increment 'increments a variable' (name) 'name of the variable' _increment 'increment' set name (+ (get name) _increment)
+command isarray 'tests if an object is an array' object invokeinstancemember 'IsArray' (typeof object)
+command isstring 'tests if an object is a string' object hastype object String
+command list 'returns the arguments as a list' return arguments
 command power 'computes the power of two numbers' a 'base' b 'exponent' Math.Pow a b
-command readfile 'returns the text in a file' path 'path of the file' File.ReadAllText path
+command readfile 'returns the text contained in a file' path 'path of the file' File.ReadAllText path
 command size 'returns the size of an object (e.g. an array or a list)' object if (hasmember object 'Length') (Length object) (Count object)
-command sort instance switch (isarray instance) (sortarray instance) (isstring instance) (sortstring instance) (Sort instance)
-command sortarray instance Array.Sort instance return instance
-command sortstring value local characters (ToCharArray value) Array.Sort characters String.new characters
+command sort 'sorts an object (e.g. an array, a list, or a string)' instance switch (isarray instance) (sortarray instance) (isstring instance) (sortstring instance) (Sort instance)
+command sortarray 'sorts an array' object Array.Sort object return object
+command sortstring 'sorts the characters of a string' value local characters (ToCharArray value) Array.Sort characters String.new characters
 command split value Split value (at "~n" 1)
 command square 'computes the square of a number' n 'number' * n n
 command sum values local result 0 map values (increment result item)
 command sumof 'returns the sum of the arguments' sum arguments
 command todouble n + n 0.0
-command typename instance invokeinstancemember 'Name' (typeof instance)
+command typename 'returns the name of the type of an object' object invokeinstancemember 'Name' (typeof object)
 command typeof 'returns the type-object of an object' object invokeinstancemember 'GetType' object
 command upperbound 'returns the upper-bound of an object (e.g. an array or a list)' object return (- (size object) 1)
 command write message Console.WriteLine (ToString message)

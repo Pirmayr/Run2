@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Linq;
 
 namespace Run2
 {
@@ -57,22 +57,32 @@ namespace Run2
           {
             result.Append('\n');
           }
-          result.Append(name);
+          result.Append("#### " + name);
+          result.Append('\n');
           if (!string.IsNullOrEmpty(command.CommandDescription))
           {
-            result.Append($": {command.CommandDescription}");
+            result.Append(command.CommandDescription);
           }
-          if (command is UserCommand userCommand)
+          if (command is UserCommand userCommand && 0 < userCommand.ParameterNames.Count)
           {
+            result.Append('\n');
+            result.Append("|<span style='display: inline-block; width:10em'>Name</span>|<span style='display: inline-block; width:20em'>Name</span>|");
+            result.Append('\n');
+            result.Append("|-|-|");
             foreach (var token in userCommand.ParameterNames)
             {
               result.Append('\n');
               var parameterName = Helpers.ParameterName(token);
-              result.Append("  " + parameterName);
+              result.Append("|" + parameterName + "|");
               if (userCommand.ParameterDescriptions.TryGetValue(parameterName ?? string.Empty, out var parameterDescription))
               {
-                result.Append($": {parameterDescription}");
+                result.Append(parameterDescription);
               }
+              else
+              {
+                result.Append(parameterName);
+              }
+              result.Append('|');
             }
           }
         }
@@ -205,59 +215,10 @@ namespace Run2
       }
     }
 
-    private static void BuildUserCommands(Dictionary<string, Tokens> definitions)
+    private static void BuildUserCommands(string path, Tokens tokens)
     {
-      foreach (var name in definitions.Keys)
-      {
-        commands.Add(name, new UserCommand { Name = name });
-      }
-      foreach (var (key, tokens) in definitions)
-      {
-        var userCommand = commands[key] as UserCommand;
-        (userCommand != null).Check("Assertion");
-        if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeakQuotedString description)
-        {
-          userCommand.CommandDescription = description.Value;
-          tokens.Dequeue();
-        }
-        while (0 < tokens.Count)
-        {
-          var peekedToken = tokens.Peek();
-          if (commands.ContainsKey(peekedToken.ToString() ?? string.Empty))
-          {
-            break;
-          }
-          userCommand.ParameterNames.Enqueue(peekedToken);
-          tokens.Dequeue();
-          if (tokens.TryPeek(out var parameterDescriptionCandidate) && parameterDescriptionCandidate is WeakQuotedString parameterDescription)
-          {
-            userCommand.ParameterDescriptions.Add(Helpers.ParameterName(peekedToken), parameterDescription.Value);
-            tokens.Dequeue();
-          }
-        }
-        userCommand.SubCommands = GetSubCommands(tokens);
-      }
-    }
-
-    private static void EnqueueToken(string currentToken, Tokens result)
-    {
-      if (IsWeakQuoted(ref currentToken))
-      {
-        result.Enqueue(new WeakQuotedString { Value = currentToken });
-      }
-      else if (IsBlock(ref currentToken))
-      {
-        result.Enqueue(GetTokens(currentToken));
-      }
-      else
-      {
-        result.Enqueue(currentToken);
-      }
-    }
-
-    private static void GetCommandDefinitions(string firstCommandName, Tokens tokens, out Dictionary<string, Tokens> definitions)
-    {
-      definitions = new Dictionary<string, Tokens>();
+      var firstCommandName = Path.GetFileNameWithoutExtension(path);
+      var definitions = new Dictionary<string, Tokens>();
       var commandName = firstCommandName;
       var subtokens = new Tokens();
       while (0 < tokens.Count)
@@ -283,6 +244,52 @@ namespace Run2
       {
         (commandName != null).Check("Unexpected null while searching for command-definitions");
         definitions.Add(commandName, subtokens);
+      }
+      foreach (var name in definitions.Keys)
+      {
+        commands.Add(name, new UserCommand { Name = name });
+      }
+      foreach (var (definitionName, definitionTokens) in definitions)
+      {
+        var userCommand = commands[definitionName] as UserCommand;
+        (userCommand != null).Check("User-command must not be null");
+        if (TryPeekDescription(definitionTokens, out var description))
+        {
+          userCommand.CommandDescription = description;
+          definitionTokens.Dequeue();
+        }
+        while (0 < definitionTokens.Count)
+        {
+          var peekedToken = definitionTokens.Peek();
+          if (peekedToken is string peekedTokenString && commands.ContainsKey(peekedTokenString))
+          {
+            break;
+          }
+          userCommand.ParameterNames.Enqueue(peekedToken);
+          definitionTokens.Dequeue();
+          if (TryPeekDescription(definitionTokens, out var parameterDescription))
+          {
+            userCommand.ParameterDescriptions.Add(Helpers.ParameterName(peekedToken), parameterDescription);
+            definitionTokens.Dequeue();
+          }
+        }
+        userCommand.SubCommands = GetSubCommands(definitionTokens);
+      }
+    }
+
+    private static void EnqueueToken(string currentToken, Tokens result)
+    {
+      if (IsWeakQuoted(ref currentToken))
+      {
+        result.Enqueue(new WeakQuotedString { Value = currentToken });
+      }
+      else if (IsBlock(ref currentToken))
+      {
+        result.Enqueue(GetTokens(currentToken));
+      }
+      else
+      {
+        result.Enqueue(currentToken);
       }
     }
 
@@ -430,8 +437,7 @@ namespace Run2
     {
       File.Exists(path).Check($"Script '{path}' not found");
       var tokens = GetTokens(File.ReadAllText(path));
-      GetCommandDefinitions(Path.GetFileNameWithoutExtension(path), tokens, out var definitions);
-      BuildUserCommands(definitions);
+      BuildUserCommands(path, tokens);
     }
 
     private static void OnGlobalScopeCreated(object sender, EventArgs e)
@@ -453,6 +459,17 @@ namespace Run2
         Helpers.WriteLine($"End '{name}'");
       }
       return result;
+    }
+
+    private static bool TryPeekDescription(Tokens tokens, out string description)
+    {
+      if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeakQuotedString weakQuotedString)
+      {
+        description = weakQuotedString.Value;
+        return true;
+      }
+      description = null;
+      return false;
     }
   }
 }

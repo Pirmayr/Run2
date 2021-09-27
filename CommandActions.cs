@@ -86,6 +86,7 @@ namespace Run2
     }
 
     [CommandAction(0, 0)]
+    // ReSharper disable once UnusedParameter.Global
     public static object GetHelp(Tokens arguments)
     {
       return Run2.GetHelp();
