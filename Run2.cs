@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 
@@ -24,34 +25,33 @@ namespace Run2
 
     public static object Evaluate(object value)
     {
-      switch (value)
+      if (Helpers.IsAnyString(value, out var stringValue))
       {
-        case string stringValue:
+        if (value is string && variables.TryGetValue(stringValue, out var result))
         {
-          if (variables.TryGetValue(stringValue, out var result))
-          {
-            return result;
-          }
-          foreach (var key in variables.GetKeys())
-          {
-            stringValue = stringValue.Replace("[" + key + "]", variables.Get(key).ToString());
-          }
-          if (stringValue.StartsWith(BlockStart) && stringValue.EndsWith(BlockEnd))
-          {
-            return RunCommand(stringValue.Substring(1, stringValue.Length - 2));
-          }
-          return stringValue;
+          return result;
         }
-        case SubCommands subCommands:
+        foreach (var key in variables.GetKeys())
         {
-          return RunSubCommands(subCommands);
+          stringValue = stringValue.Replace("[" + key + "]", variables.Get(key).ToString());
         }
+        return stringValue;
+      }
+      if (value is SubCommands subCommands)
+      {
+        return RunSubCommands(subCommands);
       }
       return value;
     }
 
+    public static object GetVariable(string name)
+    {
+      return variables.Get(name);
+    }
+
     public static void Initialize()
     {
+      CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
       variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Debug = CommandLineParser.OptionExists("debug");
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Helpers.GetProgramDirectory());
@@ -71,21 +71,6 @@ namespace Run2
       variables.LeaveScope();
     }
 
-    public static object RunCommand(string name, Tokens arguments)
-    {
-      commands.ContainsKey(name).Check($"Command '{name}' not found");
-      if (Globals.Debug)
-      {
-        Helpers.WriteLine($"Begin '{name}'");
-      }
-      var result = commands[name].Run(arguments.Clone());
-      if (Globals.Debug)
-      {
-        Helpers.WriteLine($"End '{name}'");
-      }
-      return result;
-    }
-
     public static object RunSubCommands(SubCommands subCommands)
     {
       object result = null;
@@ -99,6 +84,11 @@ namespace Run2
     public static void SetGlobalVariable(string name, object value)
     {
       variables.SetGlobal(name, value);
+    }
+
+    public static void SetVariable(string name, object value)
+    {
+      variables.Set(name, value);
     }
 
     public static void SetLocalVariable(string name, object value)
@@ -199,18 +189,23 @@ namespace Run2
           userCommand.ParameterNames.Enqueue(token);
           tokens.Dequeue();
         }
-        /*
-        while (0 < tokens.Count)
-        {
-          var subCommand = new SubCommand { CommandName = tokens.Dequeue().ToString() };
-          userCommand.SubCommands.Add(subCommand);
-          while (0 < tokens.Count && !commands.ContainsKey(tokens.PeekString()))
-          {
-            subCommand.Arguments.Enqueue(tokens.Dequeue());
-          }
-        }
-        */
         userCommand.SubCommands = GetSubCommands(tokens);
+      }
+    }
+
+    private static void EnqueueToken(string currentToken, Tokens result)
+    {
+      if (IsWeakQuoted(ref currentToken))
+      {
+        result.Enqueue(new WeakQuotedString { Value = currentToken });
+      }
+      else if (IsBlock(ref currentToken))
+      {
+        result.Enqueue(GetTokens(currentToken));
+      }
+      else
+      {
+        result.Enqueue(currentToken);
       }
     }
 
@@ -252,8 +247,12 @@ namespace Run2
       {
         var subCommand = new SubCommand { CommandName = tokens.Dequeue().ToString() };
         result.Add(subCommand);
-        while (0 < tokens.Count && !commands.ContainsKey(tokens.PeekString()))
+        while (0 < tokens.Count)
         {
+          if (tokens.Peek() is string peekedTokenString && commands.ContainsKey(peekedTokenString))
+          {
+            break;
+          }
           var token = tokens.Dequeue();
           if (token is Tokens tokensValue)
           {
@@ -268,7 +267,7 @@ namespace Run2
       return result;
     }
 
-    private static Tokens GetTokens(string code, bool keepQuotes)
+    private static Tokens GetTokens(string code)
     {
       var result = new Tokens();
       var currentToken = "";
@@ -285,8 +284,7 @@ namespace Run2
           {
             continue;
           }
-          // result.Enqueue(IsBlock(ref currentToken) ? GetSubCommands(GetTokens(currentToken, keepQuotes)) : currentToken);
-          result.Enqueue(IsBlock(ref currentToken) ? GetTokens(currentToken, keepQuotes) : currentToken);
+          EnqueueToken(currentToken, result);
           currentToken = "";
         }
         else
@@ -320,14 +318,14 @@ namespace Run2
                 var expectedBlockLevel = expectedBlockLevels.Pop();
                 (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel}");
                 --blockLevel;
-                if (keepQuotes || currentCharacter == StrongQuote || 0 < blockLevel)
+                if (currentCharacter is StrongQuote or WeakQuote || 0 < blockLevel)
                 {
                   currentToken += currentCharacter;
                 }
               }
               else
               {
-                if (keepQuotes || currentCharacter == StrongQuote || 0 < blockLevel)
+                if (currentCharacter is StrongQuote or WeakQuote || 0 < blockLevel)
                 {
                   currentToken += currentCharacter;
                 }
@@ -357,8 +355,7 @@ namespace Run2
       }
       if (currentToken != "")
       {
-        // result.Enqueue(IsBlock(ref currentToken) ? GetSubCommands(GetTokens(currentToken, keepQuotes)) : currentToken);
-        result.Enqueue(IsBlock(ref currentToken) ? GetTokens(currentToken, keepQuotes) : currentToken);
+        EnqueueToken(currentToken, result);
       }
       return result;
     }
@@ -373,10 +370,20 @@ namespace Run2
       return false;
     }
 
+    private static bool IsWeakQuoted(ref string text)
+    {
+      if (text.StartsWith(WeakQuote) && text.EndsWith(WeakQuote))
+      {
+        text = text.Substring(1, text.Length - 2);
+        return true;
+      }
+      return false;
+    }
+
     private static void LoadCommand(string path)
     {
       File.Exists(path).Check($"Script '{path}' not found");
-      var tokens = GetTokens(File.ReadAllText(path), false);
+      var tokens = GetTokens(File.ReadAllText(path));
       GetCommandDefinitions(Path.GetFileNameWithoutExtension(path), tokens, out var definitions);
       BuildUserCommands(definitions);
     }
@@ -387,11 +394,19 @@ namespace Run2
       SetGlobalVariable("variables", variables);
     }
 
-    private static object RunCommand(string line)
+    private static object RunCommand(string name, Tokens arguments)
     {
-      var tokens = GetTokens(line, false);
-      var commandName = tokens.Dequeue().ToString();
-      return RunCommand(commandName, tokens);
+      commands.ContainsKey(name).Check($"Command '{name}' not found");
+      if (Globals.Debug)
+      {
+        Helpers.WriteLine($"Begin '{name}'");
+      }
+      var result = commands[name].Run(arguments.Clone());
+      if (Globals.Debug)
+      {
+        Helpers.WriteLine($"End '{name}'");
+      }
+      return result;
     }
   }
 }

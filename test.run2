@@ -1,4 +1,5 @@
 invoketests
+  write (averageof 1 2 3 4)
 
 command performtests
   performtest (+ 47 11) 58
@@ -11,54 +12,89 @@ command performtests
   performtest (<= 47 11) false
   performtest (> 47 11) true
   performtest (>= 47 11) true
+  performtest (== (array 1 2 3) (array 1 2 3)) true
+  performtest (== (array 1 2 3) (array 1 2 4)) false
+  performtest (== (array 1 2 3 4) (array 1 2 3)) false
   performtest (ToString (at 'Hello' 1)) 'e'
-  performtest (performfortest) 55
-  performtest (performforeachtest) 9
-  performtest (performmaptest) 12
+  performtest (setlocal result 0 for i 1 10 1 (setlocal result (+ result i))) 55
+  performtest (setlocal result 0 foreach i (array 3 1 4 1) (setlocal result (+ result i))) 9
+  performtest (setlocal product 1 map (array 3 1 4 1) (setlocal product (* product item))) 12
   performtest (square 2) 4
   performtest (factorial 5) 120
   performtest (Length 'Hello World!') 12
+  performtest (at (split 'Hello~nworld!') 1) 'world!'
+  performtest (Count (list 1 2 3 4 5)) 5
   performtest (upperbound (array 1 2 3)) 2
-  performtest (upperbound (split "Hello\nworld!")) 1
-
-command performfortest
-  setlocal sum 0
-  for i 1 10 1 (setlocal sum (+ sum i))
-
-command performforeachtest
-  setlocal sum 0
-  foreach i (array 3 1 4 1) (setlocal sum (+ sum i))
-
-command performmaptest
-  setlocal product 1
-  map (array 3 1 4 1) (setlocal product (* product item))
-
-command initialize
-  set windowsdirectory 'C:\Windows'
-  set programfilesdirectory 'C:\Program Files'
-  set programfiles32directory 'C:\Program Files (x86)'
-  set visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
-  set msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
-
-command array return (ToArray arguments)
-command dir directory run cmd /c "dir" directory
-command factorial n if (== n 1) 1 (* (factorial (- n 1)) n)
-command finddirectory basedirectory pattern return (Helpers.FindDirectory basedirectory pattern)
-command findfile basedirectory pattern return (Helpers.FindFile basedirectory pattern)
-command split value return (Split value (at \n 0))
-command square n return (* n n)
-command upperbound value return (- (Length value) 1)
-command write message Console.WriteLine (ToString message)  
-
-command setfailure code actual expected
-  set testsok False 
-  write '(failure) code: ([code]) actual: [actual] expected: [expected]'
+  performtest (upperbound (split 'Hello~nworld')) 1
+  performtest (size 'hugo') 4
+  performtest (size (array 1 2 3 4 5 6)) 6
+  performtest (size (list 1 2 3 4 5 6 7)) 7
+  performtest (typename 'Hello') 'String'
+  performtest (hasmember 'hugo' 'Length') true
+  performtest (hasmember 'hugo' 'Count') false
+  performtest (power 3 4) 81
+  performtest (createdirectory c:\testdirectory directoryexists c:\testdirectory) true
+  performtest (writefile c:\testdirectory\hello.txt hello readfile c:\testdirectory\hello.txt) 'hello'
+  performtest (writefile c:\testdirectory\world.txt world readfile c:\testdirectory\world.txt) 'world'
+  performtest (size (getfiles c:\testdirectory)) 2
+  performtest (deletedirectory c:\testdirectory directoryexists c:\testdirectory) false
+  performtest (sort 'hugo') 'ghou'
+  performtest (sort (split '3~n1~n4~n1~n5~n9')) (array '1' '1' '3' '4' '5' '9')
+  performtest (setglobal value 4711 increment value 1 return value) 4712
+  performtest (sum (array 1 2 3)) 6
+  performtest (sumof 1 2 3) 6
+  performtest (averageof 1 2 3 4) 2.5
 
 command invoketests 
   initialize
-  set testsok True
+  setglobal testsok True
   performtests
-  write (if testsok (return 'tests ok') 'tests failed')
+  write (if testsok 'tests ok' 'tests failed')
 
 command performtest (tokens) expected
-  if (!= (set actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)
+  if (!= (setglobal actual (evaluate tokens)) expected) (setfailure (ToCode tokens) actual expected)
+
+command setfailure code actual expected
+  setglobal testsok False 
+  write '(failure) code: ([code]) actual: [actual] expected: [expected]'
+
+command initialize
+  setglobal windowsdirectory 'C:\Windows'
+  setglobal programfilesdirectory 'C:\Program Files'
+  setglobal programfiles32directory 'C:\Program Files (x86)'
+  setglobal visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
+  setglobal msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
+
+command array ToArray arguments
+command averageof / (todouble (sum arguments)) (size arguments)
+command createdirectory directory Directory.CreateDirectory directory 
+command deletedirectory directory Directory.Delete directory (return true) 
+command dir directory run cmd /c "dir" directory
+command directoryexists directory Directory.Exists directory 
+command factorial n if (== n 1) 1 (* (factorial (- n 1)) n)
+command finddirectory basedirectory pattern return (Helpers.FindDirectory basedirectory pattern)
+command findfile basedirectory pattern return (Helpers.FindFile basedirectory pattern)
+command getfiles path Directory.GetFiles path
+command getmember instance name invokeinstancemember 'GetMember' (typeof instance) name
+command hasmember instance name > (Length (getmember instance name)) 0
+command hastype instance type == (typename instance) type
+command increment (name) _increment set name (+ (get name) _increment)
+command isarray instance invokeinstancemember 'IsArray' (typeof instance)
+command isstring instance hastype instance String
+command list return arguments
+command power a b Math.Pow a b
+command readfile path File.ReadAllText path
+command size instance if (hasmember instance 'Length') (Length instance) (Count instance)
+command sort instance switch (isarray instance) (sortarray instance) (isstring instance) (sortstring instance) (Sort instance)
+command sortarray instance Array.Sort instance return instance
+command sortstring value setglobal characters (ToCharArray value) Array.Sort characters String.new characters
+command split value Split value (at "~n" 1)
+command square n * n n
+command sum values setlocal result 0 map values (increment result item)
+command sumof sum arguments
+command todouble n + n 0.0
+command typename instance invokeinstancemember 'Name' (typeof instance)
+command typeof instance invokeinstancemember 'GetType' instance
+command upperbound value return (- (size value) 1)
+command write message Console.WriteLine (ToString message)
+command writefile path text File.WriteAllText path text

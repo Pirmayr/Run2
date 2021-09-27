@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Run2
 {
+  [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class Variables
   {
     private readonly Stack<Scope> scopes = new();
@@ -37,7 +39,6 @@ namespace Run2
           if (!handled.Contains(key))
           {
             handled.Add(key);
-            // yield return key;
           }
         }
       }
@@ -57,6 +58,18 @@ namespace Run2
     public void SetLocal(string name, object value)
     {
       scopes.Peek()[name] = value;
+    }
+
+    public void Set(string name, object value)
+    {
+      foreach (var scope in scopes)
+      {
+        if (scope.ContainsKey(name))
+        {
+          scope[name] = value;
+          return;
+        }
+      }
     }
 
     public bool TryGetValue(string name, out object value)

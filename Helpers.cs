@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -49,6 +51,7 @@ namespace Run2
       throw mostRecentException;
     }
 
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static string FindDirectory(string baseDirectory, string pattern)
     {
       Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
@@ -81,6 +84,27 @@ namespace Run2
       return Directory.GetFiles(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
     }
 
+    public static object GetBestType(object value)
+    {
+      if (IsAnyString(value, out var stringResult))
+      {
+        if (bool.TryParse(stringResult, out var boolResult))
+        {
+          return boolResult;
+        }
+        if (int.TryParse(stringResult, out var intResult))
+        {
+          return intResult;
+        }
+        if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
+        {
+          return doubleResult;
+        }
+        return stringResult;
+      }
+      return value;
+    }
+
     public static string GetCommandNameFromPath(string path)
     {
       return Path.GetFileNameWithoutExtension(path);
@@ -93,7 +117,7 @@ namespace Run2
 
     public static void HandleException(Exception exception)
     {
-      WriteLine(exception.Message);
+      WriteLine(exception.InnerMostException().Message);
     }
 
     public static object Invoke(string memberName, object typeOrTarget, object[] arguments)
@@ -101,6 +125,11 @@ namespace Run2
       var isType = typeOrTarget is Type;
       var type = isType ? (Type) typeOrTarget : typeOrTarget.GetType();
       var target = isType ? null : typeOrTarget;
+      return InvokeMember(memberName, type, target, arguments);
+    }
+
+    public static object InvokeMember(string memberName, Type type, object target, object[] arguments)
+    {
       var bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
       if (memberName == "_new")
       {
@@ -122,7 +151,48 @@ namespace Run2
           }
         }
       }
-      return type.InvokeMember(memberName, bindingFlags, null, target, arguments);
+      var result = type.InvokeMember(memberName, bindingFlags, null, target, arguments);
+      return result;
+    }
+
+    public static bool IsAnyString(object value, out string stringResult)
+    {
+      switch (value)
+      {
+        case string stringValue:
+          stringResult = stringValue;
+          return true;
+        case WeakQuotedString weakQuotedStringValue:
+          stringResult = weakQuotedStringValue.Value;
+          return true;
+        default:
+          stringResult = "";
+          return false;
+      }
+    }
+
+    public static object IsEqual(dynamic value1, dynamic value2)
+    {
+      if (value1 is not string && value2 is not string && value1 is IEnumerable enumerable1 && value2 is IEnumerable enumerable2)
+      {
+        var enumerator1 = enumerable1.GetEnumerator();
+        var enumerator2 = enumerable2.GetEnumerator();
+        var containsElement1 = enumerator1.MoveNext();
+        var containsElement2 = enumerator2.MoveNext();
+        while (containsElement1 && containsElement2)
+        {
+          dynamic current1 = GetBestType(enumerator1.Current);
+          dynamic current2 = GetBestType(enumerator2.Current);
+          if (current1 != current2)
+          {
+            return false;
+          }
+          containsElement1 = enumerator1.MoveNext();
+          containsElement2 = enumerator2.MoveNext();
+        }
+        return !containsElement1 && !containsElement2;
+      }
+      return value1 == value2;
     }
 
     public static void WriteLine(string message)
@@ -139,6 +209,16 @@ namespace Run2
         throw new Exception(message);
       }
       return true;
+    }
+
+    private static Exception InnerMostException(this Exception exception)
+    {
+      var result = exception;
+      while (result.InnerException != null)
+      {
+        result = result.InnerException;
+      }
+      return result;
     }
   }
 }

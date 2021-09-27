@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Text;
 
 namespace Run2
@@ -12,7 +11,7 @@ namespace Run2
     {
     }
 
-    internal Tokens(IEnumerable<string> values) : base(values)
+    internal Tokens(IEnumerable<object> values) : base(values)
     {
     }
 
@@ -35,9 +34,18 @@ namespace Run2
         {
           result.Append(' ');
         }
-        result.Append(item);
+        if (item is SubCommands subCommandsValue)
+        {
+          result.Append('(');
+          result.Append(subCommandsValue.ToCode());
+          result.Append(')');
+        }
+        else
+        {
+          result.Append(item);
+        }
       }
-      return result.ToString();
+      return result.ToString().Replace("\n", "\\n");
     }
 
     internal Tokens Clone(int skip = 0)
@@ -53,13 +61,13 @@ namespace Run2
 
     internal object DequeueBestType(bool evaluate = true)
     {
-      return BestType(DequeueObject(evaluate));
+      return Helpers.GetBestType(DequeueObject(evaluate));
     }
 
     internal bool DequeueBool(bool evaluate = true)
     {
       var result = DequeueObject(evaluate);
-      if (result is string stringValue)
+      if (Helpers.IsAnyString(result, out var stringValue))
       {
         return bool.Parse(stringValue);
       }
@@ -86,35 +94,20 @@ namespace Run2
       var result = new List<object>();
       foreach (var token in this)
       {
+        // result.Add(Helpers.GetBestType(Evaluate(token, evaluate)));
         result.Add(Evaluate(token, evaluate));
       }
       return result;
     }
 
-    private static object BestType(object value)
-    {
-      if (value is string stringResult)
-      {
-        if (bool.TryParse(stringResult, out var boolResult))
-        {
-          return boolResult;
-        }
-        if (int.TryParse(stringResult, out var intResult))
-        {
-          return intResult;
-        }
-        if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
-        {
-          return doubleResult;
-        }
-        return stringResult;
-      }
-      return value;
-    }
-
     private static object Evaluate(object value, bool evaluate)
     {
       return evaluate ? Run2.Evaluate(value) : value;
+    }
+
+    private new object Dequeue()
+    {
+      return base.Dequeue();
     }
   }
 }

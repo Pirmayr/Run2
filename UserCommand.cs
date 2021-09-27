@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Run2
+﻿namespace Run2
 {
   internal sealed class UserCommand : Command
   {
@@ -18,13 +16,6 @@ namespace Run2
         {
           (tokensValue.Count == 1).Check("Expected exactly one token for parameters");
           Run2.SetLocalVariable(tokensValue.PeekString(), arguments.DequeueBestType(false));
-        }
-        else if (parameter is SubCommands subCommands)
-        {
-          (subCommands.Count == 1).Check("Expected exactly 1 sub-command for parameters");
-          var subCommand = subCommands[0];
-          (subCommand.Arguments.Count == 0).Check("Expected sub-command without arguments for parameters");
-          Run2.SetLocalVariable(subCommand.CommandName, arguments.DequeueBestType(false));
         }
         else
         {

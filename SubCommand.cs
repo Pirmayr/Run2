@@ -2,8 +2,8 @@
 {
   public sealed class SubCommand
   {
-    public Tokens Arguments { get; } = new();
+    internal Tokens Arguments { get; } = new();
 
-    public string CommandName { get; init; }
+    internal string CommandName { get; init; }
   }
 }
