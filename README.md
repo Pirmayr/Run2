@@ -56,3 +56,7 @@ write (factorial 10)
 ```
 
 There is no difference between predefined commands and commands defined by the user.
+
+## Predefined Commands
+
+[Documentation](commands.md)

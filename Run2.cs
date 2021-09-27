@@ -444,6 +444,8 @@ namespace Run2
     {
       SetGlobalVariable("commands", commands);
       SetGlobalVariable("variables", variables);
+      SetGlobalVariable("scriptpath", Globals.ScriptPath);
+      SetGlobalVariable("basedirectory", Globals.BaseDirectory);
     }
 
     private static object RunCommand(string name, Tokens arguments)

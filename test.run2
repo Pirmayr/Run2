@@ -1,6 +1,6 @@
 invoketests
 
-writefile c:\run2.md (gethelp)
+writefile [basedirectory]\..\..\..\commands.md (gethelp)
 
 command performtests
   performtest (+ 47 11) 58
