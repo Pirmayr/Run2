@@ -49,7 +49,6 @@ namespace Run2
     public static string GetHelp()
     {
       var result = new StringBuilder();
-      result.Append("<style>th {background: red;}</style>");
       foreach (var (name, command) in commands.OrderBy(static item => item.Key))
       {
         if (command is SystemCommand or UserCommand)
@@ -67,9 +66,9 @@ namespace Run2
           if (command is UserCommand userCommand && 0 < userCommand.ParameterNames.Count)
           {
             result.Append('\n');
-            result.Append("|<span style='display:inline-block;width:10em;'>Name</span>|<span style='display: inline-block; width:20em'>Name</span>|");
+            result.Append("|Name|Description|");
             result.Append('\n');
-            result.Append("|-|-|");
+            result.Append("|---|---|");
             foreach (var token in userCommand.ParameterNames)
             {
               result.Append('\n');
