@@ -1,6 +1,6 @@
 # Run2
 
-Run2 is a simple scripting language. It is intended to be a robust tool for running tasks. The original motivation was to be able build and test software reliably.
+Run2 is a simple scripting language. It is intended to be a robust tool for running tasks. The original motivation was to be able to build and test software reliably.
 
 ## Properties
 
