@@ -85,6 +85,21 @@ namespace Run2
       return Run2.GetVariable(variableName);
     }
 
+    [CommandAction(0, 0)]
+    public static object GetHelp(Tokens arguments)
+    {
+      return Run2.GetHelp();
+    }
+
+    [CommandAction(2, 2)]
+    public static object Global(Tokens arguments)
+    {
+      var variableName = arguments.DequeueString(false);
+      var variableValue = arguments.DequeueBestType();
+      Run2.SetGlobalVariable(variableName, variableValue);
+      return variableValue;
+    }
+
     [CommandAction(2, 2, ">")]
     public static object Greater(Tokens arguments)
     {
@@ -135,6 +150,15 @@ namespace Run2
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
       return value1 <= value2;
+    }
+
+    [CommandAction(2, 2)]
+    public static object Local(Tokens arguments)
+    {
+      var variableName = arguments.DequeueString(false);
+      var variableValue = arguments.DequeueBestType();
+      Run2.SetLocalVariable(variableName, variableValue);
+      return variableValue;
     }
 
     [CommandAction(2, 2)]
@@ -190,24 +214,6 @@ namespace Run2
       return variableValue;
     }
 
-    [CommandAction(2, 2)]
-    public static object Global(Tokens arguments)
-    {
-      var variableName = arguments.DequeueString(false);
-      var variableValue = arguments.DequeueBestType();
-      Run2.SetGlobalVariable(variableName, variableValue);
-      return variableValue;
-    }
-
-    [CommandAction(2, 2)]
-    public static object Local(Tokens arguments)
-    {
-      var variableName = arguments.DequeueString(false);
-      var variableValue = arguments.DequeueBestType();
-      Run2.SetLocalVariable(variableName, variableValue);
-      return variableValue;
-    }
-
     [CommandAction(2, 2, "-")]
     public static object Subtract(Tokens arguments)
     {
@@ -234,12 +240,6 @@ namespace Run2
         return Run2.Evaluate(code);
       }
       return null;
-    }
-
-    [CommandAction(1, 1)]
-    public static object Unquote(Tokens arguments)
-    {
-      return arguments.DequeueString().Trim('"');
     }
   }
 }

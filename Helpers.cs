@@ -195,6 +195,11 @@ namespace Run2
       return value1 == value2;
     }
 
+    public static string ParameterName(object token)
+    {
+      return token is Tokens tokensValue ? tokensValue.PeekString() : token.ToString();
+    }
+
     public static void WriteLine(string message)
     {
       Console.WriteLine(message);

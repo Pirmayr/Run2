@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Linq;
 
 namespace Run2
 {
@@ -42,6 +44,40 @@ namespace Run2
         return RunSubCommands(subCommands);
       }
       return value;
+    }
+
+    public static string GetHelp()
+    {
+      var result = new StringBuilder();
+      foreach (var (name, command) in commands.OrderBy(static item => item.Key))
+      {
+        if (command is SystemCommand or UserCommand)
+        {
+          if (0 < result.Length)
+          {
+            result.Append('\n');
+          }
+          result.Append(name);
+          if (!string.IsNullOrEmpty(command.CommandDescription))
+          {
+            result.Append($": {command.CommandDescription}");
+          }
+          if (command is UserCommand userCommand)
+          {
+            foreach (var token in userCommand.ParameterNames)
+            {
+              result.Append('\n');
+              var parameterName = Helpers.ParameterName(token);
+              result.Append("  " + parameterName);
+              if (userCommand.ParameterDescriptions.TryGetValue(parameterName ?? string.Empty, out var parameterDescription))
+              {
+                result.Append($": {parameterDescription}");
+              }
+            }
+          }
+        }
+      }
+      return result.ToString();
     }
 
     public static object GetVariable(string name)
@@ -179,15 +215,25 @@ namespace Run2
       {
         var userCommand = commands[key] as UserCommand;
         (userCommand != null).Check("Assertion");
+        if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeakQuotedString description)
+        {
+          userCommand.CommandDescription = description.Value;
+          tokens.Dequeue();
+        }
         while (0 < tokens.Count)
         {
-          var token = tokens.Peek();
-          if (commands.ContainsKey(token.ToString() ?? string.Empty))
+          var peekedToken = tokens.Peek();
+          if (commands.ContainsKey(peekedToken.ToString() ?? string.Empty))
           {
             break;
           }
-          userCommand.ParameterNames.Enqueue(token);
+          userCommand.ParameterNames.Enqueue(peekedToken);
           tokens.Dequeue();
+          if (tokens.TryPeek(out var parameterDescriptionCandidate) && parameterDescriptionCandidate is WeakQuotedString parameterDescription)
+          {
+            userCommand.ParameterDescriptions.Add(Helpers.ParameterName(peekedToken), parameterDescription.Value);
+            tokens.Dequeue();
+          }
         }
         userCommand.SubCommands = GetSubCommands(tokens);
       }
