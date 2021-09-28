@@ -59,4 +59,4 @@ There is no difference between predefined commands and commands defined by the u
 
 ## Predefined Commands
 
-[Documentation](commands.md)
+[Documentation](Commands.md)
