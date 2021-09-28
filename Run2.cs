@@ -63,7 +63,7 @@ namespace Run2
           foreach (var parameterName in parameterNames)
           {
             var parameterDescription = command.GetParameterDescription(parameterName);
-            result.Append($"\n* {parameterName}: {parameterDescription}");
+            result.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
           }
         }
       }

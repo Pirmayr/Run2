@@ -17,7 +17,7 @@ See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Add
 ##### AddRange
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.AddRange
 ##### array
-converts arguments an array
+converts the arguments to an array
 ##### Array.AsReadOnly
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.AsReadOnly
 ##### Array.BinarySearch
@@ -69,7 +69,7 @@ returns the array-element at an index
 * index: index of the element
 ##### average
 computes the average of the given values
-* values: 
+* values
 ##### averageof
 computes the average of the arguments
 ##### BinarySearch
@@ -97,18 +97,18 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.CopyTo
 ##### Count
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Count
 ##### createdirectory
-creates a directory
-* directory: 
+creates specified directory
+* directory
 ##### deletedirectory
-deletes a directory
-* directory: 
+deletes specified directory
+* directory
 ##### Dequeue
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.Dequeue
 ##### DequeueObject
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.DequeueObject
 ##### dir
-returns the output of the dir-command of windows
-* directory: 
+executes the Windows command "dir" and returns the result
+* directory
 ##### Directory.CreateDirectory
 See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.CreateDirectory
 ##### Directory.Delete
@@ -164,8 +164,8 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetLastWrit
 ##### Directory.SetLastWriteTimeUtc
 See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetLastWriteTimeUtc
 ##### directoryexists
-tests if a directory exists
-* directory: 
+tests if the specified directory exists
+* directory
 ##### EndsWith
 See: https://docs.microsoft.com/en-us/dotnet/api/System.String.EndsWith
 ##### Enqueue
@@ -181,7 +181,7 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Equals
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Exists
 ##### factorial
 computes the factorial of a number
-* number: 
+* number
 ##### File.AppendAllLines
 See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.AppendAllLines
 ##### File.AppendAllLinesAsync
@@ -278,12 +278,12 @@ See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Find
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.FindAll
 ##### finddirectory
 searches for a directory
-* basedirectory: directory from where the search should start
-* pattern: pattern to be searchd for
+* basedirectory: directory in which the search should begin
+* pattern: pattern to be searched for
 ##### findfile
 searches for a file
-* basedirectory: directory from where the search should start
-* pattern: pattern to be searchd for
+* basedirectory: directory in which the search should begin
+* pattern: pattern to be searched for
 ##### FindIndex
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.FindIndex
 ##### FindLast
@@ -301,7 +301,7 @@ See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.Get
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetEnumerator
 ##### getfiles
 returns an array of paths of the files in a directory
-* directory: 
+* directory
 ##### GetHashCode
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetHashCode
 ##### gethelp
@@ -314,8 +314,8 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetLongLength
 ##### GetLowerBound
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetLowerBound
 ##### getmember
-* instance: 
-* name: 
+* instance
+* name
 ##### GetPinnableReference
 See: https://docs.microsoft.com/en-us/dotnet/api/System.String.GetPinnableReference
 ##### GetRange
@@ -330,11 +330,11 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetUpperBound
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetValue
 ##### global
 ##### hasmember
-* instance: 
-* name: 
+* instance
+* name
 ##### hastype
-* instance: 
-* type: 
+* instance
+* type
 ##### Helpers.Check
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.Check
 ##### Helpers.Execute
@@ -383,7 +383,7 @@ See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.InsertRange
 ##### invoketests
 ##### isarray
 tests if an object is an array
-* object: 
+* object
 ##### IsFixedSize
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsFixedSize
 ##### IsNormalized
@@ -392,7 +392,7 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.String.IsNormalized
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsReadOnly
 ##### isstring
 tests if an object is a string
-* object: 
+* object
 ##### IsSynchronized
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsSynchronized
 ##### Item
@@ -542,8 +542,8 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.TryJoin
 ##### Peek
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.Peek
 ##### performtest
-* tokens: 
-* expected: 
+* tokens
+* expected
 ##### performtests
 ##### power
 computes the power of two numbers
@@ -572,9 +572,9 @@ See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Reverse
 ##### Set
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.Set
 ##### setfailure
-* code: 
-* actual: 
-* expected: 
+* code
+* actual
+* expected
 ##### SetGlobal
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.SetGlobal
 ##### SetLocal
@@ -582,21 +582,21 @@ See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.SetLocal
 ##### SetValue
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.SetValue
 ##### size
-returns the size of an object (e.g. an array or a list)
-* object: 
+returns the size of an array or a list
+* object: array or list
 ##### sort
 sorts an object (e.g. an array, a list, or a string)
-* instance: 
+* instance
 ##### Sort
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Sort
 ##### sortarray
 sorts an array
-* object: 
+* object
 ##### sortstring
 sorts the characters of a string
-* value: 
+* value
 ##### split
-* value: 
+* value
 ##### Split
 See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Split
 ##### square
@@ -635,7 +635,7 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Join
 ##### Substring
 See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Substring
 ##### sum
-* values: 
+* values
 ##### sumof
 returns the sum of the arguments
 ##### switch
@@ -649,7 +649,7 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.String.ToCharArray
 ##### ToCode
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.ToCode
 ##### todouble
-* n: 
+* n
 ##### ToLower
 See: https://docs.microsoft.com/en-us/dotnet/api/System.String.ToLower
 ##### ToLowerInvariant
@@ -678,16 +678,16 @@ See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.TryGetValue
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.TryPeek
 ##### typename
 returns the name of the type of an object
-* object: 
+* object
 ##### typeof
 returns the type-object of an object
-* object: 
+* object
 ##### upperbound
 returns the upper-bound of an object (e.g. an array or a list)
-* object: 
+* object
 ##### Variables.new
 ##### write
-* message: 
+* message
 ##### writefile
 writes text to a file
 * path: path of the file

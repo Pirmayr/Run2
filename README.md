@@ -2,6 +2,8 @@
 
 Run2 is a scripting language. It is intended to be a robust and simple tool for running tasks. The original motivation was to be able to build and test software reliably.
 
+[Documentation](../../wiki)
+
 ## Properties
 
 * Very simple syntax. Scripts consist entirely of commands. Commands can be nested and can return values. 
