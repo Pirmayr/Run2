@@ -30,22 +30,22 @@ computes the average of the given values
 #### averageof
 computes the average of the arguments
 #### createdirectory
-
+creates a directory
 |Name|Description|
 |---|---|
 |directory|directory|
 #### deletedirectory
-
+deletes a directory
 |Name|Description|
 |---|---|
 |directory|directory|
 #### dir
-
+returns the output of the dir-command of windows
 |Name|Description|
 |---|---|
 |directory|directory|
 #### directoryexists
-
+tests if a directory exists
 |Name|Description|
 |---|---|
 |directory|directory|
@@ -57,17 +57,17 @@ computes the factorial of a number
 |---|---|
 |number|number|
 #### finddirectory
-
+searches for a directory
 |Name|Description|
 |---|---|
-|basedirectory|basedirectory|
-|pattern|pattern|
+|basedirectory|directory from where the search should start|
+|pattern|pattern to be searchd for|
 #### findfile
-
+searches for a file
 |Name|Description|
 |---|---|
-|basedirectory|basedirectory|
-|pattern|pattern|
+|basedirectory|directory from where the search should start|
+|pattern|pattern to be searchd for|
 #### for
 
 #### foreach

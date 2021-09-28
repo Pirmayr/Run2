@@ -1,6 +1,6 @@
 invoketests
 
-writefile [basedirectory]\..\..\..\commands.md (gethelp)
+writefile [basedirectory]\..\..\..\Commands.md (gethelp)
 
 command performtests
   performtest (+ 47 11) 58
@@ -70,13 +70,13 @@ command initialize
 command array 'converts arguments an array' ToArray arguments
 command averageof 'computes the average of the arguments' average arguments
 command average 'computes the average of the given values' values / (todouble (sum values)) (size values)
-command createdirectory directory Directory.CreateDirectory directory 
-command deletedirectory directory Directory.Delete directory (return true) 
-command dir directory run cmd /c "dir" directory
-command directoryexists directory Directory.Exists directory 
+command createdirectory 'creates a directory' directory Directory.CreateDirectory directory 
+command deletedirectory 'deletes a directory' directory Directory.Delete directory (return true) 
+command dir 'returns the output of the dir-command of windows' directory run cmd /c "dir" directory
+command directoryexists 'tests if a directory exists' directory Directory.Exists directory 
 command factorial 'computes the factorial of a number' number if (== number 1) 1 (* (factorial (- number 1)) number)
-command finddirectory basedirectory pattern return (Helpers.FindDirectory basedirectory pattern)
-command findfile basedirectory pattern return (Helpers.FindFile basedirectory pattern)
+command finddirectory 'searches for a directory' basedirectory 'directory from where the search should start' pattern 'pattern to be searchd for' return (Helpers.FindDirectory basedirectory pattern)
+command findfile 'searches for a file' basedirectory 'directory from where the search should start' pattern 'pattern to be searchd for' return (Helpers.FindFile basedirectory pattern)
 command getfiles 'returns an array of paths of the files in a directory' directory Directory.GetFiles directory
 command getmember instance name invokeinstancemember 'GetMember' (typeof instance) name
 command hasmember instance name > (Length (getmember instance name)) 0
