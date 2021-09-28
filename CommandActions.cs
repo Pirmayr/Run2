@@ -22,7 +22,7 @@ namespace Run2
       return array[index];
     }
 
-    [CommandAction(2, 2, "/")]
+    [CommandAction(2, 2, "/", "divides first number by second number", "a", "first number", "b", "second number")]
     public static object Divide(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -176,7 +176,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(2, 2, "*")]
+    [CommandAction(2, 2, "*", "multiplies two numbers", "a", "first number", "b", "second number")]
     public static object Multiply(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -184,7 +184,7 @@ namespace Run2
       return value1 * value2;
     }
 
-    [CommandAction(2, 2, "!=")]
+    [CommandAction(2, 2, "!=", "tests two values for unequality", "value1", "first value", "value2", "second value")]
     public static object NotEqual(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -215,7 +215,7 @@ namespace Run2
       return variableValue;
     }
 
-    [CommandAction(2, 2, "-")]
+    [CommandAction(2, 2, "-", "subtracts second number from first number", "a", "first number", "b", "second number")]
     public static object Subtract(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();

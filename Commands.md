@@ -1,8 +1,20 @@
 # Predefined Run2-Commands
 ##### -
+subtracts second number from first number
+* a: first number
+* b: second number
 ##### !=
+tests two values for unequality
+* value1: first value
+* value2: second value
 ##### *
+multiplies two numbers
+* a: first number
+* b: second number
 ##### /
+divides first number by second number
+* a: first number
+* b: second number
 ##### +
 adds two numbers
 * a: first number
