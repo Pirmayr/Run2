@@ -1,4 +1,5 @@
 invoketests
+run notepad.exe
 
 writefile [basedirectory]\..\..\..\Commands.md (gethelp)
 

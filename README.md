@@ -1,13 +1,15 @@
 # Run2
 
-Run2 is a simple scripting language. It is intended to be a robust tool for running tasks. The original motivation was to be able to build and test software reliably.
+Run2 is a scripting language. It is intended to be a robust and simple tool for running tasks. The original motivation was to be able to build and test software reliably.
 
 ## Properties
 
 * Very simple syntax. Scripts consist entirely of commands. Commands can be nested and can return values. 
 * It is easy to add new commands. Actually the majority of predefined commands is defined in the language Run2 itself.
-* Run2 is built on top of .NET, so every functionality in .NET is available in Run2.
+* Run2 is built on top of .NET, so most of the functionality in .NET is available in Run2.
 * Run2 needs no setup. "Run2.exe" is everything needed.
+* Extensive logging.
+* It can be used on every .NET-platform. That means it can run in Windows, Linux, and macOS.
 
 ## Examples
 
@@ -18,10 +20,10 @@ Run2 is a simple scripting language. It is intended to be a robust tool for runn
 dir c:\windows
 
 ! Runs "notepad.exe":
-run notepad.exe ! Runs the notepad
+run notepad.exe
 
 ! Write the text "Hello World" into the file "c:\hello.txt":
-writefile c:\hello.txt 'Hello World!' ! 
+writefile c:\hello.txt 'Hello World!' 
 ```
 
 ### Composed Commands
