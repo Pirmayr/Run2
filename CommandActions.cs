@@ -6,7 +6,7 @@ namespace Run2
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   internal static class CommandActions
   {
-    [CommandAction(2, 2, "+")]
+    [CommandAction(2, 2, "+", "adds two numbers", "a", "first number", "b", "second number")]
     public static object Add(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -14,7 +14,7 @@ namespace Run2
       return value1 + value2;
     }
 
-    [CommandAction(2, 2)]
+    [CommandAction(2, 2, null, "returns the array-element at an index", "index", "index of the element")]
     public static object At(Tokens arguments)
     {
       var array = arguments.DequeueDynamic();

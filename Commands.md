@@ -1,237 +1,694 @@
-#### -
-
-#### !=
-
-#### *
-
-#### /
-
-#### +
-
-#### <
-
-#### <=
-
-#### ==
-
-#### >
-
-#### >=
-
-#### array
+# Predefined Run2-Commands
+##### -
+##### !=
+##### *
+##### /
+##### +
+adds two numbers
+* a: first number
+* b: second number
+##### <
+##### <=
+##### ==
+##### >
+##### >=
+##### Add
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Add
+##### AddRange
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.AddRange
+##### array
 converts arguments an array
-#### at
-
-#### average
+##### Array.AsReadOnly
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.AsReadOnly
+##### Array.BinarySearch
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.BinarySearch
+##### Array.Clear
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Clear
+##### Array.ConstrainedCopy
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.ConstrainedCopy
+##### Array.ConvertAll
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.ConvertAll
+##### Array.Copy
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Copy
+##### Array.CreateInstance
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.CreateInstance
+##### Array.Empty
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Empty
+##### Array.Exists
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Exists
+##### Array.Fill
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Fill
+##### Array.Find
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Find
+##### Array.FindAll
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.FindAll
+##### Array.FindIndex
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.FindIndex
+##### Array.FindLast
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.FindLast
+##### Array.FindLastIndex
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.FindLastIndex
+##### Array.ForEach
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.ForEach
+##### Array.IndexOf
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.IndexOf
+##### Array.LastIndexOf
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.LastIndexOf
+##### Array.Resize
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Resize
+##### Array.Reverse
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Reverse
+##### Array.Sort
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Sort
+##### Array.TrueForAll
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.TrueForAll
+##### AsReadOnly
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.AsReadOnly
+##### at
+returns the array-element at an index
+* index: index of the element
+##### average
 computes the average of the given values
-|Name|Description|
-|---|---|
-|values|values|
-#### averageof
+* values: 
+##### averageof
 computes the average of the arguments
-#### createdirectory
+##### BinarySearch
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.BinarySearch
+##### Capacity
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Capacity
+##### Chars
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Chars
+##### Clear
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Clear
+##### Clone
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Clone
+##### CompareTo
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.CompareTo
+##### Console.Write
+See: https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.Write
+##### Console.WriteLine
+See: https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.WriteLine
+##### Contains
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Contains
+##### ConvertAll
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.ConvertAll
+##### CopyTo
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.CopyTo
+##### Count
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Count
+##### createdirectory
 creates a directory
-|Name|Description|
-|---|---|
-|directory|directory|
-#### deletedirectory
+* directory: 
+##### deletedirectory
 deletes a directory
-|Name|Description|
-|---|---|
-|directory|directory|
-#### dir
+* directory: 
+##### Dequeue
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.Dequeue
+##### DequeueObject
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.DequeueObject
+##### dir
 returns the output of the dir-command of windows
-|Name|Description|
-|---|---|
-|directory|directory|
-#### directoryexists
+* directory: 
+##### Directory.CreateDirectory
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.CreateDirectory
+##### Directory.Delete
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.Delete
+##### Directory.EnumerateDirectories
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.EnumerateDirectories
+##### Directory.EnumerateFiles
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.EnumerateFiles
+##### Directory.EnumerateFileSystemEntries
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.EnumerateFileSystemEntries
+##### Directory.Exists
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.Exists
+##### Directory.GetCreationTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetCreationTime
+##### Directory.GetCreationTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetCreationTimeUtc
+##### Directory.GetCurrentDirectory
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetCurrentDirectory
+##### Directory.GetDirectories
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetDirectories
+##### Directory.GetDirectoryRoot
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetDirectoryRoot
+##### Directory.GetFiles
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetFiles
+##### Directory.GetFileSystemEntries
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetFileSystemEntries
+##### Directory.GetLastAccessTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetLastAccessTime
+##### Directory.GetLastAccessTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetLastAccessTimeUtc
+##### Directory.GetLastWriteTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetLastWriteTime
+##### Directory.GetLastWriteTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetLastWriteTimeUtc
+##### Directory.GetLogicalDrives
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetLogicalDrives
+##### Directory.GetParent
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetParent
+##### Directory.Move
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.Move
+##### Directory.SetCreationTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetCreationTime
+##### Directory.SetCreationTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetCreationTimeUtc
+##### Directory.SetCurrentDirectory
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetCurrentDirectory
+##### Directory.SetLastAccessTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetLastAccessTime
+##### Directory.SetLastAccessTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetLastAccessTimeUtc
+##### Directory.SetLastWriteTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetLastWriteTime
+##### Directory.SetLastWriteTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.SetLastWriteTimeUtc
+##### directoryexists
 tests if a directory exists
-|Name|Description|
-|---|---|
-|directory|directory|
-#### evaluate
-
-#### factorial
+* directory: 
+##### EndsWith
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.EndsWith
+##### Enqueue
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.Enqueue
+##### EnterScope
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.EnterScope
+##### EnumerateRunes
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.EnumerateRunes
+##### Equals
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Equals
+##### evaluate
+##### Exists
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Exists
+##### factorial
 computes the factorial of a number
-|Name|Description|
-|---|---|
-|number|number|
-#### finddirectory
+* number: 
+##### File.AppendAllLines
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.AppendAllLines
+##### File.AppendAllLinesAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.AppendAllLinesAsync
+##### File.AppendAllText
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.AppendAllText
+##### File.AppendAllTextAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.AppendAllTextAsync
+##### File.AppendText
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.AppendText
+##### File.Copy
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Copy
+##### File.Create
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Create
+##### File.CreateText
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.CreateText
+##### File.Decrypt
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Decrypt
+##### File.Delete
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Delete
+##### File.Encrypt
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Encrypt
+##### File.Exists
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Exists
+##### File.GetAttributes
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetAttributes
+##### File.GetCreationTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetCreationTime
+##### File.GetCreationTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetCreationTimeUtc
+##### File.GetLastAccessTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetLastAccessTime
+##### File.GetLastAccessTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetLastAccessTimeUtc
+##### File.GetLastWriteTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetLastWriteTime
+##### File.GetLastWriteTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetLastWriteTimeUtc
+##### File.Move
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Move
+##### File.Open
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Open
+##### File.OpenRead
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.OpenRead
+##### File.OpenText
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.OpenText
+##### File.OpenWrite
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.OpenWrite
+##### File.ReadAllBytes
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ReadAllBytes
+##### File.ReadAllBytesAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ReadAllBytesAsync
+##### File.ReadAllLines
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ReadAllLines
+##### File.ReadAllLinesAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ReadAllLinesAsync
+##### File.ReadAllText
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ReadAllText
+##### File.ReadAllTextAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ReadAllTextAsync
+##### File.ReadLines
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ReadLines
+##### File.Replace
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Replace
+##### File.SetAttributes
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.SetAttributes
+##### File.SetCreationTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.SetCreationTime
+##### File.SetCreationTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.SetCreationTimeUtc
+##### File.SetLastAccessTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.SetLastAccessTime
+##### File.SetLastAccessTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.SetLastAccessTimeUtc
+##### File.SetLastWriteTime
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.SetLastWriteTime
+##### File.SetLastWriteTimeUtc
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.SetLastWriteTimeUtc
+##### File.WriteAllBytes
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.WriteAllBytes
+##### File.WriteAllBytesAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.WriteAllBytesAsync
+##### File.WriteAllLines
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.WriteAllLines
+##### File.WriteAllLinesAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.WriteAllLinesAsync
+##### File.WriteAllText
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.WriteAllText
+##### File.WriteAllTextAsync
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.WriteAllTextAsync
+##### Find
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Find
+##### FindAll
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.FindAll
+##### finddirectory
 searches for a directory
-|Name|Description|
-|---|---|
-|basedirectory|directory from where the search should start|
-|pattern|pattern to be searchd for|
-#### findfile
+* basedirectory: directory from where the search should start
+* pattern: pattern to be searchd for
+##### findfile
 searches for a file
-|Name|Description|
-|---|---|
-|basedirectory|directory from where the search should start|
-|pattern|pattern to be searchd for|
-#### for
-
-#### foreach
-
-#### get
-
-#### getfiles
+* basedirectory: directory from where the search should start
+* pattern: pattern to be searchd for
+##### FindIndex
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.FindIndex
+##### FindLast
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.FindLast
+##### FindLastIndex
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.FindLastIndex
+##### for
+##### foreach
+##### ForEach
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.ForEach
+##### get
+##### Get
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.Get
+##### GetEnumerator
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetEnumerator
+##### getfiles
 returns an array of paths of the files in a directory
-|Name|Description|
-|---|---|
-|directory|directory|
-#### gethelp
-
-#### getmember
-
-|Name|Description|
-|---|---|
-|instance|instance|
-|name|name|
-#### global
-
-#### hasmember
-
-|Name|Description|
-|---|---|
-|instance|instance|
-|name|name|
-#### hastype
-
-|Name|Description|
-|---|---|
-|instance|instance|
-|type|type|
-#### if
-
-#### increment
+* directory: 
+##### GetHashCode
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetHashCode
+##### gethelp
+##### GetKeys
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.GetKeys
+##### GetLength
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetLength
+##### GetLongLength
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetLongLength
+##### GetLowerBound
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetLowerBound
+##### getmember
+* instance: 
+* name: 
+##### GetPinnableReference
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.GetPinnableReference
+##### GetRange
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.GetRange
+##### GetType
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetType
+##### GetTypeCode
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.GetTypeCode
+##### GetUpperBound
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetUpperBound
+##### GetValue
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetValue
+##### global
+##### hasmember
+* instance: 
+* name: 
+##### hastype
+* instance: 
+* type: 
+##### Helpers.Check
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.Check
+##### Helpers.Execute
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.Execute
+##### Helpers.FindDirectory
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.FindDirectory
+##### Helpers.FindFile
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.FindFile
+##### Helpers.GetBestType
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.GetBestType
+##### Helpers.GetCommandNameFromPath
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.GetCommandNameFromPath
+##### Helpers.GetProgramDirectory
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.GetProgramDirectory
+##### Helpers.HandleException
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.HandleException
+##### Helpers.Invoke
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.Invoke
+##### Helpers.InvokeMember
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.InvokeMember
+##### Helpers.IsAnyString
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.IsAnyString
+##### Helpers.IsEqual
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.IsEqual
+##### Helpers.ParameterName
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.ParameterName
+##### Helpers.WriteLine
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Helpers.WriteLine
+##### if
+##### increment
 increments a variable
-|Name|Description|
-|---|---|
-|name|name of the variable|
-|_increment|increment|
-#### initialize
-
-#### invokeinstancemember
-
-#### invoketests
-
-#### isarray
+* name: name of the variable
+* _increment: increment
+##### IndexOf
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.IndexOf
+##### IndexOfAny
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.IndexOfAny
+##### initialize
+##### Initialize
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Initialize
+##### Insert
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Insert
+##### InsertRange
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.InsertRange
+##### invokeinstancemember
+##### invoketests
+##### isarray
 tests if an object is an array
-|Name|Description|
-|---|---|
-|object|object|
-#### isstring
+* object: 
+##### IsFixedSize
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsFixedSize
+##### IsNormalized
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.IsNormalized
+##### IsReadOnly
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsReadOnly
+##### isstring
 tests if an object is a string
-|Name|Description|
-|---|---|
-|object|object|
-#### list
+* object: 
+##### IsSynchronized
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsSynchronized
+##### Item
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Item
+##### LastIndexOf
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.LastIndexOf
+##### LastIndexOfAny
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.LastIndexOfAny
+##### LeaveScope
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.LeaveScope
+##### Length
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Length
+##### list
 returns the arguments as a list
-#### local
-
-#### map
-
-#### performtest
-
-|Name|Description|
-|---|---|
-|tokens|tokens|
-|expected|expected|
-#### performtests
-
-#### power
+##### local
+##### LongLength
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.LongLength
+##### map
+##### Math.Abs
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Abs
+##### Math.Acos
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Acos
+##### Math.Acosh
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Acosh
+##### Math.Asin
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Asin
+##### Math.Asinh
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Asinh
+##### Math.Atan
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Atan
+##### Math.Atan2
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Atan2
+##### Math.Atanh
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Atanh
+##### Math.BigMul
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.BigMul
+##### Math.BitDecrement
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.BitDecrement
+##### Math.BitIncrement
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.BitIncrement
+##### Math.Cbrt
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Cbrt
+##### Math.Ceiling
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Ceiling
+##### Math.Clamp
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Clamp
+##### Math.CopySign
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.CopySign
+##### Math.Cos
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Cos
+##### Math.Cosh
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Cosh
+##### Math.DivRem
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.DivRem
+##### Math.Exp
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Exp
+##### Math.Floor
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Floor
+##### Math.FusedMultiplyAdd
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.FusedMultiplyAdd
+##### Math.IEEERemainder
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.IEEERemainder
+##### Math.ILogB
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.ILogB
+##### Math.Log
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Log
+##### Math.Log10
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Log10
+##### Math.Log2
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Log2
+##### Math.Max
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Max
+##### Math.MaxMagnitude
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.MaxMagnitude
+##### Math.Min
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Min
+##### Math.MinMagnitude
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.MinMagnitude
+##### Math.Pow
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Pow
+##### Math.Round
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Round
+##### Math.ScaleB
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.ScaleB
+##### Math.Sign
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Sign
+##### Math.Sin
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Sin
+##### Math.Sinh
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Sinh
+##### Math.Sqrt
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Sqrt
+##### Math.Tan
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Tan
+##### Math.Tanh
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Tanh
+##### Math.Truncate
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Math.Truncate
+##### Normalize
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Normalize
+##### PadLeft
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.PadLeft
+##### PadRight
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.PadRight
+##### Path.ChangeExtension
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.ChangeExtension
+##### Path.Combine
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.Combine
+##### Path.EndsInDirectorySeparator
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.EndsInDirectorySeparator
+##### Path.GetDirectoryName
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetDirectoryName
+##### Path.GetExtension
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetExtension
+##### Path.GetFileName
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetFileName
+##### Path.GetFileNameWithoutExtension
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetFileNameWithoutExtension
+##### Path.GetFullPath
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetFullPath
+##### Path.GetInvalidFileNameChars
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetInvalidFileNameChars
+##### Path.GetInvalidPathChars
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetInvalidPathChars
+##### Path.GetPathRoot
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetPathRoot
+##### Path.GetRandomFileName
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetRandomFileName
+##### Path.GetRelativePath
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetRelativePath
+##### Path.GetTempFileName
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetTempFileName
+##### Path.GetTempPath
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetTempPath
+##### Path.HasExtension
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.HasExtension
+##### Path.IsPathFullyQualified
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.IsPathFullyQualified
+##### Path.IsPathRooted
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.IsPathRooted
+##### Path.Join
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.Join
+##### Path.TrimEndingDirectorySeparator
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.TrimEndingDirectorySeparator
+##### Path.TryJoin
+See: https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.TryJoin
+##### Peek
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.Peek
+##### performtest
+* tokens: 
+* expected: 
+##### performtests
+##### power
 computes the power of two numbers
-|Name|Description|
-|---|---|
-|a|base|
-|b|exponent|
-#### readfile
+* a: base
+* b: exponent
+##### Rank
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.Rank
+##### readfile
 returns the text contained in a file
-|Name|Description|
-|---|---|
-|path|path of the file|
-#### return
-
-#### run
-
-#### set
-
-#### setfailure
-
-|Name|Description|
-|---|---|
-|code|code|
-|actual|actual|
-|expected|expected|
-#### size
+* path: path of the file
+##### Remove
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Remove
+##### RemoveAll
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.RemoveAll
+##### RemoveAt
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.RemoveAt
+##### RemoveRange
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.RemoveRange
+##### Replace
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Replace
+##### return
+##### Reverse
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Reverse
+##### run
+##### set
+##### Set
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.Set
+##### setfailure
+* code: 
+* actual: 
+* expected: 
+##### SetGlobal
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.SetGlobal
+##### SetLocal
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.SetLocal
+##### SetValue
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.SetValue
+##### size
 returns the size of an object (e.g. an array or a list)
-|Name|Description|
-|---|---|
-|object|object|
-#### sort
+* object: 
+##### sort
 sorts an object (e.g. an array, a list, or a string)
-|Name|Description|
-|---|---|
-|instance|instance|
-#### sortarray
+* instance: 
+##### Sort
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.Sort
+##### sortarray
 sorts an array
-|Name|Description|
-|---|---|
-|object|object|
-#### sortstring
+* object: 
+##### sortstring
 sorts the characters of a string
-|Name|Description|
-|---|---|
-|value|value|
-#### split
-
-|Name|Description|
-|---|---|
-|value|value|
-#### square
+* value: 
+##### split
+* value: 
+##### Split
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Split
+##### square
 computes the square of a number
-|Name|Description|
-|---|---|
-|n|number|
-#### sum
-
-|Name|Description|
-|---|---|
-|values|values|
-#### sumof
+* n: number
+##### StartsWith
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.StartsWith
+##### String.Compare
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Compare
+##### String.CompareOrdinal
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.CompareOrdinal
+##### String.Concat
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Concat
+##### String.Copy
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Copy
+##### String.Create
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Create
+##### String.Equals
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Equals
+##### String.Format
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Format
+##### String.GetHashCode
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.GetHashCode
+##### String.Intern
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Intern
+##### String.IsInterned
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.IsInterned
+##### String.IsNullOrEmpty
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.IsNullOrEmpty
+##### String.IsNullOrWhiteSpace
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.IsNullOrWhiteSpace
+##### String.Join
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Join
+##### String.new
+##### SubCommands.new
+##### Substring
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Substring
+##### sum
+* values: 
+##### sumof
 returns the sum of the arguments
-#### switch
-
-#### test
-
-#### todouble
-
-|Name|Description|
-|---|---|
-|n|n|
-#### typename
+##### switch
+##### SyncRoot
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.SyncRoot
+##### test
+##### ToArray
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.ToArray
+##### ToCharArray
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.ToCharArray
+##### ToCode
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.ToCode
+##### todouble
+* n: 
+##### ToLower
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.ToLower
+##### ToLowerInvariant
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.ToLowerInvariant
+##### ToString
+See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.ToString
+##### ToUpper
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.ToUpper
+##### ToUpperInvariant
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.ToUpperInvariant
+##### Trim
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Trim
+##### TrimEnd
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.TrimEnd
+##### TrimExcess
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.TrimExcess
+##### TrimStart
+See: https://docs.microsoft.com/en-us/dotnet/api/System.String.TrimStart
+##### TrueForAll
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.TrueForAll
+##### TryDequeue
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.TryDequeue
+##### TryGetValue
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Variables.TryGetValue
+##### TryPeek
+See: https://docs.microsoft.com/en-us/dotnet/api/Run2.Tokens.TryPeek
+##### typename
 returns the name of the type of an object
-|Name|Description|
-|---|---|
-|object|object|
-#### typeof
+* object: 
+##### typeof
 returns the type-object of an object
-|Name|Description|
-|---|---|
-|object|object|
-#### upperbound
+* object: 
+##### upperbound
 returns the upper-bound of an object (e.g. an array or a list)
-|Name|Description|
-|---|---|
-|object|object|
-#### write
-
-|Name|Description|
-|---|---|
-|message|message|
-#### writefile
+* object: 
+##### Variables.new
+##### write
+* message: 
+##### writefile
 writes text to a file
-|Name|Description|
-|---|---|
-|path|path of the file|
-|text|text to be written|
+* path: path of the file
+* text: text to be written

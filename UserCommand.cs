@@ -1,12 +1,24 @@
-﻿namespace Run2
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Run2
 {
   internal sealed class UserCommand : Command
   {
-    public string Name { get; init; }
+    public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
     public Tokens ParameterNames { get; } = new();
 
+    public string Name { get; init; }
+
+    public string CommandDescription { get; set; }
+
     public SubCommands SubCommands { get; set; } = new();
+
+    public override List<string> GetParameterNames()
+    {
+      return ParameterNames.Select(Helpers.ParameterName).ToList();
+    }
 
     public override object Run(Tokens arguments)
     {
@@ -28,6 +40,16 @@
       var result = Run2.RunSubCommands(SubCommands);
       Run2.LeaveScope();
       return result;
+    }
+
+    public override string GetDescription()
+    {
+      return CommandDescription;
+    }
+
+    public override string GetParameterDescription(string name)
+    {
+      return ParameterDescriptions.TryGetValue(name, out var result) ? result : "";
     }
   }
 }

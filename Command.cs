@@ -4,9 +4,11 @@ namespace Run2
 {
   internal abstract class Command
   {
-    public string CommandDescription { get; set; }
+    public abstract string GetDescription();
 
-    public Dictionary<string, string> ParameterDescriptions { get; } = new();
+    public abstract string GetParameterDescription(string name);
+
+    public abstract List<string> GetParameterNames();
 
     public abstract object Run(Tokens arguments);
   }

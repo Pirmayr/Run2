@@ -49,34 +49,21 @@ namespace Run2
     public static string GetHelp()
     {
       var result = new StringBuilder();
+      result.Append("# Predefined Run2-Commands");
       foreach (var (name, command) in commands.OrderBy(static item => item.Key))
       {
-        if (command is SystemCommand or UserCommand)
+        result.Append($"\n##### {name}");
+        if (!string.IsNullOrEmpty(command.GetDescription()))
         {
-          if (0 < result.Length)
+          result.Append($"\n{command.GetDescription()}");
+        }
+        var parameterNames = command.GetParameterNames();
+        if (0 < parameterNames.Count)
+        {
+          foreach (var parameterName in parameterNames)
           {
-            result.Append('\n');
-          }
-          result.Append("#### " + name);
-          result.Append('\n');
-          if (!string.IsNullOrEmpty(command.CommandDescription))
-          {
-            result.Append(command.CommandDescription);
-          }
-          if (command is UserCommand userCommand && 0 < userCommand.ParameterNames.Count)
-          {
-            result.Append('\n');
-            result.Append("|Name|Description|");
-            result.Append('\n');
-            result.Append("|---|---|");
-            foreach (var token in userCommand.ParameterNames)
-            {
-              result.Append('\n');
-              var parameterName = Helpers.ParameterName(token);
-              result.Append("|" + parameterName + "|");
-              result.Append(userCommand.ParameterDescriptions.TryGetValue(parameterName ?? string.Empty, out var parameterDescription) ? parameterDescription : parameterName);
-              result.Append('|');
-            }
+            var parameterDescription = command.GetParameterDescription(parameterName);
+            result.Append($"\n* {parameterName}: {parameterDescription}");
           }
         }
       }
@@ -172,7 +159,7 @@ namespace Run2
                     var key = type.Name + "." + member.Name;
                     if (!commands.ContainsKey(key))
                     {
-                      commands.Add(key, new InvokeCommand(member.Name, type));
+                      commands.Add(key, new InvokeCommand(member.Name, type, $"{type.FullName}.{member.Name}"));
                     }
                   }
                   else
@@ -180,7 +167,7 @@ namespace Run2
                     var key = member.Name;
                     if (!commands.ContainsKey(key))
                     {
-                      commands.Add(member.Name, new InvokeCommand(member.Name, null));
+                      commands.Add(member.Name, new InvokeCommand(member.Name, null, $"{type.FullName}.{member.Name}"));
                     }
                   }
                 }
@@ -191,7 +178,7 @@ namespace Run2
               var key = type.Name + ".new";
               if (!commands.ContainsKey(key))
               {
-                commands.Add(key, new InvokeCommand("_new", type));
+                commands.Add(key, new InvokeCommand("_new", type, ""));
               }
             }
           }

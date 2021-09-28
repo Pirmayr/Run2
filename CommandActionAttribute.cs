@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Run2
 {
@@ -10,11 +11,21 @@ namespace Run2
 
     public string CommandName { get; }
 
-    public CommandActionAttribute(int argumentsCountFrom, int argumentsCountTo, string commandName = null)
+    public string Description { get; }
+
+    public Dictionary<string, string> ParameterDescriptions { get; } = new();
+
+    public CommandActionAttribute(int argumentsCountFrom, int argumentsCountTo, string commandName = null, string description = "", params string[] parameters)
     {
       ArgumentsCountFrom = argumentsCountFrom;
       ArgumentsCountTo = argumentsCountTo;
       CommandName = commandName;
+      Description = description;
+      (parameters.Length % 2 == 0).Check("The number of strins describing command-parameters must be odd (= parameter-name plus parameter-description)");
+      for (var i = 0; i < parameters.Length; i += 2)
+      {
+        ParameterDescriptions.Add(parameters[i], parameters[i + 1]);
+      }
     }
   }
 }
