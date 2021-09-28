@@ -46,6 +46,7 @@ command performtests
   performtest (sort 'hugo') 'ghou'
   performtest (sort (split '3~n1~n4~n1~n5~n9')) (array '1' '1' '3' '4' '5' '9')
   performtest (global value 4711 increment value 1 return value) 4712
+  performtest (local value 1234 increment value 2 return value) 1236
 
 command invoketests 
   global testsok true

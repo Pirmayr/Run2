@@ -77,7 +77,8 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.TrueForAll
 ##### AsReadOnly
 See: https://docs.microsoft.com/en-us/dotnet/api/Run2.SubCommands.AsReadOnly
 ##### at
-returns the array-element at an index
+returns the element of an array, a list, or a string at the specified index
+* object: array, list, or string
 * index: index of the element
 ##### average
 computes the average of the given values

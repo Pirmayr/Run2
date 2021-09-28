@@ -14,7 +14,7 @@ namespace Run2
       return value1 + value2;
     }
 
-    [CommandAction(2, 2, null, "returns the array-element at an index", "index", "index of the element")]
+    [CommandAction(2, 2, null, "returns the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element")]
     public static object At(Tokens arguments)
     {
       var array = arguments.DequeueDynamic();
