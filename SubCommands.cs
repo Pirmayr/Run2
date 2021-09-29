@@ -17,9 +17,7 @@ namespace Run2
         {
           result.Append(' ');
         }
-        result.Append(subCommand.CommandName);
-        result.Append(' ');
-        result.Append(subCommand.Arguments.ToCode());
+        result.Append(subCommand.ToCode());
       }
       return result.ToString();
     }

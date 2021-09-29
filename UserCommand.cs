@@ -11,6 +11,8 @@ namespace Run2
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
+    public List<(SubCommands code, object expectedValue)> Tests { get; } = new();
+
     public Tokens ParameterNames { get; } = new();
 
     public SubCommands SubCommands { get; set; } = new();

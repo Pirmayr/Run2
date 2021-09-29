@@ -48,22 +48,33 @@ namespace Run2
 
     public static string GetHelp()
     {
+      var commandReferences = GetCommandReferences("performtest");
+
       var result = new StringBuilder();
       result.Append("# Predefined Run2-Commands");
       foreach (var (name, command) in commands.Where(static item => !item.Value.HideHelp).OrderBy(static item => item.Key))
       {
-        result.Append($"\n##### {name}");
+        result.Append($"\n\n##### {name}");
         if (!string.IsNullOrEmpty(command.GetDescription()))
         {
-          result.Append($"\n{command.GetDescription()}");
+          result.Append($"\n\n{command.GetDescription()}");
         }
         var parameterNames = command.GetParameterNames();
         if (0 < parameterNames.Count)
         {
+          result.Append("\n");
           foreach (var parameterName in parameterNames)
           {
             var parameterDescription = command.GetParameterDescription(parameterName);
             result.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
+          }
+        }
+        if (commandReferences.TryGetValue(name, out var references))
+        {
+          result.Append("\n\nTests:\n");
+          foreach (var reference in references)
+          {
+            result.Append($"\n* {reference.ToCode()}");
           }
         }
       }
@@ -272,6 +283,58 @@ namespace Run2
       else
       {
         result.Enqueue(currentToken);
+      }
+    }
+
+    private static Dictionary<string, List<SubCommand>> GetCommandReferences(string filterCommandName)
+    {
+      var filteredSubCommands = new List<SubCommand>();
+      foreach (var command in commands.Values)
+      {
+        if (command is UserCommand userCommand)
+        {
+          foreach (var subCommand in userCommand.SubCommands)
+          {
+            if (subCommand.CommandName == filterCommandName)
+            {
+              filteredSubCommands.Add(subCommand);
+            }
+          }
+        }
+      }
+      var result = new Dictionary<string, List<SubCommand>>();
+      foreach (var filteredSubCommand in filteredSubCommands)
+      {
+        var commandNames = new HashSet<string>();
+        GetCommandNames(filteredSubCommand, ref commandNames);
+        foreach (var commandName in commandNames)
+        {
+          if (commandName != filterCommandName)
+          {
+            if (!result.TryGetValue(commandName, out var references))
+            {
+              references = new List<SubCommand>();
+              result.Add(commandName, references);
+            }
+            references.Add(filteredSubCommand);
+          }
+        }
+      }
+      return result;
+    }
+
+    private static void GetCommandNames(SubCommand subCommand, ref HashSet<string> commandNames)
+    {
+      commandNames.Add(subCommand.CommandName);
+      foreach (var token in subCommand.Arguments)
+      {
+        if (token is SubCommands subCommandsValue)
+        {
+          foreach (var subCommandValue in subCommandsValue)
+          {
+            GetCommandNames(subCommandValue, ref commandNames);
+          }
+        }
       }
     }
 
