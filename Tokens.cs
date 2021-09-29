@@ -42,7 +42,14 @@ namespace Run2
         }
         else
         {
-          result.Append(item);
+          if (item is WeaklyQuotedString)
+          {
+            result.Append($"'{item}'");
+          }
+          else
+          {
+            result.Append(item);
+          }
         }
       }
       return result.ToString().Replace("\n", "\\n");

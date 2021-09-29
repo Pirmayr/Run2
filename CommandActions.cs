@@ -101,7 +101,7 @@ namespace Run2
       return variableValue;
     }
 
-    [CommandAction(2, 2, ">")]
+    [CommandAction(2, 2, ">", "tests if value1 is greater than value2", "value1", "first value", "value2", "second value")]
     public static object Greater(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -109,7 +109,7 @@ namespace Run2
       return value1 > value2;
     }
 
-    [CommandAction(2, 2, ">=")]
+    [CommandAction(2, 2, ">=", "tests if value1 is greater than or equal to value2", "value1", "first value", "value2", "second value")]
     public static object GreaterOrEqual(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -137,7 +137,7 @@ namespace Run2
       return Helpers.InvokeMember(memberName, target.GetType(), target, arguments.ToList(true).ToArray());
     }
 
-    [CommandAction(2, 2, "<")]
+    [CommandAction(2, 2, "<", "tests if value1 is less than value2", "value1", "first value", "value2", "second value")]
     public static object Less(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -145,7 +145,7 @@ namespace Run2
       return value1 < value2;
     }
 
-    [CommandAction(2, 2, "<=")]
+    [CommandAction(2, 2, "<=", "tests if value1 is less than or equal to value2", "value1", "first value", "value2", "second value")]
     public static object LessOrEqual(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();

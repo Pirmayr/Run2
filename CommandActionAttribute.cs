@@ -21,7 +21,7 @@ namespace Run2
       ArgumentsCountTo = argumentsCountTo;
       CommandName = commandName;
       Description = description;
-      (parameters.Length % 2 == 0).Check("The number of strins describing command-parameters must be odd (= parameter-name plus parameter-description)");
+      (parameters.Length % 2 == 0).Check("The number of strings describing command-parameters must be odd (= parameter-name plus parameter-description)");
       for (var i = 0; i < parameters.Length; i += 2)
       {
         ParameterDescriptions.Add(parameters[i], parameters[i + 1]);

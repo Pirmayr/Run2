@@ -8,7 +8,7 @@ namespace Run2
 
     internal string CommandName { get; init; }
 
-    public string ToCode()
+    internal string ToCode()
     {
       var result = new StringBuilder();
       result.Append(CommandName);

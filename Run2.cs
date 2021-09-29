@@ -15,6 +15,7 @@ namespace Run2
     private const char BlockStart = '(';
     private const string CommandToken = "command";
     private const char StrongQuote = '"';
+    private const string TestCommand = "performtest";
     private const char WeakQuote = '\'';
     private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands", "Hashtable", "DictionaryEntry" };
     private static readonly Dictionary<string, Command> commands = new();
@@ -48,12 +49,17 @@ namespace Run2
 
     public static string GetHelp()
     {
-      var commandReferences = GetCommandReferences("performtest");
-
+      var commandReferences = GetCommandReferences(TestCommand);
       var result = new StringBuilder();
+      var insertLine = false;
       result.Append("# Predefined Run2-Commands");
       foreach (var (name, command) in commands.Where(static item => !item.Value.HideHelp).OrderBy(static item => item.Key))
       {
+        if (insertLine)
+        {
+          result.Append("\n\n---");
+        }
+        insertLine = true;
         result.Append($"\n\n##### {name}");
         if (!string.IsNullOrEmpty(command.GetDescription()))
         {
@@ -71,10 +77,16 @@ namespace Run2
         }
         if (commandReferences.TryGetValue(name, out var references))
         {
-          result.Append("\n\nTests:\n");
+          result.Append("\n\nExamples:\n");
           foreach (var reference in references)
           {
-            result.Append($"\n* {reference.ToCode()}");
+            (reference.Arguments.Count == 2).Check("Expected test with exactly two parts");
+            var argumentsClone = reference.Arguments.Clone();
+            var part1 = argumentsClone.Dequeue();
+            var part2 = argumentsClone.Dequeue();
+            var code1 = part1 is SubCommands subCommandsValue ? subCommandsValue.ToCode() : "";
+            var code2 = new Tokens(new[] { part2 }).ToCode();
+            result.Append($"\n* &nbsp;{code1} -> {code2}");
           }
         }
       }
@@ -286,6 +298,21 @@ namespace Run2
       }
     }
 
+    private static void GetCommandNames(SubCommand subCommand, ref HashSet<string> commandNames)
+    {
+      commandNames.Add(subCommand.CommandName);
+      foreach (var token in subCommand.Arguments)
+      {
+        if (token is SubCommands subCommandsValue)
+        {
+          foreach (var subCommandValue in subCommandsValue)
+          {
+            GetCommandNames(subCommandValue, ref commandNames);
+          }
+        }
+      }
+    }
+
     private static Dictionary<string, List<SubCommand>> GetCommandReferences(string filterCommandName)
     {
       var filteredSubCommands = new List<SubCommand>();
@@ -321,21 +348,6 @@ namespace Run2
         }
       }
       return result;
-    }
-
-    private static void GetCommandNames(SubCommand subCommand, ref HashSet<string> commandNames)
-    {
-      commandNames.Add(subCommand.CommandName);
-      foreach (var token in subCommand.Arguments)
-      {
-        if (token is SubCommands subCommandsValue)
-        {
-          foreach (var subCommandValue in subCommandsValue)
-          {
-            GetCommandNames(subCommandValue, ref commandNames);
-          }
-        }
-      }
     }
 
     private static SubCommands GetSubCommands(Tokens tokens)
