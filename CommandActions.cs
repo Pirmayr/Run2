@@ -92,7 +92,7 @@ namespace Run2
       return Run2.GetHelp();
     }
 
-    [CommandAction(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value which should be assigned to the variable")]
+    [CommandAction(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
     public static object Global(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
@@ -117,7 +117,7 @@ namespace Run2
       return value1 >= value2;
     }
 
-    [CommandAction(2, 3)]
+    [CommandAction(2, 3, null, "performs the if-statement", "condition", "condition", "true-block", "command to be executed if the condition is 'true'", "false-block", "(optional) command to be executed if the condition is 'false'")]
     public static object If(Tokens arguments)
     {
       var condition = arguments.DequeueBool();
@@ -129,7 +129,7 @@ namespace Run2
       return arguments.TryDequeue(out var falseCase) ? Run2.Evaluate(falseCase) : "";
     }
 
-    [CommandAction(2, int.MaxValue)]
+    [CommandAction(2, int.MaxValue, null, "calls the 'Invoke'-method of the type of the specified object", "name", "name of the object-member", "object", "target of the invokation")]
     public static object InvokeInstanceMember(Tokens arguments)
     {
       var memberName = arguments.DequeueString();
@@ -153,7 +153,7 @@ namespace Run2
       return value1 <= value2;
     }
 
-    [CommandAction(2, 2, null, "creates or sets a local variable", "name", "name of the variable", "value", "value which should be assigned to the variable")]
+    [CommandAction(2, 2, null, "creates or sets a local variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
     public static object Local(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
@@ -162,7 +162,7 @@ namespace Run2
       return variableValue;
     }
 
-    [CommandAction(2, 2)]
+    [CommandAction(2, 2, null, "executes a command with all elements of an array or listf; the variable 'item' holds the current element", "arrayOrList", "array or list", "command", "command")]
     public static object Map(Tokens arguments)
     {
       object result = null;
@@ -223,7 +223,7 @@ namespace Run2
       return value1 - value2;
     }
 
-    [CommandAction(2, int.MaxValue)]
+    [CommandAction(2, int.MaxValue, null, "calls the first command for which a condition holds true", "condition-command-pairs", "pairs consisting of condition and command; the first command whose condition is 'true' is executed")]
     public static object Switch(Tokens arguments)
     {
       while (1 < arguments.Count)

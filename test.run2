@@ -1,17 +1,12 @@
 invoketests
 writefile [basedirectory]\..\..\..\Commands.md (gethelp)
 
-global hashtable (Hashtable.new)
-add hashtable 'hugo' 'egon'
-add hashtable 'hello' 'world'
-write (size hashtable)
-map hashtable (write (Key item) write (Value item))
-
 command performtests
   performtest (+ 47 11) 58
   performtest (- 47 11) 36
   performtest (* 47 11) 517
   performtest (/ 47 11) 4
+  performtest (/ 22.0 7.0) 3.142857142857143
   performtest (== 47 11) false
   performtest (!= 47 11) true
   performtest (< 47 11) false
@@ -53,6 +48,7 @@ command performtests
   performtest (sort (split '3~n1~n4~n1~n5~n9')) (array '1' '1' '3' '4' '5' '9')
   performtest (global value 4711 increment value 1 return value) 4712
   performtest (local value 1234 increment value 2 return value) 1236
+  performtest (global hashtable (Hashtable.new) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable) 2
 
 command invoketests 
   global testsok true

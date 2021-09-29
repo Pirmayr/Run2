@@ -15,8 +15,6 @@ namespace Run2
 
     public SubCommands SubCommands { get; set; } = new();
 
-    public List<(SubCommands code, object expectedValue)> Tests { get; } = new();
-
     public override string GetDescription()
     {
       return CommandDescription;

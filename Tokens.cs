@@ -34,22 +34,17 @@ namespace Run2
         {
           result.Append(' ');
         }
-        if (item is SubCommands subCommandsValue)
+        switch (item)
         {
-          result.Append('(');
-          result.Append(subCommandsValue.ToCode());
-          result.Append(')');
-        }
-        else
-        {
-          if (item is WeaklyQuotedString)
-          {
+          case SubCommands subCommandsValue:
+            result.Append($"({subCommandsValue.ToCode()})");
+            break;
+          case WeaklyQuotedString:
             result.Append($"'{item}'");
-          }
-          else
-          {
+            break;
+          default:
             result.Append(item);
-          }
+            break;
         }
       }
       return result.ToString().Replace("\n", "\\n");

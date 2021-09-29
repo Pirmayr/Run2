@@ -50,6 +50,7 @@ divides first number by second number
 Examples:
 
 * &nbsp;/ 47 11 -> 4
+* &nbsp;/ 22.0 7.0 -> 3.142857142857143
 
 ---
 
@@ -143,6 +144,10 @@ calls the "Add"-method of an object with a key and a value
 * object
 * key
 * value
+
+Examples:
+
+* &nbsp;global hashtable (Hashtable.new ) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable -> 2
 
 ---
 
@@ -1083,11 +1088,12 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetValue
 creates or sets a global variable
 
 * name: name of the variable
-* value: value which should be assigned to the variable
+* value: value to be assigned to the variable
 
 Examples:
 
 * &nbsp;global value 4711 increment value 1 return value -> 4712
+* &nbsp;global hashtable (Hashtable.new ) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable -> 2
 
 ---
 
@@ -1117,6 +1123,12 @@ Examples:
 ---
 
 ##### if
+
+performs the if-statement
+
+* condition: condition
+* true-block: command to be executed if the condition is 'true'
+* false-block: (optional) command to be executed if the condition is 'false'
 
 ---
 
@@ -1163,6 +1175,11 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Insert
 ---
 
 ##### invokeinstancemember
+
+calls the 'Invoke'-method of the type of the specified object
+
+* name: name of the object-member
+* object: target of the invokation
 
 ---
 
@@ -1266,7 +1283,7 @@ Examples:
 creates or sets a local variable
 
 * name: name of the variable
-* value: value which should be assigned to the variable
+* value: value to be assigned to the variable
 
 Examples:
 
@@ -1284,6 +1301,11 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.LongLength
 ---
 
 ##### map
+
+executes a command with all elements of an array or listf; the variable 'item' holds the current element
+
+* arrayOrList: array or list
+* command: command
 
 Examples:
 
@@ -1780,6 +1802,7 @@ Examples:
 * &nbsp;size (array 1 2 3 4 5 6) -> 6
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
 * &nbsp;size (getfiles c:\testdirectory) -> 3
+* &nbsp;global hashtable (Hashtable.new ) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable -> 2
 
 ---
 
@@ -1954,6 +1977,10 @@ Examples:
 ---
 
 ##### switch
+
+calls the first command for which a condition holds true
+
+* condition-command-pairs: pairs consisting of condition and command; the first command whose condition is 'true' is executed
 
 ---
 

@@ -4,7 +4,7 @@ namespace Run2
 {
   internal abstract class Command
   {
-    public bool HideHelp { get; set; }
+    public bool HideHelp { get; protected init; }
 
     public abstract string GetDescription();
 
