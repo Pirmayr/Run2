@@ -1,6 +1,6 @@
 # Predefined Run2-Commands
 
-##### -
+#### -
 
 subtracts second number from first number
 
@@ -13,7 +13,7 @@ Examples:
 
 ---
 
-##### !=
+#### !=
 
 tests two values for unequality
 
@@ -26,7 +26,7 @@ Examples:
 
 ---
 
-##### *
+#### *
 
 multiplies two numbers
 
@@ -40,7 +40,7 @@ Examples:
 
 ---
 
-##### /
+#### /
 
 divides first number by second number
 
@@ -54,7 +54,7 @@ Examples:
 
 ---
 
-##### +
+#### +
 
 adds two values
 
@@ -69,7 +69,7 @@ Examples:
 
 ---
 
-##### <
+#### <
 
 tests if value1 is less than value2
 
@@ -83,7 +83,7 @@ Examples:
 
 ---
 
-##### <=
+#### <=
 
 tests if value1 is less than or equal to value2
 
@@ -96,7 +96,7 @@ Examples:
 
 ---
 
-##### ==
+#### ==
 
 tests two values for equality
 
@@ -113,7 +113,7 @@ Examples:
 
 ---
 
-##### >
+#### >
 
 tests if value1 is greater than value2
 
@@ -127,7 +127,7 @@ Examples:
 
 ---
 
-##### >=
+#### >=
 
 tests if value1 is greater than or equal to value2
 
@@ -140,7 +140,7 @@ Examples:
 
 ---
 
-##### add
+#### add
 
 calls the "Add"-method of an object with a key and a value
 
@@ -154,7 +154,7 @@ Examples:
 
 ---
 
-##### Add
+#### Add
 
 See:
 
@@ -162,7 +162,7 @@ See:
 
 ---
 
-##### array
+#### array
 
 converts the arguments to an array
 
@@ -181,7 +181,7 @@ Examples:
 
 ---
 
-##### Array.AsReadOnly
+#### Array.AsReadOnly
 
 See:
 
@@ -189,7 +189,7 @@ See:
 
 ---
 
-##### Array.BinarySearch
+#### Array.BinarySearch
 
 See:
 
@@ -197,7 +197,7 @@ See:
 
 ---
 
-##### Array.Clear
+#### Array.Clear
 
 See:
 
@@ -205,7 +205,7 @@ See:
 
 ---
 
-##### Array.ConstrainedCopy
+#### Array.ConstrainedCopy
 
 See:
 
@@ -213,7 +213,7 @@ See:
 
 ---
 
-##### Array.ConvertAll
+#### Array.ConvertAll
 
 See:
 
@@ -221,7 +221,7 @@ See:
 
 ---
 
-##### Array.Copy
+#### Array.Copy
 
 See:
 
@@ -229,7 +229,7 @@ See:
 
 ---
 
-##### Array.CreateInstance
+#### Array.CreateInstance
 
 See:
 
@@ -237,7 +237,7 @@ See:
 
 ---
 
-##### Array.Empty
+#### Array.Empty
 
 See:
 
@@ -245,7 +245,7 @@ See:
 
 ---
 
-##### Array.Exists
+#### Array.Exists
 
 See:
 
@@ -253,7 +253,7 @@ See:
 
 ---
 
-##### Array.Fill
+#### Array.Fill
 
 See:
 
@@ -261,7 +261,7 @@ See:
 
 ---
 
-##### Array.Find
+#### Array.Find
 
 See:
 
@@ -269,7 +269,7 @@ See:
 
 ---
 
-##### Array.FindAll
+#### Array.FindAll
 
 See:
 
@@ -277,7 +277,7 @@ See:
 
 ---
 
-##### Array.FindIndex
+#### Array.FindIndex
 
 See:
 
@@ -285,7 +285,7 @@ See:
 
 ---
 
-##### Array.FindLast
+#### Array.FindLast
 
 See:
 
@@ -293,7 +293,7 @@ See:
 
 ---
 
-##### Array.FindLastIndex
+#### Array.FindLastIndex
 
 See:
 
@@ -301,7 +301,7 @@ See:
 
 ---
 
-##### Array.ForEach
+#### Array.ForEach
 
 See:
 
@@ -309,7 +309,7 @@ See:
 
 ---
 
-##### Array.IndexOf
+#### Array.IndexOf
 
 See:
 
@@ -317,7 +317,7 @@ See:
 
 ---
 
-##### Array.LastIndexOf
+#### Array.LastIndexOf
 
 See:
 
@@ -325,7 +325,7 @@ See:
 
 ---
 
-##### Array.Resize
+#### Array.Resize
 
 See:
 
@@ -333,7 +333,7 @@ See:
 
 ---
 
-##### Array.Reverse
+#### Array.Reverse
 
 See:
 
@@ -341,7 +341,7 @@ See:
 
 ---
 
-##### Array.Sort
+#### Array.Sort
 
 See:
 
@@ -349,7 +349,7 @@ See:
 
 ---
 
-##### Array.TrueForAll
+#### Array.TrueForAll
 
 See:
 
@@ -357,7 +357,7 @@ See:
 
 ---
 
-##### at
+#### at
 
 returns the element of an array, a list, or a string at the specified index
 
@@ -371,7 +371,7 @@ Examples:
 
 ---
 
-##### average
+#### average
 
 computes the average of the given values
 
@@ -384,7 +384,7 @@ Examples:
 
 ---
 
-##### averageof
+#### averageof
 
 computes the average of the arguments
 
@@ -394,7 +394,7 @@ Examples:
 
 ---
 
-##### Chars
+#### Chars
 
 See:
 
@@ -402,7 +402,7 @@ See:
 
 ---
 
-##### Clear
+#### Clear
 
 See:
 
@@ -410,7 +410,7 @@ See:
 
 ---
 
-##### Clone
+#### Clone
 
 See:
 
@@ -420,7 +420,7 @@ See:
 
 ---
 
-##### CompareTo
+#### CompareTo
 
 See:
 
@@ -428,7 +428,7 @@ See:
 
 ---
 
-##### Console.Write
+#### Console.Write
 
 See:
 
@@ -436,7 +436,7 @@ See:
 
 ---
 
-##### Console.WriteLine
+#### Console.WriteLine
 
 See:
 
@@ -444,7 +444,7 @@ See:
 
 ---
 
-##### Contains
+#### Contains
 
 See:
 
@@ -453,7 +453,7 @@ See:
 
 ---
 
-##### ContainsKey
+#### ContainsKey
 
 See:
 
@@ -461,7 +461,7 @@ See:
 
 ---
 
-##### ContainsValue
+#### ContainsValue
 
 See:
 
@@ -469,7 +469,7 @@ See:
 
 ---
 
-##### CopyTo
+#### CopyTo
 
 See:
 
@@ -479,7 +479,7 @@ See:
 
 ---
 
-##### Count
+#### Count
 
 See:
 
@@ -491,7 +491,7 @@ Examples:
 
 ---
 
-##### createdirectory
+#### createdirectory
 
 creates specified directory
 
@@ -503,7 +503,7 @@ Examples:
 
 ---
 
-##### Deconstruct
+#### Deconstruct
 
 See:
 
@@ -511,7 +511,7 @@ See:
 
 ---
 
-##### deletedirectory
+#### deletedirectory
 
 deletes specified directory
 
@@ -523,13 +523,13 @@ Examples:
 
 ---
 
-##### dir
+#### dir
 
 executes the Windows command "dir" and returns the result
 
 ---
 
-##### Directory.CreateDirectory
+#### Directory.CreateDirectory
 
 See:
 
@@ -537,7 +537,7 @@ See:
 
 ---
 
-##### Directory.Delete
+#### Directory.Delete
 
 See:
 
@@ -545,7 +545,7 @@ See:
 
 ---
 
-##### Directory.EnumerateDirectories
+#### Directory.EnumerateDirectories
 
 See:
 
@@ -553,7 +553,7 @@ See:
 
 ---
 
-##### Directory.EnumerateFiles
+#### Directory.EnumerateFiles
 
 See:
 
@@ -561,7 +561,7 @@ See:
 
 ---
 
-##### Directory.EnumerateFileSystemEntries
+#### Directory.EnumerateFileSystemEntries
 
 See:
 
@@ -569,7 +569,7 @@ See:
 
 ---
 
-##### Directory.Exists
+#### Directory.Exists
 
 See:
 
@@ -577,7 +577,7 @@ See:
 
 ---
 
-##### Directory.GetCreationTime
+#### Directory.GetCreationTime
 
 See:
 
@@ -585,7 +585,7 @@ See:
 
 ---
 
-##### Directory.GetCreationTimeUtc
+#### Directory.GetCreationTimeUtc
 
 See:
 
@@ -593,7 +593,7 @@ See:
 
 ---
 
-##### Directory.GetCurrentDirectory
+#### Directory.GetCurrentDirectory
 
 See:
 
@@ -601,7 +601,7 @@ See:
 
 ---
 
-##### Directory.GetDirectories
+#### Directory.GetDirectories
 
 See:
 
@@ -609,7 +609,7 @@ See:
 
 ---
 
-##### Directory.GetDirectoryRoot
+#### Directory.GetDirectoryRoot
 
 See:
 
@@ -617,7 +617,7 @@ See:
 
 ---
 
-##### Directory.GetFiles
+#### Directory.GetFiles
 
 See:
 
@@ -625,7 +625,7 @@ See:
 
 ---
 
-##### Directory.GetFileSystemEntries
+#### Directory.GetFileSystemEntries
 
 See:
 
@@ -633,7 +633,7 @@ See:
 
 ---
 
-##### Directory.GetLastAccessTime
+#### Directory.GetLastAccessTime
 
 See:
 
@@ -641,7 +641,7 @@ See:
 
 ---
 
-##### Directory.GetLastAccessTimeUtc
+#### Directory.GetLastAccessTimeUtc
 
 See:
 
@@ -649,7 +649,7 @@ See:
 
 ---
 
-##### Directory.GetLastWriteTime
+#### Directory.GetLastWriteTime
 
 See:
 
@@ -657,7 +657,7 @@ See:
 
 ---
 
-##### Directory.GetLastWriteTimeUtc
+#### Directory.GetLastWriteTimeUtc
 
 See:
 
@@ -665,7 +665,7 @@ See:
 
 ---
 
-##### Directory.GetLogicalDrives
+#### Directory.GetLogicalDrives
 
 See:
 
@@ -673,7 +673,7 @@ See:
 
 ---
 
-##### Directory.GetParent
+#### Directory.GetParent
 
 See:
 
@@ -681,7 +681,7 @@ See:
 
 ---
 
-##### Directory.Move
+#### Directory.Move
 
 See:
 
@@ -689,7 +689,7 @@ See:
 
 ---
 
-##### Directory.SetCreationTime
+#### Directory.SetCreationTime
 
 See:
 
@@ -697,7 +697,7 @@ See:
 
 ---
 
-##### Directory.SetCreationTimeUtc
+#### Directory.SetCreationTimeUtc
 
 See:
 
@@ -705,7 +705,7 @@ See:
 
 ---
 
-##### Directory.SetCurrentDirectory
+#### Directory.SetCurrentDirectory
 
 See:
 
@@ -713,7 +713,7 @@ See:
 
 ---
 
-##### Directory.SetLastAccessTime
+#### Directory.SetLastAccessTime
 
 See:
 
@@ -721,7 +721,7 @@ See:
 
 ---
 
-##### Directory.SetLastAccessTimeUtc
+#### Directory.SetLastAccessTimeUtc
 
 See:
 
@@ -729,7 +729,7 @@ See:
 
 ---
 
-##### Directory.SetLastWriteTime
+#### Directory.SetLastWriteTime
 
 See:
 
@@ -737,7 +737,7 @@ See:
 
 ---
 
-##### Directory.SetLastWriteTimeUtc
+#### Directory.SetLastWriteTimeUtc
 
 See:
 
@@ -745,7 +745,7 @@ See:
 
 ---
 
-##### directoryexists
+#### directoryexists
 
 tests if the specified directory exists
 
@@ -758,7 +758,7 @@ Examples:
 
 ---
 
-##### dos
+#### dos
 
 executes specified dos-command and returns the output
 
@@ -768,7 +768,7 @@ Examples:
 
 ---
 
-##### EndsWith
+#### EndsWith
 
 See:
 
@@ -776,7 +776,7 @@ See:
 
 ---
 
-##### EnumerateRunes
+#### EnumerateRunes
 
 See:
 
@@ -784,7 +784,7 @@ See:
 
 ---
 
-##### Equals
+#### Equals
 
 See:
 
@@ -793,7 +793,7 @@ See:
 
 ---
 
-##### evaluate
+#### evaluate
 
 evaluates an object
 
@@ -801,7 +801,7 @@ evaluates an object
 
 ---
 
-##### factorial
+#### factorial
 
 computes the factorial of a number
 
@@ -813,7 +813,7 @@ Examples:
 
 ---
 
-##### File.AppendAllLines
+#### File.AppendAllLines
 
 See:
 
@@ -821,7 +821,7 @@ See:
 
 ---
 
-##### File.AppendAllLinesAsync
+#### File.AppendAllLinesAsync
 
 See:
 
@@ -829,7 +829,7 @@ See:
 
 ---
 
-##### File.AppendAllText
+#### File.AppendAllText
 
 See:
 
@@ -837,7 +837,7 @@ See:
 
 ---
 
-##### File.AppendAllTextAsync
+#### File.AppendAllTextAsync
 
 See:
 
@@ -845,7 +845,7 @@ See:
 
 ---
 
-##### File.AppendText
+#### File.AppendText
 
 See:
 
@@ -853,7 +853,7 @@ See:
 
 ---
 
-##### File.Copy
+#### File.Copy
 
 See:
 
@@ -861,7 +861,7 @@ See:
 
 ---
 
-##### File.Create
+#### File.Create
 
 See:
 
@@ -869,7 +869,7 @@ See:
 
 ---
 
-##### File.CreateText
+#### File.CreateText
 
 See:
 
@@ -877,7 +877,7 @@ See:
 
 ---
 
-##### File.Decrypt
+#### File.Decrypt
 
 See:
 
@@ -885,7 +885,7 @@ See:
 
 ---
 
-##### File.Delete
+#### File.Delete
 
 See:
 
@@ -893,7 +893,7 @@ See:
 
 ---
 
-##### File.Encrypt
+#### File.Encrypt
 
 See:
 
@@ -901,7 +901,7 @@ See:
 
 ---
 
-##### File.Exists
+#### File.Exists
 
 See:
 
@@ -909,7 +909,7 @@ See:
 
 ---
 
-##### File.GetAttributes
+#### File.GetAttributes
 
 See:
 
@@ -917,7 +917,7 @@ See:
 
 ---
 
-##### File.GetCreationTime
+#### File.GetCreationTime
 
 See:
 
@@ -925,7 +925,7 @@ See:
 
 ---
 
-##### File.GetCreationTimeUtc
+#### File.GetCreationTimeUtc
 
 See:
 
@@ -933,7 +933,7 @@ See:
 
 ---
 
-##### File.GetLastAccessTime
+#### File.GetLastAccessTime
 
 See:
 
@@ -941,7 +941,7 @@ See:
 
 ---
 
-##### File.GetLastAccessTimeUtc
+#### File.GetLastAccessTimeUtc
 
 See:
 
@@ -949,7 +949,7 @@ See:
 
 ---
 
-##### File.GetLastWriteTime
+#### File.GetLastWriteTime
 
 See:
 
@@ -957,7 +957,7 @@ See:
 
 ---
 
-##### File.GetLastWriteTimeUtc
+#### File.GetLastWriteTimeUtc
 
 See:
 
@@ -965,7 +965,7 @@ See:
 
 ---
 
-##### File.Move
+#### File.Move
 
 See:
 
@@ -973,7 +973,7 @@ See:
 
 ---
 
-##### File.Open
+#### File.Open
 
 See:
 
@@ -981,7 +981,7 @@ See:
 
 ---
 
-##### File.OpenRead
+#### File.OpenRead
 
 See:
 
@@ -989,7 +989,7 @@ See:
 
 ---
 
-##### File.OpenText
+#### File.OpenText
 
 See:
 
@@ -997,7 +997,7 @@ See:
 
 ---
 
-##### File.OpenWrite
+#### File.OpenWrite
 
 See:
 
@@ -1005,7 +1005,7 @@ See:
 
 ---
 
-##### File.ReadAllBytes
+#### File.ReadAllBytes
 
 See:
 
@@ -1013,7 +1013,7 @@ See:
 
 ---
 
-##### File.ReadAllBytesAsync
+#### File.ReadAllBytesAsync
 
 See:
 
@@ -1021,7 +1021,7 @@ See:
 
 ---
 
-##### File.ReadAllLines
+#### File.ReadAllLines
 
 See:
 
@@ -1029,7 +1029,7 @@ See:
 
 ---
 
-##### File.ReadAllLinesAsync
+#### File.ReadAllLinesAsync
 
 See:
 
@@ -1037,7 +1037,7 @@ See:
 
 ---
 
-##### File.ReadAllText
+#### File.ReadAllText
 
 See:
 
@@ -1045,7 +1045,7 @@ See:
 
 ---
 
-##### File.ReadAllTextAsync
+#### File.ReadAllTextAsync
 
 See:
 
@@ -1053,7 +1053,7 @@ See:
 
 ---
 
-##### File.ReadLines
+#### File.ReadLines
 
 See:
 
@@ -1061,7 +1061,7 @@ See:
 
 ---
 
-##### File.Replace
+#### File.Replace
 
 See:
 
@@ -1069,7 +1069,7 @@ See:
 
 ---
 
-##### File.SetAttributes
+#### File.SetAttributes
 
 See:
 
@@ -1077,7 +1077,7 @@ See:
 
 ---
 
-##### File.SetCreationTime
+#### File.SetCreationTime
 
 See:
 
@@ -1085,7 +1085,7 @@ See:
 
 ---
 
-##### File.SetCreationTimeUtc
+#### File.SetCreationTimeUtc
 
 See:
 
@@ -1093,7 +1093,7 @@ See:
 
 ---
 
-##### File.SetLastAccessTime
+#### File.SetLastAccessTime
 
 See:
 
@@ -1101,7 +1101,7 @@ See:
 
 ---
 
-##### File.SetLastAccessTimeUtc
+#### File.SetLastAccessTimeUtc
 
 See:
 
@@ -1109,7 +1109,7 @@ See:
 
 ---
 
-##### File.SetLastWriteTime
+#### File.SetLastWriteTime
 
 See:
 
@@ -1117,7 +1117,7 @@ See:
 
 ---
 
-##### File.SetLastWriteTimeUtc
+#### File.SetLastWriteTimeUtc
 
 See:
 
@@ -1125,7 +1125,7 @@ See:
 
 ---
 
-##### File.WriteAllBytes
+#### File.WriteAllBytes
 
 See:
 
@@ -1133,7 +1133,7 @@ See:
 
 ---
 
-##### File.WriteAllBytesAsync
+#### File.WriteAllBytesAsync
 
 See:
 
@@ -1141,7 +1141,7 @@ See:
 
 ---
 
-##### File.WriteAllLines
+#### File.WriteAllLines
 
 See:
 
@@ -1149,7 +1149,7 @@ See:
 
 ---
 
-##### File.WriteAllLinesAsync
+#### File.WriteAllLinesAsync
 
 See:
 
@@ -1157,7 +1157,7 @@ See:
 
 ---
 
-##### File.WriteAllText
+#### File.WriteAllText
 
 See:
 
@@ -1165,7 +1165,7 @@ See:
 
 ---
 
-##### File.WriteAllTextAsync
+#### File.WriteAllTextAsync
 
 See:
 
@@ -1173,7 +1173,7 @@ See:
 
 ---
 
-##### finddirectory
+#### finddirectory
 
 searches for a directory
 
@@ -1182,7 +1182,7 @@ searches for a directory
 
 ---
 
-##### findfile
+#### findfile
 
 searches for a file
 
@@ -1191,7 +1191,7 @@ searches for a file
 
 ---
 
-##### for
+#### for
 
 performs a for-loop
 
@@ -1207,7 +1207,7 @@ Examples:
 
 ---
 
-##### foreach
+#### foreach
 
 performs a foreach-loop
 
@@ -1221,7 +1221,7 @@ Examples:
 
 ---
 
-##### get
+#### get
 
 return the value of a variable; the variable can exist in any active scope
 
@@ -1229,7 +1229,7 @@ return the value of a variable; the variable can exist in any active scope
 
 ---
 
-##### GetEnumerator
+#### GetEnumerator
 
 See:
 
@@ -1239,7 +1239,7 @@ See:
 
 ---
 
-##### getfiles
+#### getfiles
 
 returns an array of paths of the files in a directory
 
@@ -1251,7 +1251,7 @@ Examples:
 
 ---
 
-##### GetHashCode
+#### GetHashCode
 
 See:
 
@@ -1260,13 +1260,13 @@ See:
 
 ---
 
-##### gethelp
+#### gethelp
 
 returns help-information (formatted as markdown)
 
 ---
 
-##### GetLength
+#### GetLength
 
 See:
 
@@ -1274,7 +1274,7 @@ See:
 
 ---
 
-##### GetLongLength
+#### GetLongLength
 
 See:
 
@@ -1282,7 +1282,7 @@ See:
 
 ---
 
-##### GetLowerBound
+#### GetLowerBound
 
 See:
 
@@ -1290,7 +1290,7 @@ See:
 
 ---
 
-##### getmember
+#### getmember
 
 get the array of member-information for the specified member in the given object
 
@@ -1299,7 +1299,7 @@ get the array of member-information for the specified member in the given object
 
 ---
 
-##### GetObjectData
+#### GetObjectData
 
 See:
 
@@ -1307,7 +1307,7 @@ See:
 
 ---
 
-##### GetPinnableReference
+#### GetPinnableReference
 
 See:
 
@@ -1315,7 +1315,7 @@ See:
 
 ---
 
-##### GetType
+#### GetType
 
 See:
 
@@ -1324,7 +1324,7 @@ See:
 
 ---
 
-##### GetTypeCode
+#### GetTypeCode
 
 See:
 
@@ -1332,7 +1332,7 @@ See:
 
 ---
 
-##### GetUpperBound
+#### GetUpperBound
 
 See:
 
@@ -1340,7 +1340,7 @@ See:
 
 ---
 
-##### GetValue
+#### GetValue
 
 See:
 
@@ -1348,7 +1348,7 @@ See:
 
 ---
 
-##### global
+#### global
 
 creates or sets a global variable
 
@@ -1362,7 +1362,7 @@ Examples:
 
 ---
 
-##### Hashtable.Synchronized
+#### Hashtable.Synchronized
 
 See:
 
@@ -1370,7 +1370,7 @@ See:
 
 ---
 
-##### hasmember
+#### hasmember
 
 tests if the specified member exists in the given object
 
@@ -1384,14 +1384,14 @@ Examples:
 
 ---
 
-##### hastype
+#### hastype
 
 * instance
 * type
 
 ---
 
-##### if
+#### if
 
 performs the if-statement
 
@@ -1401,7 +1401,7 @@ performs the if-statement
 
 ---
 
-##### increment
+#### increment
 
 increments a variable
 
@@ -1415,7 +1415,7 @@ Examples:
 
 ---
 
-##### IndexOf
+#### IndexOf
 
 See:
 
@@ -1423,7 +1423,7 @@ See:
 
 ---
 
-##### IndexOfAny
+#### IndexOfAny
 
 See:
 
@@ -1431,11 +1431,11 @@ See:
 
 ---
 
-##### initialize
+#### initialize
 
 ---
 
-##### Initialize
+#### Initialize
 
 See:
 
@@ -1443,7 +1443,7 @@ See:
 
 ---
 
-##### Insert
+#### Insert
 
 See:
 
@@ -1451,7 +1451,7 @@ See:
 
 ---
 
-##### invokeinstancemember
+#### invokeinstancemember
 
 calls the 'Invoke'-method of the type of the specified object
 
@@ -1460,11 +1460,11 @@ calls the 'Invoke'-method of the type of the specified object
 
 ---
 
-##### invoketests
+#### invoketests
 
 ---
 
-##### isarray
+#### isarray
 
 tests if an object is an array
 
@@ -1472,7 +1472,7 @@ tests if an object is an array
 
 ---
 
-##### IsFixedSize
+#### IsFixedSize
 
 See:
 
@@ -1481,7 +1481,7 @@ See:
 
 ---
 
-##### IsNormalized
+#### IsNormalized
 
 See:
 
@@ -1489,7 +1489,7 @@ See:
 
 ---
 
-##### IsReadOnly
+#### IsReadOnly
 
 See:
 
@@ -1498,7 +1498,7 @@ See:
 
 ---
 
-##### isstring
+#### isstring
 
 tests if an object is a string
 
@@ -1506,7 +1506,7 @@ tests if an object is a string
 
 ---
 
-##### IsSynchronized
+#### IsSynchronized
 
 See:
 
@@ -1515,7 +1515,7 @@ See:
 
 ---
 
-##### Item
+#### Item
 
 See:
 
@@ -1523,7 +1523,7 @@ See:
 
 ---
 
-##### join
+#### join
 
 joins an array of strings to a string separated by blanks
 
@@ -1531,7 +1531,7 @@ joins an array of strings to a string separated by blanks
 
 ---
 
-##### joinfrom
+#### joinfrom
 
 joins the given arguments to a string separated by blanks
 
@@ -1541,7 +1541,7 @@ Examples:
 
 ---
 
-##### Key
+#### Key
 
 See:
 
@@ -1549,7 +1549,7 @@ See:
 
 ---
 
-##### Keys
+#### Keys
 
 See:
 
@@ -1557,7 +1557,7 @@ See:
 
 ---
 
-##### LastIndexOf
+#### LastIndexOf
 
 See:
 
@@ -1565,7 +1565,7 @@ See:
 
 ---
 
-##### LastIndexOfAny
+#### LastIndexOfAny
 
 See:
 
@@ -1573,7 +1573,7 @@ See:
 
 ---
 
-##### Length
+#### Length
 
 See:
 
@@ -1586,7 +1586,7 @@ Examples:
 
 ---
 
-##### list
+#### list
 
 returns the arguments as a list
 
@@ -1597,7 +1597,7 @@ Examples:
 
 ---
 
-##### local
+#### local
 
 creates or sets a local variable
 
@@ -1614,7 +1614,7 @@ Examples:
 
 ---
 
-##### LongLength
+#### LongLength
 
 See:
 
@@ -1622,7 +1622,7 @@ See:
 
 ---
 
-##### map
+#### map
 
 executes a command with all elements of an array or listf; the variable 'item' holds the current element
 
@@ -1635,7 +1635,7 @@ Examples:
 
 ---
 
-##### Math.Abs
+#### Math.Abs
 
 See:
 
@@ -1643,7 +1643,7 @@ See:
 
 ---
 
-##### Math.Acos
+#### Math.Acos
 
 See:
 
@@ -1651,7 +1651,7 @@ See:
 
 ---
 
-##### Math.Acosh
+#### Math.Acosh
 
 See:
 
@@ -1659,7 +1659,7 @@ See:
 
 ---
 
-##### Math.Asin
+#### Math.Asin
 
 See:
 
@@ -1667,7 +1667,7 @@ See:
 
 ---
 
-##### Math.Asinh
+#### Math.Asinh
 
 See:
 
@@ -1675,7 +1675,7 @@ See:
 
 ---
 
-##### Math.Atan
+#### Math.Atan
 
 See:
 
@@ -1683,7 +1683,7 @@ See:
 
 ---
 
-##### Math.Atan2
+#### Math.Atan2
 
 See:
 
@@ -1691,7 +1691,7 @@ See:
 
 ---
 
-##### Math.Atanh
+#### Math.Atanh
 
 See:
 
@@ -1699,7 +1699,7 @@ See:
 
 ---
 
-##### Math.BigMul
+#### Math.BigMul
 
 See:
 
@@ -1707,7 +1707,7 @@ See:
 
 ---
 
-##### Math.BitDecrement
+#### Math.BitDecrement
 
 See:
 
@@ -1715,7 +1715,7 @@ See:
 
 ---
 
-##### Math.BitIncrement
+#### Math.BitIncrement
 
 See:
 
@@ -1723,7 +1723,7 @@ See:
 
 ---
 
-##### Math.Cbrt
+#### Math.Cbrt
 
 See:
 
@@ -1731,7 +1731,7 @@ See:
 
 ---
 
-##### Math.Ceiling
+#### Math.Ceiling
 
 See:
 
@@ -1739,7 +1739,7 @@ See:
 
 ---
 
-##### Math.Clamp
+#### Math.Clamp
 
 See:
 
@@ -1747,7 +1747,7 @@ See:
 
 ---
 
-##### Math.CopySign
+#### Math.CopySign
 
 See:
 
@@ -1755,7 +1755,7 @@ See:
 
 ---
 
-##### Math.Cos
+#### Math.Cos
 
 See:
 
@@ -1763,7 +1763,7 @@ See:
 
 ---
 
-##### Math.Cosh
+#### Math.Cosh
 
 See:
 
@@ -1771,7 +1771,7 @@ See:
 
 ---
 
-##### Math.DivRem
+#### Math.DivRem
 
 See:
 
@@ -1779,7 +1779,7 @@ See:
 
 ---
 
-##### Math.Exp
+#### Math.Exp
 
 See:
 
@@ -1787,7 +1787,7 @@ See:
 
 ---
 
-##### Math.Floor
+#### Math.Floor
 
 See:
 
@@ -1795,7 +1795,7 @@ See:
 
 ---
 
-##### Math.FusedMultiplyAdd
+#### Math.FusedMultiplyAdd
 
 See:
 
@@ -1803,7 +1803,7 @@ See:
 
 ---
 
-##### Math.IEEERemainder
+#### Math.IEEERemainder
 
 See:
 
@@ -1811,7 +1811,7 @@ See:
 
 ---
 
-##### Math.ILogB
+#### Math.ILogB
 
 See:
 
@@ -1819,7 +1819,7 @@ See:
 
 ---
 
-##### Math.Log
+#### Math.Log
 
 See:
 
@@ -1827,7 +1827,7 @@ See:
 
 ---
 
-##### Math.Log10
+#### Math.Log10
 
 See:
 
@@ -1835,7 +1835,7 @@ See:
 
 ---
 
-##### Math.Log2
+#### Math.Log2
 
 See:
 
@@ -1843,7 +1843,7 @@ See:
 
 ---
 
-##### Math.Max
+#### Math.Max
 
 See:
 
@@ -1851,7 +1851,7 @@ See:
 
 ---
 
-##### Math.MaxMagnitude
+#### Math.MaxMagnitude
 
 See:
 
@@ -1859,7 +1859,7 @@ See:
 
 ---
 
-##### Math.Min
+#### Math.Min
 
 See:
 
@@ -1867,7 +1867,7 @@ See:
 
 ---
 
-##### Math.MinMagnitude
+#### Math.MinMagnitude
 
 See:
 
@@ -1875,7 +1875,7 @@ See:
 
 ---
 
-##### Math.Pow
+#### Math.Pow
 
 See:
 
@@ -1883,7 +1883,7 @@ See:
 
 ---
 
-##### Math.Round
+#### Math.Round
 
 See:
 
@@ -1891,7 +1891,7 @@ See:
 
 ---
 
-##### Math.ScaleB
+#### Math.ScaleB
 
 See:
 
@@ -1899,7 +1899,7 @@ See:
 
 ---
 
-##### Math.Sign
+#### Math.Sign
 
 See:
 
@@ -1907,7 +1907,7 @@ See:
 
 ---
 
-##### Math.Sin
+#### Math.Sin
 
 See:
 
@@ -1915,7 +1915,7 @@ See:
 
 ---
 
-##### Math.Sinh
+#### Math.Sinh
 
 See:
 
@@ -1923,7 +1923,7 @@ See:
 
 ---
 
-##### Math.Sqrt
+#### Math.Sqrt
 
 See:
 
@@ -1931,7 +1931,7 @@ See:
 
 ---
 
-##### Math.Tan
+#### Math.Tan
 
 See:
 
@@ -1939,7 +1939,7 @@ See:
 
 ---
 
-##### Math.Tanh
+#### Math.Tanh
 
 See:
 
@@ -1947,7 +1947,7 @@ See:
 
 ---
 
-##### Math.Truncate
+#### Math.Truncate
 
 See:
 
@@ -1955,7 +1955,7 @@ See:
 
 ---
 
-##### Normalize
+#### Normalize
 
 See:
 
@@ -1963,7 +1963,7 @@ See:
 
 ---
 
-##### OnDeserialization
+#### OnDeserialization
 
 See:
 
@@ -1971,7 +1971,7 @@ See:
 
 ---
 
-##### PadLeft
+#### PadLeft
 
 See:
 
@@ -1979,7 +1979,7 @@ See:
 
 ---
 
-##### PadRight
+#### PadRight
 
 See:
 
@@ -1987,7 +1987,7 @@ See:
 
 ---
 
-##### Path.ChangeExtension
+#### Path.ChangeExtension
 
 See:
 
@@ -1995,7 +1995,7 @@ See:
 
 ---
 
-##### Path.Combine
+#### Path.Combine
 
 See:
 
@@ -2003,7 +2003,7 @@ See:
 
 ---
 
-##### Path.EndsInDirectorySeparator
+#### Path.EndsInDirectorySeparator
 
 See:
 
@@ -2011,7 +2011,7 @@ See:
 
 ---
 
-##### Path.GetDirectoryName
+#### Path.GetDirectoryName
 
 See:
 
@@ -2019,7 +2019,7 @@ See:
 
 ---
 
-##### Path.GetExtension
+#### Path.GetExtension
 
 See:
 
@@ -2027,7 +2027,7 @@ See:
 
 ---
 
-##### Path.GetFileName
+#### Path.GetFileName
 
 See:
 
@@ -2035,7 +2035,7 @@ See:
 
 ---
 
-##### Path.GetFileNameWithoutExtension
+#### Path.GetFileNameWithoutExtension
 
 See:
 
@@ -2043,7 +2043,7 @@ See:
 
 ---
 
-##### Path.GetFullPath
+#### Path.GetFullPath
 
 See:
 
@@ -2051,7 +2051,7 @@ See:
 
 ---
 
-##### Path.GetInvalidFileNameChars
+#### Path.GetInvalidFileNameChars
 
 See:
 
@@ -2059,7 +2059,7 @@ See:
 
 ---
 
-##### Path.GetInvalidPathChars
+#### Path.GetInvalidPathChars
 
 See:
 
@@ -2067,7 +2067,7 @@ See:
 
 ---
 
-##### Path.GetPathRoot
+#### Path.GetPathRoot
 
 See:
 
@@ -2075,7 +2075,7 @@ See:
 
 ---
 
-##### Path.GetRandomFileName
+#### Path.GetRandomFileName
 
 See:
 
@@ -2083,7 +2083,7 @@ See:
 
 ---
 
-##### Path.GetRelativePath
+#### Path.GetRelativePath
 
 See:
 
@@ -2091,7 +2091,7 @@ See:
 
 ---
 
-##### Path.GetTempFileName
+#### Path.GetTempFileName
 
 See:
 
@@ -2099,7 +2099,7 @@ See:
 
 ---
 
-##### Path.GetTempPath
+#### Path.GetTempPath
 
 See:
 
@@ -2107,7 +2107,7 @@ See:
 
 ---
 
-##### Path.HasExtension
+#### Path.HasExtension
 
 See:
 
@@ -2115,7 +2115,7 @@ See:
 
 ---
 
-##### Path.IsPathFullyQualified
+#### Path.IsPathFullyQualified
 
 See:
 
@@ -2123,7 +2123,7 @@ See:
 
 ---
 
-##### Path.IsPathRooted
+#### Path.IsPathRooted
 
 See:
 
@@ -2131,7 +2131,7 @@ See:
 
 ---
 
-##### Path.Join
+#### Path.Join
 
 See:
 
@@ -2139,7 +2139,7 @@ See:
 
 ---
 
-##### Path.TrimEndingDirectorySeparator
+#### Path.TrimEndingDirectorySeparator
 
 See:
 
@@ -2147,7 +2147,7 @@ See:
 
 ---
 
-##### Path.TryJoin
+#### Path.TryJoin
 
 See:
 
@@ -2155,18 +2155,18 @@ See:
 
 ---
 
-##### performtest
+#### performtest
 
 * tokens
 * expected
 
 ---
 
-##### performtests
+#### performtests
 
 ---
 
-##### power
+#### power
 
 computes the power of two numbers
 
@@ -2179,7 +2179,7 @@ Examples:
 
 ---
 
-##### Rank
+#### Rank
 
 See:
 
@@ -2187,7 +2187,7 @@ See:
 
 ---
 
-##### readfile
+#### readfile
 
 returns the text contained in a file
 
@@ -2201,7 +2201,7 @@ Examples:
 
 ---
 
-##### Remove
+#### Remove
 
 See:
 
@@ -2210,7 +2210,7 @@ See:
 
 ---
 
-##### Replace
+#### Replace
 
 See:
 
@@ -2218,7 +2218,7 @@ See:
 
 ---
 
-##### return
+#### return
 
 returns a value
 
@@ -2232,7 +2232,7 @@ Examples:
 
 ---
 
-##### run
+#### run
 
 runs an external program with the arguments given
 
@@ -2241,7 +2241,7 @@ runs an external program with the arguments given
 
 ---
 
-##### set
+#### set
 
 assigns a new value to an existing variable; the variable can exist in any active scope
 
@@ -2253,7 +2253,7 @@ Examples:
 
 ---
 
-##### setfailure
+#### setfailure
 
 * code
 * actual
@@ -2261,7 +2261,7 @@ Examples:
 
 ---
 
-##### SetValue
+#### SetValue
 
 See:
 
@@ -2269,7 +2269,7 @@ See:
 
 ---
 
-##### size
+#### size
 
 returns the size of an array or a list
 
@@ -2285,7 +2285,7 @@ Examples:
 
 ---
 
-##### sort
+#### sort
 
 sorts an object (e.g. an array, a list, or a string)
 
@@ -2298,7 +2298,7 @@ Examples:
 
 ---
 
-##### sortarray
+#### sortarray
 
 sorts an array
 
@@ -2306,7 +2306,7 @@ sorts an array
 
 ---
 
-##### sortstring
+#### sortstring
 
 sorts the characters of a string
 
@@ -2314,7 +2314,7 @@ sorts the characters of a string
 
 ---
 
-##### split
+#### split
 
 * value
 
@@ -2327,7 +2327,7 @@ Examples:
 
 ---
 
-##### Split
+#### Split
 
 See:
 
@@ -2335,7 +2335,7 @@ See:
 
 ---
 
-##### square
+#### square
 
 computes the square of a number
 
@@ -2347,7 +2347,7 @@ Examples:
 
 ---
 
-##### StartsWith
+#### StartsWith
 
 See:
 
@@ -2355,7 +2355,7 @@ See:
 
 ---
 
-##### String.Compare
+#### String.Compare
 
 See:
 
@@ -2363,7 +2363,7 @@ See:
 
 ---
 
-##### String.CompareOrdinal
+#### String.CompareOrdinal
 
 See:
 
@@ -2371,7 +2371,7 @@ See:
 
 ---
 
-##### String.Concat
+#### String.Concat
 
 See:
 
@@ -2379,7 +2379,7 @@ See:
 
 ---
 
-##### String.Copy
+#### String.Copy
 
 See:
 
@@ -2387,7 +2387,7 @@ See:
 
 ---
 
-##### String.Create
+#### String.Create
 
 See:
 
@@ -2395,7 +2395,7 @@ See:
 
 ---
 
-##### String.Equals
+#### String.Equals
 
 See:
 
@@ -2403,7 +2403,7 @@ See:
 
 ---
 
-##### String.Format
+#### String.Format
 
 See:
 
@@ -2411,7 +2411,7 @@ See:
 
 ---
 
-##### String.GetHashCode
+#### String.GetHashCode
 
 See:
 
@@ -2419,7 +2419,7 @@ See:
 
 ---
 
-##### String.Intern
+#### String.Intern
 
 See:
 
@@ -2427,7 +2427,7 @@ See:
 
 ---
 
-##### String.IsInterned
+#### String.IsInterned
 
 See:
 
@@ -2435,7 +2435,7 @@ See:
 
 ---
 
-##### String.IsNullOrEmpty
+#### String.IsNullOrEmpty
 
 See:
 
@@ -2443,7 +2443,7 @@ See:
 
 ---
 
-##### String.IsNullOrWhiteSpace
+#### String.IsNullOrWhiteSpace
 
 See:
 
@@ -2451,7 +2451,7 @@ See:
 
 ---
 
-##### String.Join
+#### String.Join
 
 See:
 
@@ -2459,7 +2459,7 @@ See:
 
 ---
 
-##### Substring
+#### Substring
 
 See:
 
@@ -2467,7 +2467,7 @@ See:
 
 ---
 
-##### sum
+#### sum
 
 * values
 
@@ -2477,7 +2477,7 @@ Examples:
 
 ---
 
-##### sumof
+#### sumof
 
 returns the sum of the arguments
 
@@ -2487,7 +2487,7 @@ Examples:
 
 ---
 
-##### switch
+#### switch
 
 calls the first command for which a condition holds true
 
@@ -2499,7 +2499,7 @@ Examples:
 
 ---
 
-##### SyncRoot
+#### SyncRoot
 
 See:
 
@@ -2508,11 +2508,11 @@ See:
 
 ---
 
-##### test
+#### test
 
 ---
 
-##### ToCharArray
+#### ToCharArray
 
 See:
 
@@ -2520,13 +2520,13 @@ See:
 
 ---
 
-##### todouble
+#### todouble
 
 * n
 
 ---
 
-##### ToLower
+#### ToLower
 
 See:
 
@@ -2534,7 +2534,7 @@ See:
 
 ---
 
-##### ToLowerInvariant
+#### ToLowerInvariant
 
 See:
 
@@ -2542,7 +2542,7 @@ See:
 
 ---
 
-##### ToString
+#### ToString
 
 See:
 
@@ -2555,7 +2555,7 @@ Examples:
 
 ---
 
-##### ToUpper
+#### ToUpper
 
 See:
 
@@ -2563,7 +2563,7 @@ See:
 
 ---
 
-##### ToUpperInvariant
+#### ToUpperInvariant
 
 See:
 
@@ -2571,7 +2571,7 @@ See:
 
 ---
 
-##### Trim
+#### Trim
 
 See:
 
@@ -2579,7 +2579,7 @@ See:
 
 ---
 
-##### TrimEnd
+#### TrimEnd
 
 See:
 
@@ -2587,7 +2587,7 @@ See:
 
 ---
 
-##### TrimStart
+#### TrimStart
 
 See:
 
@@ -2595,7 +2595,7 @@ See:
 
 ---
 
-##### typename
+#### typename
 
 returns the name of the type of an object
 
@@ -2607,7 +2607,7 @@ Examples:
 
 ---
 
-##### typeof
+#### typeof
 
 returns the type-object of an object
 
@@ -2615,7 +2615,7 @@ returns the type-object of an object
 
 ---
 
-##### upperbound
+#### upperbound
 
 returns the upper-bound of an object (e.g. an array or a list)
 
@@ -2628,7 +2628,7 @@ Examples:
 
 ---
 
-##### Value
+#### Value
 
 See:
 
@@ -2636,7 +2636,7 @@ See:
 
 ---
 
-##### Values
+#### Values
 
 See:
 
@@ -2644,13 +2644,13 @@ See:
 
 ---
 
-##### write
+#### write
 
 * message
 
 ---
 
-##### writefile
+#### writefile
 
 writes text to a file
 

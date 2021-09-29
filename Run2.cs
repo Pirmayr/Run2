@@ -60,7 +60,7 @@ namespace Run2
           result.Append("\n\n---");
         }
         insertLine = true;
-        result.Append($"\n\n##### {name}");
+        result.Append($"\n\n#### {name}");
         if (!string.IsNullOrEmpty(command.GetDescription()))
         {
           result.Append($"\n\n{command.GetDescription()}");
