@@ -15,6 +15,11 @@ namespace Run2
 
     public SubCommands SubCommands { get; set; } = new();
 
+    public override bool GetHideHelp()
+    {
+      return false;
+    }
+
     public override string GetDescription()
     {
       return CommandDescription;

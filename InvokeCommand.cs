@@ -1,27 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Run2
 {
   internal sealed class InvokeCommand : Command
   {
-    private string FullName { get; }
+    public HashSet<string> FullNames { get; } = new();
 
     private string MemberName { get; }
 
     private Type Type { get; }
 
-    public InvokeCommand(string memberName, Type type, string fullName)
+    public InvokeCommand(string memberName, Type type)
     {
       MemberName = memberName;
       Type = type;
-      FullName = fullName;
-      HideHelp = string.IsNullOrEmpty(fullName);
+    }
+
+    public override bool GetHideHelp()
+    {
+      return FullNames.Count == 0;
     }
 
     public override string GetDescription()
     {
-      return string.IsNullOrEmpty(FullName) ? "" : $"See: https://docs.microsoft.com/en-us/dotnet/api/{FullName}";
+      var result = new StringBuilder("See:\n");
+      foreach (var fullName in FullNames)
+      {
+        result.Append($"\n* https://docs.microsoft.com/en-us/dotnet/api/{fullName}");
+      }
+      return result.ToString();
     }
 
     public override string GetParameterDescription(string name)

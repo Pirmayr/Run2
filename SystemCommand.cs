@@ -13,6 +13,11 @@ namespace Run2
       this.action = action;
     }
 
+    public override bool GetHideHelp()
+    {
+      return false;
+    }
+
     public override string GetDescription()
     {
       var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));

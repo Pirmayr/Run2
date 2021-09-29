@@ -53,7 +53,7 @@ namespace Run2
       var result = new StringBuilder();
       var insertLine = false;
       result.Append("# Predefined Run2-Commands");
-      foreach (var (name, command) in commands.Where(static item => !item.Value.HideHelp).OrderBy(static item => item.Key))
+      foreach (var (name, command) in commands.Where(static item => !item.Value.GetHideHelp()).OrderBy(static item => item.Key))
       {
         if (insertLine)
         {
@@ -182,17 +182,27 @@ namespace Run2
                   if (pass == 0)
                   {
                     var key = type.Name + "." + member.Name;
-                    if (!commands.ContainsKey(key))
+                    if (!commands.TryGetValue(key, out var command))
                     {
-                      commands.Add(key, new InvokeCommand(member.Name, type, isLocalType ? "" : $"{type.FullName}.{member.Name}"));
+                      command = new InvokeCommand(member.Name, type);
+                      commands.Add(key, command);
+                    }
+                    if (!isLocalType)
+                    {
+                      ((InvokeCommand) command).FullNames.Add($"{type.FullName}.{member.Name}");
                     }
                   }
                   else
                   {
                     var key = member.Name;
-                    if (!commands.ContainsKey(key))
+                    if (!commands.TryGetValue(key, out var command))
                     {
-                      commands.Add(member.Name, new InvokeCommand(member.Name, null, isLocalType ? "" : $"{type.FullName}.{member.Name}"));
+                      command = new InvokeCommand(member.Name, null);
+                      commands.Add(key, command);
+                    }
+                    if (!isLocalType)
+                    {
+                      ((InvokeCommand) command).FullNames.Add($"{Helpers.BaseTypeOfMember(type, member.Name, bindingFlags).FullName}.{member.Name}");
                     }
                   }
                 }
@@ -203,7 +213,7 @@ namespace Run2
               var key = type.Name + ".new";
               if (!commands.ContainsKey(key))
               {
-                commands.Add(key, new InvokeCommand("_new", type, ""));
+                commands.Add(key, new InvokeCommand("_new", type));
               }
             }
           }
