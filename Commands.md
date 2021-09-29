@@ -79,6 +79,7 @@ tests if value1 is less than value2
 Examples:
 
 * &nbsp;< 47 11 -> false
+* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
 
 ---
 
@@ -108,6 +109,7 @@ Examples:
 * &nbsp;== (array 1 2 3) (array 1 2 3) -> true
 * &nbsp;== (array 1 2 3) (array 1 2 4) -> false
 * &nbsp;== (array 1 2 3 4) (array 1 2 3) -> false
+* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
 
 ---
 
@@ -121,6 +123,7 @@ tests if value1 is greater than value2
 Examples:
 
 * &nbsp;> 47 11 -> true
+* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
 
 ---
 
@@ -147,7 +150,7 @@ calls the "Add"-method of an object with a key and a value
 
 Examples:
 
-* &nbsp;global hashtable (Hashtable.new ) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable -> 2
+* &nbsp;global hashtable (Hashtable.new ) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable -> 2
 
 ---
 
@@ -449,8 +452,6 @@ Examples:
 
 executes the Windows command "dir" and returns the result
 
-* directory
-
 ---
 
 ##### Directory.CreateDirectory
@@ -625,6 +626,16 @@ Examples:
 
 * &nbsp;createdirectory c:\testdirectory directoryexists c:\testdirectory -> true
 * &nbsp;deletedirectory c:\testdirectory directoryexists c:\testdirectory -> false
+
+---
+
+##### dos
+
+executes specified dos-command and returns the output
+
+Examples:
+
+* &nbsp;dos echo 'hello world' -> 'hello world'
 
 ---
 
@@ -986,7 +997,7 @@ Examples:
 
 ##### get
 
-return the value of a variable
+return the value of a variable; the variable can exist in any active scope
 
 * name: name of the variable
 
@@ -1042,7 +1053,9 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetLowerBound
 
 ##### getmember
 
-* instance
+get the array of member-information for the specified member in the given object
+
+* object
 * name
 
 ---
@@ -1093,7 +1106,7 @@ creates or sets a global variable
 Examples:
 
 * &nbsp;global value 4711 increment value 1 return value -> 4712
-* &nbsp;global hashtable (Hashtable.new ) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable -> 2
+* &nbsp;global hashtable (Hashtable.new ) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable -> 2
 
 ---
 
@@ -1105,13 +1118,15 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Sy
 
 ##### hasmember
 
-* instance
+tests if the specified member exists in the given object
+
+* object
 * name
 
 Examples:
 
-* &nbsp;hasmember 'hugo' 'Length' -> true
-* &nbsp;hasmember 'hugo' 'Count' -> false
+* &nbsp;hasmember 'hello' 'Length' -> true
+* &nbsp;hasmember 'hello' 'Count' -> false
 
 ---
 
@@ -1233,6 +1248,24 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.It
 
 ---
 
+##### join
+
+joins an array of strings to a string separated by blanks
+
+* strings
+
+---
+
+##### joinfrom
+
+joins the given arguments to a string separated by blanks
+
+Examples:
+
+* &nbsp;joinfrom 'h' 'e' 'l' 'l' 'o' -> 'h e l l o'
+
+---
+
 ##### Key
 
 See: https://docs.microsoft.com/en-us/dotnet/api/System.Collections.DictionaryEntry.Key
@@ -1291,6 +1324,7 @@ Examples:
 * &nbsp;local result 0 foreach i (array 3 1 4 1) (local result (+ result i)) -> 9
 * &nbsp;local product 1 map (array 3 1 4 1) (local product (* product item)) -> 12
 * &nbsp;local value 1234 increment value 2 return value -> 1236
+* &nbsp;local a 4711 set a 1234 -> 1234
 
 ---
 
@@ -1761,18 +1795,36 @@ See: https://docs.microsoft.com/en-us/dotnet/api/System.String.Replace
 
 ##### return
 
+returns a value
+
+* value: the value to be returned
+
 Examples:
 
 * &nbsp;global value 4711 increment value 1 return value -> 4712
 * &nbsp;local value 1234 increment value 2 return value -> 1236
+* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
 
 ---
 
 ##### run
 
+runs an external program with the arguments given
+
+* path: path of the external program
+* arguments: the values ​​to be passed to the external program
+
 ---
 
 ##### set
+
+assigns a new value to an existing variable; the variable can exist in any active scope
+
+* value: the value to be assigned to the variable
+
+Examples:
+
+* &nbsp;local a 4711 set a 1234 -> 1234
 
 ---
 
@@ -1798,11 +1850,11 @@ returns the size of an array or a list
 
 Examples:
 
-* &nbsp;size 'hugo' -> 4
+* &nbsp;size 'hello' -> 5
 * &nbsp;size (array 1 2 3 4 5 6) -> 6
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
 * &nbsp;size (getfiles c:\testdirectory) -> 3
-* &nbsp;global hashtable (Hashtable.new ) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable -> 2
+* &nbsp;global hashtable (Hashtable.new ) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable -> 2
 
 ---
 
@@ -1814,7 +1866,7 @@ sorts an object (e.g. an array, a list, or a string)
 
 Examples:
 
-* &nbsp;sort 'hugo' -> 'ghou'
+* &nbsp;sort 'hello' -> 'ehllo'
 * &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
 
 ---
@@ -1981,6 +2033,10 @@ Examples:
 calls the first command for which a condition holds true
 
 * condition-command-pairs: pairs consisting of condition and command; the first command whose condition is 'true' is executed
+
+Examples:
+
+* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
 
 ---
 

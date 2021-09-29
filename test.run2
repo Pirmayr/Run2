@@ -31,12 +31,12 @@ command performtests
   performtest (Count (list 1 2 3 4 5)) 5
   performtest (upperbound (array 1 2 3)) 2
   performtest (upperbound (split 'Hello~nworld')) 1
-  performtest (size 'hugo') 4
+  performtest (size 'hello') 5
   performtest (size (array 1 2 3 4 5 6)) 6
   performtest (size (list 1 2 3 4 5 6 7)) 7
   performtest (typename 'Hello') 'String'
-  performtest (hasmember 'hugo' 'Length') true
-  performtest (hasmember 'hugo' 'Count') false
+  performtest (hasmember 'hello' 'Length') true
+  performtest (hasmember 'hello' 'Count') false
   performtest (power 3 4) 81
   performtest (createdirectory c:\testdirectory directoryexists c:\testdirectory) true
   performtest (writefile c:\testdirectory\hello.txt hello readfile c:\testdirectory\hello.txt) 'hello'
@@ -44,11 +44,15 @@ command performtests
   performtest (writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9' average (split (readfile c:\testdirectory\values.txt))) 6
   performtest (size (getfiles c:\testdirectory)) 3
   performtest (deletedirectory c:\testdirectory directoryexists c:\testdirectory) false
-  performtest (sort 'hugo') 'ghou'
+  performtest (sort 'hello') 'ehllo'
   performtest (sort (split '3~n1~n4~n1~n5~n9')) (array '1' '1' '3' '4' '5' '9')
   performtest (global value 4711 increment value 1 return value) 4712
   performtest (local value 1234 increment value 2 return value) 1236
-  performtest (global hashtable (Hashtable.new) add hashtable 'hugo' 'egon' add hashtable 'hello' 'world' size hashtable) 2
+  performtest (global hashtable (Hashtable.new) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable) 2
+  performtest (switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3)) 2
+  performtest (local a 4711 set a 1234) 1234
+  performtest (joinfrom 'h' 'e' 'l' 'l' 'o') 'h e l l o'
+  performtest (dos echo 'hello world') 'hello world'
 
 command invoketests 
   global testsok true
@@ -71,22 +75,25 @@ command initialize
 
 command add 'calls the "Add"-method of an object with a key and a value' object key value Add object key value
 command array 'converts the arguments to an array' ToArray arguments
-command averageof 'computes the average of the arguments' average arguments
 command average 'computes the average of the given values' values / (todouble (sum values)) (size values)
+command averageof 'computes the average of the arguments' average arguments
 command createdirectory 'creates specified directory' directory Directory.CreateDirectory directory 
 command deletedirectory 'deletes specified directory' directory Directory.Delete directory (return true) 
-command dir 'executes the Windows command "dir" and returns the result' directory run cmd /c "dir" directory
+command dir 'executes the Windows command "dir" and returns the result' dos 'dir' (join arguments)
 command directoryexists 'tests if the specified directory exists' directory Directory.Exists directory 
+command dos 'executes specified dos-command and returns the output' run cmd /c (join arguments)
 command factorial 'computes the factorial of a number' number if (== number 1) 1 (* (factorial (- number 1)) number)
 command finddirectory 'searches for a directory' basedirectory 'directory in which the search should begin' pattern 'pattern to be searched for' return (Helpers.FindDirectory basedirectory pattern)
 command findfile 'searches for a file' basedirectory 'directory in which the search should begin' pattern 'pattern to be searched for' return (Helpers.FindFile basedirectory pattern)
 command getfiles 'returns an array of paths of the files in a directory' directory Directory.GetFiles directory
-command getmember instance name invokeinstancemember 'GetMember' (typeof instance) name
-command hasmember instance name > (Length (getmember instance name)) 0
+command getmember 'get the array of member-information for the specified member in the given object' object name invokeinstancemember 'GetMember' (typeof object) name
+command hasmember 'tests if the specified member exists in the given object' object name > (Length (getmember object name)) 0
 command hastype instance type == (typename instance) type
 command increment 'increments a variable' (name) 'name of the variable' _increment 'increment' set name (+ (get name) _increment)
 command isarray 'tests if an object is an array' object invokeinstancemember 'IsArray' (typeof object)
 command isstring 'tests if an object is a string' object hastype object String
+command join 'joins an array of strings to a string separated by blanks' strings String.Join ' ' (ToArray strings)
+command joinfrom 'joins the given arguments to a string separated by blanks' join arguments
 command list 'returns the arguments as a list' return arguments
 command power 'computes the power of two numbers' a 'base' b 'exponent' Math.Pow a b
 command readfile 'returns the text contained in a file' path 'path of the file' File.ReadAllText path

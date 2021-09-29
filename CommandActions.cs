@@ -78,7 +78,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(1, 1, null, "return the value of a variable", "name", "name of the variable")]
+    [CommandAction(1, 1, null, "return the value of a variable; the variable can exist in any active scope", "name", "name of the variable")]
     public static object Get(Tokens arguments)
     {
       var variableName = arguments.DequeueString();
@@ -192,13 +192,13 @@ namespace Run2
       return !Helpers.IsEqual(value1, value2);
     }
 
-    [CommandAction(1, 1)]
+    [CommandAction(1, 1, null, "returns a value", "value", "the value to be returned")]
     public static object Return(Tokens arguments)
     {
       return arguments.DequeueBestType();
     }
 
-    [CommandAction(1, int.MaxValue)]
+    [CommandAction(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
     public static object Run(Tokens arguments)
     {
       var path = arguments.DequeueString();
@@ -206,7 +206,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(2, 2)]
+    [CommandAction(2, 2, null, "assigns a new value to an existing variable; the variable can exist in any active scope", "value", "the value to be assigned to the variable")]
     public static object Set(Tokens arguments)
     {
       var variableName = arguments.DequeueString();
