@@ -5,27 +5,18 @@ namespace Run2
 {
   internal sealed class InvokeCommand : Command
   {
+    private string FullName { get; }
+
     private string MemberName { get; }
 
     private Type Type { get; }
-
-    private string FullName { get; set; }
 
     public InvokeCommand(string memberName, Type type, string fullName)
     {
       MemberName = memberName;
       Type = type;
       FullName = fullName;
-    }
-
-    public override List<string> GetParameterNames()
-    {
-      return new List<string>();
-    }
-
-    public override object Run(Tokens arguments)
-    {
-      return Helpers.Invoke(MemberName, Type ?? arguments.DequeueBestType(), arguments.ToList(true).ToArray());
+      HideHelp = string.IsNullOrEmpty(fullName);
     }
 
     public override string GetDescription()
@@ -36,6 +27,16 @@ namespace Run2
     public override string GetParameterDescription(string name)
     {
       return "";
+    }
+
+    public override List<string> GetParameterNames()
+    {
+      return new List<string>();
+    }
+
+    public override object Run(Tokens arguments)
+    {
+      return Helpers.Invoke(MemberName, Type ?? arguments.DequeueBestType(), arguments.ToList(true).ToArray());
     }
   }
 }

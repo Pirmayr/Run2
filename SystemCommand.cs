@@ -13,6 +13,18 @@ namespace Run2
       this.action = action;
     }
 
+    public override string GetDescription()
+    {
+      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
+      return attribute != null ? attribute.Description : "";
+    }
+
+    public override string GetParameterDescription(string name)
+    {
+      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
+      return attribute != null ? attribute.ParameterDescriptions[name] : "";
+    }
+
     public override List<string> GetParameterNames()
     {
       var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
@@ -31,18 +43,6 @@ namespace Run2
         (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check($"Command '{method.Name}' has {actualCount} arguments, but from {expectedCountFrom} to {expectedCountTo} were expected");
       }
       return action(arguments);
-    }
-
-    public override string GetDescription()
-    {
-      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
-      return attribute != null ? attribute.Description : "";
-    }
-
-    public override string GetParameterDescription(string name)
-    {
-      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
-      return attribute != null ? attribute.ParameterDescriptions[name] : "";
     }
   }
 }

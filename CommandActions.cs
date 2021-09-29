@@ -6,7 +6,7 @@ namespace Run2
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   internal static class CommandActions
   {
-    [CommandAction(2, 2, "+", "adds two numbers", "a", "first number", "b", "second number")]
+    [CommandAction(2, 2, "+", "adds two values", "value1", "first value", "value2", "second value")]
     public static object Add(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -30,7 +30,7 @@ namespace Run2
       return value1 / value2;
     }
 
-    [CommandAction(2, 2, "==")]
+    [CommandAction(2, 2, "==", "tests two values for equality", "value1", "first value", "value2", "second value")]
     public static object Equal(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -38,7 +38,7 @@ namespace Run2
       return Helpers.IsEqual(value1, value2);
     }
 
-    [CommandAction(1, int.MaxValue)]
+    [CommandAction(1, int.MaxValue, null, "evaluates an object", "object", "object to be evaluated")]
     public static object Evaluate(Tokens arguments)
     {
       var value = arguments.DequeueObject();
@@ -46,7 +46,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(5, 5)]
+    [CommandAction(5, 5, null, "performs a for-loop", "name", "name of the variable which holds the counter", "from", "start value of the counter", "to", "end value of the counter", "step", "increment for the counter", "code", "body of the for-loop")]
     public static object For(Tokens arguments)
     {
       object result = null;
@@ -63,7 +63,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(3, 3)]
+    [CommandAction(3, 3, null, "performs a foreach-loop", "name", "name of the variable which holds the current iteration-value", "values", "values which are to be iterated through", "code", "body of the foreach-loop")]
     public static object ForEach(Tokens arguments)
     {
       object result = null;
@@ -78,21 +78,21 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(1, 1)]
+    [CommandAction(1, 1, null, "return the value of a variable", "name", "name of the variable")]
     public static object Get(Tokens arguments)
     {
       var variableName = arguments.DequeueString();
       return Run2.GetVariable(variableName);
     }
 
-    [CommandAction(0, 0)]
+    [CommandAction(0, 0, null, "returns help-information (formatted as markdown)")]
     // ReSharper disable once UnusedParameter.Global
     public static object GetHelp(Tokens arguments)
     {
       return Run2.GetHelp();
     }
 
-    [CommandAction(2, 2)]
+    [CommandAction(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value which should be assigned to the variable")]
     public static object Global(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
@@ -153,7 +153,7 @@ namespace Run2
       return value1 <= value2;
     }
 
-    [CommandAction(2, 2)]
+    [CommandAction(2, 2, null, "creates or sets a local variable", "name", "name of the variable", "value", "value which should be assigned to the variable")]
     public static object Local(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);

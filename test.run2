@@ -1,6 +1,12 @@
 invoketests
 writefile [basedirectory]\..\..\..\Commands.md (gethelp)
 
+global hashtable (Hashtable.new)
+add hashtable 'hugo' 'egon'
+add hashtable 'hello' 'world'
+write (size hashtable)
+map hashtable (write (Key item) write (Value item))
+
 command performtests
   performtest (+ 47 11) 58
   performtest (- 47 11) 36
@@ -67,6 +73,7 @@ command initialize
   global visualstudiodirectory (finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????')
   global msbuildpath (findfile visualstudiodirectory 'MSBuild.exe')
 
+command add 'calls the "Add"-method of an object with a key and a value' object key value Add object key value
 command array 'converts the arguments to an array' ToArray arguments
 command averageof 'computes the average of the arguments' average arguments
 command average 'computes the average of the given values' values / (todouble (sum values)) (size values)

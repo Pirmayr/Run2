@@ -21,7 +21,7 @@ namespace Run2
 
     public object DequeueObject(bool evaluate = true)
     {
-      return Evaluate(Dequeue(), evaluate);
+      return Process(Dequeue(), evaluate);
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -94,13 +94,12 @@ namespace Run2
       var result = new List<object>();
       foreach (var token in this)
       {
-        // result.Add(Helpers.GetBestType(Evaluate(token, evaluate)));
-        result.Add(Evaluate(token, evaluate));
+        result.Add(Process(token, evaluate));
       }
       return result;
     }
 
-    private static object Evaluate(object value, bool evaluate)
+    private static object Process(object value, bool evaluate)
     {
       return evaluate ? Run2.Evaluate(value) : value;
     }

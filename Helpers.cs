@@ -162,8 +162,8 @@ namespace Run2
         case string stringValue:
           stringResult = stringValue;
           return true;
-        case WeakQuotedString weakQuotedStringValue:
-          stringResult = weakQuotedStringValue.Value;
+        case WeaklyQuotedString weaklyQuotedStringValue:
+          stringResult = weaklyQuotedStringValue.Value;
           return true;
         default:
           stringResult = "";
@@ -193,6 +193,11 @@ namespace Run2
         return !containsElement1 && !containsElement2;
       }
       return value1 == value2;
+    }
+
+    public static bool IsStruct(this Type type)
+    {
+      return type.IsValueType && !type.IsPrimitive && !type.IsEnum;
     }
 
     public static string ParameterName(object token)

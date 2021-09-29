@@ -16,7 +16,7 @@ namespace Run2
     private const string CommandToken = "command";
     private const char StrongQuote = '"';
     private const char WeakQuote = '\'';
-    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands" };
+    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands", "Hashtable", "DictionaryEntry" };
     private static readonly Dictionary<string, Command> commands = new();
     private static readonly Variables variables = new();
 
@@ -50,7 +50,7 @@ namespace Run2
     {
       var result = new StringBuilder();
       result.Append("# Predefined Run2-Commands");
-      foreach (var (name, command) in commands.OrderBy(static item => item.Key))
+      foreach (var (name, command) in commands.Where(static item => !item.Value.HideHelp).OrderBy(static item => item.Key))
       {
         result.Append($"\n##### {name}");
         if (!string.IsNullOrEmpty(command.GetDescription()))
@@ -134,17 +134,19 @@ namespace Run2
 
     private static bool AcceptType(Type type)
     {
-      return type.IsPublic && type.IsClass && !type.IsNested && !type.IsGenericType && acceptedTypes.Contains(type.Name);
+      return type.IsPublic && (type.IsClass || type.IsStruct()) && !type.IsNested && !type.IsGenericType && acceptedTypes.Contains(type.Name);
     }
 
     private static void BuildInvokeCommands()
     {
+      var localFullName = Assembly.GetExecutingAssembly().FullName;
       foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
       {
         foreach (var type in assembly.GetTypes())
         {
           if (AcceptType(type))
           {
+            var isLocalType = type.Assembly.FullName == localFullName;
             Debug.WriteLine(type.Name);
             for (var pass = 0; pass < 2; ++pass)
             {
@@ -159,7 +161,7 @@ namespace Run2
                     var key = type.Name + "." + member.Name;
                     if (!commands.ContainsKey(key))
                     {
-                      commands.Add(key, new InvokeCommand(member.Name, type, $"{type.FullName}.{member.Name}"));
+                      commands.Add(key, new InvokeCommand(member.Name, type, isLocalType ? "" : $"{type.FullName}.{member.Name}"));
                     }
                   }
                   else
@@ -167,7 +169,7 @@ namespace Run2
                     var key = member.Name;
                     if (!commands.ContainsKey(key))
                     {
-                      commands.Add(member.Name, new InvokeCommand(member.Name, null, $"{type.FullName}.{member.Name}"));
+                      commands.Add(member.Name, new InvokeCommand(member.Name, null, isLocalType ? "" : $"{type.FullName}.{member.Name}"));
                     }
                   }
                 }
@@ -259,9 +261,9 @@ namespace Run2
 
     private static void EnqueueToken(string currentToken, Tokens result)
     {
-      if (IsWeakQuoted(ref currentToken))
+      if (IsWeaklyQuoted(ref currentToken))
       {
-        result.Enqueue(new WeakQuotedString { Value = currentToken });
+        result.Enqueue(new WeaklyQuotedString(currentToken));
       }
       else if (IsBlock(ref currentToken))
       {
@@ -278,7 +280,7 @@ namespace Run2
       var result = new SubCommands();
       while (0 < tokens.Count)
       {
-        var subCommand = new SubCommand { CommandName = tokens.Dequeue().ToString() };
+        var subCommand = new SubCommand { CommandName = tokens.DequeueString(false) };
         result.Add(subCommand);
         while (0 < tokens.Count)
         {
@@ -403,7 +405,7 @@ namespace Run2
       return false;
     }
 
-    private static bool IsWeakQuoted(ref string text)
+    private static bool IsWeaklyQuoted(ref string text)
     {
       if (text.StartsWith(WeakQuote) && text.EndsWith(WeakQuote))
       {
@@ -445,9 +447,9 @@ namespace Run2
 
     private static bool TryPeekDescription(Tokens tokens, out string description)
     {
-      if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeakQuotedString weakQuotedString)
+      if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeaklyQuotedString weaklyQuotedString)
       {
-        description = weakQuotedString.Value;
+        description = weaklyQuotedString.Value;
         return true;
       }
       description = null;
