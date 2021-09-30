@@ -1,37 +1,66 @@
-## Welcome to GitHub Pages
+# Run2
 
-You can use the [editor on GitHub](https://github.com/Pirmayr/Run2/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Run2 is a scripting language. It is intended to be a robust and simple tool for running tasks. The original motivation was to be able to build and test software reliably.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+[Documentation](../../wiki)
 
-### Markdown
+## Properties
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+* Very simple syntax. Scripts consist entirely of commands. Commands can be nested and can return values. 
+* It is easy to add new commands. Actually the majority of predefined commands is defined in the language Run2 itself.
+* Run2 is built on top of .NET, so most of the functionality in .NET is available in Run2.
+* Run2 needs no setup. "Run2.exe" is everything needed.
+* Extensive logging.
+* It can be used on every .NET-platform. That means it can run in Windows, Linux, and macOS.
 
-```markdown
-Syntax highlighted code block
+## Examples
 
-# Header 1
-## Header 2
-### Header 3
+### Simple Commands
 
-- Bulleted
-- List
+```
+! Lists the files in "c:\windows" by executing the dir-command of windows: 
+dir c:\windows
 
-1. Numbered
-2. List
+! Runs "notepad.exe":
+run notepad.exe
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+! Write the text "Hello World" into the file "c:\hello.txt":
+writefile c:\hello.txt 'Hello World!' 
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Composed Commands
 
-### Jekyll Themes
+```
+! Displays the number of files in "c:\windows":
+write (size (getfiles c:\windows)) ! 
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Pirmayr/Run2/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+! Read "c:\somefile.txt", split the contents into separate lines, and display the number of lines:
+write (size (split (readfile c:\somefile.txt))) 
+```
 
-### Support or Contact
+### Define Commands
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```
+! Compute the square of a number:
+command square number
+  * number number
+  
+! Compute the factorial of a number:
+command factorial number 
+  if (== number 1) 
+    1 
+    (* (factorial (- number 1)) number)
+```
+
+These new commands can be used as follows:
+
+```
+write (square 11)
+write (factorial 10)
+```
+
+There is no difference between predefined commands and commands defined by the user.
+
+## Predefined Commands
+
+[Documentation](Commands.md)
