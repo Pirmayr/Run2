@@ -18,11 +18,6 @@ namespace Run2
       Type = type;
     }
 
-    public override bool GetHideHelp()
-    {
-      return FullNames.Count == 0;
-    }
-
     public override string GetDescription()
     {
       var result = new StringBuilder("See:\n");
@@ -31,6 +26,11 @@ namespace Run2
         result.Append($"\n* https://docs.microsoft.com/en-us/dotnet/api/{fullName}");
       }
       return result.ToString();
+    }
+
+    public override bool GetHideHelp()
+    {
+      return FullNames.Count == 0;
     }
 
     public override string GetParameterDescription(string name)

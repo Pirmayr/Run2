@@ -13,6 +13,17 @@ namespace Run2
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public static class Helpers
   {
+    public static Type BaseTypeOfMember(Type type, string memberName, BindingFlags bindingFlags)
+    {
+      var result = type;
+      while (result != null && result.Name != "ValueType" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
+      {
+        var baseType = type.BaseType;
+        result = baseType;
+      }
+      return result;
+    }
+
     public static void Check([DoesNotReturnIf(false)] this bool condition, string message)
     {
       Checked(condition, message);
@@ -128,17 +139,6 @@ namespace Run2
       return InvokeMember(memberName, type, target, arguments);
     }
 
-    public static Type BaseTypeOfMember(Type type, string memberName, BindingFlags bindingFlags)
-    {
-      var result = type;
-      while (result != null && result.Name != "ValueType" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
-      {
-        var baseType = type.BaseType;
-        result = baseType;
-      }
-      return result;
-    }
-
     public static object InvokeMember(string memberName, Type type, object target, object[] arguments)
     {
       var bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
@@ -209,11 +209,6 @@ namespace Run2
     public static bool IsStruct(this Type type)
     {
       return type.IsValueType && !type.IsPrimitive && !type.IsEnum;
-    }
-
-    public static string ParameterName(object token)
-    {
-      return token is Tokens tokensValue ? tokensValue.PeekString() : token.ToString();
     }
 
     public static void WriteLine(string message)

@@ -66,6 +66,7 @@ Examples:
 * &nbsp;+ 47 11 -> 58
 * &nbsp;local result 0 for i 1 10 1 (local result (+ result i)) -> 55
 * &nbsp;local result 0 foreach i (array 3 1 4 1) (local result (+ result i)) -> 9
+* &nbsp;typename (quote (+ 1 1)) -> List`1
 
 ---
 
@@ -80,6 +81,7 @@ Examples:
 
 * &nbsp;< 47 11 -> false
 * &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
+* &nbsp;if (< 1 1) (return 0) (return 1) -> 1
 
 ---
 
@@ -178,6 +180,7 @@ Examples:
 * &nbsp;upperbound (array 1 2 3) -> 2
 * &nbsp;size (array 1 2 3 4 5 6) -> 6
 * &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
+* &nbsp;concatenation (array foo bar) -> foobar
 
 ---
 
@@ -425,6 +428,24 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.CompareTo
+
+---
+
+#### concatenation
+
+* values
+
+Examples:
+
+* &nbsp;concatenation (array foo bar) -> foobar
+
+---
+
+#### concatenationof
+
+Examples:
+
+* &nbsp;concatenationof Hello ' ' World! -> 'Hello World!'
 
 ---
 
@@ -768,6 +789,13 @@ Examples:
 
 ---
 
+#### endswith
+
+* value
+* text
+
+---
+
 #### EndsWith
 
 See:
@@ -798,6 +826,14 @@ See:
 evaluates an object
 
 * object: object to be evaluated
+
+---
+
+#### evaluatevalues
+
+evaluates an array or a list
+
+* values: values to be evaluated
 
 ---
 
@@ -1180,6 +1216,10 @@ searches for a directory
 * basedirectory: directory in which the search should begin
 * pattern: pattern to be searched for
 
+Examples:
+
+* &nbsp;finddirectory SystemRoot System32 -> '[SystemRoot]\System32'
+
 ---
 
 #### findfile
@@ -1389,6 +1429,10 @@ Examples:
 * instance
 * type
 
+Examples:
+
+* &nbsp;hastype 'hello' String -> true
+
 ---
 
 #### if
@@ -1399,13 +1443,17 @@ performs the if-statement
 * true-block: command to be executed if the condition is 'true'
 * false-block: (optional) command to be executed if the condition is 'false'
 
+Examples:
+
+* &nbsp;if (< 1 1) (return 0) (return 1) -> 1
+
 ---
 
 #### increment
 
 increments a variable
 
-* name: name of the variable
+* "name": name of the variable
 * _increment: increment
 
 Examples:
@@ -2157,8 +2205,10 @@ See:
 
 #### performtest
 
-* tokens
-* expected
+tests if a code-block yields the expected result
+
+* "tokens": code to be tested
+* expected: expected value
 
 ---
 
@@ -2176,6 +2226,16 @@ computes the power of two numbers
 Examples:
 
 * &nbsp;power 3 4 -> 81
+
+---
+
+#### quote
+
+returns the unevaluated arguments
+
+Examples:
+
+* &nbsp;typename (quote (+ 1 1)) -> List`1
 
 ---
 
@@ -2229,6 +2289,7 @@ Examples:
 * &nbsp;global value 4711 increment value 1 return value -> 4712
 * &nbsp;local value 1234 increment value 2 return value -> 1236
 * &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
+* &nbsp;if (< 1 1) (return 0) (return 1) -> 1
 
 ---
 
@@ -2250,14 +2311,6 @@ assigns a new value to an existing variable; the variable can exist in any activ
 Examples:
 
 * &nbsp;local a 4711 set a 1234 -> 1234
-
----
-
-#### setfailure
-
-* code
-* actual
-* expected
 
 ---
 
@@ -2508,7 +2561,7 @@ See:
 
 ---
 
-#### test
+#### Tests
 
 ---
 
@@ -2604,6 +2657,7 @@ returns the name of the type of an object
 Examples:
 
 * &nbsp;typename 'Hello' -> 'String'
+* &nbsp;typename (quote (+ 1 1)) -> List`1
 
 ---
 
@@ -2662,3 +2716,22 @@ Examples:
 * &nbsp;writefile c:\testdirectory\hello.txt hello readfile c:\testdirectory\hello.txt -> 'hello'
 * &nbsp;writefile c:\testdirectory\world.txt world readfile c:\testdirectory\world.txt -> 'world'
 * &nbsp;writefile c:\testdirectory\values.txt '6\n1\n7\n8\n5\n9' average (split (readfile c:\testdirectory\values.txt)) -> 6
+
+#### Missing Examples:
+
+* dir
+* endswith
+* findfile
+* getmember
+* initialize
+* invoketests
+* isarray
+* isstring
+* join
+* performtests
+* sortarray
+* sortstring
+* Tests
+* todouble
+* typeof
+* write

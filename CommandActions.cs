@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Run2
 {
@@ -43,6 +45,19 @@ namespace Run2
     {
       var value = arguments.DequeueObject();
       var result = Run2.Evaluate(value);
+      return result;
+    }
+
+    [CommandAction(1, int.MaxValue, null, "evaluates an array or a list", "values", "values to be evaluated")]
+    public static object EvaluateValues(Tokens arguments)
+    {
+      var result = new List<object>();
+      var values = arguments.DequeueObject() as IEnumerable;
+      (values != null).Check("Values must be of type 'IEnumerable'");
+      foreach (var value in values)
+      {
+        result.Add(Run2.Evaluate(value));
+      }
       return result;
     }
 

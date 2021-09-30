@@ -51,6 +51,7 @@ namespace Run2
     {
       var commandReferences = GetCommandReferences(TestCommand);
       var result = new StringBuilder();
+      var missingReferences = "";
       var insertLine = false;
       result.Append("# Predefined Run2-Commands");
       foreach (var (name, command) in commands.Where(static item => !item.Value.GetHideHelp()).OrderBy(static item => item.Key))
@@ -89,6 +90,18 @@ namespace Run2
             result.Append($"\n* &nbsp;{code1} -> {code2}");
           }
         }
+        else if (name != TestCommand && command is UserCommand)
+        {
+          if (0 < missingReferences.Length)
+          {
+            missingReferences += '\n';
+          }
+          missingReferences += $"* {name}";
+        }
+      }
+      if (!string.IsNullOrEmpty(missingReferences))
+      {
+        result.Append($"\n\n#### Missing Examples:\n\n{missingReferences}");
       }
       return result.ToString();
     }
@@ -113,6 +126,22 @@ namespace Run2
       LoadCommand(Globals.ScriptPath);
       RunCommand(Helpers.GetCommandNameFromPath(Globals.ScriptPath), Globals.Arguments);
       Helpers.WriteLine("Script terminated successfully");
+    }
+
+    public static bool IsStronglyQuotedString(this object value, out string result)
+    {
+      if (value is string stringValue && stringValue.StartsWith(StrongQuote) && stringValue.EndsWith(StrongQuote))
+      {
+        result = stringValue.Substring(1, stringValue.Length - 2);
+        return true;
+      }
+      result = null;
+      return false;
+    }
+
+    public static string RemoveStrongQuotes(this string value)
+    {
+      return IsStronglyQuotedString(value, out var result) ? result : value;
     }
 
     public static void LeaveScope()
@@ -160,6 +189,20 @@ namespace Run2
       return type.IsPublic && (type.IsClass || type.IsStruct()) && !type.IsNested && !type.IsGenericType && acceptedTypes.Contains(type.Name);
     }
 
+    private static void AddMember(Type type, MemberInfo member, BindingFlags bindingFlags, bool isStatic, bool isLocalType)
+    {
+      var key = isStatic ? type.Name + "." + member.Name : member.Name;
+      if (!commands.TryGetValue(key, out var command))
+      {
+        command = new InvokeCommand(member.Name, isStatic ? type : null);
+        commands.Add(key, command);
+      }
+      if (!isLocalType)
+      {
+        ((InvokeCommand) command).FullNames.Add(isStatic ? $"{type.FullName}.{member.Name}" : $"{Helpers.BaseTypeOfMember(type, member.Name, bindingFlags).FullName}.{member.Name}");
+      }
+    }
+
     private static void BuildInvokeCommands()
     {
       var localFullName = Assembly.GetExecutingAssembly().FullName;
@@ -179,32 +222,7 @@ namespace Run2
               {
                 if (AcceptMember(member))
                 {
-                  if (pass == 0)
-                  {
-                    var key = type.Name + "." + member.Name;
-                    if (!commands.TryGetValue(key, out var command))
-                    {
-                      command = new InvokeCommand(member.Name, type);
-                      commands.Add(key, command);
-                    }
-                    if (!isLocalType)
-                    {
-                      ((InvokeCommand) command).FullNames.Add($"{type.FullName}.{member.Name}");
-                    }
-                  }
-                  else
-                  {
-                    var key = member.Name;
-                    if (!commands.TryGetValue(key, out var command))
-                    {
-                      command = new InvokeCommand(member.Name, null);
-                      commands.Add(key, command);
-                    }
-                    if (!isLocalType)
-                    {
-                      ((InvokeCommand) command).FullNames.Add($"{Helpers.BaseTypeOfMember(type, member.Name, bindingFlags).FullName}.{member.Name}");
-                    }
-                  }
+                  AddMember(type, member, bindingFlags, pass == 0, isLocalType);
                 }
               }
             }
@@ -262,11 +280,18 @@ namespace Run2
       }
       foreach (var name in definitions.Keys)
       {
-        commands.Add(name, new UserCommand { Name = name });
+        if (name.IsStronglyQuotedString(out var unquotedName))
+        {
+          commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true });
+        }
+        else
+        {
+          commands.Add(name, new UserCommand { Name = name });
+        }
       }
       foreach (var (definitionName, definitionTokens) in definitions)
       {
-        var userCommand = commands[definitionName] as UserCommand;
+        var userCommand = commands[definitionName.RemoveStrongQuotes()] as UserCommand;
         (userCommand != null).Check("User-command must not be null");
         if (TryPeekDescription(definitionTokens, out var description))
         {
@@ -275,16 +300,16 @@ namespace Run2
         }
         while (0 < definitionTokens.Count)
         {
-          var peekedToken = definitionTokens.Peek();
-          if (peekedToken is string peekedTokenString && commands.ContainsKey(peekedTokenString))
+          var peekedTokenString = definitionTokens.PeekString();
+          if (commands.ContainsKey(peekedTokenString))
           {
             break;
           }
-          userCommand.ParameterNames.Enqueue(peekedToken);
+          userCommand.ParameterNames.Add(peekedTokenString);
           definitionTokens.Dequeue();
           if (TryPeekDescription(definitionTokens, out var parameterDescription))
           {
-            userCommand.ParameterDescriptions.Add(Helpers.ParameterName(peekedToken), parameterDescription);
+            userCommand.ParameterDescriptions.Add(peekedTokenString, parameterDescription);
             definitionTokens.Dequeue();
           }
         }

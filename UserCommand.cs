@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Run2
 {
@@ -11,18 +10,20 @@ namespace Run2
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
-    public Tokens ParameterNames { get; } = new();
+    public List<string> ParameterNames { get; } = new();
 
     public SubCommands SubCommands { get; set; } = new();
-
-    public override bool GetHideHelp()
-    {
-      return false;
-    }
 
     public override string GetDescription()
     {
       return CommandDescription;
+    }
+
+    public bool IsQuoted { get; set; } 
+
+    public override bool GetHideHelp()
+    {
+      return false;
     }
 
     public override string GetParameterDescription(string name)
@@ -32,26 +33,25 @@ namespace Run2
 
     public override List<string> GetParameterNames()
     {
-      return ParameterNames.Select(Helpers.ParameterName).ToList();
+      return ParameterNames;
     }
 
     public override object Run(Tokens arguments)
     {
       Run2.EnterScope();
       (ParameterNames.Count == 0 || arguments.Count == ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
-      foreach (var parameter in ParameterNames)
+      foreach (var parameterName in ParameterNames)
       {
-        if (parameter is Tokens tokensValue)
+        if (parameterName.IsStronglyQuotedString(out var stronglyQuotedStringValue))
         {
-          (tokensValue.Count == 1).Check("Expected exactly one token for parameters");
-          Run2.SetLocalVariable(tokensValue.PeekString(), arguments.DequeueBestType(false));
+          Run2.SetLocalVariable(stronglyQuotedStringValue, arguments.DequeueBestType(false));
         }
         else
         {
-          Run2.SetLocalVariable(parameter.ToString(), arguments.DequeueBestType());
+          Run2.SetLocalVariable(parameterName, arguments.DequeueBestType());
         }
       }
-      var argumentsList = arguments.ToList(true);
+      var argumentsList = arguments.ToList(!IsQuoted);
       Run2.SetLocalVariable("arguments", argumentsList);
       var result = Run2.RunSubCommands(SubCommands);
       Run2.LeaveScope();

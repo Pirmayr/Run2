@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -42,6 +43,10 @@ namespace Run2
           }
         }
       }
+      foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+      {
+        handled.Add(environmentVariable.Key.ToString());
+      }
       return handled;
     }
 
@@ -57,6 +62,10 @@ namespace Run2
         if (scope.ContainsKey(name))
         {
           scope[name] = value;
+          if (scope == globalScope && value is string stringValue)
+          {
+            Environment.SetEnvironmentVariable(name, stringValue);
+          }
           return;
         }
       }
@@ -65,6 +74,10 @@ namespace Run2
     public void SetGlobal(string name, object value)
     {
       globalScope[name] = value;
+      if (value is string stringValue)
+      {
+        Environment.SetEnvironmentVariable(name, stringValue);
+      }
     }
 
     public void SetLocal(string name, object value)
@@ -81,8 +94,8 @@ namespace Run2
           return true;
         }
       }
-      value = null;
-      return false;
+      value = Environment.GetEnvironmentVariable(name);
+      return value != null;
     }
 
     private sealed class Scope : Dictionary<string, object>
