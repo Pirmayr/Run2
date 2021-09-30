@@ -123,7 +123,7 @@ namespace Run2
 
     public static string GetProgramDirectory()
     {
-      return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+      return Path.GetDirectoryName(AppContext.BaseDirectory);
     }
 
     public static void HandleException(Exception exception)

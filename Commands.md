@@ -126,6 +126,8 @@ Examples:
 
 * &nbsp;> 47 11 -> true
 * &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
+* &nbsp;> (size (dir SystemRoot)) 0 -> true
+* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> true
 
 ---
 
@@ -181,6 +183,9 @@ Examples:
 * &nbsp;size (array 1 2 3 4 5 6) -> 6
 * &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
 * &nbsp;concatenation (array foo bar) -> foobar
+* &nbsp;isarray (array 1 2 3) -> true
+* &nbsp;sortarray (array 3 1 4 1 5 9 2 6 0) -> (array 0 1 1 2 3 4 5 6 9)
+* &nbsp;join (array 'h' 'e' 'l' 'l' 'o') -> 'h e l l o'
 
 ---
 
@@ -548,6 +553,10 @@ Examples:
 
 executes the Windows command "dir" and returns the result
 
+Examples:
+
+* &nbsp;> (size (dir SystemRoot)) 0 -> true
+
 ---
 
 #### Directory.CreateDirectory
@@ -793,6 +802,10 @@ Examples:
 
 * value
 * text
+
+Examples:
+
+* &nbsp;endswith 'Hello World!' 'World!' -> true
 
 ---
 
@@ -1229,6 +1242,10 @@ searches for a file
 * basedirectory: directory in which the search should begin
 * pattern: pattern to be searched for
 
+Examples:
+
+* &nbsp;findfile SystemRoot notepad.exe -> '[SystemRoot]\notepad.exe'
+
 ---
 
 #### for
@@ -1336,6 +1353,10 @@ get the array of member-information for the specified member in the given object
 
 * object
 * name
+
+Examples:
+
+* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> true
 
 ---
 
@@ -1481,6 +1502,12 @@ See:
 
 #### initialize
 
+performs various inititalizations
+
+Examples:
+
+* &nbsp;initialize  -> true
+
 ---
 
 #### Initialize
@@ -1510,6 +1537,12 @@ calls the 'Invoke'-method of the type of the specified object
 
 #### invoketests
 
+invokes the tests
+
+Examples:
+
+* &nbsp;invoketests  -> true
+
 ---
 
 #### isarray
@@ -1517,6 +1550,10 @@ calls the 'Invoke'-method of the type of the specified object
 tests if an object is an array
 
 * object
+
+Examples:
+
+* &nbsp;isarray (array 1 2 3) -> true
 
 ---
 
@@ -1552,6 +1589,10 @@ tests if an object is a string
 
 * object
 
+Examples:
+
+* &nbsp;isstring 'Hello' -> true
+
 ---
 
 #### IsSynchronized
@@ -1577,6 +1618,10 @@ joins an array of strings to a string separated by blanks
 
 * strings
 
+Examples:
+
+* &nbsp;join (array 'h' 'e' 'l' 'l' 'o') -> 'h e l l o'
+
 ---
 
 #### joinfrom
@@ -1586,6 +1631,7 @@ joins the given arguments to a string separated by blanks
 Examples:
 
 * &nbsp;joinfrom 'h' 'e' 'l' 'l' 'o' -> 'h e l l o'
+* &nbsp;joinfrom (typename 1) (typename (todouble 1)) -> 'Int32 Double'
 
 ---
 
@@ -2214,6 +2260,10 @@ tests if a code-block yields the expected result
 
 #### performtests
 
+Examples:
+
+* &nbsp;performtests  -> true
+
 ---
 
 #### power
@@ -2335,6 +2385,8 @@ Examples:
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
 * &nbsp;size (getfiles c:\testdirectory) -> 3
 * &nbsp;global hashtable (Hashtable.new ) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable -> 2
+* &nbsp;> (size (dir SystemRoot)) 0 -> true
+* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> true
 
 ---
 
@@ -2357,6 +2409,10 @@ sorts an array
 
 * object
 
+Examples:
+
+* &nbsp;sortarray (array 3 1 4 1 5 9 2 6 0) -> (array 0 1 1 2 3 4 5 6 9)
+
 ---
 
 #### sortstring
@@ -2364,6 +2420,10 @@ sorts an array
 sorts the characters of a string
 
 * value
+
+Examples:
+
+* &nbsp;sortstring 'foobar' -> 'abfoor'
 
 ---
 
@@ -2577,6 +2637,10 @@ See:
 
 * n
 
+Examples:
+
+* &nbsp;joinfrom (typename 1) (typename (todouble 1)) -> 'Int32 Double'
+
 ---
 
 #### ToLower
@@ -2658,6 +2722,8 @@ Examples:
 
 * &nbsp;typename 'Hello' -> 'String'
 * &nbsp;typename (quote (+ 1 1)) -> List`1
+* &nbsp;joinfrom (typename 1) (typename (todouble 1)) -> 'Int32 Double'
+* &nbsp;typename (typeof 'hi') -> RuntimeType
 
 ---
 
@@ -2666,6 +2732,10 @@ Examples:
 returns the type-object of an object
 
 * object
+
+Examples:
+
+* &nbsp;typename (typeof 'hi') -> RuntimeType
 
 ---
 
@@ -2702,6 +2772,10 @@ See:
 
 * message
 
+Examples:
+
+* &nbsp;write 'hi' -> true
+
 ---
 
 #### writefile
@@ -2716,22 +2790,3 @@ Examples:
 * &nbsp;writefile c:\testdirectory\hello.txt hello readfile c:\testdirectory\hello.txt -> 'hello'
 * &nbsp;writefile c:\testdirectory\world.txt world readfile c:\testdirectory\world.txt -> 'world'
 * &nbsp;writefile c:\testdirectory\values.txt '6\n1\n7\n8\n5\n9' average (split (readfile c:\testdirectory\values.txt)) -> 6
-
-#### Missing Examples:
-
-* dir
-* endswith
-* findfile
-* getmember
-* initialize
-* invoketests
-* isarray
-* isstring
-* join
-* performtests
-* sortarray
-* sortstring
-* Tests
-* todouble
-* typeof
-* write

@@ -19,7 +19,7 @@ namespace Run2
       return CommandDescription;
     }
 
-    public bool IsQuoted { get; set; } 
+    public bool IsQuoted { get; set; }
 
     public override bool GetHideHelp()
     {

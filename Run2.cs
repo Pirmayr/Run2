@@ -90,7 +90,7 @@ namespace Run2
             result.Append($"\n* &nbsp;{code1} -> {code2}");
           }
         }
-        else if (name != TestCommand && command is UserCommand)
+        else if (name != TestCommand && name != Path.GetFileNameWithoutExtension(Globals.ScriptName) && command is UserCommand)
         {
           if (0 < missingReferences.Length)
           {
