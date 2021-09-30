@@ -139,14 +139,14 @@ namespace Run2
       return false;
     }
 
-    public static string RemoveStrongQuotes(this string value)
-    {
-      return IsStronglyQuotedString(value, out var result) ? result : value;
-    }
-
     public static void LeaveScope()
     {
       variables.LeaveScope();
+    }
+
+    public static string RemoveStrongQuotes(this string value)
+    {
+      return IsStronglyQuotedString(value, out var result) ? result : value;
     }
 
     public static object RunSubCommands(SubCommands subCommands)

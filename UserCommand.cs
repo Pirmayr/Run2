@@ -6,6 +6,8 @@ namespace Run2
   {
     public string CommandDescription { get; set; }
 
+    public bool IsQuoted { get; set; }
+
     public string Name { get; init; }
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
@@ -18,8 +20,6 @@ namespace Run2
     {
       return CommandDescription;
     }
-
-    public bool IsQuoted { get; set; }
 
     public override bool GetHideHelp()
     {

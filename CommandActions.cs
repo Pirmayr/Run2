@@ -24,6 +24,16 @@ namespace Run2
       return array[index];
     }
 
+    [CommandAction(2, 3, null, "assigns a new value to the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element", "value", "value to be set")]
+    public static object Put(Tokens arguments)
+    {
+      var array = arguments.DequeueDynamic();
+      var index = arguments.DequeueDynamic();
+      var value = arguments.DequeueDynamic();
+      array[index] = value;
+      return value;
+    }
+
     [CommandAction(2, 2, "/", "divides first number by second number", "a", "first number", "b", "second number")]
     public static object Divide(Tokens arguments)
     {

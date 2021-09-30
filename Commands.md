@@ -154,7 +154,7 @@ calls the "Add"-method of an object with a key and a value
 
 Examples:
 
-* &nbsp;global hashtable (Hashtable.new ) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable -> 2
+* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
 
 ---
 
@@ -182,10 +182,10 @@ Examples:
 * &nbsp;upperbound (array 1 2 3) -> 2
 * &nbsp;size (array 1 2 3 4 5 6) -> 6
 * &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
+* &nbsp;join (array 'h' 'e' 'l' 'l' 'o') -> 'h e l l o'
 * &nbsp;concatenation (array foo bar) -> foobar
 * &nbsp;isarray (array 1 2 3) -> true
 * &nbsp;sortarray (array 3 1 4 1 5 9 2 6 0) -> (array 0 1 1 2 3 4 5 6 9)
-* &nbsp;join (array 'h' 'e' 'l' 'l' 'o') -> 'h e l l o'
 
 ---
 
@@ -376,6 +376,7 @@ Examples:
 
 * &nbsp;ToString (at 'Hello' 1) -> 'e'
 * &nbsp;at (split 'Hello\nworld!') 1 -> 'world!'
+* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
 
 ---
 
@@ -1419,7 +1420,7 @@ creates or sets a global variable
 Examples:
 
 * &nbsp;global value 4711 increment value 1 return value -> 4712
-* &nbsp;global hashtable (Hashtable.new ) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable -> 2
+* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
 
 ---
 
@@ -1705,6 +1706,7 @@ Examples:
 * &nbsp;local product 1 map (array 3 1 4 1) (local product (* product item)) -> 12
 * &nbsp;local value 1234 increment value 2 return value -> 1236
 * &nbsp;local a 4711 set a 1234 -> 1234
+* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
 
 ---
 
@@ -2049,6 +2051,27 @@ See:
 
 ---
 
+#### newarray
+
+* length
+
+Examples:
+
+* &nbsp;size (newarray 1000) -> 1000
+* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
+
+---
+
+#### newdictionary
+
+creates a new dictionary (actually a new hashtable)
+
+Examples:
+
+* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
+
+---
+
 #### Normalize
 
 See:
@@ -2279,6 +2302,20 @@ Examples:
 
 ---
 
+#### put
+
+assigns a new value to the element of an array, a list, or a string at the specified index
+
+* object: array, list, or string
+* index: index of the element
+* value: value to be set
+
+Examples:
+
+* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
+
+---
+
 #### quote
 
 returns the unevaluated arguments
@@ -2384,9 +2421,10 @@ Examples:
 * &nbsp;size (array 1 2 3 4 5 6) -> 6
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
 * &nbsp;size (getfiles c:\testdirectory) -> 3
-* &nbsp;global hashtable (Hashtable.new ) add hashtable 'foo' 'bar' add hashtable 'hello' 'world' size hashtable -> 2
+* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
 * &nbsp;> (size (dir SystemRoot)) 0 -> true
 * &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> true
+* &nbsp;size (newarray 1000) -> 1000
 
 ---
 
