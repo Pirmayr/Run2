@@ -77,7 +77,7 @@ namespace Run2
       var from = arguments.DequeueDynamic();
       var to = arguments.DequeueDynamic();
       var step = arguments.DequeueDynamic();
-      var code = arguments.DequeueBestType(false);
+      var code = arguments.DequeueObject(false);
       for (var i = from; i <= to; i += step)
       {
         Run2.SetLocalVariable(variableName, i);
@@ -92,7 +92,7 @@ namespace Run2
       object result = null;
       var variableName = arguments.DequeueString();
       var values = arguments.DequeueDynamic();
-      var code = arguments.DequeueBestType(false);
+      var code = arguments.DequeueObject(false);
       foreach (var value in values)
       {
         Run2.SetLocalVariable(variableName, value);
@@ -119,7 +119,7 @@ namespace Run2
     public static object Global(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
-      var variableValue = arguments.DequeueBestType();
+      var variableValue = arguments.DequeueObject();
       Run2.SetGlobalVariable(variableName, variableValue);
       return variableValue;
     }
@@ -144,7 +144,7 @@ namespace Run2
     public static object If(Tokens arguments)
     {
       var condition = arguments.DequeueBool();
-      var trueCase = arguments.DequeueBestType(false);
+      var trueCase = arguments.DequeueObject(false);
       if (condition)
       {
         return Run2.Evaluate(trueCase);
@@ -180,7 +180,7 @@ namespace Run2
     public static object Local(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
-      var variableValue = arguments.DequeueBestType();
+      var variableValue = arguments.DequeueObject();
       Run2.SetLocalVariable(variableName, variableValue);
       return variableValue;
     }
@@ -190,7 +190,7 @@ namespace Run2
     {
       object result = null;
       var values = arguments.DequeueDynamic();
-      var code = arguments.DequeueBestType(false);
+      var code = arguments.DequeueObject(false);
       foreach (var value in values)
       {
         Run2.SetLocalVariable("item", value);
@@ -235,7 +235,7 @@ namespace Run2
     [Documentation(1, 1, null, "returns a value", "value", "the value to be returned")]
     public static object Return(Tokens arguments)
     {
-      return arguments.DequeueBestType();
+      return arguments.DequeueObject();
     }
 
     [Documentation(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
@@ -250,7 +250,7 @@ namespace Run2
     public static object Set(Tokens arguments)
     {
       var variableName = arguments.DequeueString();
-      var variableValue = arguments.DequeueBestType();
+      var variableValue = arguments.DequeueObject();
       Run2.SetVariable(variableName, variableValue);
       return variableValue;
     }
@@ -269,7 +269,7 @@ namespace Run2
       while (1 < arguments.Count)
       {
         var condition = arguments.DequeueBool();
-        var code = arguments.DequeueBestType(false);
+        var code = arguments.DequeueObject(false);
         if (condition)
         {
           return Run2.Evaluate(code);
@@ -277,7 +277,7 @@ namespace Run2
       }
       if (0 < arguments.Count)
       {
-        var code = arguments.DequeueBestType(false);
+        var code = arguments.DequeueObject(false);
         return Run2.Evaluate(code);
       }
       return null;

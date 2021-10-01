@@ -192,8 +192,8 @@ namespace Run2
         var containsElement2 = enumerator2.MoveNext();
         while (containsElement1 && containsElement2)
         {
-          dynamic current1 = GetBestType(enumerator1.Current);
-          dynamic current2 = GetBestType(enumerator2.Current);
+          dynamic current1 = enumerator1.Current;
+          dynamic current2 = enumerator2.Current;
           if (current1 != current2)
           {
             return false;
@@ -208,7 +208,7 @@ namespace Run2
 
     public static bool IsStruct(this Type type)
     {
-      return type.IsValueType && !type.IsPrimitive && !type.IsEnum;
+      return type.IsValueType && /*!type.IsPrimitive &&*/ !type.IsEnum;
     }
 
     public static void WriteLine(string message)

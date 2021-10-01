@@ -17,7 +17,7 @@ namespace Run2
     private const char StrongQuote = '"';
     private const string TestCommand = "performtest";
     private const char WeakQuote = '\'';
-    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands", "Hashtable", "DictionaryEntry" };
+    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands", "Hashtable", "DictionaryEntry", "Int32" };
     private static readonly Dictionary<string, Command> commands = new();
     private static readonly Variables variables = new();
 

@@ -61,11 +61,6 @@ namespace Run2
       return result;
     }
 
-    internal object DequeueBestType(bool evaluate = true)
-    {
-      return Helpers.GetBestType(DequeueObject(evaluate));
-    }
-
     internal bool DequeueBool(bool evaluate = true)
     {
       var result = DequeueObject(evaluate);
@@ -78,7 +73,7 @@ namespace Run2
 
     internal dynamic DequeueDynamic(bool evaluate = true)
     {
-      return DequeueBestType(evaluate);
+      return DequeueObject(evaluate);
     }
 
     internal string DequeueString(bool evaluate = true)

@@ -153,9 +153,17 @@ Examples:
 
 ---
 
-#### add
+#### Add
 
-calls the "Add"-method of an object to add a value by a key
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Add
+
+---
+
+#### addentry
+
+adds an entry to a dictionary
 
 * object: object
 * key: key
@@ -163,15 +171,20 @@ calls the "Add"-method of an object to add a value by a key
 
 Examples:
 
-* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
+* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
 
 ---
 
-#### Add
+#### additem
 
-See:
+adds an item to a list
 
-* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Add
+* object: list
+* value: value
+
+Examples:
+
+* &nbsp;size (additem (list 1 2 3) 4) -> 4
 
 ---
 
@@ -428,6 +441,31 @@ Examples:
 
 ---
 
+#### besttype
+
+tries to find the best type for the given object
+
+* object: object
+
+Examples:
+
+* &nbsp;besttype '4711' -> 4711
+
+---
+
+#### canparseint32
+
+tests if the given string can be parsed to a int32
+
+* string: string to be parsed
+
+Examples:
+
+* &nbsp;canparseint32 'foobar' -> False
+* &nbsp;canparseint32 '1234' -> True
+
+---
+
 #### Chars
 
 See:
@@ -459,6 +497,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.CompareTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Int32.CompareTo
 
 ---
 
@@ -1422,6 +1461,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetTypeCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Int32.GetTypeCode
 
 ---
 
@@ -1451,7 +1491,7 @@ creates or sets a global variable
 Examples:
 
 * &nbsp;global value 4711 increment value 1 return value -> 4712
-* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
+* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
 
 ---
 
@@ -1570,6 +1610,22 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Insert
+
+---
+
+#### Int32.Parse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Int32.Parse
+
+---
+
+#### Int32.TryParse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Int32.TryParse
 
 ---
 
@@ -1737,6 +1793,7 @@ Examples:
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
 * &nbsp;head (list 4 7 1 1) -> 4
 * &nbsp;listtail (list 4 7 1 1) -> (list 7 1 1)
+* &nbsp;size (additem (list 1 2 3) 4) -> 4
 
 ---
 
@@ -2152,7 +2209,7 @@ creates a new dictionary (actually a new hashtable)
 
 Examples:
 
-* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
+* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
 
 ---
 
@@ -2191,6 +2248,18 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.PadRight
+
+---
+
+#### parseint32
+
+parses the given string to an int32
+
+* string: string to be parsed
+
+Examples:
+
+* &nbsp;parseint32 '4321' -> 4321
 
 ---
 
@@ -2513,10 +2582,11 @@ Examples:
 * &nbsp;size (array 1 2 3 4 5 6) -> 6
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
 * &nbsp;size (getfiles c:\testdirectory) -> 3
-* &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
+* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
 * &nbsp;> (size (dir SystemRoot)) 0 -> True
 * &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> True
 * &nbsp;size (newarray 1000) -> 1000
+* &nbsp;size (additem (list 1 2 3) 4) -> 4
 
 ---
 
@@ -2883,6 +2953,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.TrimStart
+
+---
+
+#### TryFormat
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Int32.TryFormat
 
 ---
 

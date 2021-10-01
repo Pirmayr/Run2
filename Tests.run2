@@ -1,6 +1,6 @@
 'various tests'
-performtest (invoketests) true
 writefile [basedirectory]\..\..\..\Commands.md (gethelp)
+performtest (invoketests) true
 
 command performtests 'performs various tests'
   performtest (initialize) true
@@ -51,7 +51,7 @@ command performtests 'performs various tests'
   performtest (sort (split '3~n1~n4~n1~n5~n9')) (array '1' '1' '3' '4' '5' '9')
   performtest (global value 4711 increment value 1 return value) 4712
   performtest (local value 1234 increment value 2 return value) 1236
-  performtest (global dictionary (newdictionary) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary) 2
+  performtest (global dictionary (newdictionary) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary) 2
   performtest (switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3)) 2
   performtest (local a 4711 set a 1234) 1234
   performtest (join (array 'h' 'e' 'l' 'l' 'o')) 'h e l l o'
@@ -84,6 +84,11 @@ command performtests 'performs various tests'
   performtest (tail (array 1 2 3 4)) (array 2 3 4)
   performtest (median (array 5 3 2 4 1)) 3
   performtest (medianof 5 3 2 4 1) 3
+  performtest (size (additem (list 1 2 3) 4)) 4
+  performtest (besttype '4711') 4711
+  performtest (canparseint32 'foobar') false
+  performtest (canparseint32 '1234') true
+  performtest (parseint32 '4321') 4321
   return true
 
 command invoketests 'invokes the tests' 
@@ -101,11 +106,14 @@ command initialize 'performs various inititalizations'
   return true
 
 command "quote" 'returns the unevaluated arguments' return arguments
-command add 'calls the "Add"-method of an object to add a value by a key' object 'object' key 'key' value 'value' Add object key value
+command addentry 'adds an entry to a dictionary' object 'object' key 'key' value 'value' Add object key value
+command additem 'adds an item to a list' object 'list' value 'value' Add object value return object
 command array 'converts the arguments to an array' ToArray arguments
 command arraytail 'returns an array without its first element' elements 'array' local result (newarray (- (size elements) 1)) if (<= (size elements) 1) (array) (Array.Copy elements 1 result 0 (- (size elements) 1) return result) 
 command average 'computes the average of the given values' values 'values' / (todouble (sum values)) (size values)
 command averageof 'computes the average of the arguments' average arguments
+command besttype 'tries to find the best type for the given object' object 'object' if (isstring object) (switch (canparseint32 object) (parseint32 object) object) object
+command canparseint32 'tests if the given string can be parsed to a int32' string 'string to be parsed' Int32.TryParse string 0
 command concatenation 'concatenates the given strings' strings 'strings to be concatenated' local result '' map strings (increment result item)
 command concatenationof 'concatenate the arguments, which are assumed to be strings' concatenation arguments
 command createdirectory 'creates specified directory' directory 'directory to be created' Directory.CreateDirectory directory 
@@ -133,6 +141,7 @@ command median 'returns the median of the given numbers' values 'numbers' at (so
 command medianof 'returns the median of the arguments' median arguments
 command newarray 'creates an array' length 'size of the array' local result (list) for i 0 (- length 1) 1 (Add result 0) return (ToArray result)
 command newdictionary 'creates a new dictionary (actually a new hashtable)' Hashtable.new
+command parseint32 'parses the given string to an int32' string 'string to be parsed' Int32.Parse string
 command performtest 'tests if a code-block yields the expected result' "tokens" 'code to be tested' expected 'expected value' if (!= (local actual (evaluate tokens)) expected) (global testsok false local code (ToCode tokens) write '(failure) code: ([code]) actual: [actual] expected: [expected]')
 command power 'computes the power of two numbers' a 'base' b 'exponent' Math.Pow a b
 command readfile 'returns the text contained in a file' path 'path of the file' File.ReadAllText path
@@ -143,7 +152,7 @@ command sortstring 'sorts the characters of a string' string 'string' local char
 command split 'creates an array by splitting a string at carriage-returns' string 'string to be splitted' Split string (at '~n' 0)
 command square 'computes the square of a number' n 'number' * n n
 command stringtail 'returns a string without its first character' string 'string' if (<= (size string) 1) '' (Substring string 1 (- (size string) 1))
-command sum 'returns the sum of the values of an enumeration' values 'values' local result 0 map values (increment result item)
+command sum 'returns the sum of the values of an enumeration' values 'values' local result 0 map values (increment result (besttype item))
 command sumof 'returns the sum of the arguments' sum arguments
 command tail 'tail of an object (e.g. an array, a list, or a string)' object 'array, list, or string' switch (isarray object) (arraytail object) (isstring object) (stringtail object) (listtail object)
 command tochar 'converts the first character of a string to type "char"' text 'string' at text 0

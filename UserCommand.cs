@@ -44,11 +44,11 @@ namespace Run2
       {
         if (parameterName.IsStronglyQuotedString(out var stronglyQuotedStringValue))
         {
-          Run2.SetLocalVariable(stronglyQuotedStringValue, arguments.DequeueBestType(false));
+          Run2.SetLocalVariable(stronglyQuotedStringValue, arguments.DequeueObject(false));
         }
         else
         {
-          Run2.SetLocalVariable(parameterName, arguments.DequeueBestType());
+          Run2.SetLocalVariable(parameterName, arguments.DequeueObject());
         }
       }
       var argumentsList = arguments.ToList(!IsQuoted);
