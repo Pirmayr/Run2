@@ -22,7 +22,7 @@ tests two values for unequality
 
 Examples:
 
-* &nbsp;!= 47 11 -> true
+* &nbsp;!= 47 11 -> True
 
 ---
 
@@ -50,7 +50,7 @@ divides first number by second number
 Examples:
 
 * &nbsp;/ 47 11 -> 4
-* &nbsp;/ 22.0 7.0 -> 3.142857142857143
+* &nbsp;/ 22 7 -> 3.142857142857143
 
 ---
 
@@ -79,7 +79,7 @@ tests if value1 is less than value2
 
 Examples:
 
-* &nbsp;< 47 11 -> false
+* &nbsp;< 47 11 -> False
 * &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
 * &nbsp;if (< 1 1) (return 0) (return 1) -> 1
 
@@ -94,7 +94,7 @@ tests if value1 is less than or equal to value2
 
 Examples:
 
-* &nbsp;<= 47 11 -> false
+* &nbsp;<= 47 11 -> False
 
 ---
 
@@ -107,10 +107,10 @@ tests two values for equality
 
 Examples:
 
-* &nbsp;== 47 11 -> false
-* &nbsp;== (array 1 2 3) (array 1 2 3) -> true
-* &nbsp;== (array 1 2 3) (array 1 2 4) -> false
-* &nbsp;== (array 1 2 3 4) (array 1 2 3) -> false
+* &nbsp;== 47 11 -> False
+* &nbsp;== (array 1 2 3) (array 1 2 3) -> True
+* &nbsp;== (array 1 2 3) (array 1 2 4) -> False
+* &nbsp;== (array 1 2 3 4) (array 1 2 3) -> False
 * &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
 
 ---
@@ -124,10 +124,10 @@ tests if value1 is greater than value2
 
 Examples:
 
-* &nbsp;> 47 11 -> true
+* &nbsp;> 47 11 -> True
 * &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
-* &nbsp;> (size (dir SystemRoot)) 0 -> true
-* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> true
+* &nbsp;> (size (dir SystemRoot)) 0 -> True
+* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> True
 
 ---
 
@@ -140,17 +140,17 @@ tests if value1 is greater than or equal to value2
 
 Examples:
 
-* &nbsp;>= 47 11 -> true
+* &nbsp;>= 47 11 -> True
 
 ---
 
 #### add
 
-calls the "Add"-method of an object with a key and a value
+calls the "Add"-method of an object to add a value by a key
 
-* object
-* key
-* value
+* object: object
+* key: key
+* value: value
 
 Examples:
 
@@ -172,9 +172,9 @@ converts the arguments to an array
 
 Examples:
 
-* &nbsp;== (array 1 2 3) (array 1 2 3) -> true
-* &nbsp;== (array 1 2 3) (array 1 2 4) -> false
-* &nbsp;== (array 1 2 3 4) (array 1 2 3) -> false
+* &nbsp;== (array 1 2 3) (array 1 2 3) -> True
+* &nbsp;== (array 1 2 3) (array 1 2 4) -> False
+* &nbsp;== (array 1 2 3 4) (array 1 2 3) -> False
 * &nbsp;sum (array 1 2 3) -> 6
 * &nbsp;average (array 1 2 3 4) -> 2.5
 * &nbsp;local result 0 foreach i (array 3 1 4 1) (local result (+ result i)) -> 9
@@ -184,8 +184,11 @@ Examples:
 * &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
 * &nbsp;join (array 'h' 'e' 'l' 'l' 'o') -> 'h e l l o'
 * &nbsp;concatenation (array foo bar) -> foobar
-* &nbsp;isarray (array 1 2 3) -> true
+* &nbsp;isarray (array 1 2 3) -> True
 * &nbsp;sortarray (array 3 1 4 1 5 9 2 6 0) -> (array 0 1 1 2 3 4 5 6 9)
+* &nbsp;head (array 1 2 3 4) -> 1
+* &nbsp;arraytail (array 4 7 1 1) -> (array 7 1 1)
+* &nbsp;tail (array 1 2 3 4) -> (array 2 3 4)
 
 ---
 
@@ -365,6 +368,18 @@ See:
 
 ---
 
+#### arraytail
+
+returns an array without its first element
+
+* elements: array
+
+Examples:
+
+* &nbsp;arraytail (array 4 7 1 1) -> (array 7 1 1)
+
+---
+
 #### at
 
 returns the element of an array, a list, or a string at the specified index
@@ -384,7 +399,7 @@ Examples:
 
 computes the average of the given values
 
-* values
+* values: values
 
 Examples:
 
@@ -439,7 +454,9 @@ See:
 
 #### concatenation
 
-* values
+concatenates the given strings
+
+* strings: strings to be concatenated
 
 Examples:
 
@@ -448,6 +465,8 @@ Examples:
 ---
 
 #### concatenationof
+
+concatenate the arguments, which are assumed to be strings
 
 Examples:
 
@@ -522,11 +541,11 @@ Examples:
 
 creates specified directory
 
-* directory
+* directory: directory to be created
 
 Examples:
 
-* &nbsp;createdirectory c:\testdirectory directoryexists c:\testdirectory -> true
+* &nbsp;createdirectory c:\testdirectory directoryexists c:\testdirectory -> True
 
 ---
 
@@ -542,11 +561,11 @@ See:
 
 deletes specified directory
 
-* directory
+* directory: directory to be deleted
 
 Examples:
 
-* &nbsp;deletedirectory c:\testdirectory directoryexists c:\testdirectory -> false
+* &nbsp;deletedirectory c:\testdirectory directoryexists c:\testdirectory -> False
 
 ---
 
@@ -556,7 +575,7 @@ executes the Windows command "dir" and returns the result
 
 Examples:
 
-* &nbsp;> (size (dir SystemRoot)) 0 -> true
+* &nbsp;> (size (dir SystemRoot)) 0 -> True
 
 ---
 
@@ -780,12 +799,12 @@ See:
 
 tests if the specified directory exists
 
-* directory
+* directory: directory to be tested for existence
 
 Examples:
 
-* &nbsp;createdirectory c:\testdirectory directoryexists c:\testdirectory -> true
-* &nbsp;deletedirectory c:\testdirectory directoryexists c:\testdirectory -> false
+* &nbsp;createdirectory c:\testdirectory directoryexists c:\testdirectory -> True
+* &nbsp;deletedirectory c:\testdirectory directoryexists c:\testdirectory -> False
 
 ---
 
@@ -801,12 +820,14 @@ Examples:
 
 #### endswith
 
-* value
-* text
+tests if a strings ends with an other string
+
+* string: string to be tested
+* value: string to be tested for being the ending
 
 Examples:
 
-* &nbsp;endswith 'Hello World!' 'World!' -> true
+* &nbsp;endswith 'Hello World!' 'World!' -> True
 
 ---
 
@@ -855,7 +876,7 @@ evaluates an array or a list
 
 computes the factorial of a number
 
-* number
+* number: number for which the factorial is to be calculated
 
 Examples:
 
@@ -1301,7 +1322,7 @@ See:
 
 returns an array of paths of the files in a directory
 
-* directory
+* directory: directory
 
 Examples:
 
@@ -1352,12 +1373,12 @@ See:
 
 get the array of member-information for the specified member in the given object
 
-* object
-* name
+* object: object
+* name: name of the member
 
 Examples:
 
-* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> true
+* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> True
 
 ---
 
@@ -1436,24 +1457,39 @@ See:
 
 tests if the specified member exists in the given object
 
-* object
-* name
+* object: object
+* name: name of the member
 
 Examples:
 
-* &nbsp;hasmember 'hello' 'Length' -> true
-* &nbsp;hasmember 'hello' 'Count' -> false
+* &nbsp;hasmember 'hello' 'Length' -> True
+* &nbsp;hasmember 'hello' 'Count' -> False
 
 ---
 
 #### hastype
 
-* instance
-* type
+tests if the specified object has the given type
+
+* object: object
+* name: name of the type
 
 Examples:
 
-* &nbsp;hastype 'hello' String -> true
+* &nbsp;hastype 'hello' String -> True
+
+---
+
+#### head
+
+returns the first element of an indexed object
+
+* object: indexed object
+
+Examples:
+
+* &nbsp;head (array 1 2 3 4) -> 1
+* &nbsp;head (list 4 7 1 1) -> 4
 
 ---
 
@@ -1476,7 +1512,7 @@ Examples:
 increments a variable
 
 * "name": name of the variable
-* _increment: increment
+* incrementvalue: increment
 
 Examples:
 
@@ -1507,7 +1543,7 @@ performs various inititalizations
 
 Examples:
 
-* &nbsp;initialize  -> true
+* &nbsp;initialize  -> True
 
 ---
 
@@ -1542,7 +1578,7 @@ invokes the tests
 
 Examples:
 
-* &nbsp;invoketests  -> true
+* &nbsp;invoketests  -> True
 
 ---
 
@@ -1550,11 +1586,11 @@ Examples:
 
 tests if an object is an array
 
-* object
+* object: object to be tested
 
 Examples:
 
-* &nbsp;isarray (array 1 2 3) -> true
+* &nbsp;isarray (array 1 2 3) -> True
 
 ---
 
@@ -1588,11 +1624,11 @@ See:
 
 tests if an object is a string
 
-* object
+* object: object to be tested
 
 Examples:
 
-* &nbsp;isstring 'Hello' -> true
+* &nbsp;isstring 'Hello' -> True
 
 ---
 
@@ -1615,9 +1651,9 @@ See:
 
 #### join
 
-joins an array of strings to a string separated by blanks
+joins the elements of an array or a list of strings to a string separated by blanks
 
-* strings
+* strings: array or list of strings
 
 Examples:
 
@@ -1689,6 +1725,20 @@ Examples:
 
 * &nbsp;Count (list 1 2 3 4 5) -> 5
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
+* &nbsp;head (list 4 7 1 1) -> 4
+* &nbsp;listtail (list 4 7 1 1) -> (list 7 1 1)
+
+---
+
+#### listtail
+
+returns a list without its first element
+
+* items: list
+
+Examples:
+
+* &nbsp;listtail (list 4 7 1 1) -> (list 7 1 1)
 
 ---
 
@@ -2053,7 +2103,9 @@ See:
 
 #### newarray
 
-* length
+creates an array
+
+* length: size of the array
 
 Examples:
 
@@ -2077,6 +2129,12 @@ Examples:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Normalize
+
+---
+
+#### null
+
+the value 'null'
 
 ---
 
@@ -2283,9 +2341,11 @@ tests if a code-block yields the expected result
 
 #### performtests
 
+performs various tests
+
 Examples:
 
-* &nbsp;performtests  -> true
+* &nbsp;performtests  -> True
 
 ---
 
@@ -2422,8 +2482,8 @@ Examples:
 * &nbsp;size (list 1 2 3 4 5 6 7) -> 7
 * &nbsp;size (getfiles c:\testdirectory) -> 3
 * &nbsp;global dictionary (newdictionary ) add dictionary 'foo' 'bar' add dictionary 'hello' 'world' size dictionary -> 2
-* &nbsp;> (size (dir SystemRoot)) 0 -> true
-* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> true
+* &nbsp;> (size (dir SystemRoot)) 0 -> True
+* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> True
 * &nbsp;size (newarray 1000) -> 1000
 
 ---
@@ -2432,7 +2492,7 @@ Examples:
 
 sorts an object (e.g. an array, a list, or a string)
 
-* instance
+* object: object to be sorted
 
 Examples:
 
@@ -2445,7 +2505,7 @@ Examples:
 
 sorts an array
 
-* object
+* object: array
 
 Examples:
 
@@ -2457,7 +2517,7 @@ Examples:
 
 sorts the characters of a string
 
-* value
+* string: string
 
 Examples:
 
@@ -2467,7 +2527,9 @@ Examples:
 
 #### split
 
-* value
+creates an array by splitting a string at carriage-returns
+
+* string: string to be splitted
 
 Examples:
 
@@ -2610,6 +2672,18 @@ See:
 
 ---
 
+#### stringtail
+
+returns a string without its first character
+
+* string: string
+
+Examples:
+
+* &nbsp;stringtail 'Hello' -> 'ello'
+
+---
+
 #### Substring
 
 See:
@@ -2620,7 +2694,9 @@ See:
 
 #### sum
 
-* values
+returns the sum of the values of an enumeration
+
+* values: values
 
 Examples:
 
@@ -2659,7 +2735,33 @@ See:
 
 ---
 
+#### tail
+
+tail of an object (e.g. an array, a list, or a string)
+
+* object: array, list, or string
+
+Examples:
+
+* &nbsp;tail (array 1 2 3 4) -> (array 2 3 4)
+
+---
+
 #### Tests
+
+various tests
+
+---
+
+#### tochar
+
+converts the first character of a string to type "char"
+
+* text: string
+
+Examples:
+
+* &nbsp;String.new (tochar 'a') 10 -> 'aaaaaaaaaa'
 
 ---
 
@@ -2673,7 +2775,9 @@ See:
 
 #### todouble
 
-* n
+converts an integer value to a double value
+
+* number: number to be converted
 
 Examples:
 
@@ -2754,7 +2858,7 @@ See:
 
 returns the name of the type of an object
 
-* object
+* object: object
 
 Examples:
 
@@ -2769,7 +2873,7 @@ Examples:
 
 returns the type-object of an object
 
-* object
+* object: object
 
 Examples:
 
@@ -2781,7 +2885,7 @@ Examples:
 
 returns the upper-bound of an object (e.g. an array or a list)
 
-* object
+* object: object
 
 Examples:
 
@@ -2808,11 +2912,13 @@ See:
 
 #### write
 
-* message
+writes text on the console
+
+* text: text to be written
 
 Examples:
 
-* &nbsp;write 'hi' -> true
+* &nbsp;write 'hi' -> True
 
 ---
 

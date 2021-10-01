@@ -15,7 +15,7 @@ namespace Run2
 
     public override string GetDescription()
     {
-      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
+      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
       return attribute != null ? attribute.Description : "";
     }
 
@@ -26,20 +26,20 @@ namespace Run2
 
     public override string GetParameterDescription(string name)
     {
-      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
+      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
       return attribute != null ? attribute.ParameterDescriptions[name] : "";
     }
 
     public override List<string> GetParameterNames()
     {
-      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(action.Method, typeof(CommandActionAttribute));
+      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
       return attribute?.ParameterDescriptions.Keys.ToList() ?? new List<string>();
     }
 
     public override object Run(Tokens arguments)
     {
       var method = action.Method;
-      var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(method, typeof(CommandActionAttribute));
+      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));
       if (attribute != null)
       {
         var actualCount = arguments.Count;

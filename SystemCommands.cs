@@ -6,9 +6,9 @@ namespace Run2
 {
   [SuppressMessage("ReSharper", "UnusedType.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  internal static class CommandActions
+  internal static class SystemCommands
   {
-    [CommandAction(2, 2, "+", "adds two values", "value1", "first value", "value2", "second value")]
+    [Documentation(2, 2, "+", "adds two values", "value1", "first value", "value2", "second value")]
     public static object Add(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -16,7 +16,7 @@ namespace Run2
       return value1 + value2;
     }
 
-    [CommandAction(2, 2, null, "returns the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element")]
+    [Documentation(2, 2, null, "returns the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element")]
     public static object At(Tokens arguments)
     {
       var array = arguments.DequeueDynamic();
@@ -24,17 +24,7 @@ namespace Run2
       return array[index];
     }
 
-    [CommandAction(2, 3, null, "assigns a new value to the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element", "value", "value to be set")]
-    public static object Put(Tokens arguments)
-    {
-      var array = arguments.DequeueDynamic();
-      var index = arguments.DequeueDynamic();
-      var value = arguments.DequeueDynamic();
-      array[index] = value;
-      return value;
-    }
-
-    [CommandAction(2, 2, "/", "divides first number by second number", "a", "first number", "b", "second number")]
+    [Documentation(2, 2, "/", "divides first number by second number", "a", "first number", "b", "second number")]
     public static object Divide(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -42,7 +32,7 @@ namespace Run2
       return value1 / value2;
     }
 
-    [CommandAction(2, 2, "==", "tests two values for equality", "value1", "first value", "value2", "second value")]
+    [Documentation(2, 2, "==", "tests two values for equality", "value1", "first value", "value2", "second value")]
     public static object Equal(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -50,7 +40,7 @@ namespace Run2
       return Helpers.IsEqual(value1, value2);
     }
 
-    [CommandAction(1, int.MaxValue, null, "evaluates an object", "object", "object to be evaluated")]
+    [Documentation(1, int.MaxValue, null, "evaluates an object", "object", "object to be evaluated")]
     public static object Evaluate(Tokens arguments)
     {
       var value = arguments.DequeueObject();
@@ -58,7 +48,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(1, int.MaxValue, null, "evaluates an array or a list", "values", "values to be evaluated")]
+    [Documentation(1, int.MaxValue, null, "evaluates an array or a list", "values", "values to be evaluated")]
     public static object EvaluateValues(Tokens arguments)
     {
       var result = new List<object>();
@@ -71,7 +61,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(5, 5, null, "performs a for-loop", "name", "name of the variable which holds the counter", "from", "start value of the counter", "to", "end value of the counter", "step", "increment for the counter", "code", "body of the for-loop")]
+    [Documentation(5, 5, null, "performs a for-loop", "name", "name of the variable which holds the counter", "from", "start value of the counter", "to", "end value of the counter", "step", "increment for the counter", "code", "body of the for-loop")]
     public static object For(Tokens arguments)
     {
       object result = null;
@@ -88,7 +78,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(3, 3, null, "performs a foreach-loop", "name", "name of the variable which holds the current iteration-value", "values", "values which are to be iterated through", "code", "body of the foreach-loop")]
+    [Documentation(3, 3, null, "performs a foreach-loop", "name", "name of the variable which holds the current iteration-value", "values", "values which are to be iterated through", "code", "body of the foreach-loop")]
     public static object ForEach(Tokens arguments)
     {
       object result = null;
@@ -103,21 +93,21 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(1, 1, null, "return the value of a variable; the variable can exist in any active scope", "name", "name of the variable")]
+    [Documentation(1, 1, null, "return the value of a variable; the variable can exist in any active scope", "name", "name of the variable")]
     public static object Get(Tokens arguments)
     {
       var variableName = arguments.DequeueString();
       return Run2.GetVariable(variableName);
     }
 
-    [CommandAction(0, 0, null, "returns help-information (formatted as markdown)")]
+    [Documentation(0, 0, null, "returns help-information (formatted as markdown)")]
     // ReSharper disable once UnusedParameter.Global
     public static object GetHelp(Tokens arguments)
     {
       return Run2.GetHelp();
     }
 
-    [CommandAction(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
+    [Documentation(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
     public static object Global(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
@@ -126,7 +116,7 @@ namespace Run2
       return variableValue;
     }
 
-    [CommandAction(2, 2, ">", "tests if value1 is greater than value2", "value1", "first value", "value2", "second value")]
+    [Documentation(2, 2, ">", "tests if value1 is greater than value2", "value1", "first value", "value2", "second value")]
     public static object Greater(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -134,7 +124,7 @@ namespace Run2
       return value1 > value2;
     }
 
-    [CommandAction(2, 2, ">=", "tests if value1 is greater than or equal to value2", "value1", "first value", "value2", "second value")]
+    [Documentation(2, 2, ">=", "tests if value1 is greater than or equal to value2", "value1", "first value", "value2", "second value")]
     public static object GreaterOrEqual(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -142,7 +132,7 @@ namespace Run2
       return value1 >= value2;
     }
 
-    [CommandAction(2, 3, null, "performs the if-statement", "condition", "condition", "true-block", "command to be executed if the condition is 'true'", "false-block", "(optional) command to be executed if the condition is 'false'")]
+    [Documentation(2, 3, null, "performs the if-statement", "condition", "condition", "true-block", "command to be executed if the condition is 'true'", "false-block", "(optional) command to be executed if the condition is 'false'")]
     public static object If(Tokens arguments)
     {
       var condition = arguments.DequeueBool();
@@ -154,7 +144,7 @@ namespace Run2
       return arguments.TryDequeue(out var falseCase) ? Run2.Evaluate(falseCase) : "";
     }
 
-    [CommandAction(2, int.MaxValue, null, "calls the 'Invoke'-method of the type of the specified object", "name", "name of the object-member", "object", "target of the invokation")]
+    [Documentation(2, int.MaxValue, null, "calls the 'Invoke'-method of the type of the specified object", "name", "name of the object-member", "object", "target of the invokation")]
     public static object InvokeInstanceMember(Tokens arguments)
     {
       var memberName = arguments.DequeueString();
@@ -162,7 +152,7 @@ namespace Run2
       return Helpers.InvokeMember(memberName, target.GetType(), target, arguments.ToList(true).ToArray());
     }
 
-    [CommandAction(2, 2, "<", "tests if value1 is less than value2", "value1", "first value", "value2", "second value")]
+    [Documentation(2, 2, "<", "tests if value1 is less than value2", "value1", "first value", "value2", "second value")]
     public static object Less(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -170,7 +160,7 @@ namespace Run2
       return value1 < value2;
     }
 
-    [CommandAction(2, 2, "<=", "tests if value1 is less than or equal to value2", "value1", "first value", "value2", "second value")]
+    [Documentation(2, 2, "<=", "tests if value1 is less than or equal to value2", "value1", "first value", "value2", "second value")]
     public static object LessOrEqual(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -178,7 +168,7 @@ namespace Run2
       return value1 <= value2;
     }
 
-    [CommandAction(2, 2, null, "creates or sets a local variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
+    [Documentation(2, 2, null, "creates or sets a local variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
     public static object Local(Tokens arguments)
     {
       var variableName = arguments.DequeueString(false);
@@ -187,7 +177,7 @@ namespace Run2
       return variableValue;
     }
 
-    [CommandAction(2, 2, null, "executes a command with all elements of an array or listf; the variable 'item' holds the current element", "arrayOrList", "array or list", "command", "command")]
+    [Documentation(2, 2, null, "executes a command with all elements of an array or listf; the variable 'item' holds the current element", "arrayOrList", "array or list", "command", "command")]
     public static object Map(Tokens arguments)
     {
       object result = null;
@@ -201,7 +191,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(2, 2, "*", "multiplies two numbers", "a", "first number", "b", "second number")]
+    [Documentation(2, 2, "*", "multiplies two numbers", "a", "first number", "b", "second number")]
     public static object Multiply(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -209,7 +199,7 @@ namespace Run2
       return value1 * value2;
     }
 
-    [CommandAction(2, 2, "!=", "tests two values for unequality", "value1", "first value", "value2", "second value")]
+    [Documentation(2, 2, "!=", "tests two values for unequality", "value1", "first value", "value2", "second value")]
     public static object NotEqual(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -217,13 +207,30 @@ namespace Run2
       return !Helpers.IsEqual(value1, value2);
     }
 
-    [CommandAction(1, 1, null, "returns a value", "value", "the value to be returned")]
+    [Documentation(2, 2, null, "the value 'null'")]
+    // ReSharper disable once UnusedParameter.Global
+    public static object Null(Tokens arguments)
+    {
+      return null;
+    }
+
+    [Documentation(2, 3, null, "assigns a new value to the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element", "value", "value to be set")]
+    public static object Put(Tokens arguments)
+    {
+      var array = arguments.DequeueDynamic();
+      var index = arguments.DequeueDynamic();
+      var value = arguments.DequeueDynamic();
+      array[index] = value;
+      return value;
+    }
+
+    [Documentation(1, 1, null, "returns a value", "value", "the value to be returned")]
     public static object Return(Tokens arguments)
     {
       return arguments.DequeueBestType();
     }
 
-    [CommandAction(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
+    [Documentation(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
     public static object Run(Tokens arguments)
     {
       var path = arguments.DequeueString();
@@ -231,7 +238,7 @@ namespace Run2
       return result;
     }
 
-    [CommandAction(2, 2, null, "assigns a new value to an existing variable; the variable can exist in any active scope", "value", "the value to be assigned to the variable")]
+    [Documentation(2, 2, null, "assigns a new value to an existing variable; the variable can exist in any active scope", "value", "the value to be assigned to the variable")]
     public static object Set(Tokens arguments)
     {
       var variableName = arguments.DequeueString();
@@ -240,7 +247,7 @@ namespace Run2
       return variableValue;
     }
 
-    [CommandAction(2, 2, "-", "subtracts second number from first number", "a", "first number", "b", "second number")]
+    [Documentation(2, 2, "-", "subtracts second number from first number", "a", "first number", "b", "second number")]
     public static object Subtract(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
@@ -248,7 +255,7 @@ namespace Run2
       return value1 - value2;
     }
 
-    [CommandAction(2, int.MaxValue, null, "calls the first command for which a condition holds true", "condition-command-pairs", "pairs consisting of condition and command; the first command whose condition is 'true' is executed")]
+    [Documentation(2, int.MaxValue, null, "calls the first command for which a condition holds true", "condition-command-pairs", "pairs consisting of condition and command; the first command whose condition is 'true' is executed")]
     public static object Switch(Tokens arguments)
     {
       while (1 < arguments.Count)

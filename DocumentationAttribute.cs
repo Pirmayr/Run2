@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Run2
 {
-  internal sealed class CommandActionAttribute : Attribute
+  internal sealed class DocumentationAttribute : Attribute
   {
     public int ArgumentsCountFrom { get; }
 
@@ -15,7 +15,7 @@ namespace Run2
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
-    public CommandActionAttribute(int argumentsCountFrom, int argumentsCountTo, string commandName = null, string description = "", params string[] parameters)
+    public DocumentationAttribute(int argumentsCountFrom, int argumentsCountTo, string commandName = null, string description = "", params string[] parameters)
     {
       ArgumentsCountFrom = argumentsCountFrom;
       ArgumentsCountTo = argumentsCountTo;

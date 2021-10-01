@@ -6,7 +6,7 @@ namespace Run2
   {
     public string CommandDescription { get; set; }
 
-    public bool IsQuoted { get; set; }
+    public bool IsQuoted { get; init; }
 
     public string Name { get; init; }
 

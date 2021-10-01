@@ -52,6 +52,7 @@ namespace Run2
       var commandReferences = GetCommandReferences(TestCommand);
       var result = new StringBuilder();
       var missingReferences = "";
+      var missingDocumentation = "";
       var insertLine = false;
       result.Append("# Predefined Run2-Commands");
       foreach (var (name, command) in commands.Where(static item => !item.Value.GetHideHelp()).OrderBy(static item => item.Key))
@@ -66,6 +67,8 @@ namespace Run2
         {
           result.Append($"\n\n{command.GetDescription()}");
         }
+        var commandDocumentationMissing = string.IsNullOrEmpty(command.GetDescription());
+        var missingDocumentationParameters = new List<string>();
         var parameterNames = command.GetParameterNames();
         if (0 < parameterNames.Count)
         {
@@ -74,6 +77,19 @@ namespace Run2
           {
             var parameterDescription = command.GetParameterDescription(parameterName);
             result.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
+            if (string.IsNullOrEmpty(parameterDescription))
+            {
+              missingDocumentationParameters.Add(parameterName);
+            }
+          }
+        }
+        if (commandDocumentationMissing || 0 < missingDocumentationParameters.Count)
+        {
+          missingDocumentation += 0 < missingDocumentation.Length ? "\n" : "";
+          missingDocumentation += $"\n* {name}";
+          foreach (var parameterName in missingDocumentationParameters)
+          {
+            missingDocumentation += $"\n  - {parameterName}";
           }
         }
         if (commandReferences.TryGetValue(name, out var references))
@@ -98,6 +114,10 @@ namespace Run2
           }
           missingReferences += $"* {name}";
         }
+      }
+      if (!string.IsNullOrEmpty(missingDocumentation))
+      {
+        result.Append($"\n\n#### Missing Documentation:\n\n{missingDocumentation}");
       }
       if (!string.IsNullOrEmpty(missingReferences))
       {
@@ -142,11 +162,6 @@ namespace Run2
     public static void LeaveScope()
     {
       variables.LeaveScope();
-    }
-
-    public static string RemoveStrongQuotes(this string value)
-    {
-      return IsStronglyQuotedString(value, out var result) ? result : value;
     }
 
     public static object RunSubCommands(SubCommands subCommands)
@@ -241,9 +256,9 @@ namespace Run2
 
     private static void BuildSystemCommands()
     {
-      foreach (var method in typeof(CommandActions).GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static))
+      foreach (var method in typeof(SystemCommands).GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static))
       {
-        var attribute = (CommandActionAttribute) Attribute.GetCustomAttribute(method, typeof(CommandActionAttribute));
+        var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));
         commands.Add(attribute?.CommandName ?? method.Name.ToLower(), new SystemCommand((CommandAction) Delegate.CreateDelegate(typeof(CommandAction), method)));
       }
     }
@@ -329,7 +344,7 @@ namespace Run2
       }
       else
       {
-        result.Enqueue(currentToken);
+        result.Enqueue(Helpers.GetBestType(currentToken));
       }
     }
 
@@ -538,6 +553,11 @@ namespace Run2
       SetGlobalVariable("variables", variables);
       SetGlobalVariable("scriptpath", Globals.ScriptPath);
       SetGlobalVariable("basedirectory", Globals.BaseDirectory);
+    }
+
+    private static string RemoveStrongQuotes(this string value)
+    {
+      return IsStronglyQuotedString(value, out var result) ? result : value;
     }
 
     private static object RunCommand(string name, Tokens arguments)

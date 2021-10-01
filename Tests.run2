@@ -1,7 +1,8 @@
+'various tests'
 performtest (invoketests) true
 writefile [basedirectory]\..\..\..\Commands.md (gethelp)
 
-command performtests
+command performtests 'performs various tests'
   performtest (initialize) true
   performtest (+ 47 11) 58
   performtest (- 47 11) 36
@@ -74,6 +75,13 @@ command performtests
   performtest (write 'hi') true
   performtest (size (newarray 1000)) 1000
   performtest (local values (newarray 1000) put values 100 'foobar' at values 100) 'foobar'
+  performtest (String.new (tochar 'a') 10) 'aaaaaaaaaa'
+  performtest (head (array 1 2 3 4)) 1
+  performtest (head (list 4 7 1 1)) 4
+  performtest (arraytail (array 4 7 1 1)) (array 7 1 1)
+  performtest (listtail (list 4 7 1 1)) (list 7 1 1)
+  performtest (stringtail 'Hello') 'ello'
+  performtest (tail (array 1 2 3 4)) (array 2 3 4)
   return true
 
 command invoketests 'invokes the tests' 
@@ -91,47 +99,53 @@ command initialize 'performs various inititalizations'
   return true
 
 command "quote" 'returns the unevaluated arguments' return arguments
-command add 'calls the "Add"-method of an object with a key and a value' object key value Add object key value
+command add 'calls the "Add"-method of an object to add a value by a key' object 'object' key 'key' value 'value' Add object key value
 command array 'converts the arguments to an array' ToArray arguments
-command average 'computes the average of the given values' values / (todouble (sum values)) (size values)
+command arraytail 'returns an array without its first element' elements 'array' local result (newarray (- (size elements) 1)) if (<= (size elements) 1) (array) (Array.Copy elements 1 result 0 (- (size elements) 1) return result) 
+command average 'computes the average of the given values' values 'values' / (todouble (sum values)) (size values)
 command averageof 'computes the average of the arguments' average arguments
-command concatenation values local result '' map values (increment result item)
-command concatenationof concatenation arguments
-command createdirectory 'creates specified directory' directory Directory.CreateDirectory directory 
-command deletedirectory 'deletes specified directory' directory Directory.Delete directory (return true) 
+command concatenation 'concatenates the given strings' strings 'strings to be concatenated' local result '' map strings (increment result item)
+command concatenationof 'concatenate the arguments, which are assumed to be strings' concatenation arguments
+command createdirectory 'creates specified directory' directory 'directory to be created' Directory.CreateDirectory directory 
+command deletedirectory 'deletes specified directory' directory 'directory to be deleted' Directory.Delete directory (return true) 
 command dir 'executes the Windows command "dir" and returns the result' dos 'dir' (join arguments)
-command directoryexists 'tests if the specified directory exists' directory Directory.Exists directory 
+command directoryexists 'tests if the specified directory exists' directory 'directory to be tested for existence' Directory.Exists directory 
 command dos 'executes specified dos-command and returns the output' run cmd /c (join arguments)
-command endswith value text EndsWith value text 
-command factorial 'computes the factorial of a number' number if (== number 1) 1 (* (factorial (- number 1)) number)
+command endswith 'tests if a strings ends with an other string' string 'string to be tested' value 'string to be tested for being the ending' EndsWith string value 
+command factorial 'computes the factorial of a number' number 'number for which the factorial is to be calculated' if (== number 1) 1 (* (factorial (- number 1)) number)
 command finddirectory 'searches for a directory' basedirectory 'directory in which the search should begin' pattern 'pattern to be searched for' return (Helpers.FindDirectory basedirectory pattern)
 command findfile 'searches for a file' basedirectory 'directory in which the search should begin' pattern 'pattern to be searched for' return (Helpers.FindFile basedirectory pattern)
-command getfiles 'returns an array of paths of the files in a directory' directory Directory.GetFiles directory
-command getmember 'get the array of member-information for the specified member in the given object' object name invokeinstancemember 'GetMember' (typeof object) name
-command hasmember 'tests if the specified member exists in the given object' object name > (Length (getmember object name)) 0
-command hastype instance type == (typename instance) type
-command increment 'increments a variable' "name" 'name of the variable' _increment 'increment' set name (+ (get name) _increment)
-command isarray 'tests if an object is an array' object invokeinstancemember 'IsArray' (typeof object)
-command isstring 'tests if an object is a string' object hastype object String
-command join 'joins an array of strings to a string separated by blanks' strings String.Join ' ' (if (isarray strings) strings (ToArray strings))
+command getfiles 'returns an array of paths of the files in a directory' directory 'directory' Directory.GetFiles directory
+command getmember 'get the array of member-information for the specified member in the given object' object 'object' name 'name of the member' invokeinstancemember 'GetMember' (typeof object) name
+command hasmember 'tests if the specified member exists in the given object' object 'object' name 'name of the member' > (Length (getmember object name)) 0
+command hastype 'tests if the specified object has the given type' object 'object' name 'name of the type' == (typename object) name
+command head 'returns the first element of an indexed object' object 'indexed object' if (== (size object) 0) (list) (at object 0)
+command increment 'increments a variable' "name" 'name of the variable' incrementvalue 'increment' set name (+ (get name) incrementvalue)
+command isarray 'tests if an object is an array' object 'object to be tested' invokeinstancemember 'IsArray' (typeof object)
+command isstring 'tests if an object is a string' object 'object to be tested' hastype object String
+command join 'joins the elements of an array or a list of strings to a string separated by blanks' strings 'array or list of strings' String.Join ' ' (if (isarray strings) strings (ToArray strings))
 command joinfrom 'joins the given arguments to a string separated by blanks' join arguments
 command list 'returns the arguments as a list' return arguments
-command newarray length local result (list) for i 0 (- length 1) 1 (Add result 0) return (ToArray result)
+command listtail 'returns a list without its first element' items 'list' if (<= (size items) 1) (list) (GetRange items 1 (- (size items) 1)) 
+command newarray 'creates an array' length 'size of the array' local result (list) for i 0 (- length 1) 1 (Add result 0) return (ToArray result)
 command newdictionary 'creates a new dictionary (actually a new hashtable)' Hashtable.new
 command performtest 'tests if a code-block yields the expected result' "tokens" 'code to be tested' expected 'expected value' if (!= (local actual (evaluate tokens)) expected) (global testsok false local code (ToCode tokens) write '(failure) code: ([code]) actual: [actual] expected: [expected]')
 command power 'computes the power of two numbers' a 'base' b 'exponent' Math.Pow a b
 command readfile 'returns the text contained in a file' path 'path of the file' File.ReadAllText path
 command size 'returns the size of an array or a list' object 'array or list' if (hasmember object 'Length') (Length object) (Count object)
-command sort 'sorts an object (e.g. an array, a list, or a string)' instance switch (isarray instance) (sortarray instance) (isstring instance) (sortstring instance) (Sort instance)
-command sortarray 'sorts an array' object Array.Sort object return object
-command sortstring 'sorts the characters of a string' value local characters (ToCharArray value) Array.Sort characters String.new characters
-command split value Split value (at '~n' 0)
+command sort 'sorts an object (e.g. an array, a list, or a string)' object 'object to be sorted' switch (isarray object) (sortarray object) (isstring object) (sortstring object) (Sort object)
+command sortarray 'sorts an array' object 'array' Array.Sort object return object
+command sortstring 'sorts the characters of a string' string 'string' local characters (ToCharArray string) Array.Sort characters String.new characters
+command split 'creates an array by splitting a string at carriage-returns' string 'string to be splitted' Split string (at '~n' 0)
 command square 'computes the square of a number' n 'number' * n n
-command sum values local result 0 map values (increment result item)
+command stringtail 'returns a string without its first character' string 'string' if (<= (size string) 1) '' (Substring string 1 (- (size string) 1))
+command sum 'returns the sum of the values of an enumeration' values 'values' local result 0 map values (increment result item)
 command sumof 'returns the sum of the arguments' sum arguments
-command todouble n + n 0.0
-command typename 'returns the name of the type of an object' object invokeinstancemember 'Name' (typeof object)
-command typeof 'returns the type-object of an object' object invokeinstancemember 'GetType' object
-command upperbound 'returns the upper-bound of an object (e.g. an array or a list)' object return (- (size object) 1)
-command write message Console.WriteLine (ToString message) return true
+command tail 'tail of an object (e.g. an array, a list, or a string)' object 'array, list, or string' switch (isarray object) (arraytail object) (isstring object) (stringtail object) (listtail object)
+command tochar 'converts the first character of a string to type "char"' text 'string' at text 0
+command todouble 'converts an integer value to a double value' number 'number to be converted' + number 0.0
+command typename 'returns the name of the type of an object' object 'object' invokeinstancemember 'Name' (typeof object)
+command typeof 'returns the type-object of an object' object 'object' invokeinstancemember 'GetType' object
+command upperbound 'returns the upper-bound of an object (e.g. an array or a list)' object 'object' return (- (size object) 1)
+command write 'writes text on the console' text 'text to be written' Console.WriteLine (ToString text) return true
 command writefile 'writes text to a file' path 'path of the file' text 'text to be written' File.WriteAllText path text
