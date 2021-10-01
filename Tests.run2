@@ -82,6 +82,8 @@ command performtests 'performs various tests'
   performtest (listtail (list 4 7 1 1)) (list 7 1 1)
   performtest (stringtail 'Hello') 'ello'
   performtest (tail (array 1 2 3 4)) (array 2 3 4)
+  performtest (median (array 5 3 2 4 1)) 3
+  performtest (medianof 5 3 2 4 1) 3
   return true
 
 command invoketests 'invokes the tests' 
@@ -127,13 +129,15 @@ command join 'joins the elements of an array or a list of strings to a string se
 command joinfrom 'joins the given arguments to a string separated by blanks' join arguments
 command list 'returns the arguments as a list' return arguments
 command listtail 'returns a list without its first element' items 'list' if (<= (size items) 1) (list) (GetRange items 1 (- (size items) 1)) 
+command median 'returns the median of the given numbers' values 'numbers' at (sort values) (/ (size values) 2)
+command medianof 'returns the median of the arguments' median arguments
 command newarray 'creates an array' length 'size of the array' local result (list) for i 0 (- length 1) 1 (Add result 0) return (ToArray result)
 command newdictionary 'creates a new dictionary (actually a new hashtable)' Hashtable.new
 command performtest 'tests if a code-block yields the expected result' "tokens" 'code to be tested' expected 'expected value' if (!= (local actual (evaluate tokens)) expected) (global testsok false local code (ToCode tokens) write '(failure) code: ([code]) actual: [actual] expected: [expected]')
 command power 'computes the power of two numbers' a 'base' b 'exponent' Math.Pow a b
 command readfile 'returns the text contained in a file' path 'path of the file' File.ReadAllText path
 command size 'returns the size of an array or a list' object 'array or list' if (hasmember object 'Length') (Length object) (Count object)
-command sort 'sorts an object (e.g. an array, a list, or a string)' object 'object to be sorted' switch (isarray object) (sortarray object) (isstring object) (sortstring object) (Sort object)
+command sort 'sorts an object (e.g. an array, a list, or a string)' object 'object to be sorted' switch (isarray object) (sortarray object) (isstring object) (sortstring object) (Sort object return object)
 command sortarray 'sorts an array' object 'array' Array.Sort object return object
 command sortstring 'sorts the characters of a string' string 'string' local characters (ToCharArray string) Array.Sort characters String.new characters
 command split 'creates an array by splitting a string at carriage-returns' string 'string to be splitted' Split string (at '~n' 0)

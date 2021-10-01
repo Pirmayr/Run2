@@ -32,6 +32,14 @@ namespace Run2
       return value1 / value2;
     }
 
+    [Documentation(2, 2, "%", "return the remainder when dividing the first number by the second number", "a", "first number", "b", "second number")]
+    public static object Modulo(Tokens arguments)
+    {
+      var value1 = arguments.DequeueDynamic();
+      var value2 = arguments.DequeueDynamic();
+      return value1 % value2;
+    }
+
     [Documentation(2, 2, "==", "tests two values for equality", "value1", "first value", "value2", "second value")]
     public static object Equal(Tokens arguments)
     {

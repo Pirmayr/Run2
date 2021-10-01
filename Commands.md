@@ -54,6 +54,15 @@ Examples:
 
 ---
 
+#### %
+
+return the remainder when dividing the first number by the second number
+
+* a: first number
+* b: second number
+
+---
+
 #### +
 
 adds two values
@@ -189,6 +198,7 @@ Examples:
 * &nbsp;head (array 1 2 3 4) -> 1
 * &nbsp;arraytail (array 4 7 1 1) -> (array 7 1 1)
 * &nbsp;tail (array 1 2 3 4) -> (array 2 3 4)
+* &nbsp;median (array 5 3 2 4 1) -> 3
 
 ---
 
@@ -2098,6 +2108,28 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.Truncate
+
+---
+
+#### median
+
+returns the median of the given numbers
+
+* values: numbers
+
+Examples:
+
+* &nbsp;median (array 5 3 2 4 1) -> 3
+
+---
+
+#### medianof
+
+returns the median of the arguments
+
+Examples:
+
+* &nbsp;medianof 5 3 2 4 1 -> 3
 
 ---
 
