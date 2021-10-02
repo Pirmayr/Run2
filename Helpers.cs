@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Threading;
 
@@ -93,6 +94,39 @@ namespace Run2
         currentDirectory = Path.GetDirectoryName(currentDirectory);
       }
       return Directory.GetFiles(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
+    }
+
+    public static object GetBestTypedObject(string currentToken)
+    {
+      object bestTypedObject;
+      if (IsAnyString(currentToken, out var stringResult))
+      {
+        if (bool.TryParse(stringResult, out var boolResult))
+        {
+          bestTypedObject = boolResult;
+        }
+        else if (int.TryParse(stringResult, out var intResult))
+        {
+          bestTypedObject = intResult;
+        }
+        else if (BigInteger.TryParse(stringResult, out var bigIntegerResult))
+        {
+          bestTypedObject = bigIntegerResult;
+        }
+        else if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
+        {
+          bestTypedObject = doubleResult;
+        }
+        else
+        {
+          bestTypedObject = stringResult;
+        }
+      }
+      else
+      {
+        bestTypedObject = currentToken;
+      }
+      return bestTypedObject;
     }
 
     public static string GetCommandNameFromPath(string path)

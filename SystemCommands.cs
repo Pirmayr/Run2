@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace Run2
 {
@@ -30,14 +31,6 @@ namespace Run2
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
       return value1 / value2;
-    }
-
-    [Documentation(2, 2, "%", "return the remainder when dividing the first number by the second number", "a", "first number", "b", "second number")]
-    public static object Modulo(Tokens arguments)
-    {
-      var value1 = arguments.DequeueDynamic();
-      var value2 = arguments.DequeueDynamic();
-      return value1 % value2;
     }
 
     [Documentation(2, 2, "==", "tests two values for equality", "value1", "first value", "value2", "second value")]
@@ -199,12 +192,24 @@ namespace Run2
       return result;
     }
 
-    [Documentation(2, 2, "*", "multiplies two numbers", "a", "first number", "b", "second number")]
-    public static object Multiply(Tokens arguments)
+    [Documentation(2, 2, "%", "return the remainder when dividing the first number by the second number", "a", "first number", "b", "second number")]
+    public static object Modulo(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
-      return value1 * value2;
+      return value1 % value2;
+    }
+
+    [Documentation(2, 2, "*", "multiplies two numbers", "a", "first number", "b", "second number")]
+    public static object Multiply(Tokens arguments)
+    {
+      var value1 = arguments.DequeueObject();
+      var value2 = arguments.DequeueObject();
+      if (BigInteger.TryParse(value1.ToString(), out var bigIntegerValue1) && BigInteger.TryParse(value2.ToString(), out var bigIntegerValue2))
+      {
+        return Helpers.GetBestTypedObject((bigIntegerValue1 * bigIntegerValue2).ToString());
+      }
+      return (dynamic) value1 * (dynamic) value2;
     }
 
     [Documentation(2, 2, "!=", "tests two values for unequality", "value1", "first value", "value2", "second value")]
