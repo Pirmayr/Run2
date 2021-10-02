@@ -344,7 +344,31 @@ namespace Run2
       }
       else
       {
-        result.Enqueue(Helpers.GetBestType(currentToken));
+        object bestTypedObject;
+        if (Helpers.IsAnyString(currentToken, out var stringResult))
+        {
+          if (bool.TryParse(stringResult, out var boolResult))
+          {
+            bestTypedObject = boolResult;
+          }
+          else if (int.TryParse(stringResult, out var intResult))
+          {
+            bestTypedObject = intResult;
+          }
+          else if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
+          {
+            bestTypedObject = doubleResult;
+          }
+          else
+          {
+            bestTypedObject = stringResult;
+          }
+        }
+        else
+        {
+          bestTypedObject = currentToken;
+        }
+        result.Enqueue(bestTypedObject);
       }
     }
 

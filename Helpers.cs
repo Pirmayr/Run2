@@ -95,27 +95,6 @@ namespace Run2
       return Directory.GetFiles(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
     }
 
-    public static object GetBestType(object value)
-    {
-      if (IsAnyString(value, out var stringResult))
-      {
-        if (bool.TryParse(stringResult, out var boolResult))
-        {
-          return boolResult;
-        }
-        if (int.TryParse(stringResult, out var intResult))
-        {
-          return intResult;
-        }
-        if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
-        {
-          return doubleResult;
-        }
-        return stringResult;
-      }
-      return value;
-    }
-
     public static string GetCommandNameFromPath(string path)
     {
       return Path.GetFileNameWithoutExtension(path);
