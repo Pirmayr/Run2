@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -25,29 +26,38 @@ namespace Run2
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public string ToCode()
+    public string ToCode(int indent, bool newLine)
+    {
+      var result = DoToCode(indent, false);
+      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(indent, true) : result;
+    }
+
+    public string DoToCode(int indent, bool newLine)
     {
       var result = new StringBuilder();
       foreach (var item in this)
       {
-        if (0 < result.Length)
-        {
-          result.Append(' ');
-        }
         switch (item)
         {
           case SubCommands subCommandsValue:
-            result.Append($"({subCommandsValue.ToCode()})");
+            result.AppendNewLine(newLine);
+            result.AppendIndented("(", indent, newLine);
+            result.AppendNewLine(newLine);
+            result.Append($"{subCommandsValue.ToCode(indent + 2, newLine)}");
+            result.AppendNewLine(newLine);
+            result.AppendIndented(")", indent, newLine);
             break;
           case WeaklyQuotedString:
-            result.Append($"'{item}'");
+            result.AppendNewLine(newLine);
+            result.AppendIndented($"'{item.ToString()?.Replace("\n", "\\n")}'", indent, newLine);
             break;
           default:
-            result.Append(item);
+            result.AppendNewLine(newLine);
+            result.AppendIndented($"{item}", indent, newLine);
             break;
         }
       }
-      return result.ToString().Replace("\n", "\\n");
+      return result.ToString();
     }
 
     internal Tokens Clone(int skip = 0)

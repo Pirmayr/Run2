@@ -13,5 +13,7 @@
     public static string ScriptName { get; set; }
 
     public static string ScriptPath { get; set; }
+
+    public const int MaxCodeLineLength = 40;
   }
 }

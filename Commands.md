@@ -9,7 +9,9 @@ subtracts second number from first number
 
 Examples:
 
-* &nbsp;- 47 11 -> 36
+~~~
+performtest ( - 47 11 ) 36
+~~~
 
 ---
 
@@ -22,7 +24,9 @@ tests two values for unequality
 
 Examples:
 
-* &nbsp;!= 47 11 -> True
+~~~
+performtest ( != 47 11 ) True
+~~~
 
 ---
 
@@ -35,8 +39,23 @@ multiplies two numbers
 
 Examples:
 
-* &nbsp;* 47 11 -> 517
-* &nbsp;local product 1 map (array 3 1 4 1) (local product (* product item)) -> 12
+~~~
+performtest ( * 47 11 ) 517
+~~~
+~~~
+performtest
+  (
+    local product 1
+    map
+      (
+        array 3 1 4 1
+      )
+      (
+        local product ( * product item )
+      )
+  )
+  12
+~~~
 
 ---
 
@@ -49,8 +68,12 @@ divides first number by second number
 
 Examples:
 
-* &nbsp;/ 47 11 -> 4
-* &nbsp;/ 22 7 -> 3.142857142857143
+~~~
+performtest ( / 47 11 ) 4
+~~~
+~~~
+performtest ( / 22 7 ) 3.142857142857143
+~~~
 
 ---
 
@@ -72,10 +95,42 @@ adds two values
 
 Examples:
 
-* &nbsp;+ 47 11 -> 58
-* &nbsp;local result 0 for i 1 10 1 (local result (+ result i)) -> 55
-* &nbsp;local result 0 foreach i (array 3 1 4 1) (local result (+ result i)) -> 9
-* &nbsp;typename (quote (+ 1 1)) -> List`1
+~~~
+performtest ( + 47 11 ) 58
+~~~
+~~~
+performtest
+  (
+    local result 0
+    for
+      i
+      1
+      10
+      1
+      (
+        local result ( + result i )
+      )
+  )
+  55
+~~~
+~~~
+performtest
+  (
+    local result 0
+    foreach
+      i
+      (
+        array 3 1 4 1
+      )
+      (
+        local result ( + result i )
+      )
+  )
+  9
+~~~
+~~~
+performtest ( typename ( quote ( + 1 1 ) ) ) List`1
+~~~
 
 ---
 
@@ -88,9 +143,41 @@ tests if value1 is less than value2
 
 Examples:
 
-* &nbsp;< 47 11 -> False
-* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
-* &nbsp;if (< 1 1) (return 0) (return 1) -> 1
+~~~
+performtest ( < 47 11 ) False
+~~~
+~~~
+performtest
+  (
+    switch
+      (
+        < 1 1
+      )
+      (
+        return 1
+      )
+      (
+        == 1 1
+      )
+      (
+        return 2
+      )
+      (
+        > 1 1
+      )
+      (
+        return 3
+      )
+  )
+  2
+~~~
+~~~
+performtest
+  (
+    if ( < 1 1 ) ( return 0 ) ( return 1 )
+  )
+  1
+~~~
 
 ---
 
@@ -103,7 +190,9 @@ tests if value1 is less than or equal to value2
 
 Examples:
 
-* &nbsp;<= 47 11 -> False
+~~~
+performtest ( <= 47 11 ) False
+~~~
 
 ---
 
@@ -116,11 +205,55 @@ tests two values for equality
 
 Examples:
 
-* &nbsp;== 47 11 -> False
-* &nbsp;== (array 1 2 3) (array 1 2 3) -> True
-* &nbsp;== (array 1 2 3) (array 1 2 4) -> False
-* &nbsp;== (array 1 2 3 4) (array 1 2 3) -> False
-* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
+~~~
+performtest ( == 47 11 ) False
+~~~
+~~~
+performtest
+  (
+    == ( array 1 2 3 ) ( array 1 2 3 )
+  )
+  True
+~~~
+~~~
+performtest
+  (
+    == ( array 1 2 3 ) ( array 1 2 4 )
+  )
+  False
+~~~
+~~~
+performtest
+  (
+    == ( array 1 2 3 4 ) ( array 1 2 3 )
+  )
+  False
+~~~
+~~~
+performtest
+  (
+    switch
+      (
+        < 1 1
+      )
+      (
+        return 1
+      )
+      (
+        == 1 1
+      )
+      (
+        return 2
+      )
+      (
+        > 1 1
+      )
+      (
+        return 3
+      )
+  )
+  2
+~~~
 
 ---
 
@@ -133,10 +266,52 @@ tests if value1 is greater than value2
 
 Examples:
 
-* &nbsp;> 47 11 -> True
-* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
-* &nbsp;> (size (dir SystemRoot)) 0 -> True
-* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> True
+~~~
+performtest ( > 47 11 ) True
+~~~
+~~~
+performtest
+  (
+    switch
+      (
+        < 1 1
+      )
+      (
+        return 1
+      )
+      (
+        == 1 1
+      )
+      (
+        return 2
+      )
+      (
+        > 1 1
+      )
+      (
+        return 3
+      )
+  )
+  2
+~~~
+~~~
+performtest
+  (
+    > ( size ( dir SystemRoot ) ) 0
+  )
+  True
+~~~
+~~~
+performtest
+  (
+    >
+      (
+        size ( getmember 'Hello' 'Split' )
+      )
+      0
+  )
+  True
+~~~
 
 ---
 
@@ -149,7 +324,9 @@ tests if value1 is greater than or equal to value2
 
 Examples:
 
-* &nbsp;>= 47 11 -> True
+~~~
+performtest ( >= 47 11 ) True
+~~~
 
 ---
 
@@ -171,7 +348,16 @@ adds an entry to a dictionary
 
 Examples:
 
-* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
+~~~
+performtest
+  (
+    global dictionary ( newdictionary )
+    addentry dictionary 'foo' 'bar'
+    addentry dictionary 'hello' 'world'
+    size dictionary
+  )
+  2
+~~~
 
 ---
 
@@ -184,7 +370,9 @@ adds an item to a list
 
 Examples:
 
-* &nbsp;size (additem (list 1 2 3) 4) -> 4
+~~~
+performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+~~~
 
 ---
 
@@ -194,24 +382,127 @@ converts the arguments to an array
 
 Examples:
 
-* &nbsp;== (array 1 2 3) (array 1 2 3) -> True
-* &nbsp;== (array 1 2 3) (array 1 2 4) -> False
-* &nbsp;== (array 1 2 3 4) (array 1 2 3) -> False
-* &nbsp;sum (array 1 2 3) -> 6
-* &nbsp;average (array 1 2 3 4) -> 2.5
-* &nbsp;local result 0 foreach i (array 3 1 4 1) (local result (+ result i)) -> 9
-* &nbsp;local product 1 map (array 3 1 4 1) (local product (* product item)) -> 12
-* &nbsp;upperbound (array 1 2 3) -> 2
-* &nbsp;size (array 1 2 3 4 5 6) -> 6
-* &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
-* &nbsp;join (array 'h' 'e' 'l' 'l' 'o') -> 'h e l l o'
-* &nbsp;concatenation (array foo bar) -> foobar
-* &nbsp;isarray (array 1 2 3) -> True
-* &nbsp;sortarray (array 3 1 4 1 5 9 2 6 0) -> (array 0 1 1 2 3 4 5 6 9)
-* &nbsp;head (array 1 2 3 4) -> 1
-* &nbsp;arraytail (array 4 7 1 1) -> (array 7 1 1)
-* &nbsp;tail (array 1 2 3 4) -> (array 2 3 4)
-* &nbsp;median (array 5 3 2 4 1) -> 3
+~~~
+performtest
+  (
+    == ( array 1 2 3 ) ( array 1 2 3 )
+  )
+  True
+~~~
+~~~
+performtest
+  (
+    == ( array 1 2 3 ) ( array 1 2 4 )
+  )
+  False
+~~~
+~~~
+performtest
+  (
+    == ( array 1 2 3 4 ) ( array 1 2 3 )
+  )
+  False
+~~~
+~~~
+performtest ( sum ( array 1 2 3 ) ) 6
+~~~
+~~~
+performtest ( average ( array 1 2 3 4 ) ) 2.5
+~~~
+~~~
+performtest
+  (
+    local result 0
+    foreach
+      i
+      (
+        array 3 1 4 1
+      )
+      (
+        local result ( + result i )
+      )
+  )
+  9
+~~~
+~~~
+performtest
+  (
+    local product 1
+    map
+      (
+        array 3 1 4 1
+      )
+      (
+        local product ( * product item )
+      )
+  )
+  12
+~~~
+~~~
+performtest ( upperbound ( array 1 2 3 ) ) 2
+~~~
+~~~
+performtest ( size ( array 1 2 3 4 5 6 ) ) 6
+~~~
+~~~
+performtest
+  (
+    sort ( split '3\n1\n4\n1\n5\n9' )
+  )
+  (
+    array '1' '1' '3' '4' '5' '9'
+  )
+~~~
+~~~
+performtest
+  (
+    join ( array 'h' 'e' 'l' 'l' 'o' )
+  )
+  'h e l l o'
+~~~
+~~~
+performtest
+  (
+    concatenation ( array foo bar )
+  )
+  foobar
+~~~
+~~~
+performtest ( isarray ( array 1 2 3 ) ) True
+~~~
+~~~
+performtest
+  (
+    sortarray ( array 3 1 4 1 5 9 2 6 0 )
+  )
+  (
+    array 0 1 1 2 3 4 5 6 9
+  )
+~~~
+~~~
+performtest ( head ( array 1 2 3 4 ) ) 1
+~~~
+~~~
+performtest
+  (
+    arraytail ( array 4 7 1 1 )
+  )
+  (
+    array 7 1 1
+  )
+~~~
+~~~
+performtest
+  (
+    tail ( array 1 2 3 4 )
+  )
+  (
+    array 2 3 4
+  )
+~~~
+~~~
+performtest ( median ( array 5 3 2 4 1 ) ) 3
+~~~
 
 ---
 
@@ -399,7 +690,15 @@ returns an array without its first element
 
 Examples:
 
-* &nbsp;arraytail (array 4 7 1 1) -> (array 7 1 1)
+~~~
+performtest
+  (
+    arraytail ( array 4 7 1 1 )
+  )
+  (
+    array 7 1 1
+  )
+~~~
 
 ---
 
@@ -412,9 +711,25 @@ returns the element of an array, a list, or a string at the specified index
 
 Examples:
 
-* &nbsp;ToString (at 'Hello' 1) -> 'e'
-* &nbsp;at (split 'Hello\nworld!') 1 -> 'world!'
-* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
+~~~
+performtest ( ToString ( at 'Hello' 1 ) ) 'e'
+~~~
+~~~
+performtest
+  (
+    at ( split 'Hello\nworld!' ) 1
+  )
+  'world!'
+~~~
+~~~
+performtest
+  (
+    local values ( newarray 1000 )
+    put values 100 'foobar'
+    at values 100
+  )
+  'foobar'
+~~~
 
 ---
 
@@ -426,8 +741,25 @@ computes the average of the given values
 
 Examples:
 
-* &nbsp;average (array 1 2 3 4) -> 2.5
-* &nbsp;writefile c:\testdirectory\values.txt '6\n1\n7\n8\n5\n9' average (split (readfile c:\testdirectory\values.txt)) -> 6
+~~~
+performtest ( average ( array 1 2 3 4 ) ) 2.5
+~~~
+~~~
+performtest
+  (
+    writefile
+      c:\testdirectory\values.txt
+      '6\n1\n7\n8\n5\n9'
+    average
+      (
+        split
+          (
+            readfile c:\testdirectory\values.txt
+          )
+      )
+  )
+  6
+~~~
 
 ---
 
@@ -437,7 +769,9 @@ computes the average of the arguments
 
 Examples:
 
-* &nbsp;averageof 1 2 3 4 -> 2.5
+~~~
+performtest ( averageof 1 2 3 4 ) 2.5
+~~~
 
 ---
 
@@ -449,7 +783,9 @@ tries to find the best type for the given object
 
 Examples:
 
-* &nbsp;besttype '4711' -> 4711
+~~~
+performtest ( besttype '4711' ) 4711
+~~~
 
 ---
 
@@ -461,8 +797,12 @@ tests if the given string can be parsed to a int32
 
 Examples:
 
-* &nbsp;canparseint32 'foobar' -> False
-* &nbsp;canparseint32 '1234' -> True
+~~~
+performtest ( canparseint32 'foobar' ) False
+~~~
+~~~
+performtest ( canparseint32 '1234' ) True
+~~~
 
 ---
 
@@ -509,7 +849,13 @@ concatenates the given strings
 
 Examples:
 
-* &nbsp;concatenation (array foo bar) -> foobar
+~~~
+performtest
+  (
+    concatenation ( array foo bar )
+  )
+  foobar
+~~~
 
 ---
 
@@ -519,7 +865,13 @@ concatenate the arguments, which are assumed to be strings
 
 Examples:
 
-* &nbsp;concatenationof Hello ' ' World! -> 'Hello World!'
+~~~
+performtest
+  (
+    concatenationof Hello ' ' World!
+  )
+  'Hello World!'
+~~~
 
 ---
 
@@ -582,7 +934,9 @@ See:
 
 Examples:
 
-* &nbsp;Count (list 1 2 3 4 5) -> 5
+~~~
+performtest ( Count ( list 1 2 3 4 5 ) ) 5
+~~~
 
 ---
 
@@ -594,7 +948,14 @@ creates specified directory
 
 Examples:
 
-* &nbsp;createdirectory c:\testdirectory directoryexists c:\testdirectory -> True
+~~~
+performtest
+  (
+    createdirectory c:\testdirectory
+    directoryexists c:\testdirectory
+  )
+  True
+~~~
 
 ---
 
@@ -614,7 +975,14 @@ deletes specified directory
 
 Examples:
 
-* &nbsp;deletedirectory c:\testdirectory directoryexists c:\testdirectory -> False
+~~~
+performtest
+  (
+    deletedirectory c:\testdirectory
+    directoryexists c:\testdirectory
+  )
+  False
+~~~
 
 ---
 
@@ -624,7 +992,13 @@ executes the Windows command "dir" and returns the result
 
 Examples:
 
-* &nbsp;> (size (dir SystemRoot)) 0 -> True
+~~~
+performtest
+  (
+    > ( size ( dir SystemRoot ) ) 0
+  )
+  True
+~~~
 
 ---
 
@@ -852,8 +1226,22 @@ tests if the specified directory exists
 
 Examples:
 
-* &nbsp;createdirectory c:\testdirectory directoryexists c:\testdirectory -> True
-* &nbsp;deletedirectory c:\testdirectory directoryexists c:\testdirectory -> False
+~~~
+performtest
+  (
+    createdirectory c:\testdirectory
+    directoryexists c:\testdirectory
+  )
+  True
+~~~
+~~~
+performtest
+  (
+    deletedirectory c:\testdirectory
+    directoryexists c:\testdirectory
+  )
+  False
+~~~
 
 ---
 
@@ -863,7 +1251,13 @@ executes specified dos-command and returns the output
 
 Examples:
 
-* &nbsp;dos echo 'hello world' -> 'hello world'
+~~~
+performtest
+  (
+    dos echo 'hello world'
+  )
+  'hello world'
+~~~
 
 ---
 
@@ -876,7 +1270,13 @@ tests if a strings ends with an other string
 
 Examples:
 
-* &nbsp;endswith 'Hello World!' 'World!' -> True
+~~~
+performtest
+  (
+    endswith 'Hello World!' 'World!'
+  )
+  True
+~~~
 
 ---
 
@@ -929,7 +1329,13 @@ computes the factorial of a number
 
 Examples:
 
-* &nbsp;factorial 50 -> 30414093201713378043612608166064768844377641568960512000000000000
+~~~
+performtest
+  (
+    factorial 50
+  )
+  30414093201713378043612608166064768844377641568960512000000000000
+~~~
 
 ---
 
@@ -1302,7 +1708,13 @@ searches for a directory
 
 Examples:
 
-* &nbsp;finddirectory SystemRoot System32 -> '[SystemRoot]\System32'
+~~~
+performtest
+  (
+    finddirectory SystemRoot System32
+  )
+  '[SystemRoot]\System32'
+~~~
 
 ---
 
@@ -1315,7 +1727,13 @@ searches for a file
 
 Examples:
 
-* &nbsp;findfile SystemRoot notepad.exe -> '[SystemRoot]\notepad.exe'
+~~~
+performtest
+  (
+    findfile SystemRoot notepad.exe
+  )
+  '[SystemRoot]\notepad.exe'
+~~~
 
 ---
 
@@ -1331,7 +1749,21 @@ performs a for-loop
 
 Examples:
 
-* &nbsp;local result 0 for i 1 10 1 (local result (+ result i)) -> 55
+~~~
+performtest
+  (
+    local result 0
+    for
+      i
+      1
+      10
+      1
+      (
+        local result ( + result i )
+      )
+  )
+  55
+~~~
 
 ---
 
@@ -1345,7 +1777,21 @@ performs a foreach-loop
 
 Examples:
 
-* &nbsp;local result 0 foreach i (array 3 1 4 1) (local result (+ result i)) -> 9
+~~~
+performtest
+  (
+    local result 0
+    foreach
+      i
+      (
+        array 3 1 4 1
+      )
+      (
+        local result ( + result i )
+      )
+  )
+  9
+~~~
 
 ---
 
@@ -1375,7 +1821,13 @@ returns an array of paths of the files in a directory
 
 Examples:
 
-* &nbsp;size (getfiles c:\testdirectory) -> 3
+~~~
+performtest
+  (
+    size ( getfiles c:\testdirectory )
+  )
+  3
+~~~
 
 ---
 
@@ -1427,7 +1879,17 @@ get the array of member-information for the specified member in the given object
 
 Examples:
 
-* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> True
+~~~
+performtest
+  (
+    >
+      (
+        size ( getmember 'Hello' 'Split' )
+      )
+      0
+  )
+  True
+~~~
 
 ---
 
@@ -1490,8 +1952,25 @@ creates or sets a global variable
 
 Examples:
 
-* &nbsp;global value 4711 increment value 1 return value -> 4712
-* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
+~~~
+performtest
+  (
+    global value 4711
+    increment value 1
+    return value
+  )
+  4712
+~~~
+~~~
+performtest
+  (
+    global dictionary ( newdictionary )
+    addentry dictionary 'foo' 'bar'
+    addentry dictionary 'hello' 'world'
+    size dictionary
+  )
+  2
+~~~
 
 ---
 
@@ -1512,8 +1991,12 @@ tests if the specified member exists in the given object
 
 Examples:
 
-* &nbsp;hasmember 'hello' 'Length' -> True
-* &nbsp;hasmember 'hello' 'Count' -> False
+~~~
+performtest ( hasmember 'hello' 'Length' ) True
+~~~
+~~~
+performtest ( hasmember 'hello' 'Count' ) False
+~~~
 
 ---
 
@@ -1526,7 +2009,9 @@ tests if the specified object has the given type
 
 Examples:
 
-* &nbsp;hastype 'hello' String -> True
+~~~
+performtest ( hastype 'hello' String ) True
+~~~
 
 ---
 
@@ -1538,8 +2023,12 @@ returns the first element of an indexed object
 
 Examples:
 
-* &nbsp;head (array 1 2 3 4) -> 1
-* &nbsp;head (list 4 7 1 1) -> 4
+~~~
+performtest ( head ( array 1 2 3 4 ) ) 1
+~~~
+~~~
+performtest ( head ( list 4 7 1 1 ) ) 4
+~~~
 
 ---
 
@@ -1553,7 +2042,13 @@ performs the if-statement
 
 Examples:
 
-* &nbsp;if (< 1 1) (return 0) (return 1) -> 1
+~~~
+performtest
+  (
+    if ( < 1 1 ) ( return 0 ) ( return 1 )
+  )
+  1
+~~~
 
 ---
 
@@ -1566,8 +2061,24 @@ increments a variable
 
 Examples:
 
-* &nbsp;global value 4711 increment value 1 return value -> 4712
-* &nbsp;local value 1234 increment value 2 return value -> 1236
+~~~
+performtest
+  (
+    global value 4711
+    increment value 1
+    return value
+  )
+  4712
+~~~
+~~~
+performtest
+  (
+    local value 1234
+    increment value 2
+    return value
+  )
+  1236
+~~~
 
 ---
 
@@ -1593,7 +2104,9 @@ performs various inititalizations
 
 Examples:
 
-* &nbsp;initialize  -> True
+~~~
+performtest ( initialize ) True
+~~~
 
 ---
 
@@ -1644,7 +2157,9 @@ invokes the tests
 
 Examples:
 
-* &nbsp;invoketests  -> True
+~~~
+performtest ( invoketests ) True
+~~~
 
 ---
 
@@ -1656,7 +2171,9 @@ tests if an object is an array
 
 Examples:
 
-* &nbsp;isarray (array 1 2 3) -> True
+~~~
+performtest ( isarray ( array 1 2 3 ) ) True
+~~~
 
 ---
 
@@ -1694,7 +2211,9 @@ tests if an object is a string
 
 Examples:
 
-* &nbsp;isstring 'Hello' -> True
+~~~
+performtest ( isstring 'Hello' ) True
+~~~
 
 ---
 
@@ -1723,7 +2242,13 @@ joins the elements of an array or a list of strings to a string separated by bla
 
 Examples:
 
-* &nbsp;join (array 'h' 'e' 'l' 'l' 'o') -> 'h e l l o'
+~~~
+performtest
+  (
+    join ( array 'h' 'e' 'l' 'l' 'o' )
+  )
+  'h e l l o'
+~~~
 
 ---
 
@@ -1733,8 +2258,26 @@ joins the given arguments to a string separated by blanks
 
 Examples:
 
-* &nbsp;joinfrom 'h' 'e' 'l' 'l' 'o' -> 'h e l l o'
-* &nbsp;joinfrom (typename 1) (typename (todouble 1)) -> 'Int32 Double'
+~~~
+performtest
+  (
+    joinfrom 'h' 'e' 'l' 'l' 'o'
+  )
+  'h e l l o'
+~~~
+~~~
+performtest
+  (
+    joinfrom
+      (
+        typename 1
+      )
+      (
+        typename ( todouble 1 )
+      )
+  )
+  'Int32 Double'
+~~~
 
 ---
 
@@ -1779,7 +2322,9 @@ See:
 
 Examples:
 
-* &nbsp;Length 'Hello World!' -> 12
+~~~
+performtest ( Length 'Hello World!' ) 12
+~~~
 
 ---
 
@@ -1789,11 +2334,27 @@ returns the arguments as a list
 
 Examples:
 
-* &nbsp;Count (list 1 2 3 4 5) -> 5
-* &nbsp;size (list 1 2 3 4 5 6 7) -> 7
-* &nbsp;head (list 4 7 1 1) -> 4
-* &nbsp;listtail (list 4 7 1 1) -> (list 7 1 1)
-* &nbsp;size (additem (list 1 2 3) 4) -> 4
+~~~
+performtest ( Count ( list 1 2 3 4 5 ) ) 5
+~~~
+~~~
+performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
+~~~
+~~~
+performtest ( head ( list 4 7 1 1 ) ) 4
+~~~
+~~~
+performtest
+  (
+    listtail ( list 4 7 1 1 )
+  )
+  (
+    list 7 1 1
+  )
+~~~
+~~~
+performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+~~~
 
 ---
 
@@ -1805,7 +2366,15 @@ returns a list without its first element
 
 Examples:
 
-* &nbsp;listtail (list 4 7 1 1) -> (list 7 1 1)
+~~~
+performtest
+  (
+    listtail ( list 4 7 1 1 )
+  )
+  (
+    list 7 1 1
+  )
+~~~
 
 ---
 
@@ -1818,12 +2387,71 @@ creates or sets a local variable
 
 Examples:
 
-* &nbsp;local result 0 for i 1 10 1 (local result (+ result i)) -> 55
-* &nbsp;local result 0 foreach i (array 3 1 4 1) (local result (+ result i)) -> 9
-* &nbsp;local product 1 map (array 3 1 4 1) (local product (* product item)) -> 12
-* &nbsp;local value 1234 increment value 2 return value -> 1236
-* &nbsp;local a 4711 set a 1234 -> 1234
-* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
+~~~
+performtest
+  (
+    local result 0
+    for
+      i
+      1
+      10
+      1
+      (
+        local result ( + result i )
+      )
+  )
+  55
+~~~
+~~~
+performtest
+  (
+    local result 0
+    foreach
+      i
+      (
+        array 3 1 4 1
+      )
+      (
+        local result ( + result i )
+      )
+  )
+  9
+~~~
+~~~
+performtest
+  (
+    local product 1
+    map
+      (
+        array 3 1 4 1
+      )
+      (
+        local product ( * product item )
+      )
+  )
+  12
+~~~
+~~~
+performtest
+  (
+    local value 1234
+    increment value 2
+    return value
+  )
+  1236
+~~~
+~~~
+performtest ( local a 4711 set a 1234 ) 1234
+~~~
+~~~
+performtest
+  (
+    local values ( newarray 1000 )
+    put values 100 'foobar'
+    at values 100
+  )
+  'foobar'
+~~~
 
 ---
 
@@ -1844,7 +2472,20 @@ executes a command with all elements of an array or listf; the variable 'item' h
 
 Examples:
 
-* &nbsp;local product 1 map (array 3 1 4 1) (local product (* product item)) -> 12
+~~~
+performtest
+  (
+    local product 1
+    map
+      (
+        array 3 1 4 1
+      )
+      (
+        local product ( * product item )
+      )
+  )
+  12
+~~~
 
 ---
 
@@ -2176,7 +2817,9 @@ returns the median of the given numbers
 
 Examples:
 
-* &nbsp;median (array 5 3 2 4 1) -> 3
+~~~
+performtest ( median ( array 5 3 2 4 1 ) ) 3
+~~~
 
 ---
 
@@ -2186,7 +2829,9 @@ returns the median of the arguments
 
 Examples:
 
-* &nbsp;medianof 5 3 2 4 1 -> 3
+~~~
+performtest ( medianof 5 3 2 4 1 ) 3
+~~~
 
 ---
 
@@ -2198,8 +2843,18 @@ creates an array
 
 Examples:
 
-* &nbsp;size (newarray 1000) -> 1000
-* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
+~~~
+performtest ( size ( newarray 1000 ) ) 1000
+~~~
+~~~
+performtest
+  (
+    local values ( newarray 1000 )
+    put values 100 'foobar'
+    at values 100
+  )
+  'foobar'
+~~~
 
 ---
 
@@ -2209,7 +2864,16 @@ creates a new dictionary (actually a new hashtable)
 
 Examples:
 
-* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
+~~~
+performtest
+  (
+    global dictionary ( newdictionary )
+    addentry dictionary 'foo' 'bar'
+    addentry dictionary 'hello' 'world'
+    size dictionary
+  )
+  2
+~~~
 
 ---
 
@@ -2259,7 +2923,9 @@ parses the given string to an int32
 
 Examples:
 
-* &nbsp;parseint32 '4321' -> 4321
+~~~
+performtest ( parseint32 '4321' ) 4321
+~~~
 
 ---
 
@@ -2446,7 +3112,9 @@ performs various tests
 
 Examples:
 
-* &nbsp;performtests  -> True
+~~~
+performtest ( performtests ) True
+~~~
 
 ---
 
@@ -2459,7 +3127,9 @@ computes the power of two numbers
 
 Examples:
 
-* &nbsp;power 3 4 -> 81
+~~~
+performtest ( power 3 4 ) 81
+~~~
 
 ---
 
@@ -2473,7 +3143,15 @@ assigns a new value to the element of an array, a list, or a string at the speci
 
 Examples:
 
-* &nbsp;local values (newarray 1000) put values 100 'foobar' at values 100 -> 'foobar'
+~~~
+performtest
+  (
+    local values ( newarray 1000 )
+    put values 100 'foobar'
+    at values 100
+  )
+  'foobar'
+~~~
 
 ---
 
@@ -2483,7 +3161,9 @@ returns the unevaluated arguments
 
 Examples:
 
-* &nbsp;typename (quote (+ 1 1)) -> List`1
+~~~
+performtest ( typename ( quote ( + 1 1 ) ) ) List`1
+~~~
 
 ---
 
@@ -2503,9 +3183,38 @@ returns the text contained in a file
 
 Examples:
 
-* &nbsp;writefile c:\testdirectory\hello.txt hello readfile c:\testdirectory\hello.txt -> 'hello'
-* &nbsp;writefile c:\testdirectory\world.txt world readfile c:\testdirectory\world.txt -> 'world'
-* &nbsp;writefile c:\testdirectory\values.txt '6\n1\n7\n8\n5\n9' average (split (readfile c:\testdirectory\values.txt)) -> 6
+~~~
+performtest
+  (
+    writefile c:\testdirectory\hello.txt hello
+    readfile c:\testdirectory\hello.txt
+  )
+  'hello'
+~~~
+~~~
+performtest
+  (
+    writefile c:\testdirectory\world.txt world
+    readfile c:\testdirectory\world.txt
+  )
+  'world'
+~~~
+~~~
+performtest
+  (
+    writefile
+      c:\testdirectory\values.txt
+      '6\n1\n7\n8\n5\n9'
+    average
+      (
+        split
+          (
+            readfile c:\testdirectory\values.txt
+          )
+      )
+  )
+  6
+~~~
 
 ---
 
@@ -2534,10 +3243,56 @@ returns a value
 
 Examples:
 
-* &nbsp;global value 4711 increment value 1 return value -> 4712
-* &nbsp;local value 1234 increment value 2 return value -> 1236
-* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
-* &nbsp;if (< 1 1) (return 0) (return 1) -> 1
+~~~
+performtest
+  (
+    global value 4711
+    increment value 1
+    return value
+  )
+  4712
+~~~
+~~~
+performtest
+  (
+    local value 1234
+    increment value 2
+    return value
+  )
+  1236
+~~~
+~~~
+performtest
+  (
+    switch
+      (
+        < 1 1
+      )
+      (
+        return 1
+      )
+      (
+        == 1 1
+      )
+      (
+        return 2
+      )
+      (
+        > 1 1
+      )
+      (
+        return 3
+      )
+  )
+  2
+~~~
+~~~
+performtest
+  (
+    if ( < 1 1 ) ( return 0 ) ( return 1 )
+  )
+  1
+~~~
 
 ---
 
@@ -2558,7 +3313,9 @@ assigns a new value to an existing variable; the variable can exist in any activ
 
 Examples:
 
-* &nbsp;local a 4711 set a 1234 -> 1234
+~~~
+performtest ( local a 4711 set a 1234 ) 1234
+~~~
 
 ---
 
@@ -2578,15 +3335,56 @@ returns the size of an array or a list
 
 Examples:
 
-* &nbsp;size 'hello' -> 5
-* &nbsp;size (array 1 2 3 4 5 6) -> 6
-* &nbsp;size (list 1 2 3 4 5 6 7) -> 7
-* &nbsp;size (getfiles c:\testdirectory) -> 3
-* &nbsp;global dictionary (newdictionary ) addentry dictionary 'foo' 'bar' addentry dictionary 'hello' 'world' size dictionary -> 2
-* &nbsp;> (size (dir SystemRoot)) 0 -> True
-* &nbsp;> (size (getmember 'Hello' 'Split')) 0 -> True
-* &nbsp;size (newarray 1000) -> 1000
-* &nbsp;size (additem (list 1 2 3) 4) -> 4
+~~~
+performtest ( size 'hello' ) 5
+~~~
+~~~
+performtest ( size ( array 1 2 3 4 5 6 ) ) 6
+~~~
+~~~
+performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
+~~~
+~~~
+performtest
+  (
+    size ( getfiles c:\testdirectory )
+  )
+  3
+~~~
+~~~
+performtest
+  (
+    global dictionary ( newdictionary )
+    addentry dictionary 'foo' 'bar'
+    addentry dictionary 'hello' 'world'
+    size dictionary
+  )
+  2
+~~~
+~~~
+performtest
+  (
+    > ( size ( dir SystemRoot ) ) 0
+  )
+  True
+~~~
+~~~
+performtest
+  (
+    >
+      (
+        size ( getmember 'Hello' 'Split' )
+      )
+      0
+  )
+  True
+~~~
+~~~
+performtest ( size ( newarray 1000 ) ) 1000
+~~~
+~~~
+performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+~~~
 
 ---
 
@@ -2598,8 +3396,18 @@ sorts an object (e.g. an array, a list, or a string)
 
 Examples:
 
-* &nbsp;sort 'hello' -> 'ehllo'
-* &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
+~~~
+performtest ( sort 'hello' ) 'ehllo'
+~~~
+~~~
+performtest
+  (
+    sort ( split '3\n1\n4\n1\n5\n9' )
+  )
+  (
+    array '1' '1' '3' '4' '5' '9'
+  )
+~~~
 
 ---
 
@@ -2611,7 +3419,15 @@ sorts an array
 
 Examples:
 
-* &nbsp;sortarray (array 3 1 4 1 5 9 2 6 0) -> (array 0 1 1 2 3 4 5 6 9)
+~~~
+performtest
+  (
+    sortarray ( array 3 1 4 1 5 9 2 6 0 )
+  )
+  (
+    array 0 1 1 2 3 4 5 6 9
+  )
+~~~
 
 ---
 
@@ -2623,7 +3439,9 @@ sorts the characters of a string
 
 Examples:
 
-* &nbsp;sortstring 'foobar' -> 'abfoor'
+~~~
+performtest ( sortstring 'foobar' ) 'abfoor'
+~~~
 
 ---
 
@@ -2635,10 +3453,45 @@ creates an array by splitting a string at carriage-returns
 
 Examples:
 
-* &nbsp;at (split 'Hello\nworld!') 1 -> 'world!'
-* &nbsp;upperbound (split 'Hello\nworld') -> 1
-* &nbsp;writefile c:\testdirectory\values.txt '6\n1\n7\n8\n5\n9' average (split (readfile c:\testdirectory\values.txt)) -> 6
-* &nbsp;sort (split '3\n1\n4\n1\n5\n9') -> (array '1' '1' '3' '4' '5' '9')
+~~~
+performtest
+  (
+    at ( split 'Hello\nworld!' ) 1
+  )
+  'world!'
+~~~
+~~~
+performtest
+  (
+    upperbound ( split 'Hello\nworld' )
+  )
+  1
+~~~
+~~~
+performtest
+  (
+    writefile
+      c:\testdirectory\values.txt
+      '6\n1\n7\n8\n5\n9'
+    average
+      (
+        split
+          (
+            readfile c:\testdirectory\values.txt
+          )
+      )
+  )
+  6
+~~~
+~~~
+performtest
+  (
+    sort ( split '3\n1\n4\n1\n5\n9' )
+  )
+  (
+    array '1' '1' '3' '4' '5' '9'
+  )
+~~~
 
 ---
 
@@ -2658,7 +3511,9 @@ computes the square of a number
 
 Examples:
 
-* &nbsp;square 2 -> 4
+~~~
+performtest ( square 2 ) 4
+~~~
 
 ---
 
@@ -2782,7 +3637,9 @@ returns a string without its first character
 
 Examples:
 
-* &nbsp;stringtail 'Hello' -> 'ello'
+~~~
+performtest ( stringtail 'Hello' ) 'ello'
+~~~
 
 ---
 
@@ -2802,7 +3659,9 @@ returns the sum of the values of an enumeration
 
 Examples:
 
-* &nbsp;sum (array 1 2 3) -> 6
+~~~
+performtest ( sum ( array 1 2 3 ) ) 6
+~~~
 
 ---
 
@@ -2812,7 +3671,9 @@ returns the sum of the arguments
 
 Examples:
 
-* &nbsp;sumof 1 2 3 -> 6
+~~~
+performtest ( sumof 1 2 3 ) 6
+~~~
 
 ---
 
@@ -2824,7 +3685,31 @@ calls the first command for which a condition holds true
 
 Examples:
 
-* &nbsp;switch (< 1 1) (return 1) (== 1 1) (return 2) (> 1 1) (return 3) -> 2
+~~~
+performtest
+  (
+    switch
+      (
+        < 1 1
+      )
+      (
+        return 1
+      )
+      (
+        == 1 1
+      )
+      (
+        return 2
+      )
+      (
+        > 1 1
+      )
+      (
+        return 3
+      )
+  )
+  2
+~~~
 
 ---
 
@@ -2845,7 +3730,15 @@ tail of an object (e.g. an array, a list, or a string)
 
 Examples:
 
-* &nbsp;tail (array 1 2 3 4) -> (array 2 3 4)
+~~~
+performtest
+  (
+    tail ( array 1 2 3 4 )
+  )
+  (
+    array 2 3 4
+  )
+~~~
 
 ---
 
@@ -2863,7 +3756,13 @@ converts the first character of a string to type "char"
 
 Examples:
 
-* &nbsp;String.new (tochar 'a') 10 -> 'aaaaaaaaaa'
+~~~
+performtest
+  (
+    String.new ( tochar 'a' ) 10
+  )
+  'aaaaaaaaaa'
+~~~
 
 ---
 
@@ -2883,7 +3782,19 @@ converts an integer value to a double value
 
 Examples:
 
-* &nbsp;joinfrom (typename 1) (typename (todouble 1)) -> 'Int32 Double'
+~~~
+performtest
+  (
+    joinfrom
+      (
+        typename 1
+      )
+      (
+        typename ( todouble 1 )
+      )
+  )
+  'Int32 Double'
+~~~
 
 ---
 
@@ -2912,7 +3823,9 @@ See:
 
 Examples:
 
-* &nbsp;ToString (at 'Hello' 1) -> 'e'
+~~~
+performtest ( ToString ( at 'Hello' 1 ) ) 'e'
+~~~
 
 ---
 
@@ -2972,10 +3885,32 @@ returns the name of the type of an object
 
 Examples:
 
-* &nbsp;typename 'Hello' -> 'String'
-* &nbsp;typename (quote (+ 1 1)) -> List`1
-* &nbsp;joinfrom (typename 1) (typename (todouble 1)) -> 'Int32 Double'
-* &nbsp;typename (typeof 'hi') -> RuntimeType
+~~~
+performtest ( typename 'Hello' ) 'String'
+~~~
+~~~
+performtest ( typename ( quote ( + 1 1 ) ) ) List`1
+~~~
+~~~
+performtest
+  (
+    joinfrom
+      (
+        typename 1
+      )
+      (
+        typename ( todouble 1 )
+      )
+  )
+  'Int32 Double'
+~~~
+~~~
+performtest
+  (
+    typename ( typeof 'hi' )
+  )
+  RuntimeType
+~~~
 
 ---
 
@@ -2987,7 +3922,13 @@ returns the type-object of an object
 
 Examples:
 
-* &nbsp;typename (typeof 'hi') -> RuntimeType
+~~~
+performtest
+  (
+    typename ( typeof 'hi' )
+  )
+  RuntimeType
+~~~
 
 ---
 
@@ -2999,8 +3940,16 @@ returns the upper-bound of an object (e.g. an array or a list)
 
 Examples:
 
-* &nbsp;upperbound (array 1 2 3) -> 2
-* &nbsp;upperbound (split 'Hello\nworld') -> 1
+~~~
+performtest ( upperbound ( array 1 2 3 ) ) 2
+~~~
+~~~
+performtest
+  (
+    upperbound ( split 'Hello\nworld' )
+  )
+  1
+~~~
 
 ---
 
@@ -3028,7 +3977,9 @@ writes text on the console
 
 Examples:
 
-* &nbsp;write 'hi' -> True
+~~~
+performtest ( write 'hi' ) True
+~~~
 
 ---
 
@@ -3041,6 +3992,35 @@ writes text to a file
 
 Examples:
 
-* &nbsp;writefile c:\testdirectory\hello.txt hello readfile c:\testdirectory\hello.txt -> 'hello'
-* &nbsp;writefile c:\testdirectory\world.txt world readfile c:\testdirectory\world.txt -> 'world'
-* &nbsp;writefile c:\testdirectory\values.txt '6\n1\n7\n8\n5\n9' average (split (readfile c:\testdirectory\values.txt)) -> 6
+~~~
+performtest
+  (
+    writefile c:\testdirectory\hello.txt hello
+    readfile c:\testdirectory\hello.txt
+  )
+  'hello'
+~~~
+~~~
+performtest
+  (
+    writefile c:\testdirectory\world.txt world
+    readfile c:\testdirectory\world.txt
+  )
+  'world'
+~~~
+~~~
+performtest
+  (
+    writefile
+      c:\testdirectory\values.txt
+      '6\n1\n7\n8\n5\n9'
+    average
+      (
+        split
+          (
+            readfile c:\testdirectory\values.txt
+          )
+      )
+  )
+  6
+~~~

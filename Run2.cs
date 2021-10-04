@@ -97,13 +97,18 @@ namespace Run2
           result.Append("\n\nExamples:\n");
           foreach (var reference in references)
           {
+            /*
             (reference.Arguments.Count == 2).Check("Expected test with exactly two parts");
             var argumentsClone = reference.Arguments.Clone();
             var part1 = argumentsClone.Dequeue();
             var part2 = argumentsClone.Dequeue();
-            var code1 = part1 is SubCommands subCommandsValue ? subCommandsValue.ToCode() : "";
-            var code2 = new Tokens(new[] { part2 }).ToCode();
+            var code1 = part1 is SubCommands subCommandsValue ? subCommandsValue.ToCode(0) : "";
+            var code2 = new Tokens(new[] { part2 }).ToCode(0);
             result.Append($"\n* &nbsp;{code1} -> {code2}");
+            */
+            result.Append("\n~~~");
+            result.Append($"\n{CleanCode(reference.ToCode(0, true))}");
+            result.Append("\n~~~");
           }
         }
         else if (name != TestCommand && name != Path.GetFileNameWithoutExtension(Globals.ScriptName) && command is UserCommand)
@@ -330,6 +335,63 @@ namespace Run2
         }
         userCommand.SubCommands = GetSubCommands(definitionTokens);
       }
+    }
+
+    private static string CleanCode(string code)
+    {
+      var result = new StringBuilder();
+      foreach (var line in code.Split('\n'))
+      {
+        if (0 < result.Length)
+        {
+          result.Append('\n');
+        }
+        result.Append(CleanCodeLine(line));
+      }
+      return result.ToString();
+    }
+
+    private static string CleanCodeLine(string code)
+    {
+      return code;
+      var result = new StringBuilder();
+      var blankRead = true;
+      var inQuote = false;
+      var inIndent = true;
+      var characters = new Queue<char>(code);
+      while (0 < characters.Count)
+      {
+        var character = characters.Dequeue();
+        switch (character)
+        {
+          case WeakQuote:
+          case StrongQuote:
+            result.Append(character);
+            inQuote = !inQuote;
+            inIndent = false;
+            break;
+          case ' ':
+            if (inQuote || inIndent)
+            {
+              result.Append(' ');
+            }
+            else
+            {
+              if (!blankRead)
+              {
+                result.Append(' ');
+                blankRead = true;
+              }
+            }
+            break;
+          default:
+            result.Append(character);
+            blankRead = false;
+            inIndent = false;
+            break;
+        }
+      }
+      return result.ToString();
     }
 
     private static void EnqueueToken(string currentToken, Tokens result)

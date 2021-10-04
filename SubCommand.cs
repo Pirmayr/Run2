@@ -8,12 +8,17 @@ namespace Run2
 
     internal string CommandName { get; init; }
 
-    internal string ToCode()
+    internal string ToCode(int indent, bool newLine)
+    {
+      var result = DoToCode(indent, false);
+      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(indent, true) : result;
+    }
+
+    private string DoToCode(int indent, bool newLine)
     {
       var result = new StringBuilder();
-      result.Append(CommandName);
-      result.Append(' ');
-      result.Append(Arguments.ToCode());
+      result.AppendIndented(CommandName, indent, newLine);
+      result.Append(Arguments.ToCode(indent + 2, newLine));
       return result.ToString();
     }
   }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -7,17 +8,23 @@ namespace Run2
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class SubCommands : List<SubCommand>
   {
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public string ToCode()
+    internal string ToCode(int indent, bool newLine)
+    {
+      var result = DoToCode(indent, newLine);
+      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(indent, true) : result;
+    }
+
+    private string DoToCode(int indent, bool newLine)
     {
       var result = new StringBuilder();
-      foreach (var subCommand in this)
+      for (var i = 0; i < Count; ++i)
       {
+        var subCommand = this[i];
         if (0 < result.Length)
         {
-          result.Append(' ');
+          result.AppendNewLine(newLine);
         }
-        result.Append(subCommand.ToCode());
+        result.AppendIndented(subCommand.ToCode(indent, newLine), newLine || i == 0 ? indent : 1, newLine);
       }
       return result.ToString();
     }
