@@ -15,6 +15,16 @@ namespace Run2
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public static class Helpers
   {
+    public static void AppendIndented(this StringBuilder builder, dynamic value, int indent, bool newLineMode)
+    {
+      builder.Append(newLineMode ? $"{new string(' ', indent)}{value}" : builder.EndsWith(' ') ? $"{value}" : $" {value}");
+    }
+
+    public static void AppendNewLine(this StringBuilder builder, bool newLine)
+    {
+      builder.Append(newLine ? "\n" : " ");
+    }
+
     public static Type BaseTypeOfMember(Type type, string memberName, BindingFlags bindingFlags)
     {
       var result = type;
@@ -29,35 +39,6 @@ namespace Run2
     public static void Check([DoesNotReturnIf(false)] this bool condition, string message)
     {
       Checked(condition, message);
-    }
-
-    public static void AppendIndented(this StringBuilder builder, dynamic value, int indent, bool newLineMode)
-    {
-      builder.Append(newLineMode ? $"{new string(' ', indent)}{value}" : builder.EndsWith(' ') ? $"{value}" : $" {value}");
-    }
-
-    public static bool EndsWith(this StringBuilder builder, char character)
-    {
-      return builder.Length == 0 || builder[^1] == character;
-    }
-
-    public static void AppendNewLine(this StringBuilder builder, bool newLine)
-    {
-      builder.Append(newLine ? "\n" : " ");
-    }
-
-    public static string ReplaceExhaustive(this string text, string searchText, string replacement)
-    {
-      int oldLength;
-      int newLength;
-      var result = text;
-      do
-      {
-        oldLength = result.Length;
-        result = result.Replace(searchText, replacement);
-        newLength = result.Length;
-      } while (oldLength != newLength);
-      return result;
     }
 
     public static void Execute(string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
@@ -268,6 +249,11 @@ namespace Run2
         throw new Exception(message);
       }
       return true;
+    }
+
+    private static bool EndsWith(this StringBuilder builder, char character)
+    {
+      return builder.Length == 0 || builder[^1] == character;
     }
 
     private static Exception InnerMostException(this Exception exception)

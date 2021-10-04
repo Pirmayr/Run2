@@ -12,6 +12,20 @@ Examples:
 ~~~
 performtest ( - 47 11 ) 36
 ~~~
+~~~
+performtest
+  (
+    < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001
+  )
+  True
+~~~
+~~~
+performtest
+  (
+    < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001
+  )
+  True
+~~~
 
 ---
 
@@ -47,12 +61,8 @@ performtest
   (
     local product 1
     map
-      (
-        array 3 1 4 1
-      )
-      (
-        local product ( * product item )
-      )
+      ( array 3 1 4 1 )
+      ( local product ( * product item ) )
   )
   12
 ~~~
@@ -72,7 +82,11 @@ Examples:
 performtest ( / 47 11 ) 4
 ~~~
 ~~~
-performtest ( / 22 7 ) 3.142857142857143
+performtest
+  (
+    < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001
+  )
+  True
 ~~~
 
 ---
@@ -102,14 +116,8 @@ performtest ( + 47 11 ) 58
 performtest
   (
     local result 0
-    for
-      i
-      1
-      10
-      1
-      (
-        local result ( + result i )
-      )
+    for i 1 10 1
+      ( local result ( + result i ) )
   )
   55
 ~~~
@@ -117,14 +125,9 @@ performtest
 performtest
   (
     local result 0
-    foreach
-      i
-      (
-        array 3 1 4 1
-      )
-      (
-        local result ( + result i )
-      )
+    foreach i
+      ( array 3 1 4 1 )
+      ( local result ( + result i ) )
   )
   9
 ~~~
@@ -144,30 +147,25 @@ tests if value1 is less than value2
 Examples:
 
 ~~~
+performtest
+  (
+    < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001
+  )
+  True
+~~~
+~~~
 performtest ( < 47 11 ) False
 ~~~
 ~~~
 performtest
   (
     switch
-      (
-        < 1 1
-      )
-      (
-        return 1
-      )
-      (
-        == 1 1
-      )
-      (
-        return 2
-      )
-      (
-        > 1 1
-      )
-      (
-        return 3
-      )
+      ( < 1 1 )
+      ( return 1 )
+      ( == 1 1 )
+      ( return 2 )
+      ( > 1 1 )
+      ( return 3 )
   )
   2
 ~~~
@@ -177,6 +175,13 @@ performtest
     if ( < 1 1 ) ( return 0 ) ( return 1 )
   )
   1
+~~~
+~~~
+performtest
+  (
+    < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001
+  )
+  True
 ~~~
 
 ---
@@ -210,49 +215,39 @@ performtest ( == 47 11 ) False
 ~~~
 ~~~
 performtest
-  (
-    == ( array 1 2 3 ) ( array 1 2 3 )
-  )
+  ( == ( array 1 2 3 ) ( array 1 2 3 ) )
   True
 ~~~
 ~~~
 performtest
-  (
-    == ( array 1 2 3 ) ( array 1 2 4 )
-  )
+  ( == ( array 1 2 3 ) ( array 1 2 4 ) )
   False
 ~~~
 ~~~
 performtest
-  (
-    == ( array 1 2 3 4 ) ( array 1 2 3 )
-  )
+  ( == ( array 1 2 3 4 ) ( array 1 2 3 ) )
   False
 ~~~
 ~~~
 performtest
   (
     switch
-      (
-        < 1 1
-      )
-      (
-        return 1
-      )
-      (
-        == 1 1
-      )
-      (
-        return 2
-      )
-      (
-        > 1 1
-      )
-      (
-        return 3
-      )
+      ( < 1 1 )
+      ( return 1 )
+      ( == 1 1 )
+      ( return 2 )
+      ( > 1 1 )
+      ( return 3 )
   )
   2
+~~~
+~~~
+performtest
+  (
+    for i 1 10 1
+      ( if ( == i 5 ) ( break i ) i )
+  )
+  5
 ~~~
 
 ---
@@ -273,32 +268,18 @@ performtest ( > 47 11 ) True
 performtest
   (
     switch
-      (
-        < 1 1
-      )
-      (
-        return 1
-      )
-      (
-        == 1 1
-      )
-      (
-        return 2
-      )
-      (
-        > 1 1
-      )
-      (
-        return 3
-      )
+      ( < 1 1 )
+      ( return 1 )
+      ( == 1 1 )
+      ( return 2 )
+      ( > 1 1 )
+      ( return 3 )
   )
   2
 ~~~
 ~~~
 performtest
-  (
-    > ( size ( dir SystemRoot ) ) 0
-  )
+  ( > ( size ( dir SystemRoot ) ) 0 )
   True
 ~~~
 ~~~
@@ -384,23 +365,17 @@ Examples:
 
 ~~~
 performtest
-  (
-    == ( array 1 2 3 ) ( array 1 2 3 )
-  )
+  ( == ( array 1 2 3 ) ( array 1 2 3 ) )
   True
 ~~~
 ~~~
 performtest
-  (
-    == ( array 1 2 3 ) ( array 1 2 4 )
-  )
+  ( == ( array 1 2 3 ) ( array 1 2 4 ) )
   False
 ~~~
 ~~~
 performtest
-  (
-    == ( array 1 2 3 4 ) ( array 1 2 3 )
-  )
+  ( == ( array 1 2 3 4 ) ( array 1 2 3 ) )
   False
 ~~~
 ~~~
@@ -413,14 +388,9 @@ performtest ( average ( array 1 2 3 4 ) ) 2.5
 performtest
   (
     local result 0
-    foreach
-      i
-      (
-        array 3 1 4 1
-      )
-      (
-        local result ( + result i )
-      )
+    foreach i
+      ( array 3 1 4 1 )
+      ( local result ( + result i ) )
   )
   9
 ~~~
@@ -429,12 +399,8 @@ performtest
   (
     local product 1
     map
-      (
-        array 3 1 4 1
-      )
-      (
-        local product ( * product item )
-      )
+      ( array 3 1 4 1 )
+      ( local product ( * product item ) )
   )
   12
 ~~~
@@ -446,25 +412,17 @@ performtest ( size ( array 1 2 3 4 5 6 ) ) 6
 ~~~
 ~~~
 performtest
-  (
-    sort ( split '3\n1\n4\n1\n5\n9' )
-  )
-  (
-    array '1' '1' '3' '4' '5' '9'
-  )
+  ( sort ( split '3~n1~n4~n1~n5~n9' ) )
+  ( array '1' '1' '3' '4' '5' '9' )
 ~~~
 ~~~
 performtest
-  (
-    join ( array 'h' 'e' 'l' 'l' 'o' )
-  )
+  ( join ( array 'h' 'e' 'l' 'l' 'o' ) )
   'h e l l o'
 ~~~
 ~~~
 performtest
-  (
-    concatenation ( array foo bar )
-  )
+  ( concatenation ( array foo bar ) )
   foobar
 ~~~
 ~~~
@@ -475,30 +433,20 @@ performtest
   (
     sortarray ( array 3 1 4 1 5 9 2 6 0 )
   )
-  (
-    array 0 1 1 2 3 4 5 6 9
-  )
+  ( array 0 1 1 2 3 4 5 6 9 )
 ~~~
 ~~~
 performtest ( head ( array 1 2 3 4 ) ) 1
 ~~~
 ~~~
 performtest
-  (
-    arraytail ( array 4 7 1 1 )
-  )
-  (
-    array 7 1 1
-  )
+  ( arraytail ( array 4 7 1 1 ) )
+  ( array 7 1 1 )
 ~~~
 ~~~
 performtest
-  (
-    tail ( array 1 2 3 4 )
-  )
-  (
-    array 2 3 4
-  )
+  ( tail ( array 1 2 3 4 ) )
+  ( array 2 3 4 )
 ~~~
 ~~~
 performtest ( median ( array 5 3 2 4 1 ) ) 3
@@ -692,12 +640,8 @@ Examples:
 
 ~~~
 performtest
-  (
-    arraytail ( array 4 7 1 1 )
-  )
-  (
-    array 7 1 1
-  )
+  ( arraytail ( array 4 7 1 1 ) )
+  ( array 7 1 1 )
 ~~~
 
 ---
@@ -716,9 +660,7 @@ performtest ( ToString ( at 'Hello' 1 ) ) 'e'
 ~~~
 ~~~
 performtest
-  (
-    at ( split 'Hello\nworld!' ) 1
-  )
+  ( at ( split 'Hello~nworld!' ) 1 )
   'world!'
 ~~~
 ~~~
@@ -747,9 +689,7 @@ performtest ( average ( array 1 2 3 4 ) ) 2.5
 ~~~
 performtest
   (
-    writefile
-      c:\testdirectory\values.txt
-      '6\n1\n7\n8\n5\n9'
+    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
     average
       (
         split
@@ -785,6 +725,25 @@ Examples:
 
 ~~~
 performtest ( besttype '4711' ) 4711
+~~~
+
+---
+
+#### break
+
+breaks the innermost loop and returns a value
+
+* value: the value to be returned
+
+Examples:
+
+~~~
+performtest
+  (
+    for i 1 10 1
+      ( if ( == i 5 ) ( break i ) i )
+  )
+  5
 ~~~
 
 ---
@@ -851,9 +810,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    concatenation ( array foo bar )
-  )
+  ( concatenation ( array foo bar ) )
   foobar
 ~~~
 
@@ -867,9 +824,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    concatenationof Hello ' ' World!
-  )
+  ( concatenationof Hello ' ' World! )
   'Hello World!'
 ~~~
 
@@ -913,6 +868,222 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.ContainsValue
+
+---
+
+#### Convert.ChangeType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ChangeType
+
+---
+
+#### Convert.FromBase64CharArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.FromBase64CharArray
+
+---
+
+#### Convert.FromBase64String
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.FromBase64String
+
+---
+
+#### Convert.FromHexString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.FromHexString
+
+---
+
+#### Convert.GetTypeCode
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.GetTypeCode
+
+---
+
+#### Convert.IsDBNull
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.IsDBNull
+
+---
+
+#### Convert.ToBase64CharArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToBase64CharArray
+
+---
+
+#### Convert.ToBase64String
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToBase64String
+
+---
+
+#### Convert.ToBoolean
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToBoolean
+
+---
+
+#### Convert.ToByte
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToByte
+
+---
+
+#### Convert.ToChar
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToChar
+
+---
+
+#### Convert.ToDateTime
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToDateTime
+
+---
+
+#### Convert.ToDecimal
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToDecimal
+
+---
+
+#### Convert.ToDouble
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToDouble
+
+---
+
+#### Convert.ToHexString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToHexString
+
+---
+
+#### Convert.ToInt16
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToInt16
+
+---
+
+#### Convert.ToInt32
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToInt32
+
+---
+
+#### Convert.ToInt64
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToInt64
+
+---
+
+#### Convert.ToSByte
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToSByte
+
+---
+
+#### Convert.ToSingle
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToSingle
+
+---
+
+#### Convert.ToString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToString
+
+---
+
+#### Convert.ToUInt16
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToUInt16
+
+---
+
+#### Convert.ToUInt32
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToUInt32
+
+---
+
+#### Convert.ToUInt64
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToUInt64
+
+---
+
+#### Convert.TryFromBase64Chars
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.TryFromBase64Chars
+
+---
+
+#### Convert.TryFromBase64String
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.TryFromBase64String
+
+---
+
+#### Convert.TryToBase64Chars
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.TryToBase64Chars
 
 ---
 
@@ -994,9 +1165,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    > ( size ( dir SystemRoot ) ) 0
-  )
+  ( > ( size ( dir SystemRoot ) ) 0 )
   True
 ~~~
 
@@ -1253,9 +1422,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    dos echo 'hello world'
-  )
+  ( dos echo 'hello world' )
   'hello world'
 ~~~
 
@@ -1272,9 +1439,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    endswith 'Hello World!' 'World!'
-  )
+  ( endswith 'Hello World!' 'World!' )
   True
 ~~~
 
@@ -1331,9 +1496,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    factorial 50
-  )
+  ( factorial 50 )
   30414093201713378043612608166064768844377641568960512000000000000
 ~~~
 
@@ -1710,9 +1873,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    finddirectory SystemRoot System32
-  )
+  ( finddirectory SystemRoot System32 )
   '[SystemRoot]\System32'
 ~~~
 
@@ -1729,9 +1890,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    findfile SystemRoot notepad.exe
-  )
+  ( findfile SystemRoot notepad.exe )
   '[SystemRoot]\notepad.exe'
 ~~~
 
@@ -1753,16 +1912,18 @@ Examples:
 performtest
   (
     local result 0
-    for
-      i
-      1
-      10
-      1
-      (
-        local result ( + result i )
-      )
+    for i 1 10 1
+      ( local result ( + result i ) )
   )
   55
+~~~
+~~~
+performtest
+  (
+    for i 1 10 1
+      ( if ( == i 5 ) ( break i ) i )
+  )
+  5
 ~~~
 
 ---
@@ -1781,14 +1942,9 @@ Examples:
 performtest
   (
     local result 0
-    foreach
-      i
-      (
-        array 3 1 4 1
-      )
-      (
-        local result ( + result i )
-      )
+    foreach i
+      ( array 3 1 4 1 )
+      ( local result ( + result i ) )
   )
   9
 ~~~
@@ -1800,6 +1956,16 @@ performtest
 return the value of a variable; the variable can exist in any active scope
 
 * name: name of the variable
+
+---
+
+#### getcode
+
+returns the formatted script
+
+---
+
+#### getcommands
 
 ---
 
@@ -1823,9 +1989,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    size ( getfiles c:\testdirectory )
-  )
+  ( size ( getfiles c:\testdirectory ) )
   3
 ~~~
 
@@ -2049,6 +2213,14 @@ performtest
   )
   1
 ~~~
+~~~
+performtest
+  (
+    for i 1 10 1
+      ( if ( == i 5 ) ( break i ) i )
+  )
+  5
+~~~
 
 ---
 
@@ -2155,12 +2327,6 @@ calls the 'Invoke'-method of the type of the specified object
 
 invokes the tests
 
-Examples:
-
-~~~
-performtest ( invoketests ) True
-~~~
-
 ---
 
 #### isarray
@@ -2244,9 +2410,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    join ( array 'h' 'e' 'l' 'l' 'o' )
-  )
+  ( join ( array 'h' 'e' 'l' 'l' 'o' ) )
   'h e l l o'
 ~~~
 
@@ -2260,21 +2424,15 @@ Examples:
 
 ~~~
 performtest
-  (
-    joinfrom 'h' 'e' 'l' 'l' 'o'
-  )
+  ( joinfrom 'h' 'e' 'l' 'l' 'o' )
   'h e l l o'
 ~~~
 ~~~
 performtest
   (
     joinfrom
-      (
-        typename 1
-      )
-      (
-        typename ( todouble 1 )
-      )
+      ( typename 1 )
+      ( typename ( todouble 1 ) )
   )
   'Int32 Double'
 ~~~
@@ -2345,12 +2503,8 @@ performtest ( head ( list 4 7 1 1 ) ) 4
 ~~~
 ~~~
 performtest
-  (
-    listtail ( list 4 7 1 1 )
-  )
-  (
-    list 7 1 1
-  )
+  ( listtail ( list 4 7 1 1 ) )
+  ( list 7 1 1 )
 ~~~
 ~~~
 performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
@@ -2368,12 +2522,8 @@ Examples:
 
 ~~~
 performtest
-  (
-    listtail ( list 4 7 1 1 )
-  )
-  (
-    list 7 1 1
-  )
+  ( listtail ( list 4 7 1 1 ) )
+  ( list 7 1 1 )
 ~~~
 
 ---
@@ -2391,14 +2541,8 @@ Examples:
 performtest
   (
     local result 0
-    for
-      i
-      1
-      10
-      1
-      (
-        local result ( + result i )
-      )
+    for i 1 10 1
+      ( local result ( + result i ) )
   )
   55
 ~~~
@@ -2406,14 +2550,9 @@ performtest
 performtest
   (
     local result 0
-    foreach
-      i
-      (
-        array 3 1 4 1
-      )
-      (
-        local result ( + result i )
-      )
+    foreach i
+      ( array 3 1 4 1 )
+      ( local result ( + result i ) )
   )
   9
 ~~~
@@ -2422,12 +2561,8 @@ performtest
   (
     local product 1
     map
-      (
-        array 3 1 4 1
-      )
-      (
-        local product ( * product item )
-      )
+      ( array 3 1 4 1 )
+      ( local product ( * product item ) )
   )
   12
 ~~~
@@ -2477,12 +2612,8 @@ performtest
   (
     local product 1
     map
-      (
-        array 3 1 4 1
-      )
-      (
-        local product ( * product item )
-      )
+      ( array 3 1 4 1 )
+      ( local product ( * product item ) )
   )
   12
 ~~~
@@ -2766,6 +2897,16 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.Sin
+
+Examples:
+
+~~~
+performtest
+  (
+    < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001
+  )
+  True
+~~~
 
 ---
 
@@ -3202,9 +3343,7 @@ performtest
 ~~~
 performtest
   (
-    writefile
-      c:\testdirectory\values.txt
-      '6\n1\n7\n8\n5\n9'
+    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
     average
       (
         split
@@ -3265,24 +3404,12 @@ performtest
 performtest
   (
     switch
-      (
-        < 1 1
-      )
-      (
-        return 1
-      )
-      (
-        == 1 1
-      )
-      (
-        return 2
-      )
-      (
-        > 1 1
-      )
-      (
-        return 3
-      )
+      ( < 1 1 )
+      ( return 1 )
+      ( == 1 1 )
+      ( return 2 )
+      ( > 1 1 )
+      ( return 3 )
   )
   2
 ~~~
@@ -3346,9 +3473,7 @@ performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
 ~~~
 ~~~
 performtest
-  (
-    size ( getfiles c:\testdirectory )
-  )
+  ( size ( getfiles c:\testdirectory ) )
   3
 ~~~
 ~~~
@@ -3363,9 +3488,7 @@ performtest
 ~~~
 ~~~
 performtest
-  (
-    > ( size ( dir SystemRoot ) ) 0
-  )
+  ( > ( size ( dir SystemRoot ) ) 0 )
   True
 ~~~
 ~~~
@@ -3401,12 +3524,8 @@ performtest ( sort 'hello' ) 'ehllo'
 ~~~
 ~~~
 performtest
-  (
-    sort ( split '3\n1\n4\n1\n5\n9' )
-  )
-  (
-    array '1' '1' '3' '4' '5' '9'
-  )
+  ( sort ( split '3~n1~n4~n1~n5~n9' ) )
+  ( array '1' '1' '3' '4' '5' '9' )
 ~~~
 
 ---
@@ -3424,9 +3543,7 @@ performtest
   (
     sortarray ( array 3 1 4 1 5 9 2 6 0 )
   )
-  (
-    array 0 1 1 2 3 4 5 6 9
-  )
+  ( array 0 1 1 2 3 4 5 6 9 )
 ~~~
 
 ---
@@ -3455,24 +3572,18 @@ Examples:
 
 ~~~
 performtest
-  (
-    at ( split 'Hello\nworld!' ) 1
-  )
+  ( at ( split 'Hello~nworld!' ) 1 )
   'world!'
 ~~~
 ~~~
 performtest
-  (
-    upperbound ( split 'Hello\nworld' )
-  )
+  ( upperbound ( split 'Hello~nworld' ) )
   1
 ~~~
 ~~~
 performtest
   (
-    writefile
-      c:\testdirectory\values.txt
-      '6\n1\n7\n8\n5\n9'
+    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
     average
       (
         split
@@ -3485,12 +3596,8 @@ performtest
 ~~~
 ~~~
 performtest
-  (
-    sort ( split '3\n1\n4\n1\n5\n9' )
-  )
-  (
-    array '1' '1' '3' '4' '5' '9'
-  )
+  ( sort ( split '3~n1~n4~n1~n5~n9' ) )
+  ( array '1' '1' '3' '4' '5' '9' )
 ~~~
 
 ---
@@ -3689,24 +3796,12 @@ Examples:
 performtest
   (
     switch
-      (
-        < 1 1
-      )
-      (
-        return 1
-      )
-      (
-        == 1 1
-      )
-      (
-        return 2
-      )
-      (
-        > 1 1
-      )
-      (
-        return 3
-      )
+      ( < 1 1 )
+      ( return 1 )
+      ( == 1 1 )
+      ( return 2 )
+      ( > 1 1 )
+      ( return 3 )
   )
   2
 ~~~
@@ -3722,6 +3817,12 @@ See:
 
 ---
 
+#### System
+
+various tests
+
+---
+
 #### tail
 
 tail of an object (e.g. an array, a list, or a string)
@@ -3732,19 +3833,9 @@ Examples:
 
 ~~~
 performtest
-  (
-    tail ( array 1 2 3 4 )
-  )
-  (
-    array 2 3 4
-  )
+  ( tail ( array 1 2 3 4 ) )
+  ( array 2 3 4 )
 ~~~
-
----
-
-#### Tests
-
-various tests
 
 ---
 
@@ -3758,9 +3849,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    String.new ( tochar 'a' ) 10
-  )
+  ( String.new ( tochar 'a' ) 10 )
   'aaaaaaaaaa'
 ~~~
 
@@ -3786,12 +3875,8 @@ Examples:
 performtest
   (
     joinfrom
-      (
-        typename 1
-      )
-      (
-        typename ( todouble 1 )
-      )
+      ( typename 1 )
+      ( typename ( todouble 1 ) )
   )
   'Int32 Double'
 ~~~
@@ -3895,20 +3980,14 @@ performtest ( typename ( quote ( + 1 1 ) ) ) List`1
 performtest
   (
     joinfrom
-      (
-        typename 1
-      )
-      (
-        typename ( todouble 1 )
-      )
+      ( typename 1 )
+      ( typename ( todouble 1 ) )
   )
   'Int32 Double'
 ~~~
 ~~~
 performtest
-  (
-    typename ( typeof 'hi' )
-  )
+  ( typename ( typeof 'hi' ) )
   RuntimeType
 ~~~
 
@@ -3924,9 +4003,7 @@ Examples:
 
 ~~~
 performtest
-  (
-    typename ( typeof 'hi' )
-  )
+  ( typename ( typeof 'hi' ) )
   RuntimeType
 ~~~
 
@@ -3945,9 +4022,7 @@ performtest ( upperbound ( array 1 2 3 ) ) 2
 ~~~
 ~~~
 performtest
-  (
-    upperbound ( split 'Hello\nworld' )
-  )
+  ( upperbound ( split 'Hello~nworld' ) )
   1
 ~~~
 
@@ -4011,9 +4086,7 @@ performtest
 ~~~
 performtest
   (
-    writefile
-      c:\testdirectory\values.txt
-      '6\n1\n7\n8\n5\n9'
+    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
     average
       (
         split
@@ -4024,3 +4097,12 @@ performtest
   )
   6
 ~~~
+
+#### Missing Documentation:
+
+
+* getcommands
+
+#### Missing Examples:
+
+* invoketests

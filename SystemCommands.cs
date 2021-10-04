@@ -25,6 +25,14 @@ namespace Run2
       return array[index];
     }
 
+    [Documentation(1, 1, null, "breaks the innermost loop and returns a value", "value", "the value to be returned")]
+    public static object Break(Tokens arguments)
+    {
+      var result = arguments.DequeueObject();
+      Globals.DoBreak = true;
+      return result;
+    }
+
     [Documentation(2, 2, "/", "divides first number by second number", "a", "first number", "b", "second number")]
     public static object Divide(Tokens arguments)
     {
@@ -75,6 +83,11 @@ namespace Run2
       {
         Run2.SetLocalVariable(variableName, i);
         result = Run2.Evaluate(code);
+        if (Globals.DoBreak)
+        {
+          Globals.DoBreak = false;
+          break;
+        }
       }
       return result;
     }
@@ -101,11 +114,23 @@ namespace Run2
       return Run2.GetVariable(variableName);
     }
 
+    [Documentation(0, 0, null, "returns the formatted script")]
+    // ReSharper disable once UnusedParameter.Global
+    public static object GetCode(Tokens arguments)
+    {
+      return Run2.ToCode();
+    }
+
     [Documentation(0, 0, null, "returns help-information (formatted as markdown)")]
     // ReSharper disable once UnusedParameter.Global
     public static object GetHelp(Tokens arguments)
     {
       return Run2.GetHelp();
+    }
+
+    public static object GetCommands(Tokens arguments)
+    {
+      return Run2.GetCommands();
     }
 
     [Documentation(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]

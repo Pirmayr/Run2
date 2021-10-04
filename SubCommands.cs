@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -8,7 +7,7 @@ namespace Run2
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class SubCommands : List<SubCommand>
   {
-    internal string ToCode(int indent, bool newLine)
+    public string ToCode(int indent, bool newLine)
     {
       var result = DoToCode(indent, newLine);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(indent, true) : result;

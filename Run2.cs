@@ -17,7 +17,7 @@ namespace Run2
     private const char StrongQuote = '"';
     private const string TestCommand = "performtest";
     private const char WeakQuote = '\'';
-    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands", "Hashtable", "DictionaryEntry", "Int32" };
+    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands", "Hashtable", "DictionaryEntry", "Int32", "Convert" };
     private static readonly Dictionary<string, Command> commands = new();
     private static readonly Variables variables = new();
 
@@ -175,6 +175,10 @@ namespace Run2
       foreach (var subCommand in subCommands)
       {
         result = RunCommand(subCommand.CommandName, subCommand.Arguments);
+        if (Globals.DoBreak)
+        {
+          break;
+        }
       }
       return result;
     }
@@ -192,6 +196,37 @@ namespace Run2
     public static void SetVariable(string name, object value)
     {
       variables.Set(name, value);
+    }
+
+    public static string ToCode()
+    {
+      var result = new StringBuilder();
+      foreach (var command in commands.Values)
+      {
+        if (0 < result.Length)
+        {
+          result.Append("\n\n");
+        }
+        if (command is UserCommand userCommandValue)
+        {
+          result.Append($"command {userCommandValue.Name}");
+          if (!string.IsNullOrEmpty(userCommandValue.CommandDescription))
+          {
+            result.Append($" '{userCommandValue.CommandDescription}'");
+          }
+          foreach (var parameterName in userCommandValue.GetParameterNames())
+          {
+            result.AppendNewLine(true);
+            result.AppendIndented(parameterName, 2, true);
+            if (userCommandValue.ParameterDescriptions.TryGetValue(parameterName, out var parameterDescription))
+            {
+              result.Append($" '{parameterDescription}'");
+            }
+          }
+          result.Append($"\n{userCommandValue.SubCommands.ToCode(2, true)}");
+        }
+      }
+      return result.ToString();
     }
 
     private static bool AcceptMember(MemberInfo member)
@@ -346,50 +381,7 @@ namespace Run2
         {
           result.Append('\n');
         }
-        result.Append(CleanCodeLine(line));
-      }
-      return result.ToString();
-    }
-
-    private static string CleanCodeLine(string code)
-    {
-      return code;
-      var result = new StringBuilder();
-      var blankRead = true;
-      var inQuote = false;
-      var inIndent = true;
-      var characters = new Queue<char>(code);
-      while (0 < characters.Count)
-      {
-        var character = characters.Dequeue();
-        switch (character)
-        {
-          case WeakQuote:
-          case StrongQuote:
-            result.Append(character);
-            inQuote = !inQuote;
-            inIndent = false;
-            break;
-          case ' ':
-            if (inQuote || inIndent)
-            {
-              result.Append(' ');
-            }
-            else
-            {
-              if (!blankRead)
-              {
-                result.Append(' ');
-                blankRead = true;
-              }
-            }
-            break;
-          default:
-            result.Append(character);
-            blankRead = false;
-            inIndent = false;
-            break;
-        }
+        result.Append(line);
       }
       return result.ToString();
     }
@@ -646,6 +638,11 @@ namespace Run2
       }
       description = null;
       return false;
+    }
+
+    public static object GetCommands()
+    {
+      return string.Join('\n', commands.Keys);
     }
   }
 }

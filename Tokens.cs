@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -30,34 +29,6 @@ namespace Run2
     {
       var result = DoToCode(indent, false);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(indent, true) : result;
-    }
-
-    public string DoToCode(int indent, bool newLine)
-    {
-      var result = new StringBuilder();
-      foreach (var item in this)
-      {
-        switch (item)
-        {
-          case SubCommands subCommandsValue:
-            result.AppendNewLine(newLine);
-            result.AppendIndented("(", indent, newLine);
-            result.AppendNewLine(newLine);
-            result.Append($"{subCommandsValue.ToCode(indent + 2, newLine)}");
-            result.AppendNewLine(newLine);
-            result.AppendIndented(")", indent, newLine);
-            break;
-          case WeaklyQuotedString:
-            result.AppendNewLine(newLine);
-            result.AppendIndented($"'{item.ToString()?.Replace("\n", "\\n")}'", indent, newLine);
-            break;
-          default:
-            result.AppendNewLine(newLine);
-            result.AppendIndented($"{item}", indent, newLine);
-            break;
-        }
-      }
-      return result.ToString();
     }
 
     internal Tokens Clone(int skip = 0)
@@ -114,6 +85,63 @@ namespace Run2
     private new object Dequeue()
     {
       return base.Dequeue();
+    }
+
+    private string DoToCode(int indent, bool newLine)
+    {
+      var subCommandWritten = false;
+      var result = new StringBuilder();
+      foreach (var item in this)
+      {
+        switch (item)
+        {
+          case SubCommands subCommandsValue:
+          {
+            var subCommandsCode = subCommandsValue.ToCode(indent + 2, newLine);
+            if (Globals.MaxCodeLineLength < subCommandsCode.Length || subCommandsCode.Contains('\n'))
+            {
+              result.AppendNewLine(newLine);
+              result.AppendIndented("(", indent, newLine);
+              result.AppendNewLine(newLine);
+              result.Append($"{subCommandsCode}");
+              result.AppendNewLine(newLine);
+              result.AppendIndented(")", indent, newLine);
+            }
+            else
+            {
+              result.AppendNewLine(newLine);
+              result.AppendIndented("( ", indent, newLine);
+              result.Append($"{subCommandsCode.Trim(' ')}");
+              result.Append(" )");
+            }
+            subCommandWritten = true;
+            break;
+          }
+          case WeaklyQuotedString:
+          {
+            result.AppendNewLine(subCommandWritten && newLine);
+            result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, subCommandWritten && newLine);
+            subCommandWritten = false;
+            break;
+          }
+          default:
+            result.AppendNewLine(subCommandWritten && newLine);
+            string itemString;
+            switch (item)
+            {
+              case double doubleValue:
+                itemString = doubleValue.ToString("0.0############################");
+                break;
+              default:
+                itemString = item.ToString();
+                break;
+            }
+            result.AppendIndented($"{itemString}", indent, subCommandWritten && newLine);
+            subCommandWritten = false;
+            break;
+        }
+      }
+      return result.ToString();
     }
   }
 }
