@@ -74,7 +74,7 @@ namespace Run2
     public static object For(Tokens arguments)
     {
       object result = null;
-      var variableName = arguments.DequeueString();
+      var variableName = arguments.DequeueString(false);
       var from = arguments.DequeueDynamic();
       var to = arguments.DequeueDynamic();
       var step = arguments.DequeueDynamic();
@@ -96,7 +96,7 @@ namespace Run2
     public static object ForEach(Tokens arguments)
     {
       object result = null;
-      var variableName = arguments.DequeueString();
+      var variableName = arguments.DequeueString(false);
       var values = arguments.DequeueDynamic();
       var code = arguments.DequeueObject(false);
       foreach (var value in values)
@@ -121,16 +121,18 @@ namespace Run2
       return Run2.ToCode();
     }
 
+    [Documentation(0, 0, null, "returns the list of commands")]
+    // ReSharper disable once UnusedParameter.Global
+    public static object GetCommands(Tokens arguments)
+    {
+      return Run2.GetCommands();
+    }
+
     [Documentation(0, 0, null, "returns help-information (formatted as markdown)")]
     // ReSharper disable once UnusedParameter.Global
     public static object GetHelp(Tokens arguments)
     {
       return Run2.GetHelp();
-    }
-
-    public static object GetCommands(Tokens arguments)
-    {
-      return Run2.GetCommands();
     }
 
     [Documentation(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
@@ -245,7 +247,7 @@ namespace Run2
       return !Helpers.IsEqual(value1, value2);
     }
 
-    [Documentation(2, 2, null, "the value 'null'")]
+    [Documentation(0, 0, null, "the value 'null'")]
     // ReSharper disable once UnusedParameter.Global
     public static object Null(Tokens arguments)
     {
@@ -311,6 +313,21 @@ namespace Run2
         return Run2.Evaluate(code);
       }
       return null;
+    }
+
+    [Documentation(2, 2, null, "performs a while-loop", "condition", "condition for continuing the loop", "code", "body of the while-loop")]
+    public static object While(Tokens arguments)
+    {
+      object result = null;
+      var condition = arguments.DequeueObject(false);
+      var code = arguments.DequeueObject(false);
+      var conditionValue = Run2.Evaluate(condition) is true;
+      while (conditionValue)
+      {
+        result = Run2.Evaluate(code);
+        conditionValue = Run2.Evaluate(condition) is true;
+      }
+      return result;
     }
   }
 }

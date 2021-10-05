@@ -89,7 +89,7 @@ namespace Run2
 
     private string DoToCode(int indent, bool newLine)
     {
-      var subCommandWritten = false;
+      var multilineSubCommandWritten = false;
       var result = new StringBuilder();
       foreach (var item in this)
       {
@@ -106,26 +106,26 @@ namespace Run2
               result.Append($"{subCommandsCode}");
               result.AppendNewLine(newLine);
               result.AppendIndented(")", indent, newLine);
+              multilineSubCommandWritten = true;
             }
             else
             {
-              result.AppendNewLine(newLine);
-              result.AppendIndented("( ", indent, newLine);
+              result.AppendNewLine(multilineSubCommandWritten && newLine);
+              result.AppendIndented("( ", indent, multilineSubCommandWritten && newLine);
               result.Append($"{subCommandsCode.Trim(' ')}");
               result.Append(" )");
             }
-            subCommandWritten = true;
             break;
           }
           case WeaklyQuotedString:
           {
-            result.AppendNewLine(subCommandWritten && newLine);
-            result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, subCommandWritten && newLine);
-            subCommandWritten = false;
+            result.AppendNewLine(multilineSubCommandWritten && newLine);
+            result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, multilineSubCommandWritten && newLine);
+            multilineSubCommandWritten = false;
             break;
           }
           default:
-            result.AppendNewLine(subCommandWritten && newLine);
+            result.AppendNewLine(multilineSubCommandWritten && newLine);
             string itemString;
             switch (item)
             {
@@ -136,8 +136,8 @@ namespace Run2
                 itemString = item.ToString();
                 break;
             }
-            result.AppendIndented($"{itemString}", indent, subCommandWritten && newLine);
-            subCommandWritten = false;
+            result.AppendIndented($"{itemString}", indent, multilineSubCommandWritten && newLine);
+            multilineSubCommandWritten = false;
             break;
         }
       }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -17,7 +18,7 @@ namespace Run2
     private const char StrongQuote = '"';
     private const string TestCommand = "performtest";
     private const char WeakQuote = '\'';
-    private static readonly HashSet<string> acceptedTypes = new() { "Console", "Math", "Array", "File", "Directory", "Path", "String", "Helpers", "Variables", "Tokens", "SubCommands", "Hashtable", "DictionaryEntry", "Int32", "Convert" };
+    private static readonly HashSet<string> acceptedTypes = new() { "Array", "ArrayList", "Char", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
     private static readonly Dictionary<string, Command> commands = new();
     private static readonly Variables variables = new();
 
@@ -45,6 +46,11 @@ namespace Run2
         return RunSubCommands(subCommands);
       }
       return value;
+    }
+
+    public static object GetCommands()
+    {
+      return string.Join('\n', commands.Keys);
     }
 
     public static string GetHelp()
@@ -97,15 +103,6 @@ namespace Run2
           result.Append("\n\nExamples:\n");
           foreach (var reference in references)
           {
-            /*
-            (reference.Arguments.Count == 2).Check("Expected test with exactly two parts");
-            var argumentsClone = reference.Arguments.Clone();
-            var part1 = argumentsClone.Dequeue();
-            var part2 = argumentsClone.Dequeue();
-            var code1 = part1 is SubCommands subCommandsValue ? subCommandsValue.ToCode(0) : "";
-            var code2 = new Tokens(new[] { part2 }).ToCode(0);
-            result.Append($"\n* &nbsp;{code1} -> {code2}");
-            */
             result.Append("\n~~~");
             result.Append($"\n{CleanCode(reference.ToCode(0, true))}");
             result.Append("\n~~~");
@@ -139,6 +136,10 @@ namespace Run2
     public static void Initialize()
     {
       CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+      CreateStandardObject(new ArrayList());
+      CreateStandardObject(new Stack());
+      CreateStandardObject(new Hashtable());
+      CreateStandardObject(new Queue());
       variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Debug = CommandLineParser.OptionExists("debug");
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Helpers.GetProgramDirectory());
@@ -201,15 +202,15 @@ namespace Run2
     public static string ToCode()
     {
       var result = new StringBuilder();
-      foreach (var command in commands.Values)
+      foreach (var command in commands.Values.OrderBy(static item => item.GetName()))
       {
-        if (0 < result.Length)
-        {
-          result.Append("\n\n");
-        }
         if (command is UserCommand userCommandValue)
         {
-          result.Append($"command {userCommandValue.Name}");
+          if (0 < result.Length)
+          {
+            result.Append("\n\n");
+          }
+          result.Append(userCommandValue.IsQuoted ? $"command \"{userCommandValue.Name}\"" : $"command {userCommandValue.Name}");
           if (!string.IsNullOrEmpty(userCommandValue.CommandDescription))
           {
             result.Append($" '{userCommandValue.CommandDescription}'");
@@ -384,6 +385,11 @@ namespace Run2
         result.Append(line);
       }
       return result.ToString();
+    }
+
+    // ReSharper disable once UnusedParameter.Local
+    private static void CreateStandardObject(object instance)
+    {
     }
 
     private static void EnqueueToken(string currentToken, Tokens result)
@@ -638,11 +644,6 @@ namespace Run2
       }
       description = null;
       return false;
-    }
-
-    public static object GetCommands()
-    {
-      return string.Join('\n', commands.Keys);
     }
   }
 }

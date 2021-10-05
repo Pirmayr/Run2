@@ -13,18 +13,10 @@ Examples:
 performtest ( - 47 11 ) 36
 ~~~
 ~~~
-performtest
-  (
-    < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001
-  )
-  True
+performtest ( < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001 ) True
 ~~~
 ~~~
-performtest
-  (
-    < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001
-  )
-  True
+performtest ( < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001 ) True
 ~~~
 
 ---
@@ -60,9 +52,7 @@ performtest ( * 47 11 ) 517
 performtest
   (
     local product 1
-    map
-      ( array 3 1 4 1 )
-      ( local product ( * product item ) )
+    map ( array 3 1 4 1 ) ( local product ( * product item ) )
   )
   12
 ~~~
@@ -82,11 +72,7 @@ Examples:
 performtest ( / 47 11 ) 4
 ~~~
 ~~~
-performtest
-  (
-    < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001
-  )
-  True
+performtest ( < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001 ) True
 ~~~
 
 ---
@@ -116,8 +102,7 @@ performtest ( + 47 11 ) 58
 performtest
   (
     local result 0
-    for i 1 10 1
-      ( local result ( + result i ) )
+    for i 1 10 1 ( local result ( + result i ) )
   )
   55
 ~~~
@@ -125,14 +110,9 @@ performtest
 performtest
   (
     local result 0
-    foreach i
-      ( array 3 1 4 1 )
-      ( local result ( + result i ) )
+    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
   )
   9
-~~~
-~~~
-performtest ( typename ( quote ( + 1 1 ) ) ) List`1
 ~~~
 
 ---
@@ -147,11 +127,7 @@ tests if value1 is less than value2
 Examples:
 
 ~~~
-performtest
-  (
-    < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001
-  )
-  True
+performtest ( < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001 ) True
 ~~~
 ~~~
 performtest ( < 47 11 ) False
@@ -159,29 +135,15 @@ performtest ( < 47 11 ) False
 ~~~
 performtest
   (
-    switch
-      ( < 1 1 )
-      ( return 1 )
-      ( == 1 1 )
-      ( return 2 )
-      ( > 1 1 )
-      ( return 3 )
+    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
   )
   2
 ~~~
 ~~~
-performtest
-  (
-    if ( < 1 1 ) ( return 0 ) ( return 1 )
-  )
-  1
+performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
 ~~~
 ~~~
-performtest
-  (
-    < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001
-  )
-  True
+performtest ( < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001 ) True
 ~~~
 
 ---
@@ -214,40 +176,23 @@ Examples:
 performtest ( == 47 11 ) False
 ~~~
 ~~~
-performtest
-  ( == ( array 1 2 3 ) ( array 1 2 3 ) )
-  True
+performtest ( == ( array 1 2 3 ) ( array 1 2 3 ) ) True
 ~~~
 ~~~
-performtest
-  ( == ( array 1 2 3 ) ( array 1 2 4 ) )
-  False
+performtest ( == ( array 1 2 3 ) ( array 1 2 4 ) ) False
 ~~~
 ~~~
-performtest
-  ( == ( array 1 2 3 4 ) ( array 1 2 3 ) )
-  False
+performtest ( == ( array 1 2 3 4 ) ( array 1 2 3 ) ) False
 ~~~
 ~~~
 performtest
   (
-    switch
-      ( < 1 1 )
-      ( return 1 )
-      ( == 1 1 )
-      ( return 2 )
-      ( > 1 1 )
-      ( return 3 )
+    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
   )
   2
 ~~~
 ~~~
-performtest
-  (
-    for i 1 10 1
-      ( if ( == i 5 ) ( break i ) i )
-  )
-  5
+performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 ~~~
 
 ---
@@ -267,31 +212,15 @@ performtest ( > 47 11 ) True
 ~~~
 performtest
   (
-    switch
-      ( < 1 1 )
-      ( return 1 )
-      ( == 1 1 )
-      ( return 2 )
-      ( > 1 1 )
-      ( return 3 )
+    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
   )
   2
 ~~~
 ~~~
-performtest
-  ( > ( size ( dir SystemRoot ) ) 0 )
-  True
+performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
 ~~~
 ~~~
-performtest
-  (
-    >
-      (
-        size ( getmember 'Hello' 'Split' )
-      )
-      0
-  )
-  True
+performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
 ~~~
 
 ---
@@ -315,6 +244,7 @@ performtest ( >= 47 11 ) True
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Add
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Add
 
 ---
@@ -357,6 +287,14 @@ performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
 
 ---
 
+#### AddRange
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.AddRange
+
+---
+
 #### array
 
 converts the arguments to an array
@@ -364,19 +302,13 @@ converts the arguments to an array
 Examples:
 
 ~~~
-performtest
-  ( == ( array 1 2 3 ) ( array 1 2 3 ) )
-  True
+performtest ( == ( array 1 2 3 ) ( array 1 2 3 ) ) True
 ~~~
 ~~~
-performtest
-  ( == ( array 1 2 3 ) ( array 1 2 4 ) )
-  False
+performtest ( == ( array 1 2 3 ) ( array 1 2 4 ) ) False
 ~~~
 ~~~
-performtest
-  ( == ( array 1 2 3 4 ) ( array 1 2 3 ) )
-  False
+performtest ( == ( array 1 2 3 4 ) ( array 1 2 3 ) ) False
 ~~~
 ~~~
 performtest ( sum ( array 1 2 3 ) ) 6
@@ -388,9 +320,7 @@ performtest ( average ( array 1 2 3 4 ) ) 2.5
 performtest
   (
     local result 0
-    foreach i
-      ( array 3 1 4 1 )
-      ( local result ( + result i ) )
+    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
   )
   9
 ~~~
@@ -398,9 +328,7 @@ performtest
 performtest
   (
     local product 1
-    map
-      ( array 3 1 4 1 )
-      ( local product ( * product item ) )
+    map ( array 3 1 4 1 ) ( local product ( * product item ) )
   )
   12
 ~~~
@@ -411,45 +339,43 @@ performtest ( upperbound ( array 1 2 3 ) ) 2
 performtest ( size ( array 1 2 3 4 5 6 ) ) 6
 ~~~
 ~~~
-performtest
-  ( sort ( split '3~n1~n4~n1~n5~n9' ) )
-  ( array '1' '1' '3' '4' '5' '9' )
+performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( array '1' '1' '3' '4' '5' '9' )
 ~~~
 ~~~
-performtest
-  ( join ( array 'h' 'e' 'l' 'l' 'o' ) )
-  'h e l l o'
+performtest ( join ( array 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
 ~~~
 ~~~
-performtest
-  ( concatenation ( array foo bar ) )
-  foobar
+performtest ( concatenation ( array foo bar ) ) foobar
 ~~~
 ~~~
 performtest ( isarray ( array 1 2 3 ) ) True
 ~~~
 ~~~
-performtest
-  (
-    sortarray ( array 3 1 4 1 5 9 2 6 0 )
-  )
-  ( array 0 1 1 2 3 4 5 6 9 )
+performtest ( sortarray ( array 3 1 4 1 5 9 2 6 0 ) ) ( array 0 1 1 2 3 4 5 6 9 )
 ~~~
 ~~~
 performtest ( head ( array 1 2 3 4 ) ) 1
 ~~~
 ~~~
-performtest
-  ( arraytail ( array 4 7 1 1 ) )
-  ( array 7 1 1 )
+performtest ( arraytail ( array 4 7 1 1 ) ) ( array 7 1 1 )
 ~~~
 ~~~
-performtest
-  ( tail ( array 1 2 3 4 ) )
-  ( array 2 3 4 )
+performtest ( tail ( array 1 2 3 4 ) ) ( array 2 3 4 )
 ~~~
 ~~~
 performtest ( median ( array 5 3 2 4 1 ) ) 3
+~~~
+~~~
+performtest ( islist ( array ) ) False
+~~~
+~~~
+performtest ( isarray ( array ) ) True
+~~~
+~~~
+performtest ( notempty ( array ) ) False
+~~~
+~~~
+performtest ( notempty ( array 1 2 3 ) ) True
 ~~~
 
 ---
@@ -630,6 +556,46 @@ See:
 
 ---
 
+#### ArrayList.Adapter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Adapter
+
+---
+
+#### ArrayList.FixedSize
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.FixedSize
+
+---
+
+#### ArrayList.ReadOnly
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.ReadOnly
+
+---
+
+#### ArrayList.Repeat
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Repeat
+
+---
+
+#### ArrayList.Synchronized
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Synchronized
+
+---
+
 #### arraytail
 
 returns an array without its first element
@@ -639,9 +605,7 @@ returns an array without its first element
 Examples:
 
 ~~~
-performtest
-  ( arraytail ( array 4 7 1 1 ) )
-  ( array 7 1 1 )
+performtest ( arraytail ( array 4 7 1 1 ) ) ( array 7 1 1 )
 ~~~
 
 ---
@@ -659,14 +623,16 @@ Examples:
 performtest ( ToString ( at 'Hello' 1 ) ) 'e'
 ~~~
 ~~~
-performtest
-  ( at ( split 'Hello~nworld!' ) 1 )
-  'world!'
+performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
+~~~
+~~~
+performtest (     local foobar 4711
+    at ( quote foobar ) 0 ) foobar
 ~~~
 ~~~
 performtest
   (
-    local values ( newarray 1000 )
+    local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
   )
@@ -690,13 +656,7 @@ performtest ( average ( array 1 2 3 4 ) ) 2.5
 performtest
   (
     writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average
-      (
-        split
-          (
-            readfile c:\testdirectory\values.txt
-          )
-      )
+    average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
 ~~~
@@ -729,6 +689,14 @@ performtest ( besttype '4711' ) 4711
 
 ---
 
+#### BinarySearch
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.BinarySearch
+
+---
+
 #### break
 
 breaks the innermost loop and returns a value
@@ -738,12 +706,7 @@ breaks the innermost loop and returns a value
 Examples:
 
 ~~~
-performtest
-  (
-    for i 1 10 1
-      ( if ( == i 5 ) ( break i ) i )
-  )
-  5
+performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 ~~~
 
 ---
@@ -765,6 +728,222 @@ performtest ( canparseint32 '1234' ) True
 
 ---
 
+#### Capacity
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Capacity
+
+---
+
+#### Char.ConvertFromUtf32
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.ConvertFromUtf32
+
+---
+
+#### Char.ConvertToUtf32
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.ConvertToUtf32
+
+---
+
+#### Char.GetNumericValue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.GetNumericValue
+
+---
+
+#### Char.GetUnicodeCategory
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.GetUnicodeCategory
+
+---
+
+#### Char.IsControl
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsControl
+
+---
+
+#### Char.IsDigit
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsDigit
+
+---
+
+#### Char.IsHighSurrogate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsHighSurrogate
+
+---
+
+#### Char.IsLetter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsLetter
+
+---
+
+#### Char.IsLetterOrDigit
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsLetterOrDigit
+
+---
+
+#### Char.IsLower
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsLower
+
+---
+
+#### Char.IsLowSurrogate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsLowSurrogate
+
+---
+
+#### Char.IsNumber
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsNumber
+
+---
+
+#### Char.IsPunctuation
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsPunctuation
+
+---
+
+#### Char.IsSeparator
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsSeparator
+
+---
+
+#### Char.IsSurrogate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsSurrogate
+
+---
+
+#### Char.IsSurrogatePair
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsSurrogatePair
+
+---
+
+#### Char.IsSymbol
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsSymbol
+
+---
+
+#### Char.IsUpper
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsUpper
+
+---
+
+#### Char.IsWhiteSpace
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.IsWhiteSpace
+
+---
+
+#### Char.Parse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.Parse
+
+---
+
+#### Char.ToLower
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.ToLower
+
+---
+
+#### Char.ToLowerInvariant
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.ToLowerInvariant
+
+---
+
+#### Char.ToString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.ToString
+
+---
+
+#### Char.ToUpper
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.ToUpper
+
+---
+
+#### Char.ToUpperInvariant
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.ToUpperInvariant
+
+---
+
+#### Char.TryParse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.TryParse
+
+---
+
 #### Chars
 
 See:
@@ -777,7 +956,10 @@ See:
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Clear
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Clear
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Clear
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Clear
 
 ---
 
@@ -787,7 +969,10 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.Clone
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Clone
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Clone
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Clone
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Clone
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Clone
 
 ---
 
@@ -796,6 +981,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.CompareTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.CompareTo
 
 ---
@@ -809,9 +995,7 @@ concatenates the given strings
 Examples:
 
 ~~~
-performtest
-  ( concatenation ( array foo bar ) )
-  foobar
+performtest ( concatenation ( array foo bar ) ) foobar
 ~~~
 
 ---
@@ -823,9 +1007,7 @@ concatenate the arguments, which are assumed to be strings
 Examples:
 
 ~~~
-performtest
-  ( concatenationof Hello ' ' World! )
-  'Hello World!'
+performtest ( concatenationof Hello ' ' World! ) 'Hello World!'
 ~~~
 
 ---
@@ -851,7 +1033,10 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Contains
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Contains
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Contains
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Contains
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Contains
 
 ---
 
@@ -1093,7 +1278,10 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.CopyTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.CopyTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.CopyTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.CopyTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.CopyTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.CopyTo
 
 ---
 
@@ -1101,7 +1289,10 @@ See:
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Count
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Count
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Count
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Count
 
 Examples:
 
@@ -1138,6 +1329,23 @@ See:
 
 ---
 
+#### decrement
+
+decrements a variable
+
+* "name": name of the variable
+* amount: decrement
+
+Examples:
+
+~~~
+performtest (     local a 4711
+    decrement a 11
+    return a ) 4700
+~~~
+
+---
+
 #### deletedirectory
 
 deletes specified directory
@@ -1157,6 +1365,38 @@ performtest
 
 ---
 
+#### dequeue
+
+dequeues an element
+
+* queue: queue
+
+Examples:
+
+~~~
+performtest
+  (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    dequeue queue
+  )
+  47
+~~~
+~~~
+performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
+~~~
+
+---
+
+#### Dequeue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Dequeue
+
+---
+
 #### dir
 
 executes the Windows command "dir" and returns the result
@@ -1164,9 +1404,7 @@ executes the Windows command "dir" and returns the result
 Examples:
 
 ~~~
-performtest
-  ( > ( size ( dir SystemRoot ) ) 0 )
-  True
+performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
 ~~~
 
 ---
@@ -1421,9 +1659,24 @@ executes specified dos-command and returns the output
 Examples:
 
 ~~~
-performtest
-  ( dos echo 'hello world' )
-  'hello world'
+performtest ( dos echo 'hello world' ) 'hello world'
+~~~
+
+---
+
+#### empty
+
+checks if an object is not empty
+
+* object: object
+
+Examples:
+
+~~~
+performtest ( empty ( list ) ) True
+~~~
+~~~
+performtest ( empty ( list 1 2 3 ) ) False
 ~~~
 
 ---
@@ -1438,9 +1691,7 @@ tests if a strings ends with an other string
 Examples:
 
 ~~~
-performtest
-  ( endswith 'Hello World!' 'World!' )
-  True
+performtest ( endswith 'Hello World!' 'World!' ) True
 ~~~
 
 ---
@@ -1450,6 +1701,36 @@ performtest
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.EndsWith
+
+---
+
+#### enqueue
+
+enqueues an element
+
+* queue: queue
+* value: element to be enqueued
+
+Examples:
+
+~~~
+performtest
+  (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    dequeue queue
+  )
+  47
+~~~
+
+---
+
+#### Enqueue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Enqueue
 
 ---
 
@@ -1490,14 +1771,12 @@ evaluates an array or a list
 
 computes the factorial of a number
 
-* number: number for which the factorial is to be calculated
+* number: number
 
 Examples:
 
 ~~~
-performtest
-  ( factorial 50 )
-  30414093201713378043612608166064768844377641568960512000000000000
+performtest ( factorial 50 ) 30414093201713378043612608166064768844377641568960512000000000000
 ~~~
 
 ---
@@ -1862,6 +2141,23 @@ See:
 
 ---
 
+#### fileexists
+
+checks if a file exists
+
+* path: path of the file
+
+Examples:
+
+~~~
+performtest ( fileexists ( findfile basedirectory LICENSE ) ) True
+~~~
+~~~
+performtest ( fileexists ( findfile basedirectory DOESNOTEXIST ) ) False
+~~~
+
+---
+
 #### finddirectory
 
 searches for a directory
@@ -1872,9 +2168,7 @@ searches for a directory
 Examples:
 
 ~~~
-performtest
-  ( finddirectory SystemRoot System32 )
-  '[SystemRoot]\System32'
+performtest ( finddirectory SystemRoot System32 ) '[SystemRoot]\System32'
 ~~~
 
 ---
@@ -1889,9 +2183,16 @@ searches for a file
 Examples:
 
 ~~~
-performtest
-  ( findfile SystemRoot notepad.exe )
-  '[SystemRoot]\notepad.exe'
+performtest ( findfile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
+~~~
+~~~
+performtest ( fileexists ( findfile basedirectory LICENSE ) ) True
+~~~
+~~~
+performtest ( fileexists ( findfile basedirectory DOESNOTEXIST ) ) False
+~~~
+~~~
+performtest ( size ( gettokens ( findfile basedirectory LICENSE ) ) ) 168
 ~~~
 
 ---
@@ -1912,18 +2213,12 @@ Examples:
 performtest
   (
     local result 0
-    for i 1 10 1
-      ( local result ( + result i ) )
+    for i 1 10 1 ( local result ( + result i ) )
   )
   55
 ~~~
 ~~~
-performtest
-  (
-    for i 1 10 1
-      ( if ( == i 5 ) ( break i ) i )
-  )
-  5
+performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 ~~~
 
 ---
@@ -1942,9 +2237,7 @@ Examples:
 performtest
   (
     local result 0
-    foreach i
-      ( array 3 1 4 1 )
-      ( local result ( + result i ) )
+    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
   )
   9
 ~~~
@@ -1967,6 +2260,8 @@ returns the formatted script
 
 #### getcommands
 
+returns the list of commands
+
 ---
 
 #### GetEnumerator
@@ -1975,7 +2270,10 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetEnumerator
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetEnumerator
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.GetEnumerator
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.GetEnumerator
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.GetEnumerator
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetEnumerator
 
 ---
 
@@ -1988,9 +2286,7 @@ returns an array of paths of the files in a directory
 Examples:
 
 ~~~
-performtest
-  ( size ( getfiles c:\testdirectory ) )
-  3
+performtest ( size ( getfiles c:\testdirectory ) ) 3
 ~~~
 
 ---
@@ -2044,15 +2340,7 @@ get the array of member-information for the specified member in the given object
 Examples:
 
 ~~~
-performtest
-  (
-    >
-      (
-        size ( getmember 'Hello' 'Split' )
-      )
-      0
-  )
-  True
+performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
 ~~~
 
 ---
@@ -2073,6 +2361,31 @@ See:
 
 ---
 
+#### GetRange
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.GetRange
+
+---
+
+#### gettokens
+
+returns the tokenized contents of a text or a text file
+
+* textorpath: text or path to a file
+
+Examples:
+
+~~~
+performtest ( size ( gettokens 'the big brown fox' ) ) 4
+~~~
+~~~
+performtest ( size ( gettokens ( findfile basedirectory LICENSE ) ) ) 168
+~~~
+
+---
+
 #### GetType
 
 See:
@@ -2087,6 +2400,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetTypeCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.GetTypeCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.GetTypeCode
 
 ---
@@ -2207,19 +2521,10 @@ performs the if-statement
 Examples:
 
 ~~~
-performtest
-  (
-    if ( < 1 1 ) ( return 0 ) ( return 1 )
-  )
-  1
+performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
 ~~~
 ~~~
-performtest
-  (
-    for i 1 10 1
-      ( if ( == i 5 ) ( break i ) i )
-  )
-  5
+performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 ~~~
 
 ---
@@ -2229,7 +2534,7 @@ performtest
 increments a variable
 
 * "name": name of the variable
-* incrementvalue: increment
+* amount: increment
 
 Examples:
 
@@ -2259,6 +2564,7 @@ performtest
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.IndexOf
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.IndexOf
 
 ---
 
@@ -2295,6 +2601,15 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Insert
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Insert
+
+---
+
+#### InsertRange
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.InsertRange
 
 ---
 
@@ -2327,6 +2642,12 @@ calls the 'Invoke'-method of the type of the specified object
 
 invokes the tests
 
+Examples:
+
+~~~
+performtest ( invoketests ) True
+~~~
+
 ---
 
 #### isarray
@@ -2340,6 +2661,26 @@ Examples:
 ~~~
 performtest ( isarray ( array 1 2 3 ) ) True
 ~~~
+~~~
+performtest ( isarray ( array ) ) True
+~~~
+~~~
+performtest ( isarray ( newarray 100 0 ) ) True
+~~~
+
+---
+
+#### isdictionary
+
+tests if an object is a dictionary
+
+* object: object to be tested
+
+Examples:
+
+~~~
+performtest ( isdictionary ( newdictionary ) ) True
+~~~
 
 ---
 
@@ -2348,7 +2689,28 @@ performtest ( isarray ( array 1 2 3 ) ) True
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsFixedSize
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.IsFixedSize
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.IsFixedSize
+
+---
+
+#### islist
+
+tests if an object is a list
+
+* object: object to be tested
+
+Examples:
+
+~~~
+performtest ( islist ( list ) ) True
+~~~
+~~~
+performtest ( islist ( array ) ) False
+~~~
+~~~
+performtest ( islist ( newlist ) ) True
+~~~
 
 ---
 
@@ -2365,6 +2727,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsReadOnly
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.IsReadOnly
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.IsReadOnly
 
 ---
@@ -2388,7 +2751,27 @@ performtest ( isstring 'Hello' ) True
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsSynchronized
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.IsSynchronized
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.IsSynchronized
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.IsSynchronized
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.IsSynchronized
+
+---
+
+#### iswhitespace
+
+checks if the given character is white space
+
+* character
+
+Examples:
+
+~~~
+performtest ( iswhitespace ( tochar 'a' ) ) False
+~~~
+~~~
+performtest ( iswhitespace ( tochar ' ' ) ) True
+~~~
 
 ---
 
@@ -2396,6 +2779,7 @@ See:
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Item
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Item
 
 ---
@@ -2409,9 +2793,7 @@ joins the elements of an array or a list of strings to a string separated by bla
 Examples:
 
 ~~~
-performtest
-  ( join ( array 'h' 'e' 'l' 'l' 'o' ) )
-  'h e l l o'
+performtest ( join ( array 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
 ~~~
 
 ---
@@ -2423,18 +2805,10 @@ joins the given arguments to a string separated by blanks
 Examples:
 
 ~~~
-performtest
-  ( joinfrom 'h' 'e' 'l' 'l' 'o' )
-  'h e l l o'
+performtest ( joinfrom 'h' 'e' 'l' 'l' 'o' ) 'h e l l o'
 ~~~
 ~~~
-performtest
-  (
-    joinfrom
-      ( typename 1 )
-      ( typename ( todouble 1 ) )
-  )
-  'Int32 Double'
+performtest ( joinfrom ( typename 1 ) ( typename ( todouble 1 ) ) ) 'Int32 Double'
 ~~~
 
 ---
@@ -2460,6 +2834,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.LastIndexOf
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.LastIndexOf
 
 ---
 
@@ -2502,12 +2877,25 @@ performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
 performtest ( head ( list 4 7 1 1 ) ) 4
 ~~~
 ~~~
-performtest
-  ( listtail ( list 4 7 1 1 ) )
-  ( list 7 1 1 )
+performtest ( listtail ( list 4 7 1 1 ) ) ( list 7 1 1 )
 ~~~
 ~~~
 performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+~~~
+~~~
+performtest ( islist ( list ) ) True
+~~~
+~~~
+performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
+~~~
+~~~
+performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
+~~~
+~~~
+performtest ( empty ( list ) ) True
+~~~
+~~~
+performtest ( empty ( list 1 2 3 ) ) False
 ~~~
 
 ---
@@ -2521,9 +2909,7 @@ returns a list without its first element
 Examples:
 
 ~~~
-performtest
-  ( listtail ( list 4 7 1 1 ) )
-  ( list 7 1 1 )
+performtest ( listtail ( list 4 7 1 1 ) ) ( list 7 1 1 )
 ~~~
 
 ---
@@ -2541,8 +2927,7 @@ Examples:
 performtest
   (
     local result 0
-    for i 1 10 1
-      ( local result ( + result i ) )
+    for i 1 10 1 ( local result ( + result i ) )
   )
   55
 ~~~
@@ -2550,9 +2935,7 @@ performtest
 performtest
   (
     local result 0
-    foreach i
-      ( array 3 1 4 1 )
-      ( local result ( + result i ) )
+    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
   )
   9
 ~~~
@@ -2560,9 +2943,7 @@ performtest
 performtest
   (
     local product 1
-    map
-      ( array 3 1 4 1 )
-      ( local product ( * product item ) )
+    map ( array 3 1 4 1 ) ( local product ( * product item ) )
   )
   12
 ~~~
@@ -2576,16 +2957,46 @@ performtest
   1236
 ~~~
 ~~~
-performtest ( local a 4711 set a 1234 ) 1234
+performtest (     local a 4711
+    set a 1234 ) 1234
+~~~
+~~~
+performtest (     local foobar 4711
+    at ( quote foobar ) 0 ) foobar
 ~~~
 ~~~
 performtest
   (
-    local values ( newarray 1000 )
+    local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
   )
   'foobar'
+~~~
+~~~
+performtest
+  (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    dequeue queue
+  )
+  47
+~~~
+~~~
+performtest
+  (
+    local stack ( newstack )
+    push stack 47
+    push stack 11
+    pop stack
+  )
+  11
+~~~
+~~~
+performtest (     local a 4711
+    decrement a 11
+    return a ) 4700
 ~~~
 
 ---
@@ -2611,9 +3022,7 @@ Examples:
 performtest
   (
     local product 1
-    map
-      ( array 3 1 4 1 )
-      ( local product ( * product item ) )
+    map ( array 3 1 4 1 ) ( local product ( * product item ) )
   )
   12
 ~~~
@@ -2901,11 +3310,7 @@ See:
 Examples:
 
 ~~~
-performtest
-  (
-    < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001
-  )
-  True
+performtest ( < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001 ) True
 ~~~
 
 ---
@@ -2981,20 +3386,24 @@ performtest ( medianof 5 3 2 4 1 ) 3
 creates an array
 
 * length: size of the array
+* initialvalue
 
 Examples:
 
 ~~~
-performtest ( size ( newarray 1000 ) ) 1000
+performtest ( size ( newarray 1000 0 ) ) 1000
 ~~~
 ~~~
 performtest
   (
-    local values ( newarray 1000 )
+    local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
   )
   'foobar'
+~~~
+~~~
+performtest ( isarray ( newarray 100 0 ) ) True
 ~~~
 
 ---
@@ -3015,6 +3424,69 @@ performtest
   )
   2
 ~~~
+~~~
+performtest ( isdictionary ( newdictionary ) ) True
+~~~
+
+---
+
+#### newlist
+
+creates a list
+
+* values: (optional) values to initialize the list
+
+Examples:
+
+~~~
+performtest ( islist ( newlist ) ) True
+~~~
+
+---
+
+#### newqueue
+
+creates a new queue
+
+* values: (optional) values to initialize the queue
+
+Examples:
+
+~~~
+performtest
+  (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    dequeue queue
+  )
+  47
+~~~
+~~~
+performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
+~~~
+~~~
+performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
+~~~
+
+---
+
+#### newstack
+
+creates a new stack
+
+Examples:
+
+~~~
+performtest
+  (
+    local stack ( newstack )
+    push stack 47
+    push stack 11
+    pop stack
+  )
+  11
+~~~
 
 ---
 
@@ -3023,6 +3495,37 @@ performtest
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Normalize
+
+---
+
+#### not
+
+negates a truth value
+
+* value: truth value
+
+Examples:
+
+~~~
+performtest ( not True ) False
+~~~
+
+---
+
+#### notempty
+
+checks if an object is not empty
+
+* object: object
+
+Examples:
+
+~~~
+performtest ( notempty ( array ) ) False
+~~~
+~~~
+performtest ( notempty ( array 1 2 3 ) ) True
+~~~
 
 ---
 
@@ -3238,6 +3741,15 @@ See:
 
 ---
 
+#### Peek
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Peek
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Peek
+
+---
+
 #### performtest
 
 tests if a code-block yields the expected result
@@ -3259,6 +3771,35 @@ performtest ( performtests ) True
 
 ---
 
+#### pop
+
+pops an element
+
+* stack: stack
+
+Examples:
+
+~~~
+performtest
+  (
+    local stack ( newstack )
+    push stack 47
+    push stack 11
+    pop stack
+  )
+  11
+~~~
+
+---
+
+#### Pop
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Pop
+
+---
+
 #### power
 
 computes the power of two numbers
@@ -3271,6 +3812,50 @@ Examples:
 ~~~
 performtest ( power 3 4 ) 81
 ~~~
+
+---
+
+#### primes
+
+computes the primes up to n
+
+* n: upper limit
+
+Examples:
+
+~~~
+performtest ( size ( primes 1000 ) ) 167
+~~~
+
+---
+
+#### push
+
+pushes an element
+
+* stack: stack
+* value: element
+
+Examples:
+
+~~~
+performtest
+  (
+    local stack ( newstack )
+    push stack 47
+    push stack 11
+    pop stack
+  )
+  11
+~~~
+
+---
+
+#### Push
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Push
 
 ---
 
@@ -3287,7 +3872,7 @@ Examples:
 ~~~
 performtest
   (
-    local values ( newarray 1000 )
+    local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
   )
@@ -3296,14 +3881,23 @@ performtest
 
 ---
 
+#### Queue.Synchronized
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Synchronized
+
+---
+
 #### quote
 
-returns the unevaluated arguments
+returns the unevaluated argument
 
 Examples:
 
 ~~~
-performtest ( typename ( quote ( + 1 1 ) ) ) List`1
+performtest (     local foobar 4711
+    at ( quote foobar ) 0 ) foobar
 ~~~
 
 ---
@@ -3344,13 +3938,7 @@ performtest
 performtest
   (
     writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average
-      (
-        split
-          (
-            readfile c:\testdirectory\values.txt
-          )
-      )
+    average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
 ~~~
@@ -3362,7 +3950,24 @@ performtest
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Remove
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Remove
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Remove
+
+---
+
+#### RemoveAt
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.RemoveAt
+
+---
+
+#### RemoveRange
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.RemoveRange
 
 ---
 
@@ -3403,23 +4008,26 @@ performtest
 ~~~
 performtest
   (
-    switch
-      ( < 1 1 )
-      ( return 1 )
-      ( == 1 1 )
-      ( return 2 )
-      ( > 1 1 )
-      ( return 3 )
+    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
   )
   2
 ~~~
 ~~~
-performtest
-  (
-    if ( < 1 1 ) ( return 0 ) ( return 1 )
-  )
-  1
+performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
 ~~~
+~~~
+performtest (     local a 4711
+    decrement a 11
+    return a ) 4700
+~~~
+
+---
+
+#### Reverse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Reverse
 
 ---
 
@@ -3441,8 +4049,17 @@ assigns a new value to an existing variable; the variable can exist in any activ
 Examples:
 
 ~~~
-performtest ( local a 4711 set a 1234 ) 1234
+performtest (     local a 4711
+    set a 1234 ) 1234
 ~~~
+
+---
+
+#### SetRange
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.SetRange
 
 ---
 
@@ -3472,9 +4089,7 @@ performtest ( size ( array 1 2 3 4 5 6 ) ) 6
 performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
 ~~~
 ~~~
-performtest
-  ( size ( getfiles c:\testdirectory ) )
-  3
+performtest ( size ( getfiles c:\testdirectory ) ) 3
 ~~~
 ~~~
 performtest
@@ -3487,26 +4102,28 @@ performtest
   2
 ~~~
 ~~~
-performtest
-  ( > ( size ( dir SystemRoot ) ) 0 )
-  True
+performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
 ~~~
 ~~~
-performtest
-  (
-    >
-      (
-        size ( getmember 'Hello' 'Split' )
-      )
-      0
-  )
-  True
+performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
 ~~~
 ~~~
-performtest ( size ( newarray 1000 ) ) 1000
+performtest ( size ( newarray 1000 0 ) ) 1000
 ~~~
 ~~~
 performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+~~~
+~~~
+performtest ( size ( primes 1000 ) ) 167
+~~~
+~~~
+performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
+~~~
+~~~
+performtest ( size ( gettokens 'the big brown fox' ) ) 4
+~~~
+~~~
+performtest ( size ( gettokens ( findfile basedirectory LICENSE ) ) ) 168
 ~~~
 
 ---
@@ -3523,10 +4140,16 @@ Examples:
 performtest ( sort 'hello' ) 'ehllo'
 ~~~
 ~~~
-performtest
-  ( sort ( split '3~n1~n4~n1~n5~n9' ) )
-  ( array '1' '1' '3' '4' '5' '9' )
+performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( array '1' '1' '3' '4' '5' '9' )
 ~~~
+
+---
+
+#### Sort
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Sort
 
 ---
 
@@ -3539,11 +4162,7 @@ sorts an array
 Examples:
 
 ~~~
-performtest
-  (
-    sortarray ( array 3 1 4 1 5 9 2 6 0 )
-  )
-  ( array 0 1 1 2 3 4 5 6 9 )
+performtest ( sortarray ( array 3 1 4 1 5 9 2 6 0 ) ) ( array 0 1 1 2 3 4 5 6 9 )
 ~~~
 
 ---
@@ -3571,33 +4190,21 @@ creates an array by splitting a string at carriage-returns
 Examples:
 
 ~~~
-performtest
-  ( at ( split 'Hello~nworld!' ) 1 )
-  'world!'
+performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
 ~~~
 ~~~
-performtest
-  ( upperbound ( split 'Hello~nworld' ) )
-  1
+performtest ( upperbound ( split 'Hello~nworld' ) ) 1
 ~~~
 ~~~
 performtest
   (
     writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average
-      (
-        split
-          (
-            readfile c:\testdirectory\values.txt
-          )
-      )
+    average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
 ~~~
 ~~~
-performtest
-  ( sort ( split '3~n1~n4~n1~n5~n9' ) )
-  ( array '1' '1' '3' '4' '5' '9' )
+performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( array '1' '1' '3' '4' '5' '9' )
 ~~~
 
 ---
@@ -3621,6 +4228,14 @@ Examples:
 ~~~
 performtest ( square 2 ) 4
 ~~~
+
+---
+
+#### Stack.Synchronized
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Synchronized
 
 ---
 
@@ -3795,13 +4410,7 @@ Examples:
 ~~~
 performtest
   (
-    switch
-      ( < 1 1 )
-      ( return 1 )
-      ( == 1 1 )
-      ( return 2 )
-      ( > 1 1 )
-      ( return 3 )
+    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
   )
   2
 ~~~
@@ -3813,7 +4422,10 @@ performtest
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.SyncRoot
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.SyncRoot
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.SyncRoot
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.SyncRoot
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.SyncRoot
 
 ---
 
@@ -3832,10 +4444,18 @@ tail of an object (e.g. an array, a list, or a string)
 Examples:
 
 ~~~
-performtest
-  ( tail ( array 1 2 3 4 ) )
-  ( array 2 3 4 )
+performtest ( tail ( array 1 2 3 4 ) ) ( array 2 3 4 )
 ~~~
+
+---
+
+#### ToArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.ToArray
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.ToArray
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.ToArray
 
 ---
 
@@ -3848,9 +4468,27 @@ converts the first character of a string to type "char"
 Examples:
 
 ~~~
-performtest
-  ( String.new ( tochar 'a' ) 10 )
-  'aaaaaaaaaa'
+performtest ( String.new ( tochar 'a' ) 10 ) 'aaaaaaaaaa'
+~~~
+~~~
+performtest ( iswhitespace ( tochar 'a' ) ) False
+~~~
+~~~
+performtest ( iswhitespace ( tochar ' ' ) ) True
+~~~
+
+---
+
+#### tocharacters
+
+converts a string to an array of characters
+
+* string: string
+
+Examples:
+
+~~~
+performtest ( typename ( tocharacters 'Hello World!' ) ) 'Char[]'
 ~~~
 
 ---
@@ -3872,13 +4510,7 @@ converts an integer value to a double value
 Examples:
 
 ~~~
-performtest
-  (
-    joinfrom
-      ( typename 1 )
-      ( typename ( todouble 1 ) )
-  )
-  'Int32 Double'
+performtest ( joinfrom ( typename 1 ) ( typename ( todouble 1 ) ) ) 'Int32 Double'
 ~~~
 
 ---
@@ -3954,6 +4586,15 @@ See:
 
 ---
 
+#### TrimToSize
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.TrimToSize
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.TrimToSize
+
+---
+
 #### TryFormat
 
 See:
@@ -3974,21 +4615,13 @@ Examples:
 performtest ( typename 'Hello' ) 'String'
 ~~~
 ~~~
-performtest ( typename ( quote ( + 1 1 ) ) ) List`1
+performtest ( joinfrom ( typename 1 ) ( typename ( todouble 1 ) ) ) 'Int32 Double'
 ~~~
 ~~~
-performtest
-  (
-    joinfrom
-      ( typename 1 )
-      ( typename ( todouble 1 ) )
-  )
-  'Int32 Double'
+performtest ( typename ( typeof 'foobar' ) ) RuntimeType
 ~~~
 ~~~
-performtest
-  ( typename ( typeof 'hi' ) )
-  RuntimeType
+performtest ( typename ( tocharacters 'Hello World!' ) ) 'Char[]'
 ~~~
 
 ---
@@ -4002,9 +4635,7 @@ returns the type-object of an object
 Examples:
 
 ~~~
-performtest
-  ( typename ( typeof 'hi' ) )
-  RuntimeType
+performtest ( typename ( typeof 'foobar' ) ) RuntimeType
 ~~~
 
 ---
@@ -4021,9 +4652,7 @@ Examples:
 performtest ( upperbound ( array 1 2 3 ) ) 2
 ~~~
 ~~~
-performtest
-  ( upperbound ( split 'Hello~nworld' ) )
-  1
+performtest ( upperbound ( split 'Hello~nworld' ) ) 1
 ~~~
 
 ---
@@ -4044,6 +4673,15 @@ See:
 
 ---
 
+#### while
+
+performs a while-loop
+
+* condition: condition for continuing the loop
+* code: body of the while-loop
+
+---
+
 #### write
 
 writes text on the console
@@ -4053,7 +4691,7 @@ writes text on the console
 Examples:
 
 ~~~
-performtest ( write 'hi' ) True
+performtest ( write 'foobar' ) 'foobar'
 ~~~
 
 ---
@@ -4087,13 +4725,7 @@ performtest
 performtest
   (
     writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average
-      (
-        split
-          (
-            readfile c:\testdirectory\values.txt
-          )
-      )
+    average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
 ~~~
@@ -4101,8 +4733,8 @@ performtest
 #### Missing Documentation:
 
 
-* getcommands
+* iswhitespace
+  - character
 
-#### Missing Examples:
-
-* invoketests
+* newarray
+  - initialvalue

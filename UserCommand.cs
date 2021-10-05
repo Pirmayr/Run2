@@ -26,6 +26,11 @@ namespace Run2
       return false;
     }
 
+    public override string GetName()
+    {
+      return Name;
+    }
+
     public override string GetParameterDescription(string name)
     {
       return ParameterDescriptions.TryGetValue(name, out var result) ? result : "";
@@ -39,17 +44,13 @@ namespace Run2
     public override object Run(Tokens arguments)
     {
       Run2.EnterScope();
-      (ParameterNames.Count == 0 || arguments.Count == ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
+      (ParameterNames.Count == 0 || arguments.Count <= ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
       foreach (var parameterName in ParameterNames)
       {
-        if (parameterName.IsStronglyQuotedString(out var stronglyQuotedStringValue))
-        {
-          Run2.SetLocalVariable(stronglyQuotedStringValue, arguments.DequeueObject(false));
-        }
-        else
-        {
-          Run2.SetLocalVariable(parameterName, arguments.DequeueObject());
-        }
+        var isQuotedParameter = parameterName.IsStronglyQuotedString(out var unquotedParameterName);
+        var actualParameterName = isQuotedParameter ? unquotedParameterName : parameterName;
+        var value = 0 < arguments.Count ? arguments.DequeueObject(!isQuotedParameter) : null;
+        Run2.SetLocalVariable(actualParameterName, value);
       }
       var argumentsList = arguments.ToList(!IsQuoted);
       Run2.SetLocalVariable("arguments", argumentsList);

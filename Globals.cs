@@ -3,7 +3,7 @@
   internal static class Globals
   {
     public const string DefaultScriptName = "build.run2";
-    public const int MaxCodeLineLength = 40;
+    public const int MaxCodeLineLength = 60;
 
     public static Tokens Arguments { get; set; }
 

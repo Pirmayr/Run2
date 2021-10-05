@@ -24,6 +24,11 @@ namespace Run2
       return false;
     }
 
+    public override string GetName()
+    {
+      return action.Method.Name;
+    }
+
     public override string GetParameterDescription(string name)
     {
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));

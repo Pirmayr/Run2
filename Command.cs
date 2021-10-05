@@ -8,6 +8,8 @@ namespace Run2
 
     public abstract bool GetHideHelp();
 
+    public abstract string GetName();
+
     public abstract string GetParameterDescription(string name);
 
     public abstract List<string> GetParameterNames();

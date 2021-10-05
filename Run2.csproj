@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="$(TargetDir)run2.exe -scriptName System.run2" />
+    <Exec Command="rem $(TargetDir)run2.exe -scriptName System.run2" />
   </Target>
 
 </Project>

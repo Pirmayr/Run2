@@ -16,6 +16,10 @@ namespace Run2
     private string DoToCode(int indent, bool newLine)
     {
       var result = new StringBuilder();
+      if (1 < Count)
+      {
+        newLine = true;
+      }
       for (var i = 0; i < Count; ++i)
       {
         var subCommand = this[i];

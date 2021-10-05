@@ -33,6 +33,11 @@ namespace Run2
       return FullNames.Count == 0;
     }
 
+    public override string GetName()
+    {
+      return MemberName;
+    }
+
     public override string GetParameterDescription(string name)
     {
       return "";
