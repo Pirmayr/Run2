@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace Run2
 {
@@ -22,13 +21,6 @@ namespace Run2
     public object DequeueObject(bool evaluate = true)
     {
       return Process(Dequeue(), evaluate);
-    }
-
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public string ToCode(int indent, bool newLine)
-    {
-      var result = DoToCode(indent, false);
-      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(indent, true) : result;
     }
 
     internal Tokens Clone(int skip = 0)
@@ -85,63 +77,6 @@ namespace Run2
     private new object Dequeue()
     {
       return base.Dequeue();
-    }
-
-    private string DoToCode(int indent, bool newLine)
-    {
-      var multilineSubCommandWritten = false;
-      var result = new StringBuilder();
-      foreach (var item in this)
-      {
-        switch (item)
-        {
-          case SubCommands subCommandsValue:
-          {
-            var subCommandsCode = subCommandsValue.ToCode(indent + 2, newLine);
-            if (Globals.MaxCodeLineLength < subCommandsCode.Length || subCommandsCode.Contains('\n'))
-            {
-              result.AppendNewLine(newLine);
-              result.AppendIndented("(", indent, newLine);
-              result.AppendNewLine(newLine);
-              result.Append($"{subCommandsCode}");
-              result.AppendNewLine(newLine);
-              result.AppendIndented(")", indent, newLine);
-              multilineSubCommandWritten = true;
-            }
-            else
-            {
-              result.AppendNewLine(multilineSubCommandWritten && newLine);
-              result.AppendIndented("( ", indent, multilineSubCommandWritten && newLine);
-              result.Append($"{subCommandsCode.Trim(' ')}");
-              result.Append(" )");
-            }
-            break;
-          }
-          case WeaklyQuotedString:
-          {
-            result.AppendNewLine(multilineSubCommandWritten && newLine);
-            result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, multilineSubCommandWritten && newLine);
-            multilineSubCommandWritten = false;
-            break;
-          }
-          default:
-            result.AppendNewLine(multilineSubCommandWritten && newLine);
-            string itemString;
-            switch (item)
-            {
-              case double doubleValue:
-                itemString = doubleValue.ToString("0.0############################");
-                break;
-              default:
-                itemString = item.ToString();
-                break;
-            }
-            result.AppendIndented($"{itemString}", indent, multilineSubCommandWritten && newLine);
-            multilineSubCommandWritten = false;
-            break;
-        }
-      }
-      return result.ToString();
     }
   }
 }

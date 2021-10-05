@@ -1,13 +1,17 @@
-﻿namespace Run2
+﻿using System.Collections.Generic;
+
+namespace Run2
 {
   internal static class Globals
   {
     public const string DefaultScriptName = "build.run2";
-    public const int MaxCodeLineLength = 60;
+    public const int MaxCodeLineLength = 100;
 
     public static Tokens Arguments { get; set; }
 
     public static string BaseDirectory { get; set; }
+
+    public static Dictionary<string, Command> Commands { get; } = new();
 
     public static bool Debug { get; set; }
 

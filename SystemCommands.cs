@@ -118,7 +118,7 @@ namespace Run2
     // ReSharper disable once UnusedParameter.Global
     public static object GetCode(Tokens arguments)
     {
-      return Run2.ToCode();
+      return CodeFormatter.ToCode();
     }
 
     [Documentation(0, 0, null, "returns the list of commands")]

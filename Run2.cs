@@ -19,7 +19,6 @@ namespace Run2
     private const string TestCommand = "performtest";
     private const char WeakQuote = '\'';
     private static readonly HashSet<string> acceptedTypes = new() { "Array", "ArrayList", "Char", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
-    private static readonly Dictionary<string, Command> commands = new();
     private static readonly Variables variables = new();
 
     public static void EnterScope()
@@ -50,7 +49,7 @@ namespace Run2
 
     public static object GetCommands()
     {
-      return string.Join('\n', commands.Keys);
+      return string.Join('\n', Globals.Commands.Keys);
     }
 
     public static string GetHelp()
@@ -61,7 +60,7 @@ namespace Run2
       var missingDocumentation = "";
       var insertLine = false;
       result.Append("# Predefined Run2-Commands");
-      foreach (var (name, command) in commands.Where(static item => !item.Value.GetHideHelp()).OrderBy(static item => item.Key))
+      foreach (var (name, command) in Globals.Commands.Where(static item => !item.Value.GetHideHelp()).OrderBy(static item => item.Key))
       {
         if (insertLine)
         {
@@ -199,37 +198,6 @@ namespace Run2
       variables.Set(name, value);
     }
 
-    public static string ToCode()
-    {
-      var result = new StringBuilder();
-      foreach (var command in commands.Values.OrderBy(static item => item.GetName()))
-      {
-        if (command is UserCommand userCommandValue)
-        {
-          if (0 < result.Length)
-          {
-            result.Append("\n\n");
-          }
-          result.Append(userCommandValue.IsQuoted ? $"command \"{userCommandValue.Name}\"" : $"command {userCommandValue.Name}");
-          if (!string.IsNullOrEmpty(userCommandValue.CommandDescription))
-          {
-            result.Append($" '{userCommandValue.CommandDescription}'");
-          }
-          foreach (var parameterName in userCommandValue.GetParameterNames())
-          {
-            result.AppendNewLine(true);
-            result.AppendIndented(parameterName, 2, true);
-            if (userCommandValue.ParameterDescriptions.TryGetValue(parameterName, out var parameterDescription))
-            {
-              result.Append($" '{parameterDescription}'");
-            }
-          }
-          result.Append($"\n{userCommandValue.SubCommands.ToCode(2, true)}");
-        }
-      }
-      return result.ToString();
-    }
-
     private static bool AcceptMember(MemberInfo member)
     {
       return member switch
@@ -248,10 +216,10 @@ namespace Run2
     private static void AddMember(Type type, MemberInfo member, BindingFlags bindingFlags, bool isStatic, bool isLocalType)
     {
       var key = isStatic ? type.Name + "." + member.Name : member.Name;
-      if (!commands.TryGetValue(key, out var command))
+      if (!Globals.Commands.TryGetValue(key, out var command))
       {
         command = new InvokeCommand(member.Name, isStatic ? type : null);
-        commands.Add(key, command);
+        Globals.Commands.Add(key, command);
       }
       if (!isLocalType)
       {
@@ -285,9 +253,9 @@ namespace Run2
             if (0 < type.GetConstructors().Length)
             {
               var key = type.Name + ".new";
-              if (!commands.ContainsKey(key))
+              if (!Globals.Commands.ContainsKey(key))
               {
-                commands.Add(key, new InvokeCommand("_new", type));
+                Globals.Commands.Add(key, new InvokeCommand("_new", type));
               }
             }
           }
@@ -300,7 +268,7 @@ namespace Run2
       foreach (var method in typeof(SystemCommands).GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static))
       {
         var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));
-        commands.Add(attribute?.CommandName ?? method.Name.ToLower(), new SystemCommand((CommandAction) Delegate.CreateDelegate(typeof(CommandAction), method)));
+        Globals.Commands.Add(attribute?.CommandName ?? method.Name.ToLower(), new SystemCommand((CommandAction) Delegate.CreateDelegate(typeof(CommandAction), method)));
       }
     }
 
@@ -338,16 +306,16 @@ namespace Run2
       {
         if (name.IsStronglyQuotedString(out var unquotedName))
         {
-          commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true });
+          Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true });
         }
         else
         {
-          commands.Add(name, new UserCommand { Name = name });
+          Globals.Commands.Add(name, new UserCommand { Name = name });
         }
       }
       foreach (var (definitionName, definitionTokens) in definitions)
       {
-        var userCommand = commands[definitionName.RemoveStrongQuotes()] as UserCommand;
+        var userCommand = Globals.Commands[definitionName.RemoveStrongQuotes()] as UserCommand;
         (userCommand != null).Check("User-command must not be null");
         if (TryPeekDescription(definitionTokens, out var description))
         {
@@ -357,7 +325,7 @@ namespace Run2
         while (0 < definitionTokens.Count)
         {
           var peekedTokenString = definitionTokens.PeekString();
-          if (commands.ContainsKey(peekedTokenString))
+          if (Globals.Commands.ContainsKey(peekedTokenString))
           {
             break;
           }
@@ -426,7 +394,7 @@ namespace Run2
     private static Dictionary<string, List<SubCommand>> GetCommandReferences(string filterCommandName)
     {
       var filteredSubCommands = new List<SubCommand>();
-      foreach (var command in commands.Values)
+      foreach (var command in Globals.Commands.Values)
       {
         if (command is UserCommand userCommand)
         {
@@ -469,7 +437,7 @@ namespace Run2
         result.Add(subCommand);
         while (0 < tokens.Count)
         {
-          if (tokens.Peek() is string peekedTokenString && commands.ContainsKey(peekedTokenString))
+          if (tokens.Peek() is string peekedTokenString && Globals.Commands.ContainsKey(peekedTokenString))
           {
             break;
           }
@@ -609,7 +577,7 @@ namespace Run2
 
     private static void OnGlobalScopeCreated(object sender, EventArgs e)
     {
-      SetGlobalVariable("commands", commands);
+      SetGlobalVariable("commands", Globals.Commands);
       SetGlobalVariable("variables", variables);
       SetGlobalVariable("scriptpath", Globals.ScriptPath);
       SetGlobalVariable("basedirectory", Globals.BaseDirectory);
@@ -622,12 +590,12 @@ namespace Run2
 
     private static object RunCommand(string name, Tokens arguments)
     {
-      commands.ContainsKey(name).Check($"Command '{name}' not found");
+      Globals.Commands.ContainsKey(name).Check($"Command '{name}' not found");
       if (Globals.Debug)
       {
         Helpers.WriteLine($"Begin '{name}'");
       }
-      var result = commands[name].Run(arguments.Clone());
+      var result = Globals.Commands[name].Run(arguments.Clone());
       if (Globals.Debug)
       {
         Helpers.WriteLine($"End '{name}'");

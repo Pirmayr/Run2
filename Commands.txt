@@ -287,7 +287,6 @@ Helpers.IsAnyString
 Helpers.IsEqual
 Helpers.IsStruct
 Helpers.WriteLine
-ToCode
 AsReadOnly
 ConvertAll
 Exists

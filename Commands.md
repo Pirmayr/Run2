@@ -53,8 +53,7 @@ performtest
   (
     local product 1
     map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  )
-  12
+  ) 12
 ~~~
 
 ---
@@ -103,16 +102,14 @@ performtest
   (
     local result 0
     for i 1 10 1 ( local result ( + result i ) )
-  )
-  55
+  ) 55
 ~~~
 ~~~
 performtest
   (
     local result 0
     foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  )
-  9
+  ) 9
 ~~~
 
 ---
@@ -133,11 +130,7 @@ performtest ( < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001 ) True
 performtest ( < 47 11 ) False
 ~~~
 ~~~
-performtest
-  (
-    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
-  )
-  2
+performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
 ~~~
 ~~~
 performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
@@ -185,11 +178,7 @@ performtest ( == ( array 1 2 3 ) ( array 1 2 4 ) ) False
 performtest ( == ( array 1 2 3 4 ) ( array 1 2 3 ) ) False
 ~~~
 ~~~
-performtest
-  (
-    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
-  )
-  2
+performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
 ~~~
 ~~~
 performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
@@ -210,11 +199,7 @@ Examples:
 performtest ( > 47 11 ) True
 ~~~
 ~~~
-performtest
-  (
-    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
-  )
-  2
+performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
 ~~~
 ~~~
 performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
@@ -321,16 +306,14 @@ performtest
   (
     local result 0
     foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  )
-  9
+  ) 9
 ~~~
 ~~~
 performtest
   (
     local product 1
     map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  )
-  12
+  ) 12
 ~~~
 ~~~
 performtest ( upperbound ( array 1 2 3 ) ) 2
@@ -626,8 +609,11 @@ performtest ( ToString ( at 'Hello' 1 ) ) 'e'
 performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
 ~~~
 ~~~
-performtest (     local foobar 4711
-    at ( quote foobar ) 0 ) foobar
+performtest
+  (
+    local foobar 4711
+    at ( quote foobar ) 0
+  ) foobar
 ~~~
 ~~~
 performtest
@@ -635,8 +621,7 @@ performtest
     local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
-  )
-  'foobar'
+  ) 'foobar'
 ~~~
 
 ---
@@ -1315,8 +1300,7 @@ performtest
   (
     createdirectory c:\testdirectory
     directoryexists c:\testdirectory
-  )
-  True
+  ) True
 ~~~
 
 ---
@@ -1339,9 +1323,12 @@ decrements a variable
 Examples:
 
 ~~~
-performtest (     local a 4711
+performtest
+  (
+    local a 4711
     decrement a 11
-    return a ) 4700
+    return a
+  ) 4700
 ~~~
 
 ---
@@ -1359,8 +1346,7 @@ performtest
   (
     deletedirectory c:\testdirectory
     directoryexists c:\testdirectory
-  )
-  False
+  ) False
 ~~~
 
 ---
@@ -1380,8 +1366,7 @@ performtest
     enqueue queue 47
     enqueue queue 11
     dequeue queue
-  )
-  47
+  ) 47
 ~~~
 ~~~
 performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
@@ -1638,16 +1623,14 @@ performtest
   (
     createdirectory c:\testdirectory
     directoryexists c:\testdirectory
-  )
-  True
+  ) True
 ~~~
 ~~~
 performtest
   (
     deletedirectory c:\testdirectory
     directoryexists c:\testdirectory
-  )
-  False
+  ) False
 ~~~
 
 ---
@@ -1720,8 +1703,7 @@ performtest
     enqueue queue 47
     enqueue queue 11
     dequeue queue
-  )
-  47
+  ) 47
 ~~~
 
 ---
@@ -2214,8 +2196,7 @@ performtest
   (
     local result 0
     for i 1 10 1 ( local result ( + result i ) )
-  )
-  55
+  ) 55
 ~~~
 ~~~
 performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
@@ -2238,8 +2219,7 @@ performtest
   (
     local result 0
     foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  )
-  9
+  ) 9
 ~~~
 
 ---
@@ -2436,8 +2416,7 @@ performtest
     global value 4711
     increment value 1
     return value
-  )
-  4712
+  ) 4712
 ~~~
 ~~~
 performtest
@@ -2544,8 +2523,7 @@ performtest
     global value 4711
     increment value 1
     return value
-  )
-  4712
+  ) 4712
 ~~~
 ~~~
 performtest
@@ -2553,8 +2531,7 @@ performtest
     local value 1234
     increment value 2
     return value
-  )
-  1236
+  ) 1236
 ~~~
 
 ---
@@ -2928,24 +2905,21 @@ performtest
   (
     local result 0
     for i 1 10 1 ( local result ( + result i ) )
-  )
-  55
+  ) 55
 ~~~
 ~~~
 performtest
   (
     local result 0
     foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  )
-  9
+  ) 9
 ~~~
 ~~~
 performtest
   (
     local product 1
     map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  )
-  12
+  ) 12
 ~~~
 ~~~
 performtest
@@ -2953,16 +2927,21 @@ performtest
     local value 1234
     increment value 2
     return value
-  )
-  1236
+  ) 1236
 ~~~
 ~~~
-performtest (     local a 4711
-    set a 1234 ) 1234
+performtest
+  (
+    local a 4711
+    set a 1234
+  ) 1234
 ~~~
 ~~~
-performtest (     local foobar 4711
-    at ( quote foobar ) 0 ) foobar
+performtest
+  (
+    local foobar 4711
+    at ( quote foobar ) 0
+  ) foobar
 ~~~
 ~~~
 performtest
@@ -2970,8 +2949,7 @@ performtest
     local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
-  )
-  'foobar'
+  ) 'foobar'
 ~~~
 ~~~
 performtest
@@ -2980,8 +2958,7 @@ performtest
     enqueue queue 47
     enqueue queue 11
     dequeue queue
-  )
-  47
+  ) 47
 ~~~
 ~~~
 performtest
@@ -2990,13 +2967,15 @@ performtest
     push stack 47
     push stack 11
     pop stack
-  )
-  11
+  ) 11
 ~~~
 ~~~
-performtest (     local a 4711
+performtest
+  (
+    local a 4711
     decrement a 11
-    return a ) 4700
+    return a
+  ) 4700
 ~~~
 
 ---
@@ -3023,8 +3002,7 @@ performtest
   (
     local product 1
     map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  )
-  12
+  ) 12
 ~~~
 
 ---
@@ -3399,8 +3377,7 @@ performtest
     local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
-  )
-  'foobar'
+  ) 'foobar'
 ~~~
 ~~~
 performtest ( isarray ( newarray 100 0 ) ) True
@@ -3459,8 +3436,7 @@ performtest
     enqueue queue 47
     enqueue queue 11
     dequeue queue
-  )
-  47
+  ) 47
 ~~~
 ~~~
 performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
@@ -3484,8 +3460,7 @@ performtest
     push stack 47
     push stack 11
     pop stack
-  )
-  11
+  ) 11
 ~~~
 
 ---
@@ -3786,8 +3761,7 @@ performtest
     push stack 47
     push stack 11
     pop stack
-  )
-  11
+  ) 11
 ~~~
 
 ---
@@ -3845,8 +3819,7 @@ performtest
     push stack 47
     push stack 11
     pop stack
-  )
-  11
+  ) 11
 ~~~
 
 ---
@@ -3875,8 +3848,7 @@ performtest
     local values ( newarray 1000 0 )
     put values 100 'foobar'
     at values 100
-  )
-  'foobar'
+  ) 'foobar'
 ~~~
 
 ---
@@ -3896,8 +3868,11 @@ returns the unevaluated argument
 Examples:
 
 ~~~
-performtest (     local foobar 4711
-    at ( quote foobar ) 0 ) foobar
+performtest
+  (
+    local foobar 4711
+    at ( quote foobar ) 0
+  ) foobar
 ~~~
 
 ---
@@ -3993,8 +3968,7 @@ performtest
     global value 4711
     increment value 1
     return value
-  )
-  4712
+  ) 4712
 ~~~
 ~~~
 performtest
@@ -4002,23 +3976,21 @@ performtest
     local value 1234
     increment value 2
     return value
-  )
-  1236
+  ) 1236
 ~~~
 ~~~
-performtest
-  (
-    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
-  )
-  2
+performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
 ~~~
 ~~~
 performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
 ~~~
 ~~~
-performtest (     local a 4711
+performtest
+  (
+    local a 4711
     decrement a 11
-    return a ) 4700
+    return a
+  ) 4700
 ~~~
 
 ---
@@ -4049,8 +4021,11 @@ assigns a new value to an existing variable; the variable can exist in any activ
 Examples:
 
 ~~~
-performtest (     local a 4711
-    set a 1234 ) 1234
+performtest
+  (
+    local a 4711
+    set a 1234
+  ) 1234
 ~~~
 
 ---
@@ -4408,11 +4383,7 @@ calls the first command for which a condition holds true
 Examples:
 
 ~~~
-performtest
-  (
-    switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 )
-  )
-  2
+performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
 ~~~
 
 ---
