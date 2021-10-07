@@ -46,7 +46,7 @@ namespace Run2
     {
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
-      return Helpers.IsEqual(value1, value2);
+      return Helpers.AreEqual(value1, value2);
     }
 
     [Documentation(1, int.MaxValue, null, "evaluates an object", "object", "object to be evaluated")]
@@ -132,7 +132,7 @@ namespace Run2
     // ReSharper disable once UnusedParameter.Global
     public static object GetHelp(Tokens arguments)
     {
-      return Run2.GetHelp();
+      return HelpGenerator.GetHelp();
     }
 
     [Documentation(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
@@ -234,7 +234,7 @@ namespace Run2
       var value2 = arguments.DequeueObject();
       if (BigInteger.TryParse(value1.ToString(), out var bigIntegerValue1) && BigInteger.TryParse(value2.ToString(), out var bigIntegerValue2))
       {
-        return Helpers.GetBestTypedObject((bigIntegerValue1 * bigIntegerValue2).ToString());
+        return (bigIntegerValue1 * bigIntegerValue2).ToString().GetBestTypedObject();
       }
       return (dynamic) value1 * (dynamic) value2;
     }
@@ -244,7 +244,7 @@ namespace Run2
     {
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
-      return !Helpers.IsEqual(value1, value2);
+      return !Helpers.AreEqual(value1, value2);
     }
 
     [Documentation(0, 0, null, "the value 'null'")]

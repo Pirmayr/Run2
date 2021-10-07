@@ -4,39 +4,28 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Run2
 {
   internal static class Run2
   {
-    private const char BlockEnd = ')';
-    private const char BlockStart = '(';
-    private const string CommandToken = "command";
-    private const char StrongQuote = '"';
-    private const string TestCommand = "performtest";
-    private const char WeakQuote = '\'';
-    private static readonly HashSet<string> acceptedTypes = new() { "Array", "ArrayList", "Char", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
-    private static readonly Variables variables = new();
-
     public static void EnterScope()
     {
-      variables.EnterScope();
+      Globals.Variables.EnterScope();
     }
 
     public static object Evaluate(object value)
     {
-      if (Helpers.IsAnyString(value, out var stringValue))
+      if (value.IsAnyString(out var stringValue))
       {
-        if (value is string && variables.TryGetValue(stringValue, out var result))
+        if (value is string && Globals.Variables.TryGetValue(stringValue, out var result))
         {
           return result;
         }
-        foreach (var key in variables.GetKeys())
+        foreach (var key in Globals.Variables.GetKeys())
         {
-          stringValue = stringValue.Replace("[" + key + "]", variables.Get(key).ToString());
+          stringValue = stringValue.Replace("[" + key + "]", Globals.Variables.Get(key).ToString());
         }
         return stringValue;
       }
@@ -52,84 +41,9 @@ namespace Run2
       return string.Join('\n', Globals.Commands.Keys);
     }
 
-    public static string GetHelp()
-    {
-      var commandReferences = GetCommandReferences(TestCommand);
-      var result = new StringBuilder();
-      var missingReferences = "";
-      var missingDocumentation = "";
-      var insertLine = false;
-      result.Append("# Predefined Run2-Commands");
-      foreach (var (name, command) in Globals.Commands.Where(static item => !item.Value.GetHideHelp()).OrderBy(static item => item.Key))
-      {
-        if (insertLine)
-        {
-          result.Append("\n\n---");
-        }
-        insertLine = true;
-        result.Append($"\n\n#### {name}");
-        if (!string.IsNullOrEmpty(command.GetDescription()))
-        {
-          result.Append($"\n\n{command.GetDescription()}");
-        }
-        var commandDocumentationMissing = string.IsNullOrEmpty(command.GetDescription());
-        var missingDocumentationParameters = new List<string>();
-        var parameterNames = command.GetParameterNames();
-        if (0 < parameterNames.Count)
-        {
-          result.Append("\n");
-          foreach (var parameterName in parameterNames)
-          {
-            var parameterDescription = command.GetParameterDescription(parameterName);
-            result.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
-            if (string.IsNullOrEmpty(parameterDescription))
-            {
-              missingDocumentationParameters.Add(parameterName);
-            }
-          }
-        }
-        if (commandDocumentationMissing || 0 < missingDocumentationParameters.Count)
-        {
-          missingDocumentation += 0 < missingDocumentation.Length ? "\n" : "";
-          missingDocumentation += $"\n* {name}";
-          foreach (var parameterName in missingDocumentationParameters)
-          {
-            missingDocumentation += $"\n  - {parameterName}";
-          }
-        }
-        if (commandReferences.TryGetValue(name, out var references))
-        {
-          result.Append("\n\nExamples:\n");
-          foreach (var reference in references)
-          {
-            result.Append("\n~~~");
-            result.Append($"\n{CleanCode(reference.ToCode(0, true))}");
-            result.Append("\n~~~");
-          }
-        }
-        else if (name != TestCommand && name != Path.GetFileNameWithoutExtension(Globals.ScriptName) && command is UserCommand)
-        {
-          if (0 < missingReferences.Length)
-          {
-            missingReferences += '\n';
-          }
-          missingReferences += $"* {name}";
-        }
-      }
-      if (!string.IsNullOrEmpty(missingDocumentation))
-      {
-        result.Append($"\n\n#### Missing Documentation:\n\n{missingDocumentation}");
-      }
-      if (!string.IsNullOrEmpty(missingReferences))
-      {
-        result.Append($"\n\n#### Missing Examples:\n\n{missingReferences}");
-      }
-      return result.ToString();
-    }
-
     public static object GetVariable(string name)
     {
-      return variables.Get(name);
+      return Globals.Variables.Get(name);
     }
 
     public static void Initialize()
@@ -139,10 +53,10 @@ namespace Run2
       CreateStandardObject(new Stack());
       CreateStandardObject(new Hashtable());
       CreateStandardObject(new Queue());
-      variables.globalScopeCreated += OnGlobalScopeCreated;
+      Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Debug = CommandLineParser.OptionExists("debug");
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Helpers.GetProgramDirectory());
-      Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.DefaultScriptName);
+      Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.ScriptNameDefault);
       Globals.Arguments = new Tokens(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
       Globals.ScriptPath = Helpers.FindFile(Globals.BaseDirectory, Globals.ScriptName);
       File.Exists(Globals.ScriptPath).Check($"Could not find script '{Globals.ScriptName}' (base-directory: '{Globals.BaseDirectory}')");
@@ -153,20 +67,9 @@ namespace Run2
       Helpers.WriteLine("Script terminated successfully");
     }
 
-    public static bool IsStronglyQuotedString(this object value, out string result)
-    {
-      if (value is string stringValue && stringValue.StartsWith(StrongQuote) && stringValue.EndsWith(StrongQuote))
-      {
-        result = stringValue.Substring(1, stringValue.Length - 2);
-        return true;
-      }
-      result = null;
-      return false;
-    }
-
     public static void LeaveScope()
     {
-      variables.LeaveScope();
+      Globals.Variables.LeaveScope();
     }
 
     public static object RunSubCommands(SubCommands subCommands)
@@ -185,17 +88,17 @@ namespace Run2
 
     public static void SetGlobalVariable(string name, object value)
     {
-      variables.SetGlobal(name, value);
+      Globals.Variables.SetGlobal(name, value);
     }
 
     public static void SetLocalVariable(string name, object value)
     {
-      variables.SetLocal(name, value);
+      Globals.Variables.SetLocal(name, value);
     }
 
     public static void SetVariable(string name, object value)
     {
-      variables.Set(name, value);
+      Globals.Variables.Set(name, value);
     }
 
     private static bool AcceptMember(MemberInfo member)
@@ -210,7 +113,7 @@ namespace Run2
 
     private static bool AcceptType(Type type)
     {
-      return type.IsPublic && (type.IsClass || type.IsStruct()) && !type.IsNested && !type.IsGenericType && acceptedTypes.Contains(type.Name);
+      return type.IsPublic && (type.IsClass || type.IsStruct()) && !type.IsNested && !type.IsGenericType && Globals.AcceptedTypes.Contains(type.Name);
     }
 
     private static void AddMember(Type type, MemberInfo member, BindingFlags bindingFlags, bool isStatic, bool isLocalType)
@@ -223,7 +126,7 @@ namespace Run2
       }
       if (!isLocalType)
       {
-        ((InvokeCommand) command).FullNames.Add(isStatic ? $"{type.FullName}.{member.Name}" : $"{Helpers.BaseTypeOfMember(type, member.Name, bindingFlags).FullName}.{member.Name}");
+        ((InvokeCommand) command).FullNames.Add(isStatic ? $"{type.FullName}.{member.Name}" : $"{type.BaseTypeOfMember(member.Name, bindingFlags).FullName}.{member.Name}");
       }
     }
 
@@ -281,7 +184,7 @@ namespace Run2
       while (0 < tokens.Count)
       {
         var token = tokens.Dequeue();
-        if (token.ToString()?.Equals(CommandToken, StringComparison.OrdinalIgnoreCase) == true)
+        if (token.ToString()?.Equals(Globals.PseudoCommandNameCommand, StringComparison.OrdinalIgnoreCase) == true)
         {
           if (0 < subtokens.Count)
           {
@@ -304,7 +207,7 @@ namespace Run2
       }
       foreach (var name in definitions.Keys)
       {
-        if (name.IsStronglyQuotedString(out var unquotedName))
+        if (name.IsStrongQuote(out var unquotedName))
         {
           Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true });
         }
@@ -341,20 +244,6 @@ namespace Run2
       }
     }
 
-    private static string CleanCode(string code)
-    {
-      var result = new StringBuilder();
-      foreach (var line in code.Split('\n'))
-      {
-        if (0 < result.Length)
-        {
-          result.Append('\n');
-        }
-        result.Append(line);
-      }
-      return result.ToString();
-    }
-
     // ReSharper disable once UnusedParameter.Local
     private static void CreateStandardObject(object instance)
     {
@@ -362,70 +251,18 @@ namespace Run2
 
     private static void EnqueueToken(string currentToken, Tokens result)
     {
-      if (IsWeaklyQuoted(ref currentToken))
+      if (Helpers.IsWeakQuote(ref currentToken))
       {
-        result.Enqueue(new WeaklyQuotedString(currentToken));
+        result.Enqueue(new WeakQuote(currentToken));
       }
-      else if (IsBlock(ref currentToken))
+      else if (Helpers.IsBlock(ref currentToken))
       {
         result.Enqueue(GetTokens(currentToken));
       }
       else
       {
-        result.Enqueue(Helpers.GetBestTypedObject(currentToken));
+        result.Enqueue(currentToken.GetBestTypedObject());
       }
-    }
-
-    private static void GetCommandNames(SubCommand subCommand, ref HashSet<string> commandNames)
-    {
-      commandNames.Add(subCommand.CommandName);
-      foreach (var token in subCommand.Arguments)
-      {
-        if (token is SubCommands subCommandsValue)
-        {
-          foreach (var subCommandValue in subCommandsValue)
-          {
-            GetCommandNames(subCommandValue, ref commandNames);
-          }
-        }
-      }
-    }
-
-    private static Dictionary<string, List<SubCommand>> GetCommandReferences(string filterCommandName)
-    {
-      var filteredSubCommands = new List<SubCommand>();
-      foreach (var command in Globals.Commands.Values)
-      {
-        if (command is UserCommand userCommand)
-        {
-          foreach (var subCommand in userCommand.SubCommands)
-          {
-            if (subCommand.CommandName == filterCommandName)
-            {
-              filteredSubCommands.Add(subCommand);
-            }
-          }
-        }
-      }
-      var result = new Dictionary<string, List<SubCommand>>();
-      foreach (var filteredSubCommand in filteredSubCommands)
-      {
-        var commandNames = new HashSet<string>();
-        GetCommandNames(filteredSubCommand, ref commandNames);
-        foreach (var commandName in commandNames)
-        {
-          if (commandName != filterCommandName)
-          {
-            if (!result.TryGetValue(commandName, out var references))
-            {
-              references = new List<SubCommand>();
-              result.Add(commandName, references);
-            }
-            references.Add(filteredSubCommand);
-          }
-        }
-      }
-      return result;
     }
 
     private static SubCommands GetSubCommands(Tokens tokens)
@@ -479,26 +316,26 @@ namespace Run2
         {
           switch (currentCharacter)
           {
-            case BlockStart:
+            case Globals.BlockStart:
             {
               currentToken += currentCharacter;
               ++blockLevel;
               expectedBlockLevels.Push(blockLevel);
-              expectedBlockEnders.Push(BlockEnd);
+              expectedBlockEnders.Push(Globals.BlockEnd);
               break;
             }
-            case BlockEnd:
+            case Globals.BlockEnd:
             {
               var expectedBlockEnder = expectedBlockEnders.Pop();
-              (expectedBlockEnder == BlockEnd).Check($"Expected block-ender: {expectedBlockEnder}");
+              (expectedBlockEnder == Globals.BlockEnd).Check($"Expected block-ender: {expectedBlockEnder}");
               var expectedBlockLevel = expectedBlockLevels.Pop();
               (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel}");
               --blockLevel;
               currentToken += currentCharacter;
               break;
             }
-            case StrongQuote:
-            case WeakQuote:
+            case Globals.StrongQuote:
+            case Globals.WeakQuote:
             {
               if (0 < expectedBlockEnders.Count && expectedBlockEnders.Peek() == currentCharacter)
               {
@@ -506,14 +343,14 @@ namespace Run2
                 var expectedBlockLevel = expectedBlockLevels.Pop();
                 (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel}");
                 --blockLevel;
-                if (currentCharacter is StrongQuote or WeakQuote || 0 < blockLevel)
+                if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
                 {
                   currentToken += currentCharacter;
                 }
               }
               else
               {
-                if (currentCharacter is StrongQuote or WeakQuote || 0 < blockLevel)
+                if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
                 {
                   currentToken += currentCharacter;
                 }
@@ -548,26 +385,6 @@ namespace Run2
       return result;
     }
 
-    private static bool IsBlock(ref string text)
-    {
-      if (text.StartsWith(BlockStart) && text.EndsWith(BlockEnd))
-      {
-        text = text.Substring(1, text.Length - 2);
-        return true;
-      }
-      return false;
-    }
-
-    private static bool IsWeaklyQuoted(ref string text)
-    {
-      if (text.StartsWith(WeakQuote) && text.EndsWith(WeakQuote))
-      {
-        text = text.Substring(1, text.Length - 2);
-        return true;
-      }
-      return false;
-    }
-
     private static void LoadCommand(string path)
     {
       File.Exists(path).Check($"Script '{path}' not found");
@@ -578,14 +395,9 @@ namespace Run2
     private static void OnGlobalScopeCreated(object sender, EventArgs e)
     {
       SetGlobalVariable("commands", Globals.Commands);
-      SetGlobalVariable("variables", variables);
+      SetGlobalVariable("variables", Globals.Variables);
       SetGlobalVariable("scriptpath", Globals.ScriptPath);
       SetGlobalVariable("basedirectory", Globals.BaseDirectory);
-    }
-
-    private static string RemoveStrongQuotes(this string value)
-    {
-      return IsStronglyQuotedString(value, out var result) ? result : value;
     }
 
     private static object RunCommand(string name, Tokens arguments)
@@ -605,7 +417,7 @@ namespace Run2
 
     private static bool TryPeekDescription(Tokens tokens, out string description)
     {
-      if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeaklyQuotedString weaklyQuotedString)
+      if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeakQuote weaklyQuotedString)
       {
         description = weaklyQuotedString.Value;
         return true;

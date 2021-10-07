@@ -37,7 +37,7 @@ namespace Run2
     internal bool DequeueBool(bool evaluate = true)
     {
       var result = DequeueObject(evaluate);
-      if (Helpers.IsAnyString(result, out var stringValue))
+      if (result.IsAnyString(out var stringValue))
       {
         return bool.Parse(stringValue);
       }

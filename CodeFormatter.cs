@@ -53,12 +53,11 @@ namespace Run2
         {
           case SubCommands subCommandsValue:
           {
-            var subCommandsCode = subCommandsValue.ToCode(indent + 2, newLine);
+            var subCommandsCode = subCommandsValue.ToCode(indent, newLine);
             if (Globals.MaxCodeLineLength < subCommandsCode.Length || subCommandsCode.Contains('\n'))
             {
               var localNewLine = subCommandsCode.Contains('\n') || newLine;
-              result.AppendNewLine(localNewLine);
-              result.AppendIndented("(", indent, localNewLine);
+              result.Append(" (");
               result.AppendNewLine(localNewLine);
               result.Append($"{subCommandsCode}");
               result.AppendNewLine(localNewLine);
@@ -74,15 +73,15 @@ namespace Run2
             }
             break;
           }
-          case WeaklyQuotedString:
+          case WeakQuote:
           {
-            result.AppendNewLine(multilineSubCommandWritten && newLine);
-            result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, multilineSubCommandWritten && newLine);
+            result.AppendNewLine(multilineSubCommandWritten);
+            result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, multilineSubCommandWritten);
             multilineSubCommandWritten = false;
             break;
           }
           default:
-            result.AppendNewLine(multilineSubCommandWritten && newLine);
+            result.AppendNewLine(multilineSubCommandWritten);
             string itemString;
             switch (item)
             {
@@ -93,7 +92,7 @@ namespace Run2
                 itemString = item.ToString();
                 break;
             }
-            result.AppendIndented($"{itemString}", indent, multilineSubCommandWritten && newLine);
+            result.AppendIndented($"{itemString}", indent, multilineSubCommandWritten);
             multilineSubCommandWritten = false;
             break;
         }

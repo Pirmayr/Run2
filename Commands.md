@@ -49,11 +49,11 @@ Examples:
 performtest ( * 47 11 ) 517
 ~~~
 ~~~
-performtest
-  (
-    local product 1
-    map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  ) 12
+performtest (
+  local product 1
+  map ( array 3 1 4 1 ) ( local product ( * product item ) )
+  )
+  12
 ~~~
 
 ---
@@ -98,18 +98,18 @@ Examples:
 performtest ( + 47 11 ) 58
 ~~~
 ~~~
-performtest
-  (
-    local result 0
-    for i 1 10 1 ( local result ( + result i ) )
-  ) 55
+performtest (
+  local result 0
+  for i 1 10 1 ( local result ( + result i ) )
+  )
+  55
 ~~~
 ~~~
-performtest
-  (
-    local result 0
-    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  ) 9
+performtest (
+  local result 0
+  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+  )
+  9
 ~~~
 
 ---
@@ -245,12 +245,11 @@ adds an entry to a dictionary
 Examples:
 
 ~~~
-performtest
-  (
-    global dictionary ( newdictionary )
-    addentry dictionary 'foo' 'bar'
-    addentry dictionary 'hello' 'world'
-    size dictionary
+performtest (
+  global dictionary ( newdictionary )
+  addentry dictionary 'foo' 'bar'
+  addentry dictionary 'hello' 'world'
+  size dictionary
   )
   2
 ~~~
@@ -302,18 +301,18 @@ performtest ( sum ( array 1 2 3 ) ) 6
 performtest ( average ( array 1 2 3 4 ) ) 2.5
 ~~~
 ~~~
-performtest
-  (
-    local result 0
-    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  ) 9
+performtest (
+  local result 0
+  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+  )
+  9
 ~~~
 ~~~
-performtest
-  (
-    local product 1
-    map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  ) 12
+performtest (
+  local product 1
+  map ( array 3 1 4 1 ) ( local product ( * product item ) )
+  )
+  12
 ~~~
 ~~~
 performtest ( upperbound ( array 1 2 3 ) ) 2
@@ -609,19 +608,19 @@ performtest ( ToString ( at 'Hello' 1 ) ) 'e'
 performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
 ~~~
 ~~~
-performtest
-  (
-    local foobar 4711
-    at ( quote foobar ) 0
-  ) foobar
+performtest (
+  local foobar 4711
+  at ( quote foobar ) 0
+  )
+  foobar
 ~~~
 ~~~
-performtest
-  (
-    local values ( newarray 1000 0 )
-    put values 100 'foobar'
-    at values 100
-  ) 'foobar'
+performtest (
+  local values ( newarray 1000 0 )
+  put values 100 'foobar'
+  at values 100
+  )
+  'foobar'
 ~~~
 
 ---
@@ -638,10 +637,9 @@ Examples:
 performtest ( average ( array 1 2 3 4 ) ) 2.5
 ~~~
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average ( split ( readfile c:\testdirectory\values.txt ) )
+performtest (
+  writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
+  average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
 ~~~
@@ -1296,11 +1294,11 @@ creates specified directory
 Examples:
 
 ~~~
-performtest
-  (
-    createdirectory c:\testdirectory
-    directoryexists c:\testdirectory
-  ) True
+performtest (
+  createdirectory c:\testdirectory
+  directoryexists c:\testdirectory
+  )
+  True
 ~~~
 
 ---
@@ -1323,12 +1321,12 @@ decrements a variable
 Examples:
 
 ~~~
-performtest
-  (
-    local a 4711
-    decrement a 11
-    return a
-  ) 4700
+performtest (
+  local a 4711
+  decrement a 11
+  return a
+  )
+  4700
 ~~~
 
 ---
@@ -1342,11 +1340,11 @@ deletes specified directory
 Examples:
 
 ~~~
-performtest
-  (
-    deletedirectory c:\testdirectory
-    directoryexists c:\testdirectory
-  ) False
+performtest (
+  deletedirectory c:\testdirectory
+  directoryexists c:\testdirectory
+  )
+  False
 ~~~
 
 ---
@@ -1360,13 +1358,13 @@ dequeues an element
 Examples:
 
 ~~~
-performtest
-  (
-    local queue ( newqueue )
-    enqueue queue 47
-    enqueue queue 11
-    dequeue queue
-  ) 47
+performtest (
+  local queue ( newqueue )
+  enqueue queue 47
+  enqueue queue 11
+  dequeue queue
+  )
+  47
 ~~~
 ~~~
 performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
@@ -1619,18 +1617,18 @@ tests if the specified directory exists
 Examples:
 
 ~~~
-performtest
-  (
-    createdirectory c:\testdirectory
-    directoryexists c:\testdirectory
-  ) True
+performtest (
+  createdirectory c:\testdirectory
+  directoryexists c:\testdirectory
+  )
+  True
 ~~~
 ~~~
-performtest
-  (
-    deletedirectory c:\testdirectory
-    directoryexists c:\testdirectory
-  ) False
+performtest (
+  deletedirectory c:\testdirectory
+  directoryexists c:\testdirectory
+  )
+  False
 ~~~
 
 ---
@@ -1697,13 +1695,13 @@ enqueues an element
 Examples:
 
 ~~~
-performtest
-  (
-    local queue ( newqueue )
-    enqueue queue 47
-    enqueue queue 11
-    dequeue queue
-  ) 47
+performtest (
+  local queue ( newqueue )
+  enqueue queue 47
+  enqueue queue 11
+  dequeue queue
+  )
+  47
 ~~~
 
 ---
@@ -2174,7 +2172,7 @@ performtest ( fileexists ( findfile basedirectory LICENSE ) ) True
 performtest ( fileexists ( findfile basedirectory DOESNOTEXIST ) ) False
 ~~~
 ~~~
-performtest ( size ( gettokens ( findfile basedirectory LICENSE ) ) ) 168
+performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
 ~~~
 
 ---
@@ -2192,11 +2190,11 @@ performs a for-loop
 Examples:
 
 ~~~
-performtest
-  (
-    local result 0
-    for i 1 10 1 ( local result ( + result i ) )
-  ) 55
+performtest (
+  local result 0
+  for i 1 10 1 ( local result ( + result i ) )
+  )
+  55
 ~~~
 ~~~
 performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
@@ -2215,11 +2213,11 @@ performs a foreach-loop
 Examples:
 
 ~~~
-performtest
-  (
-    local result 0
-    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  ) 9
+performtest (
+  local result 0
+  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+  )
+  9
 ~~~
 
 ---
@@ -2351,9 +2349,9 @@ See:
 
 #### gettokens
 
-returns the tokenized contents of a text or a text file
+returns the tokenized contents of a text
 
-* textorpath: text or path to a file
+* string: text
 
 Examples:
 
@@ -2361,7 +2359,7 @@ Examples:
 performtest ( size ( gettokens 'the big brown fox' ) ) 4
 ~~~
 ~~~
-performtest ( size ( gettokens ( findfile basedirectory LICENSE ) ) ) 168
+performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
 ~~~
 
 ---
@@ -2411,20 +2409,19 @@ creates or sets a global variable
 Examples:
 
 ~~~
-performtest
-  (
-    global value 4711
-    increment value 1
-    return value
-  ) 4712
+performtest (
+  global value 4711
+  increment value 1
+  return value
+  )
+  4712
 ~~~
 ~~~
-performtest
-  (
-    global dictionary ( newdictionary )
-    addentry dictionary 'foo' 'bar'
-    addentry dictionary 'hello' 'world'
-    size dictionary
+performtest (
+  global dictionary ( newdictionary )
+  addentry dictionary 'foo' 'bar'
+  addentry dictionary 'hello' 'world'
+  size dictionary
   )
   2
 ~~~
@@ -2518,20 +2515,20 @@ increments a variable
 Examples:
 
 ~~~
-performtest
-  (
-    global value 4711
-    increment value 1
-    return value
-  ) 4712
+performtest (
+  global value 4711
+  increment value 1
+  return value
+  )
+  4712
 ~~~
 ~~~
-performtest
-  (
-    local value 1234
-    increment value 2
-    return value
-  ) 1236
+performtest (
+  local value 1234
+  increment value 2
+  return value
+  )
+  1236
 ~~~
 
 ---
@@ -2739,7 +2736,7 @@ See:
 
 checks if the given character is white space
 
-* character
+* character: character to be checked
 
 Examples:
 
@@ -2901,81 +2898,81 @@ creates or sets a local variable
 Examples:
 
 ~~~
-performtest
-  (
-    local result 0
-    for i 1 10 1 ( local result ( + result i ) )
-  ) 55
+performtest (
+  local result 0
+  for i 1 10 1 ( local result ( + result i ) )
+  )
+  55
 ~~~
 ~~~
-performtest
-  (
-    local result 0
-    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  ) 9
+performtest (
+  local result 0
+  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+  )
+  9
 ~~~
 ~~~
-performtest
-  (
-    local product 1
-    map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  ) 12
+performtest (
+  local product 1
+  map ( array 3 1 4 1 ) ( local product ( * product item ) )
+  )
+  12
 ~~~
 ~~~
-performtest
-  (
-    local value 1234
-    increment value 2
-    return value
-  ) 1236
+performtest (
+  local value 1234
+  increment value 2
+  return value
+  )
+  1236
 ~~~
 ~~~
-performtest
-  (
-    local a 4711
-    set a 1234
-  ) 1234
+performtest (
+  local a 4711
+  set a 1234
+  )
+  1234
 ~~~
 ~~~
-performtest
-  (
-    local foobar 4711
-    at ( quote foobar ) 0
-  ) foobar
+performtest (
+  local foobar 4711
+  at ( quote foobar ) 0
+  )
+  foobar
 ~~~
 ~~~
-performtest
-  (
-    local values ( newarray 1000 0 )
-    put values 100 'foobar'
-    at values 100
-  ) 'foobar'
+performtest (
+  local values ( newarray 1000 0 )
+  put values 100 'foobar'
+  at values 100
+  )
+  'foobar'
 ~~~
 ~~~
-performtest
-  (
-    local queue ( newqueue )
-    enqueue queue 47
-    enqueue queue 11
-    dequeue queue
-  ) 47
+performtest (
+  local queue ( newqueue )
+  enqueue queue 47
+  enqueue queue 11
+  dequeue queue
+  )
+  47
 ~~~
 ~~~
-performtest
-  (
-    local stack ( newstack )
-    push stack 47
-    push stack 11
-    pop stack
-  ) 11
+performtest (
+  local stack ( newstack )
+  push stack 47
+  push stack 11
+  pop stack
+  )
+  11
 ~~~
 ~~~
-performtest
-  (
-    local a 4711
-    decrement a 11
-    return a
-  ) 4700
+performtest (
+  local a 4711
+  decrement a 11
+  return a
+  )
+  4700
 ~~~
 
 ---
@@ -2998,11 +2995,11 @@ executes a command with all elements of an array or listf; the variable 'item' h
 Examples:
 
 ~~~
-performtest
-  (
-    local product 1
-    map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  ) 12
+performtest (
+  local product 1
+  map ( array 3 1 4 1 ) ( local product ( * product item ) )
+  )
+  12
 ~~~
 
 ---
@@ -3364,7 +3361,7 @@ performtest ( medianof 5 3 2 4 1 ) 3
 creates an array
 
 * length: size of the array
-* initialvalue
+* initialvalue: value with which the array is to be initialized
 
 Examples:
 
@@ -3372,12 +3369,12 @@ Examples:
 performtest ( size ( newarray 1000 0 ) ) 1000
 ~~~
 ~~~
-performtest
-  (
-    local values ( newarray 1000 0 )
-    put values 100 'foobar'
-    at values 100
-  ) 'foobar'
+performtest (
+  local values ( newarray 1000 0 )
+  put values 100 'foobar'
+  at values 100
+  )
+  'foobar'
 ~~~
 ~~~
 performtest ( isarray ( newarray 100 0 ) ) True
@@ -3392,12 +3389,11 @@ creates a new dictionary (actually a new hashtable)
 Examples:
 
 ~~~
-performtest
-  (
-    global dictionary ( newdictionary )
-    addentry dictionary 'foo' 'bar'
-    addentry dictionary 'hello' 'world'
-    size dictionary
+performtest (
+  global dictionary ( newdictionary )
+  addentry dictionary 'foo' 'bar'
+  addentry dictionary 'hello' 'world'
+  size dictionary
   )
   2
 ~~~
@@ -3430,13 +3426,13 @@ creates a new queue
 Examples:
 
 ~~~
-performtest
-  (
-    local queue ( newqueue )
-    enqueue queue 47
-    enqueue queue 11
-    dequeue queue
-  ) 47
+performtest (
+  local queue ( newqueue )
+  enqueue queue 47
+  enqueue queue 11
+  dequeue queue
+  )
+  47
 ~~~
 ~~~
 performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
@@ -3454,13 +3450,13 @@ creates a new stack
 Examples:
 
 ~~~
-performtest
-  (
-    local stack ( newstack )
-    push stack 47
-    push stack 11
-    pop stack
-  ) 11
+performtest (
+  local stack ( newstack )
+  push stack 47
+  push stack 11
+  pop stack
+  )
+  11
 ~~~
 
 ---
@@ -3755,13 +3751,13 @@ pops an element
 Examples:
 
 ~~~
-performtest
-  (
-    local stack ( newstack )
-    push stack 47
-    push stack 11
-    pop stack
-  ) 11
+performtest (
+  local stack ( newstack )
+  push stack 47
+  push stack 11
+  pop stack
+  )
+  11
 ~~~
 
 ---
@@ -3813,13 +3809,13 @@ pushes an element
 Examples:
 
 ~~~
-performtest
-  (
-    local stack ( newstack )
-    push stack 47
-    push stack 11
-    pop stack
-  ) 11
+performtest (
+  local stack ( newstack )
+  push stack 47
+  push stack 11
+  pop stack
+  )
+  11
 ~~~
 
 ---
@@ -3843,12 +3839,12 @@ assigns a new value to the element of an array, a list, or a string at the speci
 Examples:
 
 ~~~
-performtest
-  (
-    local values ( newarray 1000 0 )
-    put values 100 'foobar'
-    at values 100
-  ) 'foobar'
+performtest (
+  local values ( newarray 1000 0 )
+  put values 100 'foobar'
+  at values 100
+  )
+  'foobar'
 ~~~
 
 ---
@@ -3868,11 +3864,11 @@ returns the unevaluated argument
 Examples:
 
 ~~~
-performtest
-  (
-    local foobar 4711
-    at ( quote foobar ) 0
-  ) foobar
+performtest (
+  local foobar 4711
+  at ( quote foobar ) 0
+  )
+  foobar
 ~~~
 
 ---
@@ -3894,28 +3890,28 @@ returns the text contained in a file
 Examples:
 
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\hello.txt hello
-    readfile c:\testdirectory\hello.txt
+performtest (
+  writefile c:\testdirectory\hello.txt hello
+  readfile c:\testdirectory\hello.txt
   )
   'hello'
 ~~~
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\world.txt world
-    readfile c:\testdirectory\world.txt
+performtest (
+  writefile c:\testdirectory\world.txt world
+  readfile c:\testdirectory\world.txt
   )
   'world'
 ~~~
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average ( split ( readfile c:\testdirectory\values.txt ) )
+performtest (
+  writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
+  average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
+~~~
+~~~
+performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
 ~~~
 
 ---
@@ -3963,20 +3959,20 @@ returns a value
 Examples:
 
 ~~~
-performtest
-  (
-    global value 4711
-    increment value 1
-    return value
-  ) 4712
+performtest (
+  global value 4711
+  increment value 1
+  return value
+  )
+  4712
 ~~~
 ~~~
-performtest
-  (
-    local value 1234
-    increment value 2
-    return value
-  ) 1236
+performtest (
+  local value 1234
+  increment value 2
+  return value
+  )
+  1236
 ~~~
 ~~~
 performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
@@ -3985,12 +3981,12 @@ performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( 
 performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
 ~~~
 ~~~
-performtest
-  (
-    local a 4711
-    decrement a 11
-    return a
-  ) 4700
+performtest (
+  local a 4711
+  decrement a 11
+  return a
+  )
+  4700
 ~~~
 
 ---
@@ -4021,11 +4017,11 @@ assigns a new value to an existing variable; the variable can exist in any activ
 Examples:
 
 ~~~
-performtest
-  (
-    local a 4711
-    set a 1234
-  ) 1234
+performtest (
+  local a 4711
+  set a 1234
+  )
+  1234
 ~~~
 
 ---
@@ -4067,12 +4063,11 @@ performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
 performtest ( size ( getfiles c:\testdirectory ) ) 3
 ~~~
 ~~~
-performtest
-  (
-    global dictionary ( newdictionary )
-    addentry dictionary 'foo' 'bar'
-    addentry dictionary 'hello' 'world'
-    size dictionary
+performtest (
+  global dictionary ( newdictionary )
+  addentry dictionary 'foo' 'bar'
+  addentry dictionary 'hello' 'world'
+  size dictionary
   )
   2
 ~~~
@@ -4098,7 +4093,7 @@ performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
 performtest ( size ( gettokens 'the big brown fox' ) ) 4
 ~~~
 ~~~
-performtest ( size ( gettokens ( findfile basedirectory LICENSE ) ) ) 168
+performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
 ~~~
 
 ---
@@ -4171,10 +4166,9 @@ performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
 performtest ( upperbound ( split 'Hello~nworld' ) ) 1
 ~~~
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average ( split ( readfile c:\testdirectory\values.txt ) )
+performtest (
+  writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
+  average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
 ~~~
@@ -4400,7 +4394,7 @@ See:
 
 ---
 
-#### System
+#### system
 
 various tests
 
@@ -4677,35 +4671,27 @@ writes text to a file
 Examples:
 
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\hello.txt hello
-    readfile c:\testdirectory\hello.txt
+performtest (
+  writefile c:\testdirectory\hello.txt hello
+  readfile c:\testdirectory\hello.txt
   )
   'hello'
 ~~~
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\world.txt world
-    readfile c:\testdirectory\world.txt
+performtest (
+  writefile c:\testdirectory\world.txt world
+  readfile c:\testdirectory\world.txt
   )
   'world'
 ~~~
 ~~~
-performtest
-  (
-    writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
-    average ( split ( readfile c:\testdirectory\values.txt ) )
+performtest (
+  writefile c:\testdirectory\values.txt '6~n1~n7~n8~n5~n9'
+  average ( split ( readfile c:\testdirectory\values.txt ) )
   )
   6
 ~~~
 
-#### Missing Documentation:
+#### Missing Examples:
 
-
-* iswhitespace
-  - character
-
-* newarray
-  - initialvalue
+* system

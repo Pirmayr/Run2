@@ -272,6 +272,7 @@ Console.Write
 Console.WriteLine
 Helpers.AppendIndented
 Helpers.AppendNewLine
+Helpers.AreEqual
 Helpers.BaseTypeOfMember
 Helpers.Check
 Helpers.Execute
@@ -284,8 +285,11 @@ Helpers.HandleException
 Helpers.Invoke
 Helpers.InvokeMember
 Helpers.IsAnyString
-Helpers.IsEqual
+Helpers.IsBlock
+Helpers.IsStrongQuote
 Helpers.IsStruct
+Helpers.IsWeakQuote
+Helpers.RemoveStrongQuotes
 Helpers.WriteLine
 AsReadOnly
 ConvertAll
@@ -462,7 +466,7 @@ square
 stringtail
 sum
 sumof
-System
+system
 tail
 tochar
 tocharacters

@@ -25,7 +25,31 @@ namespace Run2
       builder.Append(newLine ? "\n" : " ");
     }
 
-    public static Type BaseTypeOfMember(Type type, string memberName, BindingFlags bindingFlags)
+    public static object AreEqual(dynamic value1, dynamic value2)
+    {
+      if (value1 is not string && value2 is not string && value1 is IEnumerable enumerable1 && value2 is IEnumerable enumerable2)
+      {
+        var enumerator1 = enumerable1.GetEnumerator();
+        var enumerator2 = enumerable2.GetEnumerator();
+        var containsElement1 = enumerator1.MoveNext();
+        var containsElement2 = enumerator2.MoveNext();
+        while (containsElement1 && containsElement2)
+        {
+          dynamic current1 = enumerator1.Current;
+          dynamic current2 = enumerator2.Current;
+          if (current1 != current2)
+          {
+            return false;
+          }
+          containsElement1 = enumerator1.MoveNext();
+          containsElement2 = enumerator2.MoveNext();
+        }
+        return !containsElement1 && !containsElement2;
+      }
+      return value1 == value2;
+    }
+
+    public static Type BaseTypeOfMember(this Type type, string memberName, BindingFlags bindingFlags)
     {
       var result = type;
       while (result != null && result.Name != "ValueType" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
@@ -107,10 +131,10 @@ namespace Run2
       return Directory.GetFiles(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
     }
 
-    public static object GetBestTypedObject(string currentToken)
+    public static object GetBestTypedObject(this string currentToken)
     {
       object bestTypedObject;
-      if (IsAnyString(currentToken, out var stringResult))
+      if (currentToken.IsAnyString(out var stringResult))
       {
         if (bool.TryParse(stringResult, out var boolResult))
         {
@@ -190,14 +214,14 @@ namespace Run2
       return result;
     }
 
-    public static bool IsAnyString(object value, out string stringResult)
+    public static bool IsAnyString(this object value, out string stringResult)
     {
       switch (value)
       {
         case string stringValue:
           stringResult = stringValue;
           return true;
-        case WeaklyQuotedString weaklyQuotedStringValue:
+        case WeakQuote weaklyQuotedStringValue:
           stringResult = weaklyQuotedStringValue.Value;
           return true;
         default:
@@ -206,33 +230,45 @@ namespace Run2
       }
     }
 
-    public static object IsEqual(dynamic value1, dynamic value2)
+    public static bool IsBlock(ref string text)
     {
-      if (value1 is not string && value2 is not string && value1 is IEnumerable enumerable1 && value2 is IEnumerable enumerable2)
+      if (text.StartsWith(Globals.BlockStart) && text.EndsWith(Globals.BlockEnd))
       {
-        var enumerator1 = enumerable1.GetEnumerator();
-        var enumerator2 = enumerable2.GetEnumerator();
-        var containsElement1 = enumerator1.MoveNext();
-        var containsElement2 = enumerator2.MoveNext();
-        while (containsElement1 && containsElement2)
-        {
-          dynamic current1 = enumerator1.Current;
-          dynamic current2 = enumerator2.Current;
-          if (current1 != current2)
-          {
-            return false;
-          }
-          containsElement1 = enumerator1.MoveNext();
-          containsElement2 = enumerator2.MoveNext();
-        }
-        return !containsElement1 && !containsElement2;
+        text = text.Substring(1, text.Length - 2);
+        return true;
       }
-      return value1 == value2;
+      return false;
+    }
+
+    public static bool IsStrongQuote(this object value, out string result)
+    {
+      if (value is string stringValue && stringValue.StartsWith(Globals.StrongQuote) && stringValue.EndsWith(Globals.StrongQuote))
+      {
+        result = stringValue.Substring(1, stringValue.Length - 2);
+        return true;
+      }
+      result = null;
+      return false;
     }
 
     public static bool IsStruct(this Type type)
     {
       return type.IsValueType && /*!type.IsPrimitive &&*/ !type.IsEnum;
+    }
+
+    public static bool IsWeakQuote(ref string text)
+    {
+      if (text.StartsWith(Globals.WeakQuote) && text.EndsWith(Globals.WeakQuote))
+      {
+        text = text.Substring(1, text.Length - 2);
+        return true;
+      }
+      return false;
+    }
+
+    public static string RemoveStrongQuotes(this string value)
+    {
+      return value.IsStrongQuote(out var result) ? result : value;
     }
 
     public static void WriteLine(string message)
