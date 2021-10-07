@@ -4414,6 +4414,10 @@ performtest ( tail ( array 1 2 3 4 ) ) ( array 2 3 4 )
 
 ---
 
+#### tests
+
+---
+
 #### ToArray
 
 See:
@@ -4691,6 +4695,11 @@ performtest (
   )
   6
 ~~~
+
+#### Missing Documentation:
+
+
+* tests
 
 #### Missing Examples:
 

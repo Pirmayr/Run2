@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -6,13 +7,17 @@ namespace Run2
 {
   internal static class CodeFormatter
   {
-    public static string ToCode()
+    public static string ToCode(string filter)
     {
       var result = new StringBuilder();
       foreach (var command in Globals.Commands.Values.OrderBy(static item => item.GetName()))
       {
         if (command is UserCommand userCommandValue)
         {
+          if (!userCommandValue.ScriptPath.Contains(filter, StringComparison.InvariantCultureIgnoreCase))
+          {
+            continue;
+          }
           if (0 < result.Length)
           {
             result.Append("\n\n");

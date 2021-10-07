@@ -58,10 +58,15 @@ namespace Run2
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Helpers.GetProgramDirectory());
       Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.ScriptNameDefault);
       Globals.Arguments = new Tokens(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
+      Globals.ScriptPathSystem = Helpers.FindFile(Helpers.GetProgramDirectory(), Globals.ScriptNameSystem);
       Globals.ScriptPath = Helpers.FindFile(Globals.BaseDirectory, Globals.ScriptName);
       File.Exists(Globals.ScriptPath).Check($"Could not find script '{Globals.ScriptName}' (base-directory: '{Globals.BaseDirectory}')");
       BuildSystemCommands();
       BuildInvokeCommands();
+      if (File.Exists(Globals.ScriptPathSystem))
+      {
+        LoadCommand(Globals.ScriptPathSystem);
+      }
       LoadCommand(Globals.ScriptPath);
       RunCommand(Helpers.GetCommandNameFromPath(Globals.ScriptPath), Globals.Arguments);
       Helpers.WriteLine("Script terminated successfully");
@@ -209,11 +214,11 @@ namespace Run2
       {
         if (name.IsStrongQuote(out var unquotedName))
         {
-          Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true });
+          Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true, ScriptPath = path });
         }
         else
         {
-          Globals.Commands.Add(name, new UserCommand { Name = name });
+          Globals.Commands.Add(name, new UserCommand { Name = name, ScriptPath = path });
         }
       }
       foreach (var (definitionName, definitionTokens) in definitions)
@@ -398,6 +403,8 @@ namespace Run2
       SetGlobalVariable("variables", Globals.Variables);
       SetGlobalVariable("scriptpath", Globals.ScriptPath);
       SetGlobalVariable("basedirectory", Globals.BaseDirectory);
+      SetGlobalVariable("programdirectory", Helpers.GetProgramDirectory());
+      SetGlobalVariable("scriptpathsystem", Globals.ScriptPathSystem);
     }
 
     private static object RunCommand(string name, Tokens arguments)

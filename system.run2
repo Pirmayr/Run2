@@ -70,7 +70,7 @@ command directoryexists 'tests if the specified directory exists'
   Directory.Exists directory
 
 command dos 'executes specified dos-command and returns the output'
-  run cmd /c ( join arguments )
+  if ( directoryexists ( at arguments 0 ) ) ( run ( at arguments 0 ) cmd /c ( join ( tail arguments ) ) ) ( run cmd /c ( join arguments ) )
 
 command empty 'checks if an object is not empty'
   object 'object'
@@ -520,12 +520,13 @@ command sumof 'returns the sum of the arguments'
   sum arguments
 
 command system 'various tests'
+  write 'performing tests ...'
   performtest ( invoketests ) True
   writefile [basedirectory]\..\..\..\Commands.txt ( getcommands )
   if ( return testsok ) (
     write 'Writing results to disk ...'
     writefile [basedirectory]\..\..\..\Commands.md ( gethelp )
-    writefile [basedirectory]\..\..\..\System.run2 ( getcode )
+    writefile [basedirectory]\..\..\..\System.run2 ( getcode System.run2 )
     )
 
 command tail 'tail of an object (e.g. an array, a list, or a string)'

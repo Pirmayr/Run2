@@ -79,7 +79,7 @@ namespace Run2
           process.StartInfo.UseShellExecute = false;
           process.StartInfo.RedirectStandardOutput = true;
           process.StartInfo.RedirectStandardError = true;
-          WriteLine($"Starting process {executablePath} ...");
+          WriteLine($"Starting process {executablePath} in {workingDirectory} with arguments {arguments} ...");
           process.Start();
           output = process.StandardOutput.ReadToEnd().Trim();
           error = process.StandardError.ReadToEnd();

@@ -6,10 +6,10 @@ namespace Run2
   {
     public const char BlockEnd = ')';
     public const char BlockStart = '(';
-    public const string ScriptNameDefault = "build.run2";
-    public const string ScriptNameSystem = "system.run2";
     public const int MaxCodeLineLength = 100;
     public const string PseudoCommandNameCommand = "command";
+    public const string ScriptNameDefault = "build.run2";
+    public const string ScriptNameSystem = "system.run2";
     public const char StrongQuote = '"';
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
@@ -30,6 +30,8 @@ namespace Run2
     public static string ScriptName { get; set; }
 
     public static string ScriptPath { get; set; }
+
+    public static string ScriptPathSystem { get; set; }
 
     public static Variables Variables { get; } = new();
   }

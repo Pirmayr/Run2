@@ -2,7 +2,11 @@
   "profiles": {
     "Run2": {
       "commandName": "Project",
-      "commandLineArgs": "-scriptName System.run2"
+      "commandLineArgs": "-scriptName tests.run2"
+    },
+    "ExtractProgramDocumentation": {
+      "commandName": "Project",
+      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5120 -scriptName ExtractProgramDocumentation.run2 -scriptArguments C:\\Development\\Workspaces\\Binaries\\branches\\B5210\\moveIT.Graphics.Viewer"
     }
   }
 }

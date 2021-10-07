@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Numerics;
 
 namespace Run2
@@ -114,11 +115,12 @@ namespace Run2
       return Run2.GetVariable(variableName);
     }
 
-    [Documentation(0, 0, null, "returns the formatted script")]
+    [Documentation(1, 1, null, "returns the formatted script")]
     // ReSharper disable once UnusedParameter.Global
     public static object GetCode(Tokens arguments)
     {
-      return CodeFormatter.ToCode();
+      var filter = arguments.DequeueString();
+      return CodeFormatter.ToCode(filter);
     }
 
     [Documentation(0, 0, null, "returns the list of commands")]
@@ -273,8 +275,20 @@ namespace Run2
     [Documentation(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
     public static object Run(Tokens arguments)
     {
-      var path = arguments.DequeueString();
-      Helpers.Execute(path, string.Join(' ', arguments.ToList(true)), "c:\\", 3600000, 5, 0, 0, out var result, out _);
+      var pathOrDirectory = arguments.DequeueString();
+      string workingDirectory;
+      string executablePath;
+      if (Directory.Exists(pathOrDirectory))
+      {
+        workingDirectory = pathOrDirectory;
+        executablePath = arguments.DequeueString();
+      }
+      else
+      {
+        workingDirectory = "c:\\";
+        executablePath = pathOrDirectory;
+      }
+      Helpers.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
       return result;
     }
 
