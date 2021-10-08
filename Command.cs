@@ -6,6 +6,10 @@ namespace Run2
   {
     public abstract string GetDescription();
 
+    public abstract string GetRemarks();
+
+    public abstract string GetReturns();
+
     public abstract bool GetHideHelp();
 
     public abstract string GetName();

@@ -43,6 +43,16 @@ namespace Run2
             }
           }
         }
+        if (!string.IsNullOrEmpty(command.GetReturns()))
+        {
+          result.Append("\n\n**Returns**\n");
+          result.Append($"\n\n{command.GetReturns()}");
+        }
+        if (!string.IsNullOrEmpty(command.GetRemarks()))
+        {
+          result.Append("\n\n**Remarks**\n");
+          result.Append($"\n\n{command.GetRemarks()}");
+        }
         if (commandDocumentationMissing || 0 < missingDocumentationParameters.Count)
         {
           missingDocumentation += 0 < missingDocumentation.Length ? "\n" : "";
@@ -54,7 +64,7 @@ namespace Run2
         }
         if (commandReferences.TryGetValue(name, out var references))
         {
-          result.Append("\n\nExamples:\n");
+          result.Append("\n\n**Examples**\n");
           foreach (var reference in references)
           {
             result.Append("\n~~~");

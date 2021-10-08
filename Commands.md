@@ -7,7 +7,7 @@ subtracts second number from first number
 * a: first number
 * b: second number
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( - 47 11 ) 36
@@ -28,7 +28,7 @@ tests two values for unequality
 * value1: first value
 * value2: second value
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( != 47 11 ) True
@@ -43,7 +43,7 @@ multiplies two numbers
 * a: first number
 * b: second number
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( * 47 11 ) 517
@@ -65,7 +65,7 @@ divides first number by second number
 * a: first number
 * b: second number
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( / 47 11 ) 4
@@ -92,7 +92,7 @@ adds two values
 * value1: first value
 * value2: second value
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( + 47 11 ) 58
@@ -121,7 +121,7 @@ tests if value1 is less than value2
 * value1: first value
 * value2: second value
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( < ( - ( / 22.0 7.0 ) 3.142857 ) 0.000001 ) True
@@ -148,7 +148,7 @@ tests if value1 is less than or equal to value2
 * value1: first value
 * value2: second value
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( <= 47 11 ) False
@@ -163,7 +163,7 @@ tests two values for equality
 * value1: first value
 * value2: second value
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( == 47 11 ) False
@@ -193,7 +193,7 @@ tests if value1 is greater than value2
 * value1: first value
 * value2: second value
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( > 47 11 ) True
@@ -217,7 +217,7 @@ tests if value1 is greater than or equal to value2
 * value1: first value
 * value2: second value
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( >= 47 11 ) True
@@ -242,7 +242,12 @@ adds an entry to a dictionary
 * key: key
 * value: value
 
-Examples:
+**Returns**
+
+
+the dictionary
+
+**Examples**
 
 ~~~
 performtest (
@@ -263,7 +268,12 @@ adds an item to a list
 * list: listof
 * value: value
 
-Examples:
+**Returns**
+
+
+the list
+
+**Examples**
 
 ~~~
 performtest ( size ( additem ( listof 1 2 3 ) 4 ) ) 4
@@ -499,7 +509,12 @@ See:
 
 converts the arguments to an array
 
-Examples:
+**Returns**
+
+
+an array
+
+**Examples**
 
 ~~~
 performtest ( == ( arrayof 1 2 3 ) ( arrayof 1 2 3 ) ) True
@@ -584,7 +599,7 @@ returns an array without its first element
 
 * array: array
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( arraytail ( arrayof 4 7 1 1 ) ) ( arrayof 7 1 1 )
@@ -599,7 +614,7 @@ returns the element of an array, a list, or a string at the specified index
 * object: array, list, or string
 * index: index of the element
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( ToString ( at 'Hello' 1 ) ) 'e'
@@ -631,7 +646,12 @@ computes the average of the given values
 
 * values: values
 
-Examples:
+**Returns**
+
+
+the average
+
+**Examples**
 
 ~~~
 performtest ( average ( arrayof 1 2 3 4 ) ) 2.5
@@ -650,7 +670,12 @@ performtest (
 
 computes the average of the arguments
 
-Examples:
+**Returns**
+
+
+the average
+
+**Examples**
 
 ~~~
 performtest ( averageof 1 2 3 4 ) 2.5
@@ -664,11 +689,179 @@ tries to find the best type for the given object
 
 * object: object
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( besttype '4711' ) 4711
 ~~~
+
+---
+
+#### BigInteger.Abs
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Abs
+
+---
+
+#### BigInteger.Add
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Add
+
+---
+
+#### BigInteger.Compare
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Compare
+
+---
+
+#### BigInteger.Divide
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Divide
+
+---
+
+#### BigInteger.DivRem
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.DivRem
+
+---
+
+#### BigInteger.GreatestCommonDivisor
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.GreatestCommonDivisor
+
+---
+
+#### BigInteger.Log
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Log
+
+---
+
+#### BigInteger.Log10
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Log10
+
+---
+
+#### BigInteger.Max
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Max
+
+---
+
+#### BigInteger.Min
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Min
+
+---
+
+#### BigInteger.MinusOne
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.MinusOne
+
+---
+
+#### BigInteger.ModPow
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.ModPow
+
+---
+
+#### BigInteger.Multiply
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Multiply
+
+---
+
+#### BigInteger.Negate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Negate
+
+---
+
+#### BigInteger.One
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.One
+
+---
+
+#### BigInteger.Parse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Parse
+
+---
+
+#### BigInteger.Pow
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Pow
+
+---
+
+#### BigInteger.Remainder
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Remainder
+
+---
+
+#### BigInteger.Subtract
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Subtract
+
+---
+
+#### BigInteger.TryParse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.TryParse
+
+---
+
+#### BigInteger.Zero
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Zero
 
 ---
 
@@ -686,7 +879,7 @@ breaks the innermost loop and returns a value
 
 * value: the value to be returned
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
@@ -700,7 +893,7 @@ tests whether the specified string can be parsed to an int32
 
 * string: string
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( canparseint32 'foobar' ) False
@@ -966,6 +1159,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Char.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.CompareTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.CompareTo
 
 ---
 
@@ -975,7 +1169,7 @@ concatenates the given strings
 
 * strings: strings
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( concatenation ( arrayof foo bar ) ) foobar
@@ -985,9 +1179,19 @@ performtest ( concatenation ( arrayof foo bar ) ) foobar
 
 #### concatenationof
 
-concatenate the arguments, which are assumed to be strings
+concatenates the arguments
 
-Examples:
+**Returns**
+
+
+the concatenated arguments
+
+**Remarks**
+
+
+the arguments must be strings
+
+**Examples**
 
 ~~~
 performtest ( concatenationof Hello ' ' World! ) 'Hello World!'
@@ -1260,9 +1464,9 @@ See:
 copies files from one location to another
 
 * sourcedirectory: directory to copy from
-* sourcefilename: name of the file to copy
+* sourcespecification: name of the file to copy or a pattern (e.g. "*.run2")
 * destinationdirectory: directory to copy to
-* destinationfilename: name of the file after beeing copied
+* destinationfilename: name of the file after beeing copied; if "null" or empty, the filename remains unchanged
 * expandincludes: if true, includes are expanded
 * lineaction: action to be performed on every line
 
@@ -1290,7 +1494,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Count
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Count
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( Count ( listof 1 2 3 4 5 ) ) 5
@@ -1304,7 +1508,7 @@ creates specified directory
 
 * directory: directory to be created
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -1331,7 +1535,7 @@ decrements a variable
 * "name": name of the variable
 * amount: decrement
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -1350,7 +1554,7 @@ deletes specified directory
 
 * directory: directory to be deleted
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -1368,7 +1572,7 @@ dequeues an element
 
 * queue: queue
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -1397,7 +1601,7 @@ See:
 
 executes the Windows command "dir" and returns the result
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
@@ -1627,7 +1831,7 @@ tests wether the specified directory exists
 
 * directory: directory to be tested for existence
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -1650,7 +1854,7 @@ performtest (
 
 executes specified dos-command and returns the output
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( dos echo 'hello world' ) 'hello world'
@@ -1665,7 +1869,7 @@ tests if a string ends with an other string
 * string: string
 * value: string to be tested for being the ending
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( endswith 'Hello World!' 'World!' ) True
@@ -1688,7 +1892,7 @@ enqueues an element
 * queue: queue
 * value: element to be enqueued
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -1749,7 +1953,7 @@ computes the factorial of a number
 
 * number: number
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( factorial 50 ) 30414093201713378043612608166064768844377641568960512000000000000
@@ -2123,7 +2327,7 @@ checks if a file exists
 
 * path: path of the file
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( fileexists ( locatefile basedirectory LICENSE ) ) True
@@ -2141,7 +2345,7 @@ gets the directory with the given name
 * directory: directory from where to search upwards
 * name: name
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( finddirectory 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows'
@@ -2156,7 +2360,7 @@ finds the directory whose parent has the given name
 * directory: directory from where to search upwards
 * parent: name of the parent
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( finddirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows\System32'
@@ -2174,7 +2378,7 @@ performs a for-loop
 * step: increment for the counter
 * code: body of the for-loop
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -2197,7 +2401,7 @@ performs a foreach-loop
 * values: values which are to be iterated through
 * code: body of the foreach-loop
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -2214,6 +2418,22 @@ performtest (
 return the value of a variable; the variable can exist in any active scope
 
 * name: name of the variable
+
+---
+
+#### GetBitLength
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.GetBitLength
+
+---
+
+#### GetByteCount
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.GetByteCount
 
 ---
 
@@ -2235,7 +2455,7 @@ gets the directory from a path
 
 * path: path
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( getdirectory 'C:\Windows\notepad.exe' ) 'C:\Windows'
@@ -2262,7 +2482,7 @@ gets the filename from a path
 
 * path: path
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( getfilename 'C:\Windows\notepad.exe' ) 'notepad.exe'
@@ -2276,7 +2496,7 @@ returns an array of paths of the files in a directory
 
 * directory: directory
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( size ( getfiles c:\testdirectory ) ) 3
@@ -2290,7 +2510,7 @@ gets the filename without extension from a path
 
 * path: path
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( getfname 'C:\Windows\System32' ) 'System32'
@@ -2344,7 +2564,12 @@ get the array of member-information for the specified member in an object
 * object: object
 * name: name of the member
 
-Examples:
+**Returns**
+
+
+an array of "MemberInfo"-values
+
+**Examples**
 
 ~~~
 performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
@@ -2382,7 +2607,12 @@ returns the tokenized contents of a string
 
 * string: string
 
-Examples:
+**Returns**
+
+
+a list with tokens
+
+**Examples**
 
 ~~~
 performtest ( size ( gettokens 'the big brown fox' ) ) 4
@@ -2435,7 +2665,7 @@ creates or sets a global variable
 * name: name of the variable
 * value: value to be assigned to the variable
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -2472,7 +2702,12 @@ tests if the specified member exists in an object
 * object: object
 * name: name of the member
 
-Examples:
+**Returns**
+
+
+if the object has the specified member, "true" is returned, otherwise "false"
+
+**Examples**
 
 ~~~
 performtest ( hasmember 'hello' 'Length' ) True
@@ -2490,7 +2725,12 @@ tests if an object has the given type
 * object: object
 * name: name of the type
 
-Examples:
+**Returns**
+
+
+if the object has the given type, "true" is returned, otherwise "false"
+
+**Examples**
 
 ~~~
 performtest ( hastype 'hello' String ) True
@@ -2504,7 +2744,12 @@ returns the first element of an object
 
 * object: object
 
-Examples:
+**Returns**
+
+
+if a first element can be obtained, it is returned, otherwise an empty list
+
+**Examples**
 
 ~~~
 performtest ( head ( arrayof 1 2 3 4 ) ) 1
@@ -2523,7 +2768,7 @@ performs the if-statement
 * true-block: command to be executed if the condition is 'true'
 * false-block: (optional) command to be executed if the condition is 'false'
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
@@ -2541,7 +2786,17 @@ increments a variable
 * "name": name of the variable
 * amount: increment
 
-Examples:
+**Returns**
+
+
+the incremented value of the variable
+
+**Remarks**
+
+
+incrementing a string by a string means appending one string to the other
+
+**Examples**
 
 ~~~
 performtest (
@@ -2558,6 +2813,14 @@ performtest (
   return value
   )
   1236
+~~~
+~~~
+performtest (
+  local value 'foo'
+  increment value 'bar'
+  return value
+  )
+  'foobar'
 ~~~
 
 ---
@@ -2583,7 +2846,12 @@ See:
 
 performs various initializations
 
-Examples:
+**Returns**
+
+
+the command always returns "true"
+
+**Examples**
 
 ~~~
 performtest ( initialize ) True
@@ -2645,7 +2913,12 @@ calls the 'Invoke'-method of the type of the specified object
 
 invokes the tests
 
-Examples:
+**Returns**
+
+
+if all tests succeeded, true is returned, otherwise false
+
+**Examples**
 
 ~~~
 performtest ( invoketests ) True
@@ -2659,7 +2932,17 @@ tests if an object is an array
 
 * object: object
 
-Examples:
+**Returns**
+
+
+if the object is an array, "true" is returned, otherwise "false"
+
+**Remarks**
+
+
+the test returns the value of the "IsArray"-property of the type of the object
+
+**Examples**
 
 ~~~
 performtest ( isarray ( arrayof 1 2 3 ) ) True
@@ -2673,13 +2956,68 @@ performtest ( isarray ( newarray 100 0 ) ) True
 
 ---
 
+#### ischar
+
+tests if an object is a "char"-value
+
+* object: object
+
+**Returns**
+
+
+a "bool"-value
+
+**Remarks**
+
+
+if the object is a "char"-value, "true" is returned, otherwise "false"
+
+**Examples**
+
+~~~
+performtest ( ischar ( tochar 'hello' ) ) True
+~~~
+~~~
+performtest ( ischar ( tochar 4711 ) ) True
+~~~
+
+---
+
+#### isconvertabletoarray
+
+test, if an object can be converted to an array
+
+* object: object
+
+**Returns**
+
+
+if the object can be converted to an array, "true" is returned, otherwise "false"
+
+**Remarks**
+
+
+the test checks if the object already is an array, or has the method either the method "ToArray" or the method "ToCharArray"
+
+---
+
 #### isdictionary
 
 tests if an object is a dictionary
 
 * object: object
 
-Examples:
+**Returns**
+
+
+if the object in a dictionary, "true" is returned, otherwise "false"
+
+**Remarks**
+
+
+the test checks, if the object if of the Hashtable-type
+
+**Examples**
 
 ~~~
 performtest ( isdictionary ( newdictionary ) ) True
@@ -2693,7 +3031,12 @@ checks wether an object is isempty
 
 * object: object
 
-Examples:
+**Returns**
+
+
+if the object is empty, "true" is returned, otherwise "false"
+
+**Examples**
 
 ~~~
 performtest ( isempty ( listof ) ) True
@@ -2701,6 +3044,14 @@ performtest ( isempty ( listof ) ) True
 ~~~
 performtest ( isempty ( listof 1 2 3 ) ) False
 ~~~
+
+---
+
+#### IsEven
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.IsEven
 
 ---
 
@@ -2720,7 +3071,17 @@ tests if an object is a list
 
 * object: object
 
-Examples:
+**Returns**
+
+
+if the object is a list, "true" is returned, otherwise "false"
+
+**Remarks**
+
+
+the object can be of the "ArrayList"-type or the generic "List"-type
+
+**Examples**
 
 ~~~
 performtest ( islist ( listof ) ) True
@@ -2742,6 +3103,35 @@ See:
 
 ---
 
+#### isnull
+
+tests, if an object has the value "null"
+
+* object: object
+
+**Returns**
+
+
+if the object has the value "null", "true" is returned, otherwise "false"
+
+---
+
+#### IsOne
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.IsOne
+
+---
+
+#### IsPowerOfTwo
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.IsPowerOfTwo
+
+---
+
 #### IsReadOnly
 
 See:
@@ -2754,11 +3144,21 @@ See:
 
 #### isstring
 
-tests if an object is a string
+tests if an object is a "string"-value
 
 * object: object
 
-Examples:
+**Returns**
+
+
+a "bool"-value
+
+**Remarks**
+
+
+if the object is a "string"-value, "true" is returned, otherwise "false"
+
+**Examples**
 
 ~~~
 performtest ( isstring 'Hello' ) True
@@ -2780,11 +3180,16 @@ See:
 
 #### iswhitespace
 
-checks if the given character is white space
+checks if a value is white space
 
-* character: character to be checked
+* value: value to be checked
 
-Examples:
+**Returns**
+
+
+if the character is white space, "true" is returned, otherwise "false"
+
+**Examples**
 
 ~~~
 performtest ( iswhitespace ( tochar 'a' ) ) False
@@ -2792,6 +3197,17 @@ performtest ( iswhitespace ( tochar 'a' ) ) False
 ~~~
 performtest ( iswhitespace ( tochar ' ' ) ) True
 ~~~
+~~~
+performtest ( iswhitespace ( tochar 4711 ) ) False
+~~~
+
+---
+
+#### IsZero
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.IsZero
 
 ---
 
@@ -2808,9 +3224,19 @@ See:
 
 joins strings to a string separated by blanks
 
-* strings: array or list of strings
+* strings: strings
 
-Examples:
+**Returns**
+
+
+a string
+
+**Remarks**
+
+
+the command applies to arrays of strings or any object that can be converted to an array of strings
+
+**Examples**
 
 ~~~
 performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
@@ -2822,7 +3248,12 @@ performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
 
 joins the arguments to a string separated by blanks
 
-Examples:
+**Returns**
+
+
+a string
+
+**Examples**
 
 ~~~
 performtest ( joinfrom 'h' 'e' 'l' 'l' 'o' ) 'h e l l o'
@@ -2873,7 +3304,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.Length
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Length
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( Length 'Hello World!' ) 12
@@ -2883,9 +3314,14 @@ performtest ( Length 'Hello World!' ) 12
 
 #### listof
 
-returns the arguments as a listof
+returns the arguments as a list
 
-Examples:
+**Returns**
+
+
+a list
+
+**Examples**
 
 ~~~
 performtest ( Count ( listof 1 2 3 4 5 ) ) 5
@@ -2922,11 +3358,16 @@ performtest ( isempty ( listof 1 2 3 ) ) False
 
 #### listtail
 
-returns a listof without its first element
+returns a list without its first item
 
 * items: listof
 
-Examples:
+**Returns**
+
+
+the list without the first item
+
+**Examples**
 
 ~~~
 performtest ( listtail ( listof 4 7 1 1 ) ) ( listof 7 1 1 )
@@ -2941,7 +3382,7 @@ creates or sets a local variable
 * name: name of the variable
 * value: value to be assigned to the variable
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -3020,6 +3461,14 @@ performtest (
   )
   4700
 ~~~
+~~~
+performtest (
+  local value 'foo'
+  increment value 'bar'
+  return value
+  )
+  'foobar'
+~~~
 
 ---
 
@@ -3030,7 +3479,12 @@ searches for a directory
 * basedirectory: directory in which the search should begin
 * pattern: pattern to be searched for
 
-Examples:
+**Returns**
+
+
+if the directory could be found, the directory is returned, otherwise an empty string
+
+**Examples**
 
 ~~~
 performtest ( locatedirectory SystemRoot System32 ) '[SystemRoot]\System32'
@@ -3045,7 +3499,12 @@ searches for a file
 * basedirectory: directory in which the search should begin
 * pattern: pattern to be searched for
 
-Examples:
+**Returns**
+
+
+if the file could be found, the path of the file is returned, otherwise an empty string
+
+**Examples**
 
 ~~~
 performtest ( locatefile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
@@ -3077,7 +3536,7 @@ executes a command with all elements of an array or list; the variable 'item' ho
 * arrayOrList: array or list
 * command: command
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -3367,7 +3826,7 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.Sin
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001 ) True
@@ -3421,7 +3880,12 @@ returns the median of the given numbers
 
 * values: numbers
 
-Examples:
+**Returns**
+
+
+the median
+
+**Examples**
 
 ~~~
 performtest ( median ( arrayof 5 3 2 4 1 ) ) 3
@@ -3433,7 +3897,12 @@ performtest ( median ( arrayof 5 3 2 4 1 ) ) 3
 
 returns the median of the arguments
 
-Examples:
+**Returns**
+
+
+the median
+
+**Examples**
 
 ~~~
 performtest ( medianof 5 3 2 4 1 ) 3
@@ -3445,10 +3914,15 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 creates an array
 
-* length: size of the arrayof
-* initialvalue: value with which the array is to be initialized
+* length: size of the array
+* initialvalue: (optional) value with which the array is to be initialized
 
-Examples:
+**Returns**
+
+
+the new array
+
+**Examples**
 
 ~~~
 performtest ( size ( newarray 1000 0 ) ) 1000
@@ -3471,7 +3945,17 @@ performtest ( isarray ( newarray 100 0 ) ) True
 
 creates a dictionary
 
-Examples:
+**Returns**
+
+
+the new dictionary
+
+**Remarks**
+
+
+the dictionary is of type "Hashtable"
+
+**Examples**
 
 ~~~
 performtest (
@@ -3492,9 +3976,19 @@ performtest ( isdictionary ( newdictionary ) ) True
 
 creates a list
 
-* values: (optional) value with which the list is to be initialized
+* values: (optional) values with which the list is to be initialized
 
-Examples:
+**Returns**
+
+
+the new list
+
+**Remarks**
+
+
+the type of the list is "ArrayList"
+
+**Examples**
 
 ~~~
 performtest ( islist ( newlist ) ) True
@@ -3508,7 +4002,12 @@ creates a queue
 
 * values: (optional) value with which the queue is to be initialized
 
-Examples:
+**Returns**
+
+
+the new queue
+
+**Examples**
 
 ~~~
 performtest (
@@ -3532,7 +4031,12 @@ performtest ( size ( newqueue ( listof 1 2 3 ) ) ) 3
 
 creates a stack
 
-Examples:
+**Returns**
+
+
+a stack
+
+**Examples**
 
 ~~~
 performtest (
@@ -3560,7 +4064,12 @@ negates a truth value
 
 * value: truth value
 
-Examples:
+**Returns**
+
+
+if the value is "false", "true" is returned, otherwise "false"
+
+**Examples**
 
 ~~~
 performtest ( not True ) False
@@ -3570,11 +4079,16 @@ performtest ( not True ) False
 
 #### notempty
 
-checks if an object is not isempty
+checks if an object is not empty
 
 * object: object
 
-Examples:
+**Returns**
+
+
+if the object is empty, "false" is returned, otherwise "true"
+
+**Examples**
 
 ~~~
 performtest ( notempty ( arrayof ) ) False
@@ -3612,20 +4126,6 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.PadRight
-
----
-
-#### parseint32
-
-parses the given string to an int32
-
-* string: string to be parsed
-
-Examples:
-
-~~~
-performtest ( parseint32 '4321' ) 4321
-~~~
 
 ---
 
@@ -3813,13 +4313,23 @@ tests if a code-block yields the expected result
 * "code": code to be tested
 * expected: expected value
 
+**Returns**
+
+
+if the test succeeds true ist returned, otherwise false
+
 ---
 
 #### performtests
 
 performs various tests
 
-Examples:
+**Returns**
+
+
+if all tests succeeded, true is returned, otherwise false
+
+**Examples**
 
 ~~~
 performtest ( performtests ) True
@@ -3833,7 +4343,12 @@ pops an element
 
 * stack: stack
 
-Examples:
+**Returns**
+
+
+the element popped
+
+**Examples**
 
 ~~~
 performtest (
@@ -3862,7 +4377,12 @@ computes the power of two numbers
 * a: base
 * b: exponent
 
-Examples:
+**Returns**
+
+
+the power
+
+**Examples**
 
 ~~~
 performtest ( power 3 4 ) 81
@@ -3876,7 +4396,12 @@ computes the primes up to n
 
 * n: upper limit
 
-Examples:
+**Returns**
+
+
+a list of primes up to n
+
+**Examples**
 
 ~~~
 performtest ( size ( primes 1000 ) ) 167
@@ -3891,7 +4416,12 @@ pushes an element
 * stack: stack
 * value: element
 
-Examples:
+**Returns**
+
+
+the element pushed
+
+**Examples**
 
 ~~~
 performtest (
@@ -3921,7 +4451,7 @@ assigns a new value to the element of an array, a list, or a string at the speci
 * index: index of the element
 * value: value to be set
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -3944,9 +4474,14 @@ See:
 
 #### quote
 
-returns the unevaluated argument
+returns the unevaluated arguments
 
-Examples:
+**Returns**
+
+
+the unenvaluated arguments
+
+**Examples**
 
 ~~~
 performtest (
@@ -3972,7 +4507,12 @@ returns the text contained in a file
 
 * path: path of the file
 
-Examples:
+**Returns**
+
+
+the text contained in the file
+
+**Examples**
 
 ~~~
 performtest (
@@ -4035,7 +4575,12 @@ replaces a substring
 * searchstring: string to be searched for
 * replacement: replacement
 
-Examples:
+**Returns**
+
+
+the modified string
+
+**Examples**
 
 ~~~
 performtest ( replace 'Hello World!' 'Hello' 'Bye' ) 'Bye World!'
@@ -4057,7 +4602,7 @@ returns a value
 
 * value: the value to be returned
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -4089,6 +4634,14 @@ performtest (
   )
   4700
 ~~~
+~~~
+performtest (
+  local value 'foo'
+  increment value 'bar'
+  return value
+  )
+  'foobar'
+~~~
 
 ---
 
@@ -4115,7 +4668,7 @@ assigns a new value to an existing variable; the variable can exist in any activ
 
 * value: the value to be assigned to the variable
 
-Examples:
+**Examples**
 
 ~~~
 performtest (
@@ -4143,13 +4696,26 @@ See:
 
 ---
 
+#### Sign
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.Sign
+
+---
+
 #### size
 
 returns the size of an object (e.g. an array, a list, or a string)
 
 * object: object
 
-Examples:
+**Returns**
+
+
+the size of the object
+
+**Examples**
 
 ~~~
 performtest ( size 'hello' ) 5
@@ -4205,7 +4771,12 @@ sorts an object (e.g. an array, a list, or a string)
 
 * object: object to be sorted
 
-Examples:
+**Returns**
+
+
+the sorted object
+
+**Examples**
 
 ~~~
 performtest ( sort 'hello' ) 'ehllo'
@@ -4230,7 +4801,12 @@ sorts an array
 
 * array: array
 
-Examples:
+**Returns**
+
+
+the sorted array
+
+**Examples**
 
 ~~~
 performtest ( sortarray ( arrayof 3 1 4 1 5 9 2 6 0 ) ) ( arrayof 0 1 1 2 3 4 5 6 9 )
@@ -4244,7 +4820,12 @@ sorts the characters of a string
 
 * string: string
 
-Examples:
+**Returns**
+
+
+the sorted string
+
+**Examples**
 
 ~~~
 performtest ( sortstring 'foobar' ) 'abfoor'
@@ -4258,7 +4839,12 @@ creates an array by splitting a string at carriage-returns
 
 * string: string to be splitted
 
-Examples:
+**Returns**
+
+
+an array of strings
+
+**Examples**
 
 ~~~
 performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
@@ -4293,7 +4879,12 @@ computes the square of a number
 
 * n: number
 
-Examples:
+**Returns**
+
+
+the square of the number
+
+**Examples**
 
 ~~~
 performtest ( square 2 ) 4
@@ -4427,7 +5018,12 @@ returns a string without its first character
 
 * string: string
 
-Examples:
+**Returns**
+
+
+the tail of the string
+
+**Examples**
 
 ~~~
 performtest ( stringtail 'Hello' ) 'ello'
@@ -4443,7 +5039,12 @@ returns a substring
 * start: start-index of the substring
 * length: length of the substring
 
-Examples:
+**Returns**
+
+
+the substring
+
+**Examples**
 
 ~~~
 performtest ( substring 'Hello World!' 1 4 ) 'ello'
@@ -4465,7 +5066,17 @@ returns the sum of the given values
 
 * values: values
 
-Examples:
+**Returns**
+
+
+the sum
+
+**Remarks**
+
+
+the values must be numbers
+
+**Examples**
 
 ~~~
 performtest ( sum ( arrayof 1 2 3 ) ) 6
@@ -4477,7 +5088,12 @@ performtest ( sum ( arrayof 1 2 3 ) ) 6
 
 returns the sum of the arguments
 
-Examples:
+**Returns**
+
+
+the sum
+
+**Examples**
 
 ~~~
 performtest ( sumof 1 2 3 ) 6
@@ -4491,7 +5107,7 @@ calls the first command for which a condition holds true
 
 * condition-command-pairs: pairs consisting of condition and command; the first command whose condition is 'true' is executed
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
@@ -4515,7 +5131,12 @@ See:
 
 various tests
 
-Examples:
+**Returns**
+
+
+if all tests succeeded, true is returned, otherwise false
+
+**Examples**
 
 ~~~
 performtest ( system ) True
@@ -4529,10 +5150,23 @@ tail of an object (e.g. an array, a list, or a string)
 
 * object: object
 
-Examples:
+**Returns**
+
+
+the tail of the object
+
+**Remarks**
+
+
+if the object is a list or can be converted to an array, the proper tail is returned, otherwise the object is converted to a string and its tail is returned
+
+**Examples**
 
 ~~~
 performtest ( tail ( arrayof 1 2 3 4 ) ) ( arrayof 2 3 4 )
+~~~
+~~~
+performtest ( tail 4711 ) '711'
 ~~~
 
 ---
@@ -4540,6 +5174,32 @@ performtest ( tail ( arrayof 1 2 3 4 ) ) ( arrayof 2 3 4 )
 #### tests
 
 performs various tests
+
+---
+
+#### throw
+
+throws an exception
+
+* message: message
+
+---
+
+#### toarray
+
+converts an object to an array
+
+* object: object
+
+**Returns**
+
+
+an array
+
+**Remarks**
+
+
+the method can be used all objects, where "isconvertabletoarray" is "true"
 
 ---
 
@@ -4553,13 +5213,51 @@ See:
 
 ---
 
+#### tobiginteger
+
+converts a number to a BigInteger
+
+**Returns**
+
+
+a "BigInteger"-value
+
+**Examples**
+
+~~~
+performtest ( typename ( tobiginteger 4711 ) ) 'BigInteger'
+~~~
+~~~
+performtest ( typename ( tobiginteger '4711' ) ) 'BigInteger'
+~~~
+
+---
+
+#### ToByteArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.ToByteArray
+
+---
+
 #### tochar
 
-converts the type of the first character of a string to "char"
+converts the value to "char"-value
 
-* text: string
+* value: value
 
-Examples:
+**Returns**
+
+
+a "char"-value
+
+**Remarks**
+
+
+if the value is already a "char"-value, it is returned, otherwise the value is converted to a string and the first character is returned
+
+**Examples**
 
 ~~~
 performtest ( String.new ( tochar 'a' ) 10 ) 'aaaaaaaaaa'
@@ -4570,6 +5268,15 @@ performtest ( iswhitespace ( tochar 'a' ) ) False
 ~~~
 performtest ( iswhitespace ( tochar ' ' ) ) True
 ~~~
+~~~
+performtest ( iswhitespace ( tochar 4711 ) ) False
+~~~
+~~~
+performtest ( ischar ( tochar 'hello' ) ) True
+~~~
+~~~
+performtest ( ischar ( tochar 4711 ) ) True
+~~~
 
 ---
 
@@ -4579,7 +5286,12 @@ converts a string to an array of characters
 
 * string: string
 
-Examples:
+**Returns**
+
+
+an array of characters
+
+**Examples**
 
 ~~~
 performtest ( typename ( tocharacters 'Hello World!' ) ) 'Char[]'
@@ -4597,14 +5309,55 @@ See:
 
 #### todouble
 
-converts an integer value to a double value
+converts value to a "double"-value
 
-* number: number to be converted
+* value: number to be converted
 
-Examples:
+**Returns**
+
+
+a double-value
+
+**Examples**
 
 ~~~
 performtest ( joinfrom ( typename 1 ) ( typename ( todouble 1 ) ) ) 'Int32 Double'
+~~~
+~~~
+performtest ( typename ( todouble 4711 ) ) 'Double'
+~~~
+~~~
+performtest ( typename ( todouble '4711' ) ) 'Double'
+~~~
+
+---
+
+#### toint32
+
+converts a value to an "int32"-value
+
+* value: value to be converted
+
+**Returns**
+
+
+an "int32"-value
+
+**Remarks**
+
+
+the value can be a number or a string
+
+**Examples**
+
+~~~
+performtest ( toint32 '4321' ) 4321
+~~~
+~~~
+performtest ( typename ( toint32 4711 ) ) 'Int32'
+~~~
+~~~
+performtest ( typename ( toint32 '4711' ) ) 'Int32'
 ~~~
 
 ---
@@ -4625,6 +5378,19 @@ See:
 
 ---
 
+#### tostring
+
+converts an object to a string
+
+* object: object
+
+**Returns**
+
+
+a "string"-value
+
+---
+
 #### ToString
 
 See:
@@ -4632,7 +5398,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Object.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.ToString
 
-Examples:
+**Examples**
 
 ~~~
 performtest ( ToString ( at 'Hello' 1 ) ) 'e'
@@ -4694,6 +5460,15 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.TryFormat
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.TryFormat
+
+---
+
+#### TryWriteBytes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.TryWriteBytes
 
 ---
 
@@ -4703,7 +5478,12 @@ returns the name of the type of an object
 
 * object: object
 
-Examples:
+**Returns**
+
+
+the name of the type
+
+**Examples**
 
 ~~~
 performtest ( typename 'Hello' ) 'String'
@@ -4717,6 +5497,24 @@ performtest ( typename ( typeof 'foobar' ) ) RuntimeType
 ~~~
 performtest ( typename ( tocharacters 'Hello World!' ) ) 'Char[]'
 ~~~
+~~~
+performtest ( typename ( tobiginteger 4711 ) ) 'BigInteger'
+~~~
+~~~
+performtest ( typename ( tobiginteger '4711' ) ) 'BigInteger'
+~~~
+~~~
+performtest ( typename ( toint32 4711 ) ) 'Int32'
+~~~
+~~~
+performtest ( typename ( toint32 '4711' ) ) 'Int32'
+~~~
+~~~
+performtest ( typename ( todouble 4711 ) ) 'Double'
+~~~
+~~~
+performtest ( typename ( todouble '4711' ) ) 'Double'
+~~~
 
 ---
 
@@ -4726,7 +5524,12 @@ returns the type-object of an object
 
 * object: object
 
-Examples:
+**Returns**
+
+
+the type-object
+
+**Examples**
 
 ~~~
 performtest ( typename ( typeof 'foobar' ) ) RuntimeType
@@ -4740,7 +5543,17 @@ returns the upper-bound of an object (e.g. an array or a list)
 
 * object: object
 
-Examples:
+**Returns**
+
+
+the upper-bound
+
+**Remarks**
+
+
+the upper-bound is the size of the object minus one
+
+**Examples**
 
 ~~~
 performtest ( upperbound ( arrayof 1 2 3 ) ) 2
@@ -4782,7 +5595,12 @@ writes text on the console
 
 * text: text to be written
 
-Examples:
+**Returns**
+
+
+the text written
+
+**Examples**
 
 ~~~
 performtest ( write 'foobar' ) 'foobar'
@@ -4797,7 +5615,12 @@ writes text to a file
 * path: path of the file
 * text: text to be written
 
-Examples:
+**Returns**
+
+
+the text written
+
+**Examples**
 
 ~~~
 performtest (
@@ -4824,3 +5647,7 @@ performtest (
 #### Missing Examples:
 
 * copyfiles
+* isconvertabletoarray
+* isnull
+* toarray
+* tostring

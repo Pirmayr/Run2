@@ -24,9 +24,17 @@ namespace Run2
             result.Append("\n\n");
           }
           result.Append(userCommandValue.IsQuoted ? $"command \"{userCommandValue.Name}\"" : $"command {userCommandValue.Name}");
-          if (!string.IsNullOrEmpty(userCommandValue.CommandDescription))
+          if (!string.IsNullOrEmpty(userCommandValue.Description))
           {
-            result.Append($" '{userCommandValue.CommandDescription}'");
+            result.Append($"\n  '{userCommandValue.Description}'");
+          }
+          if (!string.IsNullOrEmpty(userCommandValue.Returns))
+          {
+            result.Append($"\n  '{userCommandValue.Returns}'");
+          }
+          if (!string.IsNullOrEmpty(userCommandValue.Remarks))
+          {
+            result.Append($"\n  '{userCommandValue.Remarks}'");
           }
           foreach (var parameterName in userCommandValue.GetParameterNames())
           {

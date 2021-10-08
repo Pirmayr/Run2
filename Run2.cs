@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Numerics;
 using System.Reflection;
 
 namespace Run2
@@ -53,6 +54,7 @@ namespace Run2
       CreateStandardObject(new Stack());
       CreateStandardObject(new Hashtable());
       CreateStandardObject(new Queue());
+      CreateStandardObject(new BigInteger());
       Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Debug = CommandLineParser.OptionExists("debug");
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Helpers.GetProgramDirectory());
@@ -241,9 +243,19 @@ namespace Run2
       {
         var userCommand = Globals.Commands[definitionName.RemoveStrongQuotes()] as UserCommand;
         (userCommand != null).Check("User-command must not be null");
-        if (TryPeekDescription(definitionTokens, out var description))
+        if (TryPeekDocumentation(definitionTokens, out var description))
         {
-          userCommand.CommandDescription = description;
+          userCommand.Description = description;
+          definitionTokens.Dequeue();
+        }
+        if (TryPeekDocumentation(definitionTokens, out var returns))
+        {
+          userCommand.Returns = returns;
+          definitionTokens.Dequeue();
+        }
+        if (TryPeekDocumentation(definitionTokens, out var remarks))
+        {
+          userCommand.Remarks = remarks;
           definitionTokens.Dequeue();
         }
         while (0 < definitionTokens.Count)
@@ -255,7 +267,7 @@ namespace Run2
           }
           userCommand.ParameterNames.Add(peekedTokenString);
           definitionTokens.Dequeue();
-          if (TryPeekDescription(definitionTokens, out var parameterDescription))
+          if (TryPeekDocumentation(definitionTokens, out var parameterDescription))
           {
             userCommand.ParameterDescriptions.Add(peekedTokenString, parameterDescription);
             definitionTokens.Dequeue();
@@ -424,7 +436,7 @@ namespace Run2
       SetGlobalVariable("scriptpathsystem", Globals.ScriptPathSystem);
     }
 
-    private static bool TryPeekDescription(Tokens tokens, out string description)
+    private static bool TryPeekDocumentation(Tokens tokens, out string description)
     {
       if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeakQuote weaklyQuotedString)
       {

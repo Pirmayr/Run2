@@ -28,6 +28,16 @@ namespace Run2
       return result.ToString();
     }
 
+    public override string GetRemarks()
+    {
+      return "";
+    }
+
+    public override string GetReturns()
+    {
+      return "";
+    }
+
     public override bool GetHideHelp()
     {
       return FullNames.Count == 0;

@@ -1,50 +1,68 @@
-command addentry 'adds an entry to a dictionary'
+command addentry
+  'adds an entry to a dictionary'
+  'the dictionary'
   dictionary 'dictionary'
   key 'key'
   value 'value'
   Add dictionary key value
   return dictionary
 
-command additem 'adds an item to a list'
+command additem
+  'adds an item to a list'
+  'the list'
   list 'listof'
   value 'value'
   Add list value
   return list
 
-command arrayof 'converts the arguments to an array'
+command arrayof
+  'converts the arguments to an array'
+  'an array'
   ToArray arguments
 
-command arraytail 'returns an array without its first element'
+command arraytail
+  'returns an array without its first element'
   array 'array'
   local limit ( upperbound array )
   local result ( newarray limit 0 )
   if ( <= ( size array ) 1 ) ( arrayof ) ( Array.Copy array 1 result 0 limit )
   return result
 
-command average 'computes the average of the given values'
+command average
+  'computes the average of the given values'
+  'the average'
   values 'values'
   / ( todouble ( sum values ) ) ( size values )
 
-command averageof 'computes the average of the arguments'
+command averageof
+  'computes the average of the arguments'
+  'the average'
   average arguments
 
-command besttype 'tries to find the best type for the given object'
+command besttype
+  'tries to find the best type for the given object'
   object 'object'
-  if ( isstring object ) ( switch ( canparseint32 object ) ( parseint32 object ) object ) object
+  if ( isstring object ) ( switch ( canparseint32 object ) ( toint32 object ) object ) object
 
-command canparseint32 'tests whether the specified string can be parsed to an int32'
+command canparseint32
+  'tests whether the specified string can be parsed to an int32'
   string 'string'
   Int32.TryParse string 0
 
-command concatenation 'concatenates the given strings'
+command concatenation
+  'concatenates the given strings'
   strings 'strings'
   local result ''
   map strings ( increment result item )
 
-command concatenationof 'concatenate the arguments, which are assumed to be strings'
+command concatenationof
+  'concatenates the arguments'
+  'the concatenated arguments'
+  'the arguments must be strings'
   concatenation arguments
 
-command copyfiles 'copies files from one location to another'
+command copyfiles
+  'copies files from one location to another'
   sourcedirectory 'directory to copy from'
   sourcespecification 'name of the file to copy or a pattern (e.g. "*.run2")'
   destinationdirectory 'directory to copy to'
@@ -53,53 +71,65 @@ command copyfiles 'copies files from one location to another'
   lineaction 'action to be performed on every line'
   Helpers.CopyFiles sourcedirectory sourcespecification destinationdirectory destinationfilename expandincludes lineaction
 
-command createdirectory 'creates specified directory'
+command createdirectory
+  'creates specified directory'
   directory 'directory to be created'
   Directory.CreateDirectory directory
 
-command decrement 'decrements a variable'
+command decrement
+  'decrements a variable'
   "name" 'name of the variable'
   amount 'decrement'
   set name ( - ( get name ) amount )
 
-command deletedirectory 'deletes specified directory'
+command deletedirectory
+  'deletes specified directory'
   directory 'directory to be deleted'
   Directory.Delete directory ( return True )
 
-command dequeue 'dequeues an element'
+command dequeue
+  'dequeues an element'
   queue 'queue'
   Dequeue queue
 
-command dir 'executes the Windows command "dir" and returns the result'
+command dir
+  'executes the Windows command "dir" and returns the result'
   dos 'dir' ( join arguments )
 
-command directoryexists 'tests wether the specified directory exists'
+command directoryexists
+  'tests wether the specified directory exists'
   directory 'directory to be tested for existence'
   Directory.Exists directory
 
-command dos 'executes specified dos-command and returns the output'
+command dos
+  'executes specified dos-command and returns the output'
   if ( directoryexists ( at arguments 0 ) ) ( run ( at arguments 0 ) cmd /c ( join ( tail arguments ) ) ) ( run cmd /c ( join arguments ) )
 
-command endswith 'tests if a string ends with an other string'
+command endswith
+  'tests if a string ends with an other string'
   string 'string'
   value 'string to be tested for being the ending'
   EndsWith string value
 
-command enqueue 'enqueues an element'
+command enqueue
+  'enqueues an element'
   queue 'queue'
   value 'element to be enqueued'
   Enqueue queue value
   return value
 
-command factorial 'computes the factorial of a number'
+command factorial
+  'computes the factorial of a number'
   number 'number'
   if ( == number 1 ) 1 ( * ( factorial ( - number 1 ) ) number )
 
-command fileexists 'checks if a file exists'
+command fileexists
+  'checks if a file exists'
   path 'path of the file'
   File.Exists path
 
-command finddirectory 'gets the directory with the given name'
+command finddirectory
+  'gets the directory with the given name'
   directory 'directory from where to search upwards'
   name 'name'
   local result ''
@@ -109,7 +139,8 @@ command finddirectory 'gets the directory with the given name'
     )
   return result
 
-command finddirectorywithparent 'finds the directory whose parent has the given name'
+command finddirectorywithparent
+  'finds the directory whose parent has the given name'
   directory 'directory from where to search upwards'
   parent 'name of the parent'
   local result ''
@@ -121,28 +152,36 @@ command finddirectorywithparent 'finds the directory whose parent has the given 
     )
   return result
 
-command getdirectory 'gets the directory from a path'
+command getdirectory
+  'gets the directory from a path'
   path 'path'
   Path.GetDirectoryName path
 
-command getfilename 'gets the filename from a path'
+command getfilename
+  'gets the filename from a path'
   path 'path'
   Path.GetFileName path
 
-command getfiles 'returns an array of paths of the files in a directory'
+command getfiles
+  'returns an array of paths of the files in a directory'
   directory 'directory'
   Directory.GetFiles directory
 
-command getfname 'gets the filename without extension from a path'
+command getfname
+  'gets the filename without extension from a path'
   path 'path'
   Path.GetFileNameWithoutExtension path
 
-command getmember 'get the array of member-information for the specified member in an object'
+command getmember
+  'get the array of member-information for the specified member in an object'
+  'an array of "MemberInfo"-values'
   object 'object'
   name 'name of the member'
   invokeinstancemember 'GetMember' ( typeof object ) name
 
-command gettokens 'returns the tokenized contents of a string'
+command gettokens
+  'returns the tokenized contents of a string'
+  'a list with tokens'
   string 'string'
   local result ( newlist )
   local token ''
@@ -158,26 +197,37 @@ command gettokens 'returns the tokenized contents of a string'
   if ( notempty token ) ( additem result token )
   return result
 
-command hasmember 'tests if the specified member exists in an object'
+command hasmember
+  'tests if the specified member exists in an object'
+  'if the object has the specified member, "true" is returned, otherwise "false"'
   object 'object'
   name 'name of the member'
   > ( Length ( getmember object name ) ) 0
 
-command hastype 'tests if an object has the given type'
+command hastype
+  'tests if an object has the given type'
+  'if the object has the given type, "true" is returned, otherwise "false"'
   object 'object'
   name 'name of the type'
   == ( typename object ) name
 
-command head 'returns the first element of an object'
+command head
+  'returns the first element of an object'
+  'if a first element can be obtained, it is returned, otherwise an empty list'
   object 'object'
   if ( == ( size object ) 0 ) ( listof ) ( at object 0 )
 
-command increment 'increments a variable'
+command increment
+  'increments a variable'
+  'the incremented value of the variable'
+  'incrementing a string by a string means appending one string to the other'
   "name" 'name of the variable'
   amount 'increment'
   set name ( + ( get name ) amount )
 
-command initialize 'performs various initializations'
+command initialize
+  'performs various initializations'
+  'the command always returns "true"'
   global windowsdirectory windir
   global programfilesdirectory ProgramFiles
   global programfiles32directory ProgramFiles(x86)
@@ -190,107 +240,172 @@ command initialize 'performs various initializations'
   global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
   global workspacesdirectory ( finddirectory scriptdirectory Workspaces )
   global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
-  write sourcesbranchdirectory
   return True
 
-command invoketests 'invokes the tests'
+command invoketests
+  'invokes the tests'
+  'if all tests succeeded, true is returned, otherwise false'
   global testsok True
   performtest ( performtests ) True
   write ( if testsok 'tests ok' 'tests failed' )
   return testsok
 
-command isarray 'tests if an object is an array'
+command isarray
+  'tests if an object is an array'
+  'if the object is an array, "true" is returned, otherwise "false"'
+  'the test returns the value of the "IsArray"-property of the type of the object'
   object 'object'
   invokeinstancemember 'IsArray' ( typeof object )
 
-command isdictionary 'tests if an object is a dictionary'
+command ischar
+  'tests if an object is a "char"-value'
+  'a "bool"-value'
+  'if the object is a "char"-value, "true" is returned, otherwise "false"'
   object 'object'
-  hastype object Hashtable
+  hastype object 'Char'
 
-command isempty 'checks wether an object is isempty'
+command isconvertabletoarray
+  'test, if an object can be converted to an array'
+  'if the object can be converted to an array, "true" is returned, otherwise "false"'
+  'the test checks if the object already is an array, or has the method either the method "ToArray" or the method "ToCharArray"'
+  object 'object'
+  switch ( isarray object ) True ( hasmember object 'ToArray' )
+
+command isdictionary
+  'tests if an object is a dictionary'
+  'if the object in a dictionary, "true" is returned, otherwise "false"'
+  'the test checks, if the object if of the Hashtable-type'
+  object 'object'
+  hastype object 'Hashtable'
+
+command isempty
+  'checks wether an object is isempty'
+  'if the object is empty, "true" is returned, otherwise "false"'
   object 'object'
   == ( size object ) 0
 
-command islist 'tests if an object is a list'
+command islist
+  'tests if an object is a list'
+  'if the object is a list, "true" is returned, otherwise "false"'
+  'the object can be of the "ArrayList"-type or the generic "List"-type'
   object 'object'
-  local result False
-  if ( hastype object 'ArrayList' ) ( local result True )
-  if ( hastype object 'List`1' ) ( local result True )
-  return result
+  switch ( hastype object 'ArrayList' ) True ( hastype object 'List`1' ) True False
 
-command isstring 'tests if an object is a string'
+command isnull
+  'tests, if an object has the value "null"'
+  'if the object has the value "null", "true" is returned, otherwise "false"'
+  object 'object'
+  == object ( null )
+
+command isstring
+  'tests if an object is a "string"-value'
+  'a "bool"-value'
+  'if the object is a "string"-value, "true" is returned, otherwise "false"'
   object 'object'
   hastype object String
 
-command iswhitespace 'checks if the given character is white space'
-  character 'character to be checked'
-  Char.IsWhiteSpace character
+command iswhitespace
+  'checks if a value is white space'
+  'if the character is white space, "true" is returned, otherwise "false"'
+  value 'value to be checked'
+  Char.IsWhiteSpace ( tochar value )
 
-command join 'joins strings to a string separated by blanks'
-  strings 'array or list of strings'
-  String.Join ' ' ( if ( isarray strings ) strings ( ToArray strings ) )
+command join
+  'joins strings to a string separated by blanks'
+  'a string'
+  'the command applies to arrays of strings or any object that can be converted to an array of strings'
+  strings 'strings'
+  String.Join ' ' ( if ( isarray strings ) strings ( toarray strings ) )
 
-command joinfrom 'joins the arguments to a string separated by blanks'
+command joinfrom
+  'joins the arguments to a string separated by blanks'
+  'a string'
   join arguments
 
-command listof 'returns the arguments as a listof'
+command listof
+  'returns the arguments as a list'
+  'a list'
   return arguments
 
-command listtail 'returns a listof without its first element'
+command listtail
+  'returns a list without its first item'
+  'the list without the first item'
   items 'listof'
   if ( <= ( size items ) 1 ) ( listof ) ( GetRange items 1 ( - ( size items ) 1 ) )
 
-command locatedirectory 'searches for a directory'
+command locatedirectory
+  'searches for a directory'
+  'if the directory could be found, the directory is returned, otherwise an empty string'
   basedirectory 'directory in which the search should begin'
   pattern 'pattern to be searched for'
   return ( Helpers.LocateDirectory basedirectory pattern )
 
-command locatefile 'searches for a file'
+command locatefile
+  'searches for a file'
+  'if the file could be found, the path of the file is returned, otherwise an empty string'
   basedirectory 'directory in which the search should begin'
   pattern 'pattern to be searched for'
   return ( Helpers.LocateFile basedirectory pattern )
 
-command median 'returns the median of the given numbers'
+command median
+  'returns the median of the given numbers'
+  'the median'
   values 'numbers'
   at ( sort values ) ( / ( size values ) 2 )
 
-command medianof 'returns the median of the arguments'
+command medianof
+  'returns the median of the arguments'
+  'the median'
   median arguments
 
-command newarray 'creates an array'
-  length 'size of the arrayof'
-  initialvalue 'value with which the array is to be initialized'
+command newarray
+  'creates an array'
+  'the new array'
+  length 'size of the array'
+  initialvalue '(optional) value with which the array is to be initialized'
   local result ( listof )
-  for i 0 ( - length 1 ) 1 ( Add result initialvalue )
+  if ( not ( isnull initialvalue ) ) ( for i 0 ( - length 1 ) 1 ( Add result initialvalue ) )
   return ( ToArray result )
 
-command newdictionary 'creates a dictionary'
+command newdictionary
+  'creates a dictionary'
+  'the new dictionary'
+  'the dictionary is of type "Hashtable"'
   Hashtable.new
 
-command newlist 'creates a list'
-  values '(optional) value with which the list is to be initialized'
-  if ( == values ( null ) ) ( ArrayList.new ) ( ArrayList.new values )
+command newlist
+  'creates a list'
+  'the new list'
+  'the type of the list is "ArrayList"'
+  values '(optional) values with which the list is to be initialized'
+  if ( isnull values ) ( ArrayList.new ) ( ArrayList.new values )
 
-command newqueue 'creates a queue'
+command newqueue
+  'creates a queue'
+  'the new queue'
   values '(optional) value with which the queue is to be initialized'
   if ( == values ( null ) ) ( Queue.new ) ( Queue.new values )
 
-command newstack 'creates a stack'
+command newstack
+  'creates a stack'
+  'a stack'
   Stack.new
 
-command not 'negates a truth value'
+command not
+  'negates a truth value'
+  'if the value is "false", "true" is returned, otherwise "false"'
   value 'truth value'
   if ( return value ) False True
 
-command notempty 'checks if an object is not isempty'
+command notempty
+  'checks if an object is not empty'
+  'if the object is empty, "false" is returned, otherwise "true"'
   object 'object'
   not ( isempty object )
 
-command parseint32 'parses the given string to an int32'
-  string 'string to be parsed'
-  Int32.Parse string
-
-command performtest 'tests if a code-block yields the expected result'
+command performtest
+  'tests if a code-block yields the expected result'
+  'if the test succeeds true ist returned, otherwise false'
   "code" 'code to be tested'
   expected 'expected value'
   if ( == ( local actual ( evaluate code ) ) expected ) True (
@@ -300,7 +415,9 @@ command performtest 'tests if a code-block yields the expected result'
     return False
     )
 
-command performtests 'performs various tests'
+command performtests
+  'performs various tests'
+  'if all tests succeeded, true is returned, otherwise false'
   performtest ( initialize ) True
   performtest ( + 47 11 ) 58
   performtest ( - 47 11 ) 36
@@ -447,7 +564,7 @@ command performtests 'performs various tests'
   performtest ( besttype '4711' ) 4711
   performtest ( canparseint32 'foobar' ) False
   performtest ( canparseint32 '1234' ) True
-  performtest ( parseint32 '4321' ) 4321
+  performtest ( toint32 '4321' ) 4321
   performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
   performtest ( < ( - ( Math.Sin 1.0 ) 0.84147 ) 0.000001 ) True
   performtest (
@@ -481,6 +598,7 @@ command performtests 'performs various tests'
   performtest ( size ( newqueue ( listof 1 2 3 ) ) ) 3
   performtest ( iswhitespace ( tochar 'a' ) ) False
   performtest ( iswhitespace ( tochar ' ' ) ) True
+  performtest ( iswhitespace ( tochar 4711 ) ) False
   performtest ( not True ) False
   performtest ( isempty ( listof ) ) True
   performtest ( isempty ( listof 1 2 3 ) ) False
@@ -498,18 +616,39 @@ command performtests 'performs various tests'
   performtest ( getfilename 'C:\Windows\notepad.exe' ) 'notepad.exe'
   performtest ( replace 'Hello World!' 'Hello' 'Bye' ) 'Bye World!'
   performtest ( substring 'Hello World!' 1 4 ) 'ello'
-  return True
+  performtest (
+    local value 'foo'
+    increment value 'bar'
+    return value
+    )
+    'foobar'
+  performtest ( typename ( tobiginteger 4711 ) ) 'BigInteger'
+  performtest ( typename ( tobiginteger '4711' ) ) 'BigInteger'
+  performtest ( typename ( toint32 4711 ) ) 'Int32'
+  performtest ( typename ( toint32 '4711' ) ) 'Int32'
+  performtest ( typename ( todouble 4711 ) ) 'Double'
+  performtest ( typename ( todouble '4711' ) ) 'Double'
+  performtest ( ischar ( tochar 'hello' ) ) True
+  performtest ( ischar ( tochar 4711 ) ) True
+  performtest ( tail 4711 ) '711'
+  return testsok
 
-command pop 'pops an element'
+command pop
+  'pops an element'
+  'the element popped'
   stack 'stack'
   Pop stack
 
-command power 'computes the power of two numbers'
+command power
+  'computes the power of two numbers'
+  'the power'
   a 'base'
   b 'exponent'
   Math.Pow a b
 
-command primes 'computes the primes up to n'
+command primes
+  'computes the primes up to n'
+  'a list of primes up to n'
   n 'upper limit'
   local result ( newlist )
   local table ( newarray ( + n 1 ) True )
@@ -521,74 +660,105 @@ command primes 'computes the primes up to n'
     )
   return result
 
-command push 'pushes an element'
+command push
+  'pushes an element'
+  'the element pushed'
   stack 'stack'
   value 'element'
   Push stack value
   return value
 
-command "quote" 'returns the unevaluated argument'
+command "quote"
+  'returns the unevaluated arguments'
+  'the unenvaluated arguments'
   return arguments
 
-command readfile 'returns the text contained in a file'
+command readfile
+  'returns the text contained in a file'
+  'the text contained in the file'
   path 'path of the file'
   File.ReadAllText path
 
-command replace 'replaces a substring'
+command replace
+  'replaces a substring'
+  'the modified string'
   string 'string to be searched for the search-string'
   searchstring 'string to be searched for'
   replacement 'replacement'
   Replace string searchstring replacement
 
-command size 'returns the size of an object (e.g. an array, a list, or a string)'
+command size
+  'returns the size of an object (e.g. an array, a list, or a string)'
+  'the size of the object'
   object 'object'
   if ( hasmember object 'Length' ) ( Length object ) ( Count object )
 
-command sort 'sorts an object (e.g. an array, a list, or a string)'
+command sort
+  'sorts an object (e.g. an array, a list, or a string)'
+  'the sorted object'
   object 'object to be sorted'
   switch ( isarray object ) ( sortarray object ) ( isstring object ) ( sortstring object ) (
     Sort object
     return object
     )
 
-command sortarray 'sorts an array'
+command sortarray
+  'sorts an array'
+  'the sorted array'
   array 'array'
   Array.Sort array
   return array
 
-command sortstring 'sorts the characters of a string'
+command sortstring
+  'sorts the characters of a string'
+  'the sorted string'
   string 'string'
   local characters ( ToCharArray string )
   Array.Sort characters
   String.new characters
 
-command split 'creates an array by splitting a string at carriage-returns'
+command split
+  'creates an array by splitting a string at carriage-returns'
+  'an array of strings'
   string 'string to be splitted'
   Split string ( at '~n' 0 )
 
-command square 'computes the square of a number'
+command square
+  'computes the square of a number'
+  'the square of the number'
   n 'number'
   * n n
 
-command stringtail 'returns a string without its first character'
+command stringtail
+  'returns a string without its first character'
+  'the tail of the string'
   string 'string'
   if ( <= ( size string ) 1 ) '' ( Substring string 1 ( - ( size string ) 1 ) )
 
-command substring 'returns a substring'
+command substring
+  'returns a substring'
+  'the substring'
   string 'string'
   start 'start-index of the substring'
   length 'length of the substring'
   if ( < start ( size string ) ) ( Substring string start length ) ( return '' )
 
-command sum 'returns the sum of the given values'
+command sum
+  'returns the sum of the given values'
+  'the sum'
+  'the values must be numbers'
   values 'values'
   local result 0
   map values ( increment result ( besttype item ) )
 
-command sumof 'returns the sum of the arguments'
+command sumof
+  'returns the sum of the arguments'
+  'the sum'
   sum arguments
 
-command system 'various tests'
+command system
+  'various tests'
+  'if all tests succeeded, true is returned, otherwise false'
   performtest ( invoketests ) True
   writefile [basedirectory]\..\..\..\Commands.txt ( getcommands )
   if ( return testsok ) (
@@ -598,40 +768,86 @@ command system 'various tests'
     )
   return testsok
 
-command tail 'tail of an object (e.g. an array, a list, or a string)'
+command tail
+  'tail of an object (e.g. an array, a list, or a string)'
+  'the tail of the object'
+  'if the object is a list or can be converted to an array, the proper tail is returned, otherwise the object is converted to a string and its tail is returned'
   object 'object'
-  switch ( isarray object ) ( arraytail object ) ( isstring object ) ( stringtail object ) ( listtail object )
+  switch ( islist object ) ( listtail object ) ( isconvertabletoarray object ) ( arraytail ( toarray object ) ) ( stringtail ( tostring object ) )
 
-command tochar 'converts the type of the first character of a string to "char"'
-  text 'string'
-  at text 0
+command toarray
+  'converts an object to an array'
+  'an array'
+  'the method can be used all objects, where "isconvertabletoarray" is "true"'
+  object 'object'
+  switch ( isarray object ) object ( isconvertabletoarray object ) ( ToArray object ) ( listof )
 
-command tocharacters 'converts a string to an array of characters'
+command tobiginteger
+  'converts a number to a BigInteger'
+  'a "BigInteger"-value'
+  BigInteger.Parse ( tostring value )
+
+command tochar
+  'converts the value to "char"-value'
+  'a "char"-value'
+  'if the value is already a "char"-value, it is returned, otherwise the value is converted to a string and the first character is returned'
+  value 'value'
+  if ( ischar value ) value ( at ( tostring value ) 0 )
+
+command tocharacters
+  'converts a string to an array of characters'
+  'an array of characters'
   string 'string'
   ToCharArray string
 
-command todouble 'converts an integer value to a double value'
-  number 'number to be converted'
-  Convert.ToDouble number
+command todouble
+  'converts value to a "double"-value'
+  'a double-value'
+  value 'number to be converted'
+  Convert.ToDouble ( tostring value )
 
-command typename 'returns the name of the type of an object'
+command toint32
+  'converts a value to an "int32"-value'
+  'an "int32"-value'
+  'the value can be a number or a string'
+  value 'value to be converted'
+  Int32.Parse ( tostring value )
+
+command tostring
+  'converts an object to a string'
+  'a "string"-value'
+  object 'object'
+  ToString object
+
+command typename
+  'returns the name of the type of an object'
+  'the name of the type'
   object 'object'
   invokeinstancemember 'Name' ( typeof object )
 
-command typeof 'returns the type-object of an object'
+command typeof
+  'returns the type-object of an object'
+  'the type-object'
   object 'object'
   invokeinstancemember 'GetType' object
 
-command upperbound 'returns the upper-bound of an object (e.g. an array or a list)'
+command upperbound
+  'returns the upper-bound of an object (e.g. an array or a list)'
+  'the upper-bound'
+  'the upper-bound is the size of the object minus one'
   object 'object'
   return ( - ( size object ) 1 )
 
-command write 'writes text on the console'
+command write
+  'writes text on the console'
+  'the text written'
   text 'text to be written'
   Console.WriteLine ( ToString text )
   return text
 
-command writefile 'writes text to a file'
+command writefile
+  'writes text to a file'
+  'the text written'
   path 'path of the file'
   text 'text to be written'
   File.WriteAllText path text

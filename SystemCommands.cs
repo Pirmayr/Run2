@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -331,6 +332,13 @@ namespace Run2
         return Run2.Evaluate(code);
       }
       return null;
+    }
+
+    [Documentation(1, 1, null, "throws an exception", "message", "message")]
+    public static object Throw(Tokens arguments)
+    {
+      var message = arguments.DequeueString();
+      throw new Exception(message);
     }
 
     [Documentation(2, 2, null, "performs a while-loop", "condition", "condition for continuing the loop", "code", "body of the while-loop")]

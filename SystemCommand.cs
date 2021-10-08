@@ -19,6 +19,16 @@ namespace Run2
       return attribute != null ? attribute.Description : "";
     }
 
+    public override string GetRemarks()
+    {
+      return "";
+    }
+
+    public override string GetReturns()
+    {
+      return "";
+    }
+
     public override bool GetHideHelp()
     {
       return false;

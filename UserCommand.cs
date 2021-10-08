@@ -4,7 +4,11 @@ namespace Run2
 {
   internal sealed class UserCommand : Command
   {
-    public string CommandDescription { get; set; }
+    public string Description { get; set; }
+
+    public string Remarks { get; set; }
+
+    public string Returns { get; set; }
 
     public bool IsQuoted { get; init; }
 
@@ -20,7 +24,17 @@ namespace Run2
 
     public override string GetDescription()
     {
-      return CommandDescription;
+      return Description;
+    }
+
+    public override string GetRemarks()
+    {
+      return Remarks;
+    }
+
+    public override string GetReturns()
+    {
+      return Returns;
     }
 
     public override bool GetHideHelp()
