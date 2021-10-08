@@ -1,7 +1,6 @@
 +
 at
 break
-copyfiles
 /
 ==
 evaluate
@@ -277,10 +276,8 @@ Helpers.AppendNewLine
 Helpers.AreEqual
 Helpers.BaseTypeOfMember
 Helpers.Check
+Helpers.CopyFiles
 Helpers.Execute
-Helpers.ExpandIncludes
-Helpers.LocateDirectory
-Helpers.LocateFile
 Helpers.GetBestTypedObject
 Helpers.GetCommandNameFromPath
 Helpers.GetProgramDirectory
@@ -292,6 +289,8 @@ Helpers.IsBlock
 Helpers.IsStrongQuote
 Helpers.IsStruct
 Helpers.IsWeakQuote
+Helpers.LocateDirectory
+Helpers.LocateFile
 Helpers.RemoveStrongQuotes
 Helpers.WriteLine
 AsReadOnly
@@ -446,6 +445,7 @@ joinfrom
 listof
 listtail
 locatedirectory
+copyfiles
 locatefile
 median
 medianof

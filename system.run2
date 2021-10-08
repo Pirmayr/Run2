@@ -44,6 +44,15 @@ command concatenation 'concatenates the given strings'
 command concatenationof 'concatenate the arguments, which are assumed to be strings'
   concatenation arguments
 
+command copyfiles 'copies files from one location to another'
+  sourcedirectory 'directory to copy from'
+  sourcespecification 'name of the file to copy or a pattern (e.g. "*.run2")'
+  destinationdirectory 'directory to copy to'
+  destinationfilename 'name of the file after beeing copied; if "null" or empty, the filename remains unchanged'
+  expandincludes 'if true, includes are expanded'
+  lineaction 'action to be performed on every line'
+  Helpers.CopyFiles sourcedirectory sourcespecification destinationdirectory destinationfilename expandincludes lineaction
+
 command createdirectory 'creates specified directory'
   directory 'directory to be created'
   Directory.CreateDirectory directory

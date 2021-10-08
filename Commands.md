@@ -1259,12 +1259,12 @@ See:
 
 copies files from one location to another
 
-* source-directory: directory to copy from
-* source-filename: name of the file to copy
-* destination-directory: directory to copy to
-* destination-filename: name of the file after beeing copied
-* expand includes?: if true, includes are expanded
-* line-action: action to be performed on every line
+* sourcedirectory: directory to copy from
+* sourcefilename: name of the file to copy
+* destinationdirectory: directory to copy to
+* destinationfilename: name of the file after beeing copied
+* expandincludes: if true, includes are expanded
+* lineaction: action to be performed on every line
 
 ---
 
@@ -3072,7 +3072,7 @@ See:
 
 #### map
 
-executes a command with all elements of an array or listf; the variable 'item' holds the current element
+executes a command with all elements of an array or list; the variable 'item' holds the current element
 
 * arrayOrList: array or list
 * command: command
@@ -4820,3 +4820,7 @@ performtest (
   )
   6
 ~~~
+
+#### Missing Examples:
+
+* copyfiles

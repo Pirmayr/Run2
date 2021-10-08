@@ -66,6 +66,16 @@ namespace Run2
       Checked(condition, message);
     }
 
+    // ReSharper disable once UnusedMember.Global
+    public static void CopyFiles(string sourceDirectory, string pattern, string destinationDirectory, string destinationFilename, bool expand, string lineAction)
+    {
+      foreach (var sourcePath in Directory.GetFiles(sourceDirectory, pattern, SearchOption.AllDirectories))
+      {
+        var targetPath = destinationDirectory + "\\" + (string.IsNullOrEmpty(destinationFilename) ? Path.GetFileName(sourcePath) : destinationFilename);
+        ExpandIncludes(sourcePath, targetPath, expand, lineAction);
+      }
+    }
+
     public static void Execute(string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
     {
       var mostRecentException = new Exception("Execution failed");
@@ -101,13 +111,13 @@ namespace Run2
       throw mostRecentException;
     }
 
-    public static void ExpandIncludes(string sourcePath, string targetPath, string lineCommand)
+    private static void ExpandIncludes(string sourcePath, string targetPath, bool expandIncludes, string lineCommand)
     {
       var expandedContents = "";
       foreach (var currentLine in File.ReadAllText(sourcePath).Split('\n'))
       {
         var currentCleanLine = currentLine.Replace("\r", "");
-        if (currentCleanLine.StartsWith(Globals.IncludeTag, StringComparison.Ordinal))
+        if (expandIncludes && currentCleanLine.StartsWith(Globals.IncludeTag, StringComparison.Ordinal))
         {
           var filename = currentCleanLine.Substring(Globals.IncludeTag.Length + 1);
           var path = $"{Path.GetDirectoryName(sourcePath)}\\{filename}";
@@ -139,39 +149,6 @@ namespace Run2
         expandedContents = string.Join('\n', lines);
       }
       File.WriteAllText(targetPath, expandedContents);
-    }
-
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public static string LocateDirectory(string baseDirectory, string pattern)
-    {
-      Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
-      var currentDirectory = baseDirectory;
-      while (!string.IsNullOrEmpty(currentDirectory))
-      {
-        var currentPath = Directory.GetDirectories(currentDirectory, pattern, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
-        if (!string.IsNullOrEmpty(currentPath) && Directory.Exists(currentPath))
-        {
-          return currentPath;
-        }
-        currentDirectory = Path.GetDirectoryName(currentDirectory);
-      }
-      return Directory.GetDirectories(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
-    }
-
-    public static string LocateFile(string baseDirectory, string pattern)
-    {
-      Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
-      var currentDirectory = baseDirectory;
-      while (!string.IsNullOrEmpty(currentDirectory))
-      {
-        var currentPath = Directory.GetFiles(currentDirectory, pattern, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
-        if (!string.IsNullOrEmpty(currentPath) && File.Exists(currentPath))
-        {
-          return currentPath;
-        }
-        currentDirectory = Path.GetDirectoryName(currentDirectory);
-      }
-      return Directory.GetFiles(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
     }
 
     public static object GetBestTypedObject(this string currentToken)
@@ -307,6 +284,39 @@ namespace Run2
         return true;
       }
       return false;
+    }
+
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    public static string LocateDirectory(string baseDirectory, string pattern)
+    {
+      Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
+      var currentDirectory = baseDirectory;
+      while (!string.IsNullOrEmpty(currentDirectory))
+      {
+        var currentPath = Directory.GetDirectories(currentDirectory, pattern, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
+        if (!string.IsNullOrEmpty(currentPath) && Directory.Exists(currentPath))
+        {
+          return currentPath;
+        }
+        currentDirectory = Path.GetDirectoryName(currentDirectory);
+      }
+      return Directory.GetDirectories(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
+    }
+
+    public static string LocateFile(string baseDirectory, string pattern)
+    {
+      Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
+      var currentDirectory = baseDirectory;
+      while (!string.IsNullOrEmpty(currentDirectory))
+      {
+        var currentPath = Directory.GetFiles(currentDirectory, pattern, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
+        if (!string.IsNullOrEmpty(currentPath) && File.Exists(currentPath))
+        {
+          return currentPath;
+        }
+        currentDirectory = Path.GetDirectoryName(currentDirectory);
+      }
+      return Directory.GetFiles(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
     }
 
     public static string RemoveStrongQuotes(this string value)
