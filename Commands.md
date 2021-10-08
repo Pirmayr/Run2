@@ -51,7 +51,7 @@ performtest ( * 47 11 ) 517
 ~~~
 performtest (
   local product 1
-  map ( array 3 1 4 1 ) ( local product ( * product item ) )
+  map ( arrayof 3 1 4 1 ) ( local product ( * product item ) )
   )
   12
 ~~~
@@ -107,7 +107,7 @@ performtest (
 ~~~
 performtest (
   local result 0
-  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+  foreach i ( arrayof 3 1 4 1 ) ( local result ( + result i ) )
   )
   9
 ~~~
@@ -169,13 +169,13 @@ Examples:
 performtest ( == 47 11 ) False
 ~~~
 ~~~
-performtest ( == ( array 1 2 3 ) ( array 1 2 3 ) ) True
+performtest ( == ( arrayof 1 2 3 ) ( arrayof 1 2 3 ) ) True
 ~~~
 ~~~
-performtest ( == ( array 1 2 3 ) ( array 1 2 4 ) ) False
+performtest ( == ( arrayof 1 2 3 ) ( arrayof 1 2 4 ) ) False
 ~~~
 ~~~
-performtest ( == ( array 1 2 3 4 ) ( array 1 2 3 ) ) False
+performtest ( == ( arrayof 1 2 3 4 ) ( arrayof 1 2 3 ) ) False
 ~~~
 ~~~
 performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
@@ -238,7 +238,7 @@ See:
 
 adds an entry to a dictionary
 
-* object: object
+* dictionary: dictionary
 * key: key
 * value: value
 
@@ -260,13 +260,13 @@ performtest (
 
 adds an item to a list
 
-* object: list
+* list: listof
 * value: value
 
 Examples:
 
 ~~~
-performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+performtest ( size ( additem ( listof 1 2 3 ) 4 ) ) 4
 ~~~
 
 ---
@@ -276,89 +276,6 @@ performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.AddRange
-
----
-
-#### array
-
-converts the arguments to an array
-
-Examples:
-
-~~~
-performtest ( == ( array 1 2 3 ) ( array 1 2 3 ) ) True
-~~~
-~~~
-performtest ( == ( array 1 2 3 ) ( array 1 2 4 ) ) False
-~~~
-~~~
-performtest ( == ( array 1 2 3 4 ) ( array 1 2 3 ) ) False
-~~~
-~~~
-performtest ( sum ( array 1 2 3 ) ) 6
-~~~
-~~~
-performtest ( average ( array 1 2 3 4 ) ) 2.5
-~~~
-~~~
-performtest (
-  local result 0
-  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
-  )
-  9
-~~~
-~~~
-performtest (
-  local product 1
-  map ( array 3 1 4 1 ) ( local product ( * product item ) )
-  )
-  12
-~~~
-~~~
-performtest ( upperbound ( array 1 2 3 ) ) 2
-~~~
-~~~
-performtest ( size ( array 1 2 3 4 5 6 ) ) 6
-~~~
-~~~
-performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( array '1' '1' '3' '4' '5' '9' )
-~~~
-~~~
-performtest ( join ( array 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
-~~~
-~~~
-performtest ( concatenation ( array foo bar ) ) foobar
-~~~
-~~~
-performtest ( isarray ( array 1 2 3 ) ) True
-~~~
-~~~
-performtest ( sortarray ( array 3 1 4 1 5 9 2 6 0 ) ) ( array 0 1 1 2 3 4 5 6 9 )
-~~~
-~~~
-performtest ( head ( array 1 2 3 4 ) ) 1
-~~~
-~~~
-performtest ( arraytail ( array 4 7 1 1 ) ) ( array 7 1 1 )
-~~~
-~~~
-performtest ( tail ( array 1 2 3 4 ) ) ( array 2 3 4 )
-~~~
-~~~
-performtest ( median ( array 5 3 2 4 1 ) ) 3
-~~~
-~~~
-performtest ( islist ( array ) ) False
-~~~
-~~~
-performtest ( isarray ( array ) ) True
-~~~
-~~~
-performtest ( notempty ( array ) ) False
-~~~
-~~~
-performtest ( notempty ( array 1 2 3 ) ) True
-~~~
 
 ---
 
@@ -578,16 +495,99 @@ See:
 
 ---
 
-#### arraytail
+#### arrayof
 
-returns an array without its first element
-
-* elements: array
+converts the arguments to an array
 
 Examples:
 
 ~~~
-performtest ( arraytail ( array 4 7 1 1 ) ) ( array 7 1 1 )
+performtest ( == ( arrayof 1 2 3 ) ( arrayof 1 2 3 ) ) True
+~~~
+~~~
+performtest ( == ( arrayof 1 2 3 ) ( arrayof 1 2 4 ) ) False
+~~~
+~~~
+performtest ( == ( arrayof 1 2 3 4 ) ( arrayof 1 2 3 ) ) False
+~~~
+~~~
+performtest ( sum ( arrayof 1 2 3 ) ) 6
+~~~
+~~~
+performtest ( average ( arrayof 1 2 3 4 ) ) 2.5
+~~~
+~~~
+performtest (
+  local result 0
+  foreach i ( arrayof 3 1 4 1 ) ( local result ( + result i ) )
+  )
+  9
+~~~
+~~~
+performtest (
+  local product 1
+  map ( arrayof 3 1 4 1 ) ( local product ( * product item ) )
+  )
+  12
+~~~
+~~~
+performtest ( upperbound ( arrayof 1 2 3 ) ) 2
+~~~
+~~~
+performtest ( size ( arrayof 1 2 3 4 5 6 ) ) 6
+~~~
+~~~
+performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
+~~~
+~~~
+performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
+~~~
+~~~
+performtest ( concatenation ( arrayof foo bar ) ) foobar
+~~~
+~~~
+performtest ( isarray ( arrayof 1 2 3 ) ) True
+~~~
+~~~
+performtest ( sortarray ( arrayof 3 1 4 1 5 9 2 6 0 ) ) ( arrayof 0 1 1 2 3 4 5 6 9 )
+~~~
+~~~
+performtest ( head ( arrayof 1 2 3 4 ) ) 1
+~~~
+~~~
+performtest ( arraytail ( arrayof 4 7 1 1 ) ) ( arrayof 7 1 1 )
+~~~
+~~~
+performtest ( tail ( arrayof 1 2 3 4 ) ) ( arrayof 2 3 4 )
+~~~
+~~~
+performtest ( median ( arrayof 5 3 2 4 1 ) ) 3
+~~~
+~~~
+performtest ( islist ( arrayof ) ) False
+~~~
+~~~
+performtest ( isarray ( arrayof ) ) True
+~~~
+~~~
+performtest ( notempty ( arrayof ) ) False
+~~~
+~~~
+performtest ( notempty ( arrayof 1 2 3 ) ) True
+~~~
+
+---
+
+#### arraytail
+
+returns an array without its first element
+
+* array: array
+
+Examples:
+
+~~~
+performtest ( arraytail ( arrayof 4 7 1 1 ) ) ( arrayof 7 1 1 )
 ~~~
 
 ---
@@ -634,7 +634,7 @@ computes the average of the given values
 Examples:
 
 ~~~
-performtest ( average ( array 1 2 3 4 ) ) 2.5
+performtest ( average ( arrayof 1 2 3 4 ) ) 2.5
 ~~~
 ~~~
 performtest (
@@ -696,9 +696,9 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 
 #### canparseint32
 
-tests if the given string can be parsed to a int32
+tests whether the specified string can be parsed to an int32
 
-* string: string to be parsed
+* string: string
 
 Examples:
 
@@ -973,12 +973,12 @@ See:
 
 concatenates the given strings
 
-* strings: strings to be concatenated
+* strings: strings
 
 Examples:
 
 ~~~
-performtest ( concatenation ( array foo bar ) ) foobar
+performtest ( concatenation ( arrayof foo bar ) ) foobar
 ~~~
 
 ---
@@ -1293,7 +1293,7 @@ See:
 Examples:
 
 ~~~
-performtest ( Count ( list 1 2 3 4 5 ) ) 5
+performtest ( Count ( listof 1 2 3 4 5 ) ) 5
 ~~~
 
 ---
@@ -1380,7 +1380,7 @@ performtest (
   47
 ~~~
 ~~~
-performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
+performtest ( dequeue ( newqueue ( listof 1 2 3 ) ) ) 1
 ~~~
 
 ---
@@ -1623,7 +1623,7 @@ See:
 
 #### directoryexists
 
-tests if the specified directory exists
+tests wether the specified directory exists
 
 * directory: directory to be tested for existence
 
@@ -1658,28 +1658,11 @@ performtest ( dos echo 'hello world' ) 'hello world'
 
 ---
 
-#### empty
-
-checks if an object is not empty
-
-* object: object
-
-Examples:
-
-~~~
-performtest ( empty ( list ) ) True
-~~~
-~~~
-performtest ( empty ( list 1 2 3 ) ) False
-~~~
-
----
-
 #### endswith
 
-tests if a strings ends with an other string
+tests if a string ends with an other string
 
-* string: string to be tested
+* string: string
 * value: string to be tested for being the ending
 
 Examples:
@@ -2143,49 +2126,40 @@ checks if a file exists
 Examples:
 
 ~~~
-performtest ( fileexists ( findfile basedirectory LICENSE ) ) True
+performtest ( fileexists ( locatefile basedirectory LICENSE ) ) True
 ~~~
 ~~~
-performtest ( fileexists ( findfile basedirectory DOESNOTEXIST ) ) False
+performtest ( fileexists ( locatefile basedirectory DOESNOTEXIST ) ) False
 ~~~
 
 ---
 
 #### finddirectory
 
-searches for a directory
+gets the directory with the given name
 
-* basedirectory: directory in which the search should begin
-* pattern: pattern to be searched for
+* directory: directory from where to search upwards
+* name: name
 
 Examples:
 
 ~~~
-performtest ( finddirectory SystemRoot System32 ) '[SystemRoot]\System32'
+performtest ( finddirectory 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows'
 ~~~
 
 ---
 
-#### findfile
+#### finddirectorywithparent
 
-searches for a file
+finds the directory whose parent has the given name
 
-* basedirectory: directory in which the search should begin
-* pattern: pattern to be searched for
+* directory: directory from where to search upwards
+* parent: name of the parent
 
 Examples:
 
 ~~~
-performtest ( findfile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
-~~~
-~~~
-performtest ( fileexists ( findfile basedirectory LICENSE ) ) True
-~~~
-~~~
-performtest ( fileexists ( findfile basedirectory DOESNOTEXIST ) ) False
-~~~
-~~~
-performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
+performtest ( finddirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows\System32'
 ~~~
 
 ---
@@ -2228,7 +2202,7 @@ Examples:
 ~~~
 performtest (
   local result 0
-  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+  foreach i ( arrayof 3 1 4 1 ) ( local result ( + result i ) )
   )
   9
 ~~~
@@ -2257,21 +2231,6 @@ returns the list of commands
 
 #### getdirectory
 
-gets the directory with the given name
-
-* directory: directory from where to search upwards
-* name: name
-
-Examples:
-
-~~~
-performtest ( getdirectory 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows'
-~~~
-
----
-
-#### getdirectoryname
-
 gets the directory from a path
 
 * path: path
@@ -2279,22 +2238,7 @@ gets the directory from a path
 Examples:
 
 ~~~
-performtest ( getdirectoryname 'C:\Windows\notepad.exe' ) 'C:\Windows'
-~~~
-
----
-
-#### getdirectorywithparent
-
-finds the directory whose parent has the given name
-
-* directory: directory from where to search upwards
-* parent: name of the parent
-
-Examples:
-
-~~~
-performtest ( getdirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows\System32'
+performtest ( getdirectory 'C:\Windows\notepad.exe' ) 'C:\Windows'
 ~~~
 
 ---
@@ -2395,7 +2339,7 @@ See:
 
 #### getmember
 
-get the array of member-information for the specified member in the given object
+get the array of member-information for the specified member in an object
 
 * object: object
 * name: name of the member
@@ -2434,9 +2378,9 @@ See:
 
 #### gettokens
 
-returns the tokenized contents of a text
+returns the tokenized contents of a string
 
-* string: text
+* string: string
 
 Examples:
 
@@ -2444,7 +2388,7 @@ Examples:
 performtest ( size ( gettokens 'the big brown fox' ) ) 4
 ~~~
 ~~~
-performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
+performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
 ~~~
 
 ---
@@ -2523,7 +2467,7 @@ See:
 
 #### hasmember
 
-tests if the specified member exists in the given object
+tests if the specified member exists in an object
 
 * object: object
 * name: name of the member
@@ -2541,7 +2485,7 @@ performtest ( hasmember 'hello' 'Count' ) False
 
 #### hastype
 
-tests if the specified object has the given type
+tests if an object has the given type
 
 * object: object
 * name: name of the type
@@ -2556,17 +2500,17 @@ performtest ( hastype 'hello' String ) True
 
 #### head
 
-returns the first element of an indexed object
+returns the first element of an object
 
-* object: indexed object
+* object: object
 
 Examples:
 
 ~~~
-performtest ( head ( array 1 2 3 4 ) ) 1
+performtest ( head ( arrayof 1 2 3 4 ) ) 1
 ~~~
 ~~~
-performtest ( head ( list 4 7 1 1 ) ) 4
+performtest ( head ( listof 4 7 1 1 ) ) 4
 ~~~
 
 ---
@@ -2637,7 +2581,7 @@ See:
 
 #### initialize
 
-performs various inititalizations
+performs various initializations
 
 Examples:
 
@@ -2713,15 +2657,15 @@ performtest ( invoketests ) True
 
 tests if an object is an array
 
-* object: object to be tested
+* object: object
 
 Examples:
 
 ~~~
-performtest ( isarray ( array 1 2 3 ) ) True
+performtest ( isarray ( arrayof 1 2 3 ) ) True
 ~~~
 ~~~
-performtest ( isarray ( array ) ) True
+performtest ( isarray ( arrayof ) ) True
 ~~~
 ~~~
 performtest ( isarray ( newarray 100 0 ) ) True
@@ -2733,12 +2677,29 @@ performtest ( isarray ( newarray 100 0 ) ) True
 
 tests if an object is a dictionary
 
-* object: object to be tested
+* object: object
 
 Examples:
 
 ~~~
 performtest ( isdictionary ( newdictionary ) ) True
+~~~
+
+---
+
+#### isempty
+
+checks wether an object is isempty
+
+* object: object
+
+Examples:
+
+~~~
+performtest ( isempty ( listof ) ) True
+~~~
+~~~
+performtest ( isempty ( listof 1 2 3 ) ) False
 ~~~
 
 ---
@@ -2757,15 +2718,15 @@ See:
 
 tests if an object is a list
 
-* object: object to be tested
+* object: object
 
 Examples:
 
 ~~~
-performtest ( islist ( list ) ) True
+performtest ( islist ( listof ) ) True
 ~~~
 ~~~
-performtest ( islist ( array ) ) False
+performtest ( islist ( arrayof ) ) False
 ~~~
 ~~~
 performtest ( islist ( newlist ) ) True
@@ -2795,7 +2756,7 @@ See:
 
 tests if an object is a string
 
-* object: object to be tested
+* object: object
 
 Examples:
 
@@ -2845,21 +2806,21 @@ See:
 
 #### join
 
-joins the elements of an array or a list of strings to a string separated by blanks
+joins strings to a string separated by blanks
 
 * strings: array or list of strings
 
 Examples:
 
 ~~~
-performtest ( join ( array 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
+performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
 ~~~
 
 ---
 
 #### joinfrom
 
-joins the given arguments to a string separated by blanks
+joins the arguments to a string separated by blanks
 
 Examples:
 
@@ -2920,55 +2881,55 @@ performtest ( Length 'Hello World!' ) 12
 
 ---
 
-#### list
+#### listof
 
-returns the arguments as a list
+returns the arguments as a listof
 
 Examples:
 
 ~~~
-performtest ( Count ( list 1 2 3 4 5 ) ) 5
+performtest ( Count ( listof 1 2 3 4 5 ) ) 5
 ~~~
 ~~~
-performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
+performtest ( size ( listof 1 2 3 4 5 6 7 ) ) 7
 ~~~
 ~~~
-performtest ( head ( list 4 7 1 1 ) ) 4
+performtest ( head ( listof 4 7 1 1 ) ) 4
 ~~~
 ~~~
-performtest ( listtail ( list 4 7 1 1 ) ) ( list 7 1 1 )
+performtest ( listtail ( listof 4 7 1 1 ) ) ( listof 7 1 1 )
 ~~~
 ~~~
-performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+performtest ( size ( additem ( listof 1 2 3 ) 4 ) ) 4
 ~~~
 ~~~
-performtest ( islist ( list ) ) True
+performtest ( islist ( listof ) ) True
 ~~~
 ~~~
-performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
+performtest ( dequeue ( newqueue ( listof 1 2 3 ) ) ) 1
 ~~~
 ~~~
-performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
+performtest ( size ( newqueue ( listof 1 2 3 ) ) ) 3
 ~~~
 ~~~
-performtest ( empty ( list ) ) True
+performtest ( isempty ( listof ) ) True
 ~~~
 ~~~
-performtest ( empty ( list 1 2 3 ) ) False
+performtest ( isempty ( listof 1 2 3 ) ) False
 ~~~
 
 ---
 
 #### listtail
 
-returns a list without its first element
+returns a listof without its first element
 
-* items: list
+* items: listof
 
 Examples:
 
 ~~~
-performtest ( listtail ( list 4 7 1 1 ) ) ( list 7 1 1 )
+performtest ( listtail ( listof 4 7 1 1 ) ) ( listof 7 1 1 )
 ~~~
 
 ---
@@ -2992,14 +2953,14 @@ performtest (
 ~~~
 performtest (
   local result 0
-  foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+  foreach i ( arrayof 3 1 4 1 ) ( local result ( + result i ) )
   )
   9
 ~~~
 ~~~
 performtest (
   local product 1
-  map ( array 3 1 4 1 ) ( local product ( * product item ) )
+  map ( arrayof 3 1 4 1 ) ( local product ( * product item ) )
   )
   12
 ~~~
@@ -3062,6 +3023,45 @@ performtest (
 
 ---
 
+#### locatedirectory
+
+searches for a directory
+
+* basedirectory: directory in which the search should begin
+* pattern: pattern to be searched for
+
+Examples:
+
+~~~
+performtest ( locatedirectory SystemRoot System32 ) '[SystemRoot]\System32'
+~~~
+
+---
+
+#### locatefile
+
+searches for a file
+
+* basedirectory: directory in which the search should begin
+* pattern: pattern to be searched for
+
+Examples:
+
+~~~
+performtest ( locatefile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
+~~~
+~~~
+performtest ( fileexists ( locatefile basedirectory LICENSE ) ) True
+~~~
+~~~
+performtest ( fileexists ( locatefile basedirectory DOESNOTEXIST ) ) False
+~~~
+~~~
+performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
+~~~
+
+---
+
 #### LongLength
 
 See:
@@ -3082,7 +3082,7 @@ Examples:
 ~~~
 performtest (
   local product 1
-  map ( array 3 1 4 1 ) ( local product ( * product item ) )
+  map ( arrayof 3 1 4 1 ) ( local product ( * product item ) )
   )
   12
 ~~~
@@ -3424,7 +3424,7 @@ returns the median of the given numbers
 Examples:
 
 ~~~
-performtest ( median ( array 5 3 2 4 1 ) ) 3
+performtest ( median ( arrayof 5 3 2 4 1 ) ) 3
 ~~~
 
 ---
@@ -3445,7 +3445,7 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 creates an array
 
-* length: size of the array
+* length: size of the arrayof
 * initialvalue: value with which the array is to be initialized
 
 Examples:
@@ -3469,7 +3469,7 @@ performtest ( isarray ( newarray 100 0 ) ) True
 
 #### newdictionary
 
-creates a new dictionary (actually a new hashtable)
+creates a dictionary
 
 Examples:
 
@@ -3492,7 +3492,7 @@ performtest ( isdictionary ( newdictionary ) ) True
 
 creates a list
 
-* values: (optional) values to initialize the list
+* values: (optional) value with which the list is to be initialized
 
 Examples:
 
@@ -3504,9 +3504,9 @@ performtest ( islist ( newlist ) ) True
 
 #### newqueue
 
-creates a new queue
+creates a queue
 
-* values: (optional) values to initialize the queue
+* values: (optional) value with which the queue is to be initialized
 
 Examples:
 
@@ -3520,17 +3520,17 @@ performtest (
   47
 ~~~
 ~~~
-performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
+performtest ( dequeue ( newqueue ( listof 1 2 3 ) ) ) 1
 ~~~
 ~~~
-performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
+performtest ( size ( newqueue ( listof 1 2 3 ) ) ) 3
 ~~~
 
 ---
 
 #### newstack
 
-creates a new stack
+creates a stack
 
 Examples:
 
@@ -3570,17 +3570,17 @@ performtest ( not True ) False
 
 #### notempty
 
-checks if an object is not empty
+checks if an object is not isempty
 
 * object: object
 
 Examples:
 
 ~~~
-performtest ( notempty ( array ) ) False
+performtest ( notempty ( arrayof ) ) False
 ~~~
 ~~~
-performtest ( notempty ( array 1 2 3 ) ) True
+performtest ( notempty ( arrayof 1 2 3 ) ) True
 ~~~
 
 ---
@@ -3810,7 +3810,7 @@ See:
 
 tests if a code-block yields the expected result
 
-* "tokens": code to be tested
+* "code": code to be tested
 * expected: expected value
 
 ---
@@ -3996,7 +3996,7 @@ performtest (
   6
 ~~~
 ~~~
-performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
+performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
 ~~~
 
 ---
@@ -4145,9 +4145,9 @@ See:
 
 #### size
 
-returns the size of an array or a list
+returns the size of an object (e.g. an array, a list, or a string)
 
-* object: array or list
+* object: object
 
 Examples:
 
@@ -4155,10 +4155,10 @@ Examples:
 performtest ( size 'hello' ) 5
 ~~~
 ~~~
-performtest ( size ( array 1 2 3 4 5 6 ) ) 6
+performtest ( size ( arrayof 1 2 3 4 5 6 ) ) 6
 ~~~
 ~~~
-performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
+performtest ( size ( listof 1 2 3 4 5 6 7 ) ) 7
 ~~~
 ~~~
 performtest ( size ( getfiles c:\testdirectory ) ) 3
@@ -4182,19 +4182,19 @@ performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
 performtest ( size ( newarray 1000 0 ) ) 1000
 ~~~
 ~~~
-performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+performtest ( size ( additem ( listof 1 2 3 ) 4 ) ) 4
 ~~~
 ~~~
 performtest ( size ( primes 1000 ) ) 167
 ~~~
 ~~~
-performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
+performtest ( size ( newqueue ( listof 1 2 3 ) ) ) 3
 ~~~
 ~~~
 performtest ( size ( gettokens 'the big brown fox' ) ) 4
 ~~~
 ~~~
-performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
+performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
 ~~~
 
 ---
@@ -4211,7 +4211,7 @@ Examples:
 performtest ( sort 'hello' ) 'ehllo'
 ~~~
 ~~~
-performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( array '1' '1' '3' '4' '5' '9' )
+performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
 ~~~
 
 ---
@@ -4228,12 +4228,12 @@ See:
 
 sorts an array
 
-* object: array
+* array: array
 
 Examples:
 
 ~~~
-performtest ( sortarray ( array 3 1 4 1 5 9 2 6 0 ) ) ( array 0 1 1 2 3 4 5 6 9 )
+performtest ( sortarray ( arrayof 3 1 4 1 5 9 2 6 0 ) ) ( arrayof 0 1 1 2 3 4 5 6 9 )
 ~~~
 
 ---
@@ -4274,7 +4274,7 @@ performtest (
   6
 ~~~
 ~~~
-performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( array '1' '1' '3' '4' '5' '9' )
+performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
 ~~~
 
 ---
@@ -4461,14 +4461,14 @@ See:
 
 #### sum
 
-returns the sum of the values of an enumeration
+returns the sum of the given values
 
 * values: values
 
 Examples:
 
 ~~~
-performtest ( sum ( array 1 2 3 ) ) 6
+performtest ( sum ( arrayof 1 2 3 ) ) 6
 ~~~
 
 ---
@@ -4527,12 +4527,12 @@ performtest ( system ) True
 
 tail of an object (e.g. an array, a list, or a string)
 
-* object: array, list, or string
+* object: object
 
 Examples:
 
 ~~~
-performtest ( tail ( array 1 2 3 4 ) ) ( array 2 3 4 )
+performtest ( tail ( arrayof 1 2 3 4 ) ) ( arrayof 2 3 4 )
 ~~~
 
 ---
@@ -4555,7 +4555,7 @@ See:
 
 #### tochar
 
-converts the first character of a string to type "char"
+converts the type of the first character of a string to "char"
 
 * text: string
 
@@ -4743,7 +4743,7 @@ returns the upper-bound of an object (e.g. an array or a list)
 Examples:
 
 ~~~
-performtest ( upperbound ( array 1 2 3 ) ) 2
+performtest ( upperbound ( arrayof 1 2 3 ) ) 2
 ~~~
 ~~~
 performtest ( upperbound ( split 'Hello~nworld' ) ) 1

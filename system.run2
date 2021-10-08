@@ -1,26 +1,25 @@
 command addentry 'adds an entry to a dictionary'
-  object 'object'
+  dictionary 'dictionary'
   key 'key'
   value 'value'
-  Add object key value
+  Add dictionary key value
+  return dictionary
 
 command additem 'adds an item to a list'
-  object 'list'
+  list 'listof'
   value 'value'
-  Add object value
-  return object
+  Add list value
+  return list
 
-command array 'converts the arguments to an array'
+command arrayof 'converts the arguments to an array'
   ToArray arguments
 
 command arraytail 'returns an array without its first element'
-  elements 'array'
-  local limit ( upperbound elements )
+  array 'array'
+  local limit ( upperbound array )
   local result ( newarray limit 0 )
-  if ( <= ( size elements ) 1 ) ( array ) (
-    Array.Copy elements 1 result 0 limit
-    return result
-    )
+  if ( <= ( size array ) 1 ) ( arrayof ) ( Array.Copy array 1 result 0 limit )
+  return result
 
 command average 'computes the average of the given values'
   values 'values'
@@ -33,12 +32,12 @@ command besttype 'tries to find the best type for the given object'
   object 'object'
   if ( isstring object ) ( switch ( canparseint32 object ) ( parseint32 object ) object ) object
 
-command canparseint32 'tests if the given string can be parsed to a int32'
-  string 'string to be parsed'
+command canparseint32 'tests whether the specified string can be parsed to an int32'
+  string 'string'
   Int32.TryParse string 0
 
 command concatenation 'concatenates the given strings'
-  strings 'strings to be concatenated'
+  strings 'strings'
   local result ''
   map strings ( increment result item )
 
@@ -65,19 +64,15 @@ command dequeue 'dequeues an element'
 command dir 'executes the Windows command "dir" and returns the result'
   dos 'dir' ( join arguments )
 
-command directoryexists 'tests if the specified directory exists'
+command directoryexists 'tests wether the specified directory exists'
   directory 'directory to be tested for existence'
   Directory.Exists directory
 
 command dos 'executes specified dos-command and returns the output'
   if ( directoryexists ( at arguments 0 ) ) ( run ( at arguments 0 ) cmd /c ( join ( tail arguments ) ) ) ( run cmd /c ( join arguments ) )
 
-command empty 'checks if an object is not empty'
-  object 'object'
-  == ( size object ) 0
-
-command endswith 'tests if a strings ends with an other string'
-  string 'string to be tested'
+command endswith 'tests if a string ends with an other string'
+  string 'string'
   value 'string to be tested for being the ending'
   EndsWith string value
 
@@ -95,41 +90,31 @@ command fileexists 'checks if a file exists'
   path 'path of the file'
   File.Exists path
 
-command finddirectory 'searches for a directory'
-  basedirectory 'directory in which the search should begin'
-  pattern 'pattern to be searched for'
-  return ( Helpers.FindDirectory basedirectory pattern )
-
-command findfile 'searches for a file'
-  basedirectory 'directory in which the search should begin'
-  pattern 'pattern to be searched for'
-  return ( Helpers.FindFile basedirectory pattern )
-
-command getdirectory 'gets the directory with the given name'
+command finddirectory 'gets the directory with the given name'
   directory 'directory from where to search upwards'
   name 'name'
   local result ''
   while ( != directory ( null ) ) (
     if ( == ( getfname directory ) name ) ( local result ( break directory ) )
-    local directory ( getdirectoryname directory )
+    local directory ( getdirectory directory )
     )
   return result
 
-command getdirectoryname 'gets the directory from a path'
-  path 'path'
-  Path.GetDirectoryName path
-
-command getdirectorywithparent 'finds the directory whose parent has the given name'
+command finddirectorywithparent 'finds the directory whose parent has the given name'
   directory 'directory from where to search upwards'
   parent 'name of the parent'
   local result ''
-  local parentdirectory ( getdirectoryname directory )
+  local parentdirectory ( getdirectory directory )
   while ( != parentdirectory ( null ) ) (
     if ( == ( getfname parentdirectory ) parent ) ( local result ( break directory ) )
     local directory parentdirectory
-    local parentdirectory ( getdirectoryname parentdirectory )
+    local parentdirectory ( getdirectory parentdirectory )
     )
   return result
+
+command getdirectory 'gets the directory from a path'
+  path 'path'
+  Path.GetDirectoryName path
 
 command getfilename 'gets the filename from a path'
   path 'path'
@@ -143,13 +128,13 @@ command getfname 'gets the filename without extension from a path'
   path 'path'
   Path.GetFileNameWithoutExtension path
 
-command getmember 'get the array of member-information for the specified member in the given object'
+command getmember 'get the array of member-information for the specified member in an object'
   object 'object'
   name 'name of the member'
   invokeinstancemember 'GetMember' ( typeof object ) name
 
-command gettokens 'returns the tokenized contents of a text'
-  string 'text'
+command gettokens 'returns the tokenized contents of a string'
+  string 'string'
   local result ( newlist )
   local token ''
   map ( tocharacters string ) (
@@ -164,37 +149,37 @@ command gettokens 'returns the tokenized contents of a text'
   if ( notempty token ) ( additem result token )
   return result
 
-command hasmember 'tests if the specified member exists in the given object'
+command hasmember 'tests if the specified member exists in an object'
   object 'object'
   name 'name of the member'
   > ( Length ( getmember object name ) ) 0
 
-command hastype 'tests if the specified object has the given type'
+command hastype 'tests if an object has the given type'
   object 'object'
   name 'name of the type'
   == ( typename object ) name
 
-command head 'returns the first element of an indexed object'
-  object 'indexed object'
-  if ( == ( size object ) 0 ) ( list ) ( at object 0 )
+command head 'returns the first element of an object'
+  object 'object'
+  if ( == ( size object ) 0 ) ( listof ) ( at object 0 )
 
 command increment 'increments a variable'
   "name" 'name of the variable'
   amount 'increment'
   set name ( + ( get name ) amount )
 
-command initialize 'performs various inititalizations'
+command initialize 'performs various initializations'
   global windowsdirectory windir
   global programfilesdirectory ProgramFiles
   global programfiles32directory ProgramFiles(x86)
-  global visualstudiodirectory ( finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????' )
-  global msbuildpath ( findfile visualstudiodirectory 'MSBuild.exe' )
-  global binariesbranchdirectory ( getdirectorywithparent scriptdirectory branches )
+  global visualstudiodirectory ( locatedirectory '[programfiles32directory]\Microsoft Visual Studio' '????' )
+  global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
+  global binariesbranchdirectory ( finddirectorywithparent scriptdirectory branches )
   global branch ( getfname binariesbranchdirectory )
   global issmajorversion ( substring branch 1 2 )
   global issminorversion ( substring branch 3 2 )
   global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
-  global workspacesdirectory ( getdirectory scriptdirectory Workspaces )
+  global workspacesdirectory ( finddirectory scriptdirectory Workspaces )
   global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
   write sourcesbranchdirectory
   return True
@@ -206,41 +191,55 @@ command invoketests 'invokes the tests'
   return testsok
 
 command isarray 'tests if an object is an array'
-  object 'object to be tested'
+  object 'object'
   invokeinstancemember 'IsArray' ( typeof object )
 
 command isdictionary 'tests if an object is a dictionary'
-  object 'object to be tested'
+  object 'object'
   hastype object Hashtable
 
+command isempty 'checks wether an object is isempty'
+  object 'object'
+  == ( size object ) 0
+
 command islist 'tests if an object is a list'
-  object 'object to be tested'
+  object 'object'
   local result False
   if ( hastype object 'ArrayList' ) ( local result True )
   if ( hastype object 'List`1' ) ( local result True )
   return result
 
 command isstring 'tests if an object is a string'
-  object 'object to be tested'
+  object 'object'
   hastype object String
 
 command iswhitespace 'checks if the given character is white space'
   character 'character to be checked'
   Char.IsWhiteSpace character
 
-command join 'joins the elements of an array or a list of strings to a string separated by blanks'
+command join 'joins strings to a string separated by blanks'
   strings 'array or list of strings'
   String.Join ' ' ( if ( isarray strings ) strings ( ToArray strings ) )
 
-command joinfrom 'joins the given arguments to a string separated by blanks'
+command joinfrom 'joins the arguments to a string separated by blanks'
   join arguments
 
-command list 'returns the arguments as a list'
+command listof 'returns the arguments as a listof'
   return arguments
 
-command listtail 'returns a list without its first element'
-  items 'list'
-  if ( <= ( size items ) 1 ) ( list ) ( GetRange items 1 ( - ( size items ) 1 ) )
+command listtail 'returns a listof without its first element'
+  items 'listof'
+  if ( <= ( size items ) 1 ) ( listof ) ( GetRange items 1 ( - ( size items ) 1 ) )
+
+command locatedirectory 'searches for a directory'
+  basedirectory 'directory in which the search should begin'
+  pattern 'pattern to be searched for'
+  return ( Helpers.LocateDirectory basedirectory pattern )
+
+command locatefile 'searches for a file'
+  basedirectory 'directory in which the search should begin'
+  pattern 'pattern to be searched for'
+  return ( Helpers.LocateFile basedirectory pattern )
 
 command median 'returns the median of the given numbers'
   values 'numbers'
@@ -250,44 +249,44 @@ command medianof 'returns the median of the arguments'
   median arguments
 
 command newarray 'creates an array'
-  length 'size of the array'
+  length 'size of the arrayof'
   initialvalue 'value with which the array is to be initialized'
-  local result ( list )
+  local result ( listof )
   for i 0 ( - length 1 ) 1 ( Add result initialvalue )
   return ( ToArray result )
 
-command newdictionary 'creates a new dictionary (actually a new hashtable)'
+command newdictionary 'creates a dictionary'
   Hashtable.new
 
 command newlist 'creates a list'
-  values '(optional) values to initialize the list'
+  values '(optional) value with which the list is to be initialized'
   if ( == values ( null ) ) ( ArrayList.new ) ( ArrayList.new values )
 
-command newqueue 'creates a new queue'
-  values '(optional) values to initialize the queue'
+command newqueue 'creates a queue'
+  values '(optional) value with which the queue is to be initialized'
   if ( == values ( null ) ) ( Queue.new ) ( Queue.new values )
 
-command newstack 'creates a new stack'
+command newstack 'creates a stack'
   Stack.new
 
 command not 'negates a truth value'
   value 'truth value'
   if ( return value ) False True
 
-command notempty 'checks if an object is not empty'
+command notempty 'checks if an object is not isempty'
   object 'object'
-  not ( empty object )
+  not ( isempty object )
 
 command parseint32 'parses the given string to an int32'
   string 'string to be parsed'
   Int32.Parse string
 
 command performtest 'tests if a code-block yields the expected result'
-  "tokens" 'code to be tested'
+  "code" 'code to be tested'
   expected 'expected value'
-  if ( == ( local actual ( evaluate tokens ) ) expected ) True (
+  if ( == ( local actual ( evaluate code ) ) expected ) True (
     global testsok False
-    local code ( CodeFormatter.ToCode tokens 0 False )
+    local code ( CodeFormatter.ToCode code 0 False )
     write 'failure:~n([code])~nactual: [actual]~nexpected: [expected]'
     return False
     )
@@ -305,13 +304,13 @@ command performtests 'performs various tests'
   performtest ( <= 47 11 ) False
   performtest ( > 47 11 ) True
   performtest ( >= 47 11 ) True
-  performtest ( == ( array 1 2 3 ) ( array 1 2 3 ) ) True
-  performtest ( == ( array 1 2 3 ) ( array 1 2 4 ) ) False
-  performtest ( == ( array 1 2 3 4 ) ( array 1 2 3 ) ) False
-  performtest ( sum ( array 1 2 3 ) ) 6
+  performtest ( == ( arrayof 1 2 3 ) ( arrayof 1 2 3 ) ) True
+  performtest ( == ( arrayof 1 2 3 ) ( arrayof 1 2 4 ) ) False
+  performtest ( == ( arrayof 1 2 3 4 ) ( arrayof 1 2 3 ) ) False
+  performtest ( sum ( arrayof 1 2 3 ) ) 6
   performtest ( sumof 1 2 3 ) 6
   performtest ( averageof 1 2 3 4 ) 2.5
-  performtest ( average ( array 1 2 3 4 ) ) 2.5
+  performtest ( average ( arrayof 1 2 3 4 ) ) 2.5
   performtest ( square 2 ) 4
   performtest ( factorial 50 ) 30414093201713378043612608166064768844377641568960512000000000000
   performtest ( ToString ( at 'Hello' 1 ) ) 'e'
@@ -322,22 +321,22 @@ command performtests 'performs various tests'
     55
   performtest (
     local result 0
-    foreach i ( array 3 1 4 1 ) ( local result ( + result i ) )
+    foreach i ( arrayof 3 1 4 1 ) ( local result ( + result i ) )
     )
     9
   performtest (
     local product 1
-    map ( array 3 1 4 1 ) ( local product ( * product item ) )
+    map ( arrayof 3 1 4 1 ) ( local product ( * product item ) )
     )
     12
   performtest ( Length 'Hello World!' ) 12
   performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
-  performtest ( Count ( list 1 2 3 4 5 ) ) 5
-  performtest ( upperbound ( array 1 2 3 ) ) 2
+  performtest ( Count ( listof 1 2 3 4 5 ) ) 5
+  performtest ( upperbound ( arrayof 1 2 3 ) ) 2
   performtest ( upperbound ( split 'Hello~nworld' ) ) 1
   performtest ( size 'hello' ) 5
-  performtest ( size ( array 1 2 3 4 5 6 ) ) 6
-  performtest ( size ( list 1 2 3 4 5 6 7 ) ) 7
+  performtest ( size ( arrayof 1 2 3 4 5 6 ) ) 6
+  performtest ( size ( listof 1 2 3 4 5 6 7 ) ) 7
   performtest ( typename 'Hello' ) 'String'
   performtest ( hasmember 'hello' 'Length' ) True
   performtest ( hasmember 'hello' 'Count' ) False
@@ -370,7 +369,7 @@ command performtests 'performs various tests'
     False
   performtest ( sortstring 'foobar' ) 'abfoor'
   performtest ( sort 'hello' ) 'ehllo'
-  performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( array '1' '1' '3' '4' '5' '9' )
+  performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
   performtest (
     global value 4711
     increment value 1
@@ -396,14 +395,14 @@ command performtests 'performs various tests'
     set a 1234
     )
     1234
-  performtest ( join ( array 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
+  performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
   performtest ( joinfrom 'h' 'e' 'l' 'l' 'o' ) 'h e l l o'
   performtest ( dos echo 'hello world' ) 'hello world'
   performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
-  performtest ( finddirectory SystemRoot System32 ) '[SystemRoot]\System32'
-  performtest ( findfile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
+  performtest ( locatedirectory SystemRoot System32 ) '[SystemRoot]\System32'
+  performtest ( locatefile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
   performtest ( hastype 'hello' String ) True
-  performtest ( concatenation ( array foo bar ) ) foobar
+  performtest ( concatenation ( arrayof foo bar ) ) foobar
   performtest ( concatenationof Hello ' ' World! ) 'Hello World!'
   performtest (
     local foobar 4711
@@ -413,8 +412,8 @@ command performtests 'performs various tests'
   performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
   performtest ( endswith 'Hello World!' 'World!' ) True
   performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
-  performtest ( isarray ( array 1 2 3 ) ) True
-  performtest ( sortarray ( array 3 1 4 1 5 9 2 6 0 ) ) ( array 0 1 1 2 3 4 5 6 9 )
+  performtest ( isarray ( arrayof 1 2 3 ) ) True
+  performtest ( sortarray ( arrayof 3 1 4 1 5 9 2 6 0 ) ) ( arrayof 0 1 1 2 3 4 5 6 9 )
   performtest ( isstring 'Hello' ) True
   performtest ( joinfrom ( typename 1 ) ( typename ( todouble 1 ) ) ) 'Int32 Double'
   performtest ( typename ( typeof 'foobar' ) ) RuntimeType
@@ -427,15 +426,15 @@ command performtests 'performs various tests'
     )
     'foobar'
   performtest ( String.new ( tochar 'a' ) 10 ) 'aaaaaaaaaa'
-  performtest ( head ( array 1 2 3 4 ) ) 1
-  performtest ( head ( list 4 7 1 1 ) ) 4
-  performtest ( arraytail ( array 4 7 1 1 ) ) ( array 7 1 1 )
-  performtest ( listtail ( list 4 7 1 1 ) ) ( list 7 1 1 )
+  performtest ( head ( arrayof 1 2 3 4 ) ) 1
+  performtest ( head ( listof 4 7 1 1 ) ) 4
+  performtest ( arraytail ( arrayof 4 7 1 1 ) ) ( arrayof 7 1 1 )
+  performtest ( listtail ( listof 4 7 1 1 ) ) ( listof 7 1 1 )
   performtest ( stringtail 'Hello' ) 'ello'
-  performtest ( tail ( array 1 2 3 4 ) ) ( array 2 3 4 )
-  performtest ( median ( array 5 3 2 4 1 ) ) 3
+  performtest ( tail ( arrayof 1 2 3 4 ) ) ( arrayof 2 3 4 )
+  performtest ( median ( arrayof 5 3 2 4 1 ) ) 3
   performtest ( medianof 5 3 2 4 1 ) 3
-  performtest ( size ( additem ( list 1 2 3 ) 4 ) ) 4
+  performtest ( size ( additem ( listof 1 2 3 ) 4 ) ) 4
   performtest ( besttype '4711' ) 4711
   performtest ( canparseint32 'foobar' ) False
   performtest ( canparseint32 '1234' ) True
@@ -463,30 +462,30 @@ command performtests 'performs various tests'
     )
     4700
   performtest ( size ( primes 1000 ) ) 167
-  performtest ( islist ( list ) ) True
-  performtest ( islist ( array ) ) False
+  performtest ( islist ( listof ) ) True
+  performtest ( islist ( arrayof ) ) False
   performtest ( islist ( newlist ) ) True
   performtest ( isdictionary ( newdictionary ) ) True
-  performtest ( isarray ( array ) ) True
+  performtest ( isarray ( arrayof ) ) True
   performtest ( isarray ( newarray 100 0 ) ) True
-  performtest ( dequeue ( newqueue ( list 1 2 3 ) ) ) 1
-  performtest ( size ( newqueue ( list 1 2 3 ) ) ) 3
+  performtest ( dequeue ( newqueue ( listof 1 2 3 ) ) ) 1
+  performtest ( size ( newqueue ( listof 1 2 3 ) ) ) 3
   performtest ( iswhitespace ( tochar 'a' ) ) False
   performtest ( iswhitespace ( tochar ' ' ) ) True
   performtest ( not True ) False
-  performtest ( empty ( list ) ) True
-  performtest ( empty ( list 1 2 3 ) ) False
-  performtest ( notempty ( array ) ) False
-  performtest ( notempty ( array 1 2 3 ) ) True
+  performtest ( isempty ( listof ) ) True
+  performtest ( isempty ( listof 1 2 3 ) ) False
+  performtest ( notempty ( arrayof ) ) False
+  performtest ( notempty ( arrayof 1 2 3 ) ) True
   performtest ( size ( gettokens 'the big brown fox' ) ) 4
   performtest ( typename ( tocharacters 'Hello World!' ) ) 'Char[]'
-  performtest ( fileexists ( findfile basedirectory LICENSE ) ) True
-  performtest ( fileexists ( findfile basedirectory DOESNOTEXIST ) ) False
-  performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
+  performtest ( fileexists ( locatefile basedirectory LICENSE ) ) True
+  performtest ( fileexists ( locatefile basedirectory DOESNOTEXIST ) ) False
+  performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
   performtest ( getfname 'C:\Windows\System32' ) 'System32'
-  performtest ( getdirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows\System32'
-  performtest ( getdirectory 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows'
-  performtest ( getdirectoryname 'C:\Windows\notepad.exe' ) 'C:\Windows'
+  performtest ( finddirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows\System32'
+  performtest ( finddirectory 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows'
+  performtest ( getdirectory 'C:\Windows\notepad.exe' ) 'C:\Windows'
   performtest ( getfilename 'C:\Windows\notepad.exe' ) 'notepad.exe'
   performtest ( replace 'Hello World!' 'Hello' 'Bye' ) 'Bye World!'
   performtest ( substring 'Hello World!' 1 4 ) 'ello'
@@ -532,8 +531,8 @@ command replace 'replaces a substring'
   replacement 'replacement'
   Replace string searchstring replacement
 
-command size 'returns the size of an array or a list'
-  object 'array or list'
+command size 'returns the size of an object (e.g. an array, a list, or a string)'
+  object 'object'
   if ( hasmember object 'Length' ) ( Length object ) ( Count object )
 
 command sort 'sorts an object (e.g. an array, a list, or a string)'
@@ -544,9 +543,9 @@ command sort 'sorts an object (e.g. an array, a list, or a string)'
     )
 
 command sortarray 'sorts an array'
-  object 'array'
-  Array.Sort object
-  return object
+  array 'array'
+  Array.Sort array
+  return array
 
 command sortstring 'sorts the characters of a string'
   string 'string'
@@ -572,7 +571,7 @@ command substring 'returns a substring'
   length 'length of the substring'
   if ( < start ( size string ) ) ( Substring string start length ) ( return '' )
 
-command sum 'returns the sum of the values of an enumeration'
+command sum 'returns the sum of the given values'
   values 'values'
   local result 0
   map values ( increment result ( besttype item ) )
@@ -581,7 +580,6 @@ command sumof 'returns the sum of the arguments'
   sum arguments
 
 command system 'various tests'
-  write 'performing tests ...'
   performtest ( invoketests ) True
   writefile [basedirectory]\..\..\..\Commands.txt ( getcommands )
   if ( return testsok ) (
@@ -592,10 +590,10 @@ command system 'various tests'
   return testsok
 
 command tail 'tail of an object (e.g. an array, a list, or a string)'
-  object 'array, list, or string'
+  object 'object'
   switch ( isarray object ) ( arraytail object ) ( isstring object ) ( stringtail object ) ( listtail object )
 
-command tochar 'converts the first character of a string to type "char"'
+command tochar 'converts the type of the first character of a string to "char"'
   text 'string'
   at text 0
 

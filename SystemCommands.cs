@@ -309,7 +309,11 @@ namespace Run2
       }
       else
       {
-        workingDirectory = "c:\\";
+        workingDirectory = Path.GetDirectoryName(pathOrDirectory);
+        if (string.IsNullOrEmpty(workingDirectory) || !Directory.Exists(workingDirectory))
+        {
+          workingDirectory = Helpers.GetProgramDirectory();
+        }
         executablePath = pathOrDirectory;
       }
       Helpers.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);

@@ -80,12 +80,14 @@ namespace Run2
           process.StartInfo.UseShellExecute = false;
           process.StartInfo.RedirectStandardOutput = true;
           process.StartInfo.RedirectStandardError = true;
-          WriteLine($"Starting process '{executablePath}' in working-directory '{workingDirectory}' with arguments '{arguments}' ...");
+          WriteLine($"Starting process '{executablePath}':");
+          WriteLine($"  Working-directory '{workingDirectory}'");
+          WriteLine($"  Arguments '{arguments}' ...");
           process.Start();
           output = process.StandardOutput.ReadToEnd().Trim();
           error = process.StandardError.ReadToEnd();
-          process.WaitForExit(processTimeout).Check($"Process {executablePath} has timed out");
-          WriteLine($"Process {executablePath} terminated");
+          process.WaitForExit(processTimeout).Check($"Process '{executablePath}' has timed out");
+          WriteLine($"Process '{executablePath}' terminated");
           (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check($"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
           return;
         }
@@ -140,7 +142,7 @@ namespace Run2
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public static string FindDirectory(string baseDirectory, string pattern)
+    public static string LocateDirectory(string baseDirectory, string pattern)
     {
       Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
       var currentDirectory = baseDirectory;
@@ -156,7 +158,7 @@ namespace Run2
       return Directory.GetDirectories(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
     }
 
-    public static string FindFile(string baseDirectory, string pattern)
+    public static string LocateFile(string baseDirectory, string pattern)
     {
       Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
       var currentDirectory = baseDirectory;

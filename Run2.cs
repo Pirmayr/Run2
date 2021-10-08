@@ -56,9 +56,9 @@ namespace Run2
       Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Debug = CommandLineParser.OptionExists("debug");
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Helpers.GetProgramDirectory());
-      Globals.ScriptPathSystem = Helpers.FindFile(Helpers.GetProgramDirectory(), Globals.ScriptNameSystem);
+      Globals.ScriptPathSystem = Helpers.LocateFile(Helpers.GetProgramDirectory(), Globals.ScriptNameSystem);
       Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.ScriptNameDefault);
-      Globals.ScriptPath = Helpers.FindFile(Globals.BaseDirectory, Globals.ScriptName);
+      Globals.ScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.ScriptName);
       Globals.ScriptDirectory = Path.GetDirectoryName(Globals.ScriptPath);
       Globals.Arguments = new Tokens(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
       File.Exists(Globals.ScriptPath).Check($"Could not find script '{Globals.ScriptName}' (base-directory: '{Globals.BaseDirectory}')");
