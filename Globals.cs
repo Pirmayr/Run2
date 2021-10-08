@@ -6,6 +6,7 @@ namespace Run2
   {
     public const char BlockEnd = ')';
     public const char BlockStart = '(';
+    public const string IncludeTag = "<!--@include";
     public const int MaxCodeLineLength = 100;
     public const string PseudoCommandNameCommand = "command";
     public const string ScriptNameDefault = "build.run2";
@@ -15,7 +16,7 @@ namespace Run2
     public const string VariableNameArguments = "arguments";
     public const char WeakQuote = '\'';
 
-    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "Char", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
+    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
 
     public static Tokens Arguments { get; set; }
 
@@ -26,6 +27,8 @@ namespace Run2
     public static bool Debug { get; set; }
 
     public static bool DoBreak { get; set; }
+
+    public static object ScriptDirectory { get; set; }
 
     public static string ScriptName { get; set; }
 

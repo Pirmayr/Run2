@@ -6,7 +6,7 @@
     },
     "ExtractProgramDocumentation": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5120 -scriptName ExtractProgramDocumentation.run2 -scriptArguments C:\\Development\\Workspaces\\Binaries\\branches\\B5210\\moveIT.Graphics.Viewer"
+      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5210\\moveIT.Graphics.Viewer -scriptArguments generateandpublishdocumentation"
     }
   }
 }

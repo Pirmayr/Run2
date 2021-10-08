@@ -1,6 +1,7 @@
 +
 at
 break
+copyfiles
 /
 ==
 evaluate
@@ -270,12 +271,14 @@ Values
 Hashtable.new
 Console.Write
 Console.WriteLine
+CodeFormatter.ToCode
 Helpers.AppendIndented
 Helpers.AppendNewLine
 Helpers.AreEqual
 Helpers.BaseTypeOfMember
 Helpers.Check
 Helpers.Execute
+Helpers.ExpandIncludes
 Helpers.FindDirectory
 Helpers.FindFile
 Helpers.GetBestTypedObject
@@ -421,7 +424,12 @@ factorial
 fileexists
 finddirectory
 findfile
+getdirectory
+getdirectoryname
+getdirectorywithparent
+getfilename
 getfiles
+getfname
 getmember
 gettokens
 hasmember
@@ -457,6 +465,7 @@ primes
 push
 quote
 readfile
+replace
 size
 sort
 sortarray
@@ -464,6 +473,7 @@ sortstring
 split
 square
 stringtail
+substring
 sum
 sumof
 system

@@ -34,6 +34,30 @@ namespace Run2
       return result;
     }
 
+    [Documentation(4, 6, null, "copies files from one location to another", "source-directory", "directory to copy from", "source-filename", "name of the file to copy", "destination-directory", "directory to copy to", "destination-filename", "name of the file after beeing copied", "expand includes?", "if true, includes are expanded", "line-action", "action to be performed on every line")]
+    public static object CopyFiles(Tokens parameters)
+    {
+      var sourceDirectory = parameters.DequeueString();
+      var pattern = parameters.DequeueString();
+      var destinationDirectory = parameters.DequeueString();
+      var destinationFilename = parameters.Count == 0 ? "" : parameters.DequeueString();
+      var expand = 0 < parameters.Count && parameters.DequeueBool();
+      var lineAction = 0 < parameters.Count ? parameters.DequeueString(false) : null;
+      foreach (var currentSourcePath in Directory.GetFiles(sourceDirectory, pattern, SearchOption.AllDirectories))
+      {
+        var currentTargetPath = destinationDirectory + "\\" + (string.IsNullOrEmpty(destinationFilename) ? Path.GetFileName(currentSourcePath) : destinationFilename);
+        if (expand)
+        {
+          Helpers.ExpandIncludes(currentSourcePath, currentTargetPath, lineAction);
+        }
+        else
+        {
+          File.Copy(currentSourcePath, currentTargetPath, true);
+        }
+      }
+      return "";
+    }
+
     [Documentation(2, 2, "/", "divides first number by second number", "a", "first number", "b", "second number")]
     public static object Divide(Tokens arguments)
     {
@@ -339,6 +363,11 @@ namespace Run2
       while (conditionValue)
       {
         result = Run2.Evaluate(code);
+        if (Globals.DoBreak)
+        {
+          Globals.DoBreak = false;
+          break;
+        }
         conditionValue = Run2.Evaluate(condition) is true;
       }
       return result;

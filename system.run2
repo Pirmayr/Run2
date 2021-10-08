@@ -105,9 +105,43 @@ command findfile 'searches for a file'
   pattern 'pattern to be searched for'
   return ( Helpers.FindFile basedirectory pattern )
 
+command getdirectory 'gets the directory with the given name'
+  directory 'directory from where to search upwards'
+  name 'name'
+  local result ''
+  while ( != directory ( null ) ) (
+    if ( == ( getfname directory ) name ) ( local result ( break directory ) )
+    local directory ( getdirectoryname directory )
+    )
+  return result
+
+command getdirectoryname 'gets the directory from a path'
+  path 'path'
+  Path.GetDirectoryName path
+
+command getdirectorywithparent 'finds the directory whose parent has the given name'
+  directory 'directory from where to search upwards'
+  parent 'name of the parent'
+  local result ''
+  local parentdirectory ( getdirectoryname directory )
+  while ( != parentdirectory ( null ) ) (
+    if ( == ( getfname parentdirectory ) parent ) ( local result ( break directory ) )
+    local directory parentdirectory
+    local parentdirectory ( getdirectoryname parentdirectory )
+    )
+  return result
+
+command getfilename 'gets the filename from a path'
+  path 'path'
+  Path.GetFileName path
+
 command getfiles 'returns an array of paths of the files in a directory'
   directory 'directory'
   Directory.GetFiles directory
+
+command getfname 'gets the filename without extension from a path'
+  path 'path'
+  Path.GetFileNameWithoutExtension path
 
 command getmember 'get the array of member-information for the specified member in the given object'
   object 'object'
@@ -150,11 +184,19 @@ command increment 'increments a variable'
   set name ( + ( get name ) amount )
 
 command initialize 'performs various inititalizations'
-  global windowsdirectory 'C:\Windows'
-  global programfilesdirectory 'C:\Program Files'
-  global programfiles32directory 'C:\Program Files (x86)'
+  global windowsdirectory windir
+  global programfilesdirectory ProgramFiles
+  global programfiles32directory ProgramFiles(x86)
   global visualstudiodirectory ( finddirectory '[programfiles32directory]\Microsoft Visual Studio' '????' )
   global msbuildpath ( findfile visualstudiodirectory 'MSBuild.exe' )
+  global binariesbranchdirectory ( getdirectorywithparent scriptdirectory branches )
+  global branch ( getfname binariesbranchdirectory )
+  global issmajorversion ( substring branch 1 2 )
+  global issminorversion ( substring branch 3 2 )
+  global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
+  global workspacesdirectory ( getdirectory scriptdirectory Workspaces )
+  global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
+  write sourcesbranchdirectory
   return True
 
 command invoketests 'invokes the tests'
@@ -245,7 +287,7 @@ command performtest 'tests if a code-block yields the expected result'
   expected 'expected value'
   if ( == ( local actual ( evaluate tokens ) ) expected ) True (
     global testsok False
-    local code ( ToCode tokens 0 False )
+    local code ( CodeFormatter.ToCode tokens 0 False )
     write 'failure:~n([code])~nactual: [actual]~nexpected: [expected]'
     return False
     )
@@ -441,6 +483,13 @@ command performtests 'performs various tests'
   performtest ( fileexists ( findfile basedirectory LICENSE ) ) True
   performtest ( fileexists ( findfile basedirectory DOESNOTEXIST ) ) False
   performtest ( size ( gettokens ( readfile ( findfile basedirectory LICENSE ) ) ) ) 168
+  performtest ( getfname 'C:\Windows\System32' ) 'System32'
+  performtest ( getdirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows\System32'
+  performtest ( getdirectory 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows'
+  performtest ( getdirectoryname 'C:\Windows\notepad.exe' ) 'C:\Windows'
+  performtest ( getfilename 'C:\Windows\notepad.exe' ) 'notepad.exe'
+  performtest ( replace 'Hello World!' 'Hello' 'Bye' ) 'Bye World!'
+  performtest ( substring 'Hello World!' 1 4 ) 'ello'
   return True
 
 command pop 'pops an element'
@@ -477,6 +526,12 @@ command readfile 'returns the text contained in a file'
   path 'path of the file'
   File.ReadAllText path
 
+command replace 'replaces a substring'
+  string 'string to be searched for the search-string'
+  searchstring 'string to be searched for'
+  replacement 'replacement'
+  Replace string searchstring replacement
+
 command size 'returns the size of an array or a list'
   object 'array or list'
   if ( hasmember object 'Length' ) ( Length object ) ( Count object )
@@ -511,6 +566,12 @@ command stringtail 'returns a string without its first character'
   string 'string'
   if ( <= ( size string ) 1 ) '' ( Substring string 1 ( - ( size string ) 1 ) )
 
+command substring 'returns a substring'
+  string 'string'
+  start 'start-index of the substring'
+  length 'length of the substring'
+  if ( < start ( size string ) ) ( Substring string start length ) ( return '' )
+
 command sum 'returns the sum of the values of an enumeration'
   values 'values'
   local result 0
@@ -528,6 +589,7 @@ command system 'various tests'
     writefile [basedirectory]\..\..\..\Commands.md ( gethelp )
     writefile [basedirectory]\..\..\..\System.run2 ( getcode System.run2 )
     )
+  return testsok
 
 command tail 'tail of an object (e.g. an array, a list, or a string)'
   object 'array, list, or string'

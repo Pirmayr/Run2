@@ -1,1 +1,2 @@
-﻿system
+﻿'performs various tests'
+performtest ( system ) true

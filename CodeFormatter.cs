@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
 namespace Run2
 {
-  internal static class CodeFormatter
+  // ReSharper disable once MemberCanBeInternal
+  public static class CodeFormatter
   {
+    // ReSharper disable once MemberCanBeInternal
     public static string ToCode(string filter)
     {
       var result = new StringBuilder();
@@ -42,10 +43,18 @@ namespace Run2
       return result.ToString();
     }
 
+    // ReSharper disable once MemberCanBeInternal
     public static string ToCode(this SubCommand subCommand, int indent, bool newLine)
     {
       var result = DoToCode(subCommand, indent, false);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(subCommand, indent, true) : result;
+    }
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    public static string ToCode(this Tokens tokens, int indent, bool newLine)
+    {
+      var result = DoToCode(tokens, indent, false);
+      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(tokens, indent, true) : result;
     }
 
     private static string DoToCode(Tokens tokens, int indent, bool newLine)
@@ -130,13 +139,6 @@ namespace Run2
         result.AppendIndented(subCommand.ToCode(indent, newLine), newLine || i == 0 ? indent : 1, newLine);
       }
       return result.ToString();
-    }
-
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    private static string ToCode(this Tokens tokens, int indent, bool newLine)
-    {
-      var result = DoToCode(tokens, indent, false);
-      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(tokens, indent, true) : result;
     }
 
     private static string ToCode(this SubCommands subCommands, int indent, bool newLine)

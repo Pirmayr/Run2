@@ -25,7 +25,7 @@ namespace Run2
         }
         foreach (var key in Globals.Variables.GetKeys())
         {
-          stringValue = stringValue.Replace("[" + key + "]", Globals.Variables.Get(key).ToString());
+          stringValue = stringValue.Replace("[" + key + "]", Globals.Variables.Get(key)?.ToString());
         }
         return stringValue;
       }
@@ -56,10 +56,11 @@ namespace Run2
       Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Debug = CommandLineParser.OptionExists("debug");
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Helpers.GetProgramDirectory());
-      Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.ScriptNameDefault);
-      Globals.Arguments = new Tokens(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
       Globals.ScriptPathSystem = Helpers.FindFile(Helpers.GetProgramDirectory(), Globals.ScriptNameSystem);
+      Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.ScriptNameDefault);
       Globals.ScriptPath = Helpers.FindFile(Globals.BaseDirectory, Globals.ScriptName);
+      Globals.ScriptDirectory = Path.GetDirectoryName(Globals.ScriptPath);
+      Globals.Arguments = new Tokens(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
       File.Exists(Globals.ScriptPath).Check($"Could not find script '{Globals.ScriptName}' (base-directory: '{Globals.BaseDirectory}')");
       BuildSystemCommands();
       BuildInvokeCommands();
@@ -75,6 +76,21 @@ namespace Run2
     public static void LeaveScope()
     {
       Globals.Variables.LeaveScope();
+    }
+
+    public static object RunCommand(string name, Tokens arguments)
+    {
+      Globals.Commands.ContainsKey(name).Check($"Command '{name}' not found");
+      if (Globals.Debug)
+      {
+        Helpers.WriteLine($"Begin '{name}'");
+      }
+      var result = Globals.Commands[name].Run(arguments.Clone());
+      if (Globals.Debug)
+      {
+        Helpers.WriteLine($"End '{name}'");
+      }
+      return result;
     }
 
     public static object RunSubCommands(SubCommands subCommands)
@@ -402,24 +418,10 @@ namespace Run2
       SetGlobalVariable("commands", Globals.Commands);
       SetGlobalVariable("variables", Globals.Variables);
       SetGlobalVariable("scriptpath", Globals.ScriptPath);
+      SetGlobalVariable("scriptdirectory", Globals.ScriptDirectory);
       SetGlobalVariable("basedirectory", Globals.BaseDirectory);
       SetGlobalVariable("programdirectory", Helpers.GetProgramDirectory());
       SetGlobalVariable("scriptpathsystem", Globals.ScriptPathSystem);
-    }
-
-    private static object RunCommand(string name, Tokens arguments)
-    {
-      Globals.Commands.ContainsKey(name).Check($"Command '{name}' not found");
-      if (Globals.Debug)
-      {
-        Helpers.WriteLine($"Begin '{name}'");
-      }
-      var result = Globals.Commands[name].Run(arguments.Clone());
-      if (Globals.Debug)
-      {
-        Helpers.WriteLine($"End '{name}'");
-      }
-      return result;
     }
 
     private static bool TryPeekDescription(Tokens tokens, out string description)

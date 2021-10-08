@@ -1255,6 +1255,19 @@ See:
 
 ---
 
+#### copyfiles
+
+copies files from one location to another
+
+* source-directory: directory to copy from
+* source-filename: name of the file to copy
+* destination-directory: directory to copy to
+* destination-filename: name of the file after beeing copied
+* expand includes?: if true, includes are expanded
+* line-action: action to be performed on every line
+
+---
+
 #### CopyTo
 
 See:
@@ -2242,6 +2255,50 @@ returns the list of commands
 
 ---
 
+#### getdirectory
+
+gets the directory with the given name
+
+* directory: directory from where to search upwards
+* name: name
+
+Examples:
+
+~~~
+performtest ( getdirectory 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows'
+~~~
+
+---
+
+#### getdirectoryname
+
+gets the directory from a path
+
+* path: path
+
+Examples:
+
+~~~
+performtest ( getdirectoryname 'C:\Windows\notepad.exe' ) 'C:\Windows'
+~~~
+
+---
+
+#### getdirectorywithparent
+
+finds the directory whose parent has the given name
+
+* directory: directory from where to search upwards
+* parent: name of the parent
+
+Examples:
+
+~~~
+performtest ( getdirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 'C:\Windows\System32'
+~~~
+
+---
+
 #### GetEnumerator
 
 See:
@@ -2255,6 +2312,20 @@ See:
 
 ---
 
+#### getfilename
+
+gets the filename from a path
+
+* path: path
+
+Examples:
+
+~~~
+performtest ( getfilename 'C:\Windows\notepad.exe' ) 'notepad.exe'
+~~~
+
+---
+
 #### getfiles
 
 returns an array of paths of the files in a directory
@@ -2265,6 +2336,20 @@ Examples:
 
 ~~~
 performtest ( size ( getfiles c:\testdirectory ) ) 3
+~~~
+
+---
+
+#### getfname
+
+gets the filename without extension from a path
+
+* path: path
+
+Examples:
+
+~~~
+performtest ( getfname 'C:\Windows\System32' ) 'System32'
 ~~~
 
 ---
@@ -3942,6 +4027,22 @@ See:
 
 ---
 
+#### replace
+
+replaces a substring
+
+* string: string to be searched for the search-string
+* searchstring: string to be searched for
+* replacement: replacement
+
+Examples:
+
+~~~
+performtest ( replace 'Hello World!' 'Hello' 'Bye' ) 'Bye World!'
+~~~
+
+---
+
 #### Replace
 
 See:
@@ -4334,6 +4435,22 @@ performtest ( stringtail 'Hello' ) 'ello'
 
 ---
 
+#### substring
+
+returns a substring
+
+* string: string
+* start: start-index of the substring
+* length: length of the substring
+
+Examples:
+
+~~~
+performtest ( substring 'Hello World!' 1 4 ) 'ello'
+~~~
+
+---
+
 #### Substring
 
 See:
@@ -4398,6 +4515,12 @@ See:
 
 various tests
 
+Examples:
+
+~~~
+performtest ( system ) True
+~~~
+
 ---
 
 #### tail
@@ -4415,6 +4538,8 @@ performtest ( tail ( array 1 2 3 4 ) ) ( array 2 3 4 )
 ---
 
 #### tests
+
+performs various tests
 
 ---
 
@@ -4695,12 +4820,3 @@ performtest (
   )
   6
 ~~~
-
-#### Missing Documentation:
-
-
-* tests
-
-#### Missing Examples:
-
-* system

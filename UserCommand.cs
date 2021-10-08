@@ -14,7 +14,7 @@ namespace Run2
 
     public List<string> ParameterNames { get; } = new();
 
-    public string ScriptPath { get; set; }
+    public string ScriptPath { get; init; }
 
     public SubCommands SubCommands { get; set; } = new();
 

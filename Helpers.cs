@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -79,7 +80,7 @@ namespace Run2
           process.StartInfo.UseShellExecute = false;
           process.StartInfo.RedirectStandardOutput = true;
           process.StartInfo.RedirectStandardError = true;
-          WriteLine($"Starting process {executablePath} in {workingDirectory} with arguments {arguments} ...");
+          WriteLine($"Starting process '{executablePath}' in working-directory '{workingDirectory}' with arguments '{arguments}' ...");
           process.Start();
           output = process.StandardOutput.ReadToEnd().Trim();
           error = process.StandardError.ReadToEnd();
@@ -96,6 +97,46 @@ namespace Run2
         Thread.Sleep(5000);
       }
       throw mostRecentException;
+    }
+
+    public static void ExpandIncludes(string sourcePath, string targetPath, string lineCommand)
+    {
+      var expandedContents = "";
+      foreach (var currentLine in File.ReadAllText(sourcePath).Split('\n'))
+      {
+        var currentCleanLine = currentLine.Replace("\r", "");
+        if (currentCleanLine.StartsWith(Globals.IncludeTag, StringComparison.Ordinal))
+        {
+          var filename = currentCleanLine.Substring(Globals.IncludeTag.Length + 1);
+          var path = $"{Path.GetDirectoryName(sourcePath)}\\{filename}";
+          path = path.Substring(0, path.Length - 3);
+          if (!File.Exists(path))
+          {
+            path = $"{GetProgramDirectory()}\\{filename}";
+            path = path.Substring(0, path.Length - 3);
+          }
+          if (!File.Exists(path))
+          {
+            path = $"{Environment.CurrentDirectory}\\{filename}";
+            path = path.Substring(0, path.Length - 3);
+          }
+          expandedContents += File.ReadAllText(path);
+        }
+        else
+        {
+          expandedContents += $"{currentCleanLine}\n";
+        }
+      }
+      if (!string.IsNullOrEmpty(lineCommand))
+      {
+        var lines = new List<string>();
+        foreach (var line in expandedContents.Split('\n'))
+        {
+          lines.Add(Run2.RunCommand(lineCommand, new Tokens(new[] { line })) as string);
+        }
+        expandedContents = string.Join('\n', lines);
+      }
+      File.WriteAllText(targetPath, expandedContents);
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
