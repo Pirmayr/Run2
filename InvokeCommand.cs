@@ -28,19 +28,14 @@ namespace Run2
       return result.ToString();
     }
 
-    public override string GetRemarks()
-    {
-      return "";
-    }
-
-    public override string GetReturns()
-    {
-      return "";
-    }
-
     public override bool GetHideHelp()
     {
       return FullNames.Count == 0;
+    }
+
+    public override int GetLineNumber()
+    {
+      return -1;
     }
 
     public override string GetName()
@@ -56,6 +51,16 @@ namespace Run2
     public override List<string> GetParameterNames()
     {
       return new List<string>();
+    }
+
+    public override string GetRemarks()
+    {
+      return "";
+    }
+
+    public override string GetReturns()
+    {
+      return "";
     }
 
     public override object Run(Tokens arguments)

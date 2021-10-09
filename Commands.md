@@ -289,6 +289,15 @@ See:
 
 ---
 
+#### and
+
+performs the 'and'-operation
+
+* value1: first value
+* value2: second value
+
+---
+
 #### Array.AsReadOnly
 
 See:
@@ -589,6 +598,17 @@ performtest ( notempty ( arrayof ) ) False
 ~~~
 ~~~
 performtest ( notempty ( arrayof 1 2 3 ) ) True
+~~~
+~~~
+performtest (
+  tail (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    return queue
+    )
+  )
+  ( arrayof 11 )
 ~~~
 
 ---
@@ -1903,6 +1923,17 @@ performtest (
   )
   47
 ~~~
+~~~
+performtest (
+  tail (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    return queue
+    )
+  )
+  ( arrayof 11 )
+~~~
 
 ---
 
@@ -2997,7 +3028,7 @@ if the object can be converted to an array, "true" is returned, otherwise "false
 **Remarks**
 
 
-the test checks if the object already is an array, or has the method either the method "ToArray" or the method "ToCharArray"
+the test checks if the object already is an array, or has the method "ToArray"
 
 ---
 
@@ -3468,6 +3499,17 @@ performtest (
   return value
   )
   'foobar'
+~~~
+~~~
+performtest (
+  tail (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    return queue
+    )
+  )
+  ( arrayof 11 )
 ~~~
 
 ---
@@ -4024,6 +4066,17 @@ performtest ( dequeue ( newqueue ( listof 1 2 3 ) ) ) 1
 ~~~
 performtest ( size ( newqueue ( listof 1 2 3 ) ) ) 3
 ~~~
+~~~
+performtest (
+  tail (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    return queue
+    )
+  )
+  ( arrayof 11 )
+~~~
 
 ---
 
@@ -4110,6 +4163,15 @@ the value 'null'
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.OnDeserialization
+
+---
+
+#### or
+
+performs the 'or'-operation
+
+* value1: first value
+* value2: second value
 
 ---
 
@@ -4642,6 +4704,17 @@ performtest (
   )
   'foobar'
 ~~~
+~~~
+performtest (
+  tail (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    return queue
+    )
+  )
+  ( arrayof 11 )
+~~~
 
 ---
 
@@ -5158,7 +5231,7 @@ the tail of the object
 **Remarks**
 
 
-if the object is a list or can be converted to an array, the proper tail is returned, otherwise the object is converted to a string and its tail is returned
+if the object is a list, an array, or can be converted to an array, the proper tail is returned, otherwise the object is converted to a string and its tail is returned
 
 **Examples**
 
@@ -5167,6 +5240,17 @@ performtest ( tail ( arrayof 1 2 3 4 ) ) ( arrayof 2 3 4 )
 ~~~
 ~~~
 performtest ( tail 4711 ) '711'
+~~~
+~~~
+performtest (
+  tail (
+    local queue ( newqueue )
+    enqueue queue 47
+    enqueue queue 11
+    return queue
+    )
+  )
+  ( arrayof 11 )
 ~~~
 
 ---

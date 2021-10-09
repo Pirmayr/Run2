@@ -6,6 +6,8 @@ namespace Run2
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class Tokens : Queue<object>
   {
+    public int LineNumber { get; set; } = -1;
+
     internal Tokens()
     {
     }

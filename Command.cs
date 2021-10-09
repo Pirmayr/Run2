@@ -6,17 +6,19 @@ namespace Run2
   {
     public abstract string GetDescription();
 
-    public abstract string GetRemarks();
-
-    public abstract string GetReturns();
-
     public abstract bool GetHideHelp();
+
+    public abstract int GetLineNumber();
 
     public abstract string GetName();
 
     public abstract string GetParameterDescription(string name);
 
     public abstract List<string> GetParameterNames();
+
+    public abstract string GetRemarks();
+
+    public abstract string GetReturns();
 
     public abstract object Run(Tokens arguments);
   }

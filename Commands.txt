@@ -1,4 +1,5 @@
 +
+and
 at
 break
 /
@@ -24,6 +25,7 @@ map
 *
 !=
 null
+or
 put
 return
 run
@@ -306,6 +308,7 @@ ForEach
 RemoveAll
 TrimExcess
 TrueForAll
+LineNumber
 SubCommands.new
 DequeueObject
 Enqueue

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Run2
 {
@@ -19,19 +20,14 @@ namespace Run2
       return attribute != null ? attribute.Description : "";
     }
 
-    public override string GetRemarks()
-    {
-      return "";
-    }
-
-    public override string GetReturns()
-    {
-      return "";
-    }
-
     public override bool GetHideHelp()
     {
       return false;
+    }
+
+    public override int GetLineNumber()
+    {
+      return -1;
     }
 
     public override string GetName()
@@ -51,6 +47,16 @@ namespace Run2
       return attribute?.ParameterDescriptions.Keys.ToList() ?? new List<string>();
     }
 
+    public override string GetRemarks()
+    {
+      return "";
+    }
+
+    public override string GetReturns()
+    {
+      return "";
+    }
+
     public override object Run(Tokens arguments)
     {
       var method = action.Method;
@@ -60,9 +66,15 @@ namespace Run2
         var actualCount = arguments.Count;
         var expectedCountFrom = attribute.ArgumentsCountFrom;
         var expectedCountTo = attribute.ArgumentsCountTo;
-        (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check($"Command '{method.Name}' has {actualCount} arguments, but from {expectedCountFrom} to {expectedCountTo} were expected");
+        (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(GetInvalidParametersCountErrorMessage(method, actualCount, expectedCountFrom, expectedCountTo));
       }
       return action(arguments);
+    }
+
+    private static string GetInvalidParametersCountErrorMessage(MemberInfo memberInfo, int actualCount, int expectedCountFrom, int expectedCountTo)
+    {
+      var expected = expectedCountFrom == expectedCountTo ? $"{expectedCountFrom}" : $"{expectedCountFrom} to {expectedCountTo}";
+      return $"Number of arguments encountered for command '{memberInfo.Name.ToLower()}': {actualCount}; number expected: {expected}";
     }
   }
 }

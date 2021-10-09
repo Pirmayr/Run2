@@ -6,11 +6,9 @@ namespace Run2
   {
     public string Description { get; set; }
 
-    public string Remarks { get; set; }
-
-    public string Returns { get; set; }
-
     public bool IsQuoted { get; init; }
+
+    public int LineNumber { get; set; }
 
     public string Name { get; init; }
 
@@ -18,28 +16,27 @@ namespace Run2
 
     public List<string> ParameterNames { get; } = new();
 
+    public string Remarks { get; set; }
+
+    public string Returns { get; set; }
+
     public string ScriptPath { get; init; }
 
-    public SubCommands SubCommands { get; set; } = new();
+    public SubCommands SubCommands { get; set; }
 
     public override string GetDescription()
     {
       return Description;
     }
 
-    public override string GetRemarks()
-    {
-      return Remarks;
-    }
-
-    public override string GetReturns()
-    {
-      return Returns;
-    }
-
     public override bool GetHideHelp()
     {
       return false;
+    }
+
+    public override int GetLineNumber()
+    {
+      return LineNumber;
     }
 
     public override string GetName()
@@ -55,6 +52,16 @@ namespace Run2
     public override List<string> GetParameterNames()
     {
       return ParameterNames;
+    }
+
+    public override string GetRemarks()
+    {
+      return Remarks;
+    }
+
+    public override string GetReturns()
+    {
+      return Returns;
     }
 
     public override object Run(Tokens arguments)

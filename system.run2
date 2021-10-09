@@ -267,9 +267,9 @@ command ischar
 command isconvertabletoarray
   'test, if an object can be converted to an array'
   'if the object can be converted to an array, "true" is returned, otherwise "false"'
-  'the test checks if the object already is an array, or has the method either the method "ToArray" or the method "ToCharArray"'
+  'the test checks if the object already is an array, or has the method "ToArray"'
   object 'object'
-  switch ( isarray object ) True ( hasmember object 'ToArray' )
+  or ( isarray object ) ( hasmember object 'ToArray' )
 
 command isdictionary
   'tests if an object is a dictionary'
@@ -289,7 +289,7 @@ command islist
   'if the object is a list, "true" is returned, otherwise "false"'
   'the object can be of the "ArrayList"-type or the generic "List"-type'
   object 'object'
-  switch ( hastype object 'ArrayList' ) True ( hastype object 'List`1' ) True False
+  or ( hastype object 'ArrayList' ) ( hastype object 'List`1' )
 
 command isnull
   'tests, if an object has the value "null"'
@@ -631,6 +631,15 @@ command performtests
   performtest ( ischar ( tochar 'hello' ) ) True
   performtest ( ischar ( tochar 4711 ) ) True
   performtest ( tail 4711 ) '711'
+  performtest (
+    tail (
+      local queue ( newqueue )
+      enqueue queue 47
+      enqueue queue 11
+      return queue
+      )
+    )
+    ( arrayof 11 )
   return testsok
 
 command pop
@@ -771,7 +780,7 @@ command system
 command tail
   'tail of an object (e.g. an array, a list, or a string)'
   'the tail of the object'
-  'if the object is a list or can be converted to an array, the proper tail is returned, otherwise the object is converted to a string and its tail is returned'
+  'if the object is a list, an array, or can be converted to an array, the proper tail is returned, otherwise the object is converted to a string and its tail is returned'
   object 'object'
   switch ( islist object ) ( listtail object ) ( isconvertabletoarray object ) ( arraytail ( toarray object ) ) ( stringtail ( tostring object ) )
 

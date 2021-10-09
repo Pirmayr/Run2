@@ -111,46 +111,6 @@ namespace Run2
       throw mostRecentException;
     }
 
-    private static void ExpandIncludes(string sourcePath, string targetPath, bool expandIncludes, string lineCommand)
-    {
-      var expandedContents = "";
-      foreach (var currentLine in File.ReadAllText(sourcePath).Split('\n'))
-      {
-        var currentCleanLine = currentLine.Replace("\r", "");
-        if (expandIncludes && currentCleanLine.StartsWith(Globals.IncludeTag, StringComparison.Ordinal))
-        {
-          var filename = currentCleanLine.Substring(Globals.IncludeTag.Length + 1);
-          var path = $"{Path.GetDirectoryName(sourcePath)}\\{filename}";
-          path = path.Substring(0, path.Length - 3);
-          if (!File.Exists(path))
-          {
-            path = $"{GetProgramDirectory()}\\{filename}";
-            path = path.Substring(0, path.Length - 3);
-          }
-          if (!File.Exists(path))
-          {
-            path = $"{Environment.CurrentDirectory}\\{filename}";
-            path = path.Substring(0, path.Length - 3);
-          }
-          expandedContents += File.ReadAllText(path);
-        }
-        else
-        {
-          expandedContents += $"{currentCleanLine}\n";
-        }
-      }
-      if (!string.IsNullOrEmpty(lineCommand))
-      {
-        var lines = new List<string>();
-        foreach (var line in expandedContents.Split('\n'))
-        {
-          lines.Add(Run2.RunCommand(lineCommand, new Tokens(new[] { line })) as string);
-        }
-        expandedContents = string.Join('\n', lines);
-      }
-      File.WriteAllText(targetPath, expandedContents);
-    }
-
     public static object GetBestTypedObject(this string currentToken)
     {
       object bestTypedObject;
@@ -194,9 +154,13 @@ namespace Run2
       return Path.GetDirectoryName(AppContext.BaseDirectory);
     }
 
-    public static void HandleException(Exception exception)
+    public static void HandleException(Exception exception, int lineNumber = -1)
     {
-      WriteLine(exception.InnerMostException().Message);
+      if (exception is not RuntimeException)
+      {
+        WriteLine(0 < lineNumber ? $"Exception around line {lineNumber}:" : "Exception:");
+        WriteLine(exception.InnerMostException().Message);
+      }
     }
 
     public static object Invoke(string memberName, object typeOrTarget, object[] arguments)
@@ -343,6 +307,46 @@ namespace Run2
     private static bool EndsWith(this StringBuilder builder, char character)
     {
       return builder.Length == 0 || builder[^1] == character;
+    }
+
+    private static void ExpandIncludes(string sourcePath, string targetPath, bool expandIncludes, string lineCommand)
+    {
+      var expandedContents = "";
+      foreach (var currentLine in File.ReadAllText(sourcePath).Split('\n'))
+      {
+        var currentCleanLine = currentLine.Replace("\r", "");
+        if (expandIncludes && currentCleanLine.StartsWith(Globals.IncludeTag, StringComparison.Ordinal))
+        {
+          var filename = currentCleanLine.Substring(Globals.IncludeTag.Length + 1);
+          var path = $"{Path.GetDirectoryName(sourcePath)}\\{filename}";
+          path = path.Substring(0, path.Length - 3);
+          if (!File.Exists(path))
+          {
+            path = $"{GetProgramDirectory()}\\{filename}";
+            path = path.Substring(0, path.Length - 3);
+          }
+          if (!File.Exists(path))
+          {
+            path = $"{Environment.CurrentDirectory}\\{filename}";
+            path = path.Substring(0, path.Length - 3);
+          }
+          expandedContents += File.ReadAllText(path);
+        }
+        else
+        {
+          expandedContents += $"{currentCleanLine}\n";
+        }
+      }
+      if (!string.IsNullOrEmpty(lineCommand))
+      {
+        var lines = new List<string>();
+        foreach (var line in expandedContents.Split('\n'))
+        {
+          lines.Add(Run2.RunCommand(lineCommand, new Tokens(new[] { line })) as string);
+        }
+        expandedContents = string.Join('\n', lines);
+      }
+      File.WriteAllText(targetPath, expandedContents);
     }
 
     private static Exception InnerMostException(this Exception exception)

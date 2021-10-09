@@ -11,6 +11,8 @@ namespace Run2
 {
   internal static class Run2
   {
+    public static int MostRecentLineNumber { get; set; }
+
     public static void EnterScope()
     {
       Globals.Variables.EnterScope();
@@ -82,17 +84,29 @@ namespace Run2
 
     public static object RunCommand(string name, Tokens arguments)
     {
-      Globals.Commands.ContainsKey(name).Check($"Command '{name}' not found");
-      if (Globals.Debug)
+      try
       {
-        Helpers.WriteLine($"Begin '{name}'");
+        Globals.Commands.ContainsKey(name).Check($"Command '{name}' not found");
+        if (Globals.Debug)
+        {
+          Helpers.WriteLine($"Begin '{name}'");
+        }
+        var result = Globals.Commands[name].Run(arguments.Clone());
+        if (Globals.Debug)
+        {
+          Helpers.WriteLine($"End '{name}'");
+        }
+        return result;
       }
-      var result = Globals.Commands[name].Run(arguments.Clone());
-      if (Globals.Debug)
+      catch (Exception exception)
       {
-        Helpers.WriteLine($"End '{name}'");
+        if (exception is RuntimeException)
+        {
+          throw;
+        }
+        Helpers.HandleException(exception, MostRecentLineNumber);
+        throw new RuntimeException("Runtime error");
       }
-      return result;
     }
 
     public static object RunSubCommands(SubCommands subCommands)
@@ -100,10 +114,19 @@ namespace Run2
       object result = null;
       foreach (var subCommand in subCommands)
       {
-        result = RunCommand(subCommand.CommandName, subCommand.Arguments);
-        if (Globals.DoBreak)
+        var oldMostRecentLineNumber = MostRecentLineNumber;
+        try
         {
-          break;
+          MostRecentLineNumber = subCommands.LineNumber;
+          result = RunCommand(subCommand.CommandName, subCommand.Arguments);
+          if (Globals.DoBreak)
+          {
+            break;
+          }
+        }
+        finally
+        {
+          MostRecentLineNumber = oldMostRecentLineNumber;
         }
       }
       return result;
@@ -204,6 +227,7 @@ namespace Run2
       var definitions = new Dictionary<string, Tokens>();
       var commandName = firstCommandName;
       var subtokens = new Tokens();
+      subtokens.LineNumber = tokens.LineNumber;
       while (0 < tokens.Count)
       {
         var token = tokens.Dequeue();
@@ -230,13 +254,14 @@ namespace Run2
       }
       foreach (var name in definitions.Keys)
       {
+        var lineNumber = definitions[name].LineNumber;
         if (name.IsStrongQuote(out var unquotedName))
         {
-          Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true, ScriptPath = path });
+          Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true, ScriptPath = path, LineNumber = lineNumber });
         }
         else
         {
-          Globals.Commands.Add(name, new UserCommand { Name = name, ScriptPath = path });
+          Globals.Commands.Add(name, new UserCommand { Name = name, ScriptPath = path, LineNumber = lineNumber });
         }
       }
       foreach (var (definitionName, definitionTokens) in definitions)
@@ -282,28 +307,44 @@ namespace Run2
     {
     }
 
-    private static void EnqueueToken(string currentToken, Tokens result)
+    private static void EnqueueToken(string currentTokenString, int lineNumber, Tokens result)
     {
-      if (Helpers.IsWeakQuote(ref currentToken))
+      if (Helpers.IsWeakQuote(ref currentTokenString))
       {
-        result.Enqueue(new WeakQuote(currentToken));
+        result.Enqueue(new WeakQuote(currentTokenString));
       }
-      else if (Helpers.IsBlock(ref currentToken))
+      else if (Helpers.IsBlock(ref currentTokenString))
       {
-        result.Enqueue(GetTokens(currentToken));
+        /*
+        if (lineNumber == -1)
+        {
+          Helpers.WriteLine("Unexpected line number -1");
+        }
+        */
+        var tokens = GetTokens(currentTokenString, lineNumber);
+        tokens.LineNumber = lineNumber;
+        result.Enqueue(tokens);
       }
       else
       {
-        result.Enqueue(currentToken.GetBestTypedObject());
+        result.Enqueue(currentTokenString.GetBestTypedObject());
       }
     }
 
     private static SubCommands GetSubCommands(Tokens tokens)
     {
+      /*
+      if (tokens.LineNumber == -1)
+      {
+        Helpers.WriteLine("Unexpected line number -1");
+      }
+      */
       var result = new SubCommands();
+      result.LineNumber = tokens.LineNumber;
       while (0 < tokens.Count)
       {
         var subCommand = new SubCommand { CommandName = tokens.DequeueString(false) };
+        subCommand.Arguments.LineNumber = result.LineNumber;
         result.Add(subCommand);
         while (0 < tokens.Count)
         {
@@ -325,10 +366,10 @@ namespace Run2
       return result;
     }
 
-    private static Tokens GetTokens(string code)
+    private static Tokens GetTokens(string code, int lineNumber)
     {
       var result = new Tokens();
-      var currentToken = "";
+      var tokenString = "";
       var blockLevel = 0;
       var expectedBlockEnders = new Stack<char>();
       var expectedBlockLevels = new Stack<int>();
@@ -336,14 +377,18 @@ namespace Run2
       while (0 < characters.Count)
       {
         var currentCharacter = characters.Dequeue();
+        if (currentCharacter == '\n')
+        {
+          ++lineNumber;
+        }
         if (char.IsWhiteSpace(currentCharacter) && blockLevel == 0)
         {
-          if (currentToken == "")
+          if (tokenString == "")
           {
             continue;
           }
-          EnqueueToken(currentToken, result);
-          currentToken = "";
+          EnqueueToken(tokenString, lineNumber, result);
+          tokenString = "";
         }
         else
         {
@@ -351,7 +396,7 @@ namespace Run2
           {
             case Globals.BlockStart:
             {
-              currentToken += currentCharacter;
+              tokenString += currentCharacter;
               ++blockLevel;
               expectedBlockLevels.Push(blockLevel);
               expectedBlockEnders.Push(Globals.BlockEnd);
@@ -364,7 +409,7 @@ namespace Run2
               var expectedBlockLevel = expectedBlockLevels.Pop();
               (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel}");
               --blockLevel;
-              currentToken += currentCharacter;
+              tokenString += currentCharacter;
               break;
             }
             case Globals.StrongQuote:
@@ -378,14 +423,14 @@ namespace Run2
                 --blockLevel;
                 if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
                 {
-                  currentToken += currentCharacter;
+                  tokenString += currentCharacter;
                 }
               }
               else
               {
                 if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
                 {
-                  currentToken += currentCharacter;
+                  tokenString += currentCharacter;
                 }
                 ++blockLevel;
                 expectedBlockLevels.Push(blockLevel);
@@ -398,22 +443,26 @@ namespace Run2
               switch (nextCharacter)
               {
                 case 'n':
-                  currentToken += '\n';
+                  tokenString += '\n';
                   break;
                 default:
-                  currentToken += nextCharacter;
+                  tokenString += nextCharacter;
                   break;
               }
               break;
             default:
-              currentToken += currentCharacter;
+              tokenString += currentCharacter;
               break;
           }
         }
       }
-      if (currentToken != "")
+      if (tokenString != "")
       {
-        EnqueueToken(currentToken, result);
+        EnqueueToken(tokenString, lineNumber, result);
+      }
+      if (0 < blockLevel)
+      {
+        false.Check($"Unexpected end of script; number of unclosed blocks: {blockLevel}");
       }
       return result;
     }
@@ -421,7 +470,7 @@ namespace Run2
     private static void LoadCommand(string path)
     {
       File.Exists(path).Check($"Script '{path}' not found");
-      var tokens = GetTokens(File.ReadAllText(path));
+      var tokens = GetTokens(File.ReadAllText(path), 0);
       BuildUserCommands(path, tokens);
     }
 
