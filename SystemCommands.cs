@@ -23,8 +23,12 @@ namespace Run2
     public static object And(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
+      if (!value1)
+      {
+        return false;
+      }
       var value2 = arguments.DequeueDynamic();
-      return value1 && value2;
+      return value2;
     }
 
     [Documentation(2, 2, null, "returns the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element")]
@@ -269,8 +273,12 @@ namespace Run2
     public static object Or(Tokens arguments)
     {
       var value1 = arguments.DequeueDynamic();
+      if (value1)
+      {
+        return true;
+      }
       var value2 = arguments.DequeueDynamic();
-      return value1 || value2;
+      return value2;
     }
 
     [Documentation(2, 3, null, "assigns a new value to the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element", "value", "value to be set")]

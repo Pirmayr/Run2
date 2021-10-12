@@ -458,8 +458,11 @@ average
 averageof
 besttype
 canparseint32
+checkin
+cleanworkspace
 concatenation
 concatenationof
+containskey
 copyfiles
 createdirectory
 decrement
@@ -482,6 +485,7 @@ getfiles
 getfname
 getmember
 gettokens
+getvariable
 hasmember
 hastype
 head
@@ -490,11 +494,12 @@ initialize
 invoketests
 isarray
 ischar
-isconvertabletoarray
+isconvertibletoarray
 isdictionary
 isempty
 islist
 isnull
+isset
 isstring
 iswhitespace
 join
@@ -512,6 +517,7 @@ newarray
 newdictionary
 newlist
 newqueue
+newset
 newstack
 not
 notempty

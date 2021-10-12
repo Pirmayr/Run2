@@ -263,20 +263,29 @@ performtest (
 
 #### additem
 
-adds an item to a list
+adds an item to a collection
 
-* list: listof
+* collection: collection
 * value: value
 
 **Returns**
 
 
-the list
+the collection
 
 **Examples**
 
 ~~~
 performtest ( size ( additem ( listof 1 2 3 ) 4 ) ) 4
+~~~
+~~~
+performtest (
+  local testset ( newset )
+  additem testset 4711
+  additem testset 4711
+  containskey testset 4711
+  )
+  True
 ~~~
 
 ---
@@ -1167,6 +1176,37 @@ See:
 
 ---
 
+#### checkin
+
+performs a svn-checkin
+
+* branchdirectory: the directory to check in
+* commitmessage: the commit-message
+* test: (optional) if "true", the command is not performed (for testing purposes)
+
+**Examples**
+
+~~~
+performtest ( checkin c:\ 'hi' True ) 0
+~~~
+
+---
+
+#### cleanworkspace
+
+cleans the specified workspace
+
+* cleanupdirectory: the directory to clean up
+* test: (optional) if "true", the command is not performed (for testing purposes)
+
+**Examples**
+
+~~~
+performtest ( cleanworkspace c:\ True ) 0
+~~~
+
+---
+
 #### Clear
 
 See:
@@ -1263,6 +1303,27 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Contains
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Contains
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Contains
+
+---
+
+#### containskey
+
+checks if a collection contains a key
+
+* collection: collection
+* key: key
+
+**Examples**
+
+~~~
+performtest (
+  local testset ( newset )
+  additem testset 4711
+  additem testset 4711
+  containskey testset 4711
+  )
+  True
+~~~
 
 ---
 
@@ -1516,6 +1577,16 @@ copies files from one location to another
 * destinationfilename: name of the file after beeing copied; if "null" or empty, the filename remains unchanged
 * expandincludes: if true, includes are expanded
 * lineaction: action to be performed on every line
+
+**Examples**
+
+~~~
+performtest (
+  copyfiles c:\testdirectory values.txt c:\testdirectory values1.txt False
+  fileexists c:\testdirectory\values1.txt
+  )
+  True
+~~~
 
 ---
 
@@ -1898,6 +1969,14 @@ performtest (
 ---
 
 #### directoryseparator
+
+returns the directory-separator
+
+**Examples**
+
+~~~
+performtest ( directoryseparator ) ( tochar '\' )
+~~~
 
 ---
 
@@ -2392,6 +2471,13 @@ checks if a file exists
 **Examples**
 
 ~~~
+performtest (
+  copyfiles c:\testdirectory values.txt c:\testdirectory values1.txt False
+  fileexists c:\testdirectory\values1.txt
+  )
+  True
+~~~
+~~~
 performtest ( fileexists ( locatefile basedirectory LICENSE ) ) True
 ~~~
 ~~~
@@ -2737,6 +2823,35 @@ See:
 
 ---
 
+#### getvariable
+
+returns the value of a variable
+
+* "name": name of the variable
+
+**Returns**
+
+
+the value of the variable
+
+**Remarks**
+
+
+enables the variable value to be retrieved by preventing the name from being evaluated
+
+**Examples**
+
+~~~
+performtest (
+  local foobar 4711
+  setvariable foobar 4712
+  getvariable foobar
+  )
+  4712
+~~~
+
+---
+
 #### global
 
 creates or sets a global variable
@@ -3048,6 +3163,9 @@ performtest ( isarray ( arrayof ) ) True
 ~~~
 performtest ( isarray ( newarray 100 0 ) ) True
 ~~~
+~~~
+performtest ( isarray ( toarray ( newlist ) ) ) True
+~~~
 
 ---
 
@@ -3078,7 +3196,7 @@ performtest ( ischar ( tochar 4711 ) ) True
 
 ---
 
-#### isconvertabletoarray
+#### isconvertibletoarray
 
 test, if an object can be converted to an array
 
@@ -3094,6 +3212,12 @@ if the object can be converted to an array, "true" is returned, otherwise "false
 
 the test checks if the object already is an array, or has the method "ToArray"
 
+**Examples**
+
+~~~
+performtest ( isconvertibletoarray ( newlist ) ) True
+~~~
+
 ---
 
 #### isdictionary
@@ -3105,12 +3229,12 @@ tests if an object is a dictionary
 **Returns**
 
 
-if the object in a dictionary, "true" is returned, otherwise "false"
+if the object is a dictionary, "true" is returned, otherwise "false"
 
 **Remarks**
 
 
-the test checks, if the object if of the Hashtable-type
+the test checks, if the object is of the Hashtable-type
 
 **Examples**
 
@@ -3209,6 +3333,12 @@ tests, if an object has the value "null"
 
 if the object has the value "null", "true" is returned, otherwise "false"
 
+**Examples**
+
+~~~
+performtest ( isnull ( newset ) ) False
+~~~
+
 ---
 
 #### IsOne
@@ -3237,6 +3367,25 @@ See:
 
 ---
 
+#### isset
+
+tests if an object is a set
+
+* object: object
+
+**Returns**
+
+
+if the object is a set, "true" is returned, otherwise "false"
+
+**Examples**
+
+~~~
+performtest ( isset ( newset ) ) True
+~~~
+
+---
+
 #### isstring
 
 tests if an object is a "string"-value
@@ -3257,6 +3406,9 @@ if the object is a "string"-value, "true" is returned, otherwise "false"
 
 ~~~
 performtest ( isstring 'Hello' ) True
+~~~
+~~~
+performtest ( isstring ( tostring 4711 ) ) True
 ~~~
 
 ---
@@ -3317,9 +3469,10 @@ See:
 
 #### join
 
-joins strings to a string separated by blanks
+joins strings to a string separated by a character
 
 * strings: strings
+* separator: (optional; default: blank) separator
 
 **Returns**
 
@@ -3575,6 +3728,31 @@ performtest (
   )
   ( arrayof 11 )
 ~~~
+~~~
+performtest (
+  local testset ( newset )
+  additem testset 4711
+  additem testset 4711
+  containskey testset 4711
+  )
+  True
+~~~
+~~~
+performtest (
+  local foobar 4711
+  setvariable foobar 4712
+  return foobar
+  )
+  4712
+~~~
+~~~
+performtest (
+  local foobar 4711
+  setvariable foobar 4712
+  getvariable foobar
+  )
+  4712
+~~~
 
 ---
 
@@ -3589,6 +3767,12 @@ searches directories
 
 
 an array of all directories that could be found
+
+**Examples**
+
+~~~
+performtest ( size ( locatedirectories c:\windows 'system' ) ) 1
+~~~
 
 ---
 
@@ -3652,6 +3836,12 @@ searches files
 
 
 an array of all paths that could be found
+
+**Examples**
+
+~~~
+performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
+~~~
 
 ---
 
@@ -4168,6 +4358,12 @@ the type of the list is "ArrayList"
 ~~~
 performtest ( islist ( newlist ) ) True
 ~~~
+~~~
+performtest ( isconvertibletoarray ( newlist ) ) True
+~~~
+~~~
+performtest ( isarray ( toarray ( newlist ) ) ) True
+~~~
 
 ---
 
@@ -4209,6 +4405,35 @@ performtest (
     )
   )
   ( arrayof 11 )
+~~~
+
+---
+
+#### newset
+
+creates a set
+
+**Returns**
+
+
+the new set
+
+**Examples**
+
+~~~
+performtest ( isset ( newset ) ) True
+~~~
+~~~
+performtest (
+  local testset ( newset )
+  additem testset 4711
+  additem testset 4711
+  containskey testset 4711
+  )
+  True
+~~~
+~~~
+performtest ( isnull ( newset ) ) False
 ~~~
 
 ---
@@ -4905,6 +5130,14 @@ performtest (
   )
   ( arrayof 11 )
 ~~~
+~~~
+performtest (
+  local foobar 4711
+  setvariable foobar 4712
+  return foobar
+  )
+  4712
+~~~
 
 ---
 
@@ -4961,8 +5194,39 @@ See:
 
 #### setvariable
 
-* "name"
-* value
+sets a variable to a new value
+
+* "name": name of the variable
+* value: the new value
+
+**Returns**
+
+
+the new value
+
+**Remarks**
+
+
+enables a new variable value to be set by preventing the variable name from being evaluated
+
+**Examples**
+
+~~~
+performtest (
+  local foobar 4711
+  setvariable foobar 4712
+  return foobar
+  )
+  4712
+~~~
+~~~
+performtest (
+  local foobar 4711
+  setvariable foobar 4712
+  getvariable foobar
+  )
+  4712
+~~~
 
 ---
 
@@ -5031,6 +5295,12 @@ performtest ( size ( gettokens 'the big brown fox' ) ) 4
 ~~~
 ~~~
 performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
+~~~
+~~~
+performtest ( size ( locatedirectories c:\windows 'system' ) ) 1
+~~~
+~~~
+performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
 ~~~
 
 ---
@@ -5495,7 +5765,13 @@ an array
 **Remarks**
 
 
-the method can be used all objects, where "isconvertabletoarray" is "true"
+the method can be used all objects, where "isconvertibletoarray" is "true"
+
+**Examples**
+
+~~~
+performtest ( isarray ( toarray ( newlist ) ) ) True
+~~~
 
 ---
 
@@ -5572,6 +5848,9 @@ performtest ( ischar ( tochar 'hello' ) ) True
 ~~~
 ~~~
 performtest ( ischar ( tochar 4711 ) ) True
+~~~
+~~~
+performtest ( directoryseparator ) ( tochar '\' )
 ~~~
 
 ---
@@ -5684,6 +5963,12 @@ converts an object to a string
 
 
 a "string"-value
+
+**Examples**
+
+~~~
+performtest ( isstring ( tostring 4711 ) ) True
+~~~
 
 ---
 
@@ -5954,24 +6239,3 @@ performtest (
   )
   6
 ~~~
-
-#### Missing Documentation:
-
-
-* directoryseparator
-
-* setvariable
-  - "name"
-  - value
-
-#### Missing Examples:
-
-* copyfiles
-* directoryseparator
-* isconvertabletoarray
-* isnull
-* locatedirectories
-* locatefiles
-* setvariable
-* toarray
-* tostring

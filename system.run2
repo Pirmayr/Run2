@@ -8,12 +8,12 @@ command addentry
   return dictionary
 
 command additem
-  'adds an item to a list'
-  'the list'
-  list 'listof'
+  'adds an item to a collection'
+  'the collection'
+  collection 'collection'
   value 'value'
-  Add list value
-  return list
+  if ( isdictionary collection ) ( if ( not ( containskey collection value ) ) ( addentry collection value ( null ) ) ) ( Add collection value )
+  return collection
 
 command arrayof
   'converts the arguments to an array'
@@ -49,6 +49,23 @@ command canparseint32
   string 'string'
   Int32.TryParse string 0
 
+command checkin
+  'performs a svn-checkin'
+  branchdirectory 'the directory to check in'
+  commitmessage 'the commit-message'
+  test '(optional) if "true", the command is not performed (for testing purposes)'
+  if ( or ( isnull test ) ( not test ) ) ( run "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]" ) 0
+
+command cleanworkspace
+  'cleans the specified workspace'
+  cleanupdirectory 'the directory to clean up'
+  test '(optional) if "true", the command is not performed (for testing purposes)'
+  if ( or ( isnull test ) ( not test ) ) (
+    run "[svnexepath]" cleanup "[cleanupdirectory]"
+    run "[svnexepath]" update "[cleanupdirectory]"
+    )
+    0
+
 command concatenation
   'concatenates the given strings'
   strings 'strings'
@@ -60,6 +77,12 @@ command concatenationof
   'the concatenated arguments'
   'the arguments must be strings'
   concatenation arguments
+
+command containskey
+  'checks if a collection contains a key'
+  collection 'collection'
+  key 'key'
+  ContainsKey collection key
 
 command copyfiles
   'copies files from one location to another'
@@ -102,6 +125,7 @@ command directoryexists
   Directory.Exists directory
 
 command directoryseparator
+  'returns the directory-separator'
   Path.DirectorySeparatorChar
 
 command dos
@@ -205,6 +229,13 @@ command gettokens
   if ( notempty token ) ( additem result token )
   return result
 
+command getvariable
+  'returns the value of a variable'
+  'the value of the variable'
+  'enables the variable value to be retrieved by preventing the name from being evaluated'
+  "name" 'name of the variable'
+  get name
+
 command hasmember
   'tests if the specified member exists in an object'
   'if the object has the specified member, "true" is returned, otherwise "false"'
@@ -248,6 +279,7 @@ command initialize
   global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
   global workspacesdirectory ( finddirectory scriptdirectory Workspaces )
   global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
+  global svnexepath '[programfilesdirectory]\TortoiseSVN\bin\svn.exe'
   return True
 
 command invoketests
@@ -272,7 +304,7 @@ command ischar
   object 'object'
   hastype object 'Char'
 
-command isconvertabletoarray
+command isconvertibletoarray
   'test, if an object can be converted to an array'
   'if the object can be converted to an array, "true" is returned, otherwise "false"'
   'the test checks if the object already is an array, or has the method "ToArray"'
@@ -281,8 +313,8 @@ command isconvertabletoarray
 
 command isdictionary
   'tests if an object is a dictionary'
-  'if the object in a dictionary, "true" is returned, otherwise "false"'
-  'the test checks, if the object if of the Hashtable-type'
+  'if the object is a dictionary, "true" is returned, otherwise "false"'
+  'the test checks, if the object is of the Hashtable-type'
   object 'object'
   hastype object 'Hashtable'
 
@@ -305,6 +337,12 @@ command isnull
   object 'object'
   == object ( null )
 
+command isset
+  'tests if an object is a set'
+  'if the object is a set, "true" is returned, otherwise "false"'
+  object 'object'
+  isdictionary object
+
 command isstring
   'tests if an object is a "string"-value'
   'a "bool"-value'
@@ -319,11 +357,12 @@ command iswhitespace
   Char.IsWhiteSpace ( tochar value )
 
 command join
-  'joins strings to a string separated by blanks'
+  'joins strings to a string separated by a character'
   'a string'
   'the command applies to arrays of strings or any object that can be converted to an array of strings'
   strings 'strings'
-  String.Join ' ' ( if ( isarray strings ) strings ( toarray strings ) )
+  separator '(optional; default: blank) separator'
+  String.Join ( if ( isnull separator ) ' ' separator ) ( if ( isarray strings ) strings ( toarray strings ) )
 
 command joinfrom
   'joins the arguments to a string separated by blanks'
@@ -413,6 +452,11 @@ command newqueue
   'the new queue'
   values '(optional) value with which the queue is to be initialized'
   if ( == values ( null ) ) ( Queue.new ) ( Queue.new values )
+
+command newset
+  'creates a set'
+  'the new set'
+  newdictionary
 
 command newstack
   'creates a stack'
@@ -517,6 +561,11 @@ command performtests
     )
     6
   performtest ( size ( getfiles c:\testdirectory ) ) 3
+  performtest (
+    copyfiles c:\testdirectory values.txt c:\testdirectory values1.txt False
+    fileexists c:\testdirectory\values1.txt
+    )
+    True
   performtest (
     deletedirectory c:\testdirectory
     directoryexists c:\testdirectory
@@ -674,6 +723,35 @@ command performtests
   performtest ( removetrailingdirectoryseparator 'c:\windows\' ) 'c:\windows'
   performtest ( getfilename ( removetrailingdirectoryseparator 'c:\windows\system32\' ) ) 'system32'
   performtest ( getextension 'c:\windows\notepad.exe' ) '.exe'
+  performtest ( isset ( newset ) ) True
+  performtest (
+    local testset ( newset )
+    additem testset 4711
+    additem testset 4711
+    containskey testset 4711
+    )
+    True
+  performtest ( isnull ( newset ) ) False
+  performtest ( isconvertibletoarray ( newlist ) ) True
+  performtest ( directoryseparator ) ( tochar '\' )
+  performtest ( size ( locatedirectories c:\windows 'system' ) ) 1
+  performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
+  performtest (
+    local foobar 4711
+    setvariable foobar 4712
+    return foobar
+    )
+    4712
+  performtest (
+    local foobar 4711
+    setvariable foobar 4712
+    getvariable foobar
+    )
+    4712
+  performtest ( isarray ( toarray ( newlist ) ) ) True
+  performtest ( isstring ( tostring 4711 ) ) True
+  performtest ( checkin c:\ 'hi' True ) 0
+  performtest ( cleanworkspace c:\ True ) 0
   return testsok
 
 command pop
@@ -736,8 +814,11 @@ command replace
   Replace string searchstring replacement
 
 command setvariable
-  "name"
-  value
+  'sets a variable to a new value'
+  'the new value'
+  'enables a new variable value to be set by preventing the variable name from being evaluated'
+  "name" 'name of the variable'
+  value 'the new value'
   set name value
 
 command size
@@ -827,14 +908,14 @@ command tail
   'the tail of the object'
   'if the object is a list, an array, or can be converted to an array, the proper tail is returned, otherwise the object is converted to a string and its tail is returned'
   object 'object'
-  switch ( islist object ) ( listtail object ) ( isconvertabletoarray object ) ( arraytail ( toarray object ) ) ( stringtail ( tostring object ) )
+  switch ( islist object ) ( listtail object ) ( isconvertibletoarray object ) ( arraytail ( toarray object ) ) ( stringtail ( tostring object ) )
 
 command toarray
   'converts an object to an array'
   'an array'
-  'the method can be used all objects, where "isconvertabletoarray" is "true"'
+  'the method can be used all objects, where "isconvertibletoarray" is "true"'
   object 'object'
-  switch ( isarray object ) object ( isconvertabletoarray object ) ( ToArray object ) ( listof )
+  switch ( isarray object ) object ( isconvertibletoarray object ) ( ToArray object ) ( listof )
 
 command tobiginteger
   'converts a number to a BigInteger'
