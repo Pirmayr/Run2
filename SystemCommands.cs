@@ -292,22 +292,26 @@ namespace Run2
     [Documentation(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
     public static object Run(Tokens arguments)
     {
-      var pathOrDirectory = arguments.DequeueString();
+      var commandOrpathOrDirectory = arguments.DequeueString();
+      if (Globals.Commands.ContainsKey(commandOrpathOrDirectory))
+      {
+        return Run2.RunCommand(commandOrpathOrDirectory, arguments);
+      }
       string workingDirectory;
       string executablePath;
-      if (Directory.Exists(pathOrDirectory))
+      if (Directory.Exists(commandOrpathOrDirectory))
       {
-        workingDirectory = pathOrDirectory;
+        workingDirectory = commandOrpathOrDirectory;
         executablePath = arguments.DequeueString();
       }
       else
       {
-        workingDirectory = Path.GetDirectoryName(pathOrDirectory);
+        workingDirectory = Path.GetDirectoryName(commandOrpathOrDirectory);
         if (string.IsNullOrEmpty(workingDirectory) || !Directory.Exists(workingDirectory))
         {
           workingDirectory = Helpers.GetProgramDirectory();
         }
-        executablePath = pathOrDirectory;
+        executablePath = commandOrpathOrDirectory;
       }
       Helpers.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
       return result;

@@ -185,11 +185,14 @@ namespace Run2
         {
           switch (member)
           {
-            case MethodInfo:
-              bindingFlags |= BindingFlags.InvokeMethod;
+            case FieldInfo:
+              bindingFlags |= arguments.Length == 0 ? BindingFlags.GetField : BindingFlags.SetField;
               break;
             case PropertyInfo:
               bindingFlags |= arguments.Length == 0 ? BindingFlags.GetProperty : BindingFlags.SetProperty;
+              break;
+            case MethodInfo:
+              bindingFlags |= BindingFlags.InvokeMethod;
               break;
           }
         }
@@ -251,36 +254,66 @@ namespace Run2
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public static string LocateDirectory(string baseDirectory, string pattern)
+    // ReSharper disable once MemberCanBePrivate.Global
+    // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+    public static string[] LocateDirectories(string baseDirectory, string pattern)
     {
       Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
+      string searchDirectory;
+      var filename = Path.GetFileName(pattern);
       var currentDirectory = baseDirectory;
       while (!string.IsNullOrEmpty(currentDirectory))
       {
-        var currentPath = Directory.GetDirectories(currentDirectory, pattern, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
-        if (!string.IsNullOrEmpty(currentPath) && Directory.Exists(currentPath))
+        searchDirectory = GetDirectory(currentDirectory, pattern);
+        if (Directory.Exists(searchDirectory))
         {
-          return currentPath;
+          var currentPath = Directory.GetDirectories(searchDirectory, filename, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
+          if (!string.IsNullOrEmpty(currentPath) && Directory.Exists(currentPath))
+          {
+            return new[] { currentPath };
+          }
         }
         currentDirectory = Path.GetDirectoryName(currentDirectory);
       }
-      return Directory.GetDirectories(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
+      searchDirectory = GetDirectory(baseDirectory, pattern);
+      return Directory.Exists(searchDirectory) ? Directory.GetDirectories(searchDirectory, filename, SearchOption.AllDirectories).OrderByDescending(static item => item).ToArray() : new[] { "" };
     }
 
+    // ReSharper disable once UnusedMember.Global
+    public static string LocateDirectory(string baseDirectory, string pattern)
+    {
+      return LocateDirectories(baseDirectory, pattern).FirstOrDefault();
+    }
+
+    // ReSharper disable once UnusedMember.Global
     public static string LocateFile(string baseDirectory, string pattern)
     {
+      return LocateFiles(baseDirectory, pattern).FirstOrDefault();
+    }
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+    public static string[] LocateFiles(string baseDirectory, string pattern)
+    {
       Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
+      string searchDirectory;
+      var filename = Path.GetFileName(pattern);
       var currentDirectory = baseDirectory;
       while (!string.IsNullOrEmpty(currentDirectory))
       {
-        var currentPath = Directory.GetFiles(currentDirectory, pattern, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
-        if (!string.IsNullOrEmpty(currentPath) && File.Exists(currentPath))
+        searchDirectory = GetDirectory(currentDirectory, pattern);
+        if (Directory.Exists(searchDirectory))
         {
-          return currentPath;
+          var currentPath = Directory.GetFiles(searchDirectory, filename, SearchOption.TopDirectoryOnly).OrderByDescending(static item => item).FirstOrDefault();
+          if (!string.IsNullOrEmpty(currentPath) && File.Exists(currentPath))
+          {
+            return new[] { currentPath };
+          }
         }
         currentDirectory = Path.GetDirectoryName(currentDirectory);
       }
-      return Directory.GetFiles(baseDirectory, pattern, SearchOption.AllDirectories).OrderByDescending(static item => item).FirstOrDefault() ?? "";
+      searchDirectory = GetDirectory(baseDirectory, pattern);
+      return Directory.Exists(searchDirectory) ? Directory.GetFiles(searchDirectory, filename, SearchOption.AllDirectories).OrderByDescending(static item => item).ToArray() : new[] { "" };
     }
 
     public static string RemoveStrongQuotes(this string value)
@@ -315,22 +348,18 @@ namespace Run2
       foreach (var currentLine in File.ReadAllText(sourcePath).Split('\n'))
       {
         var currentCleanLine = currentLine.Replace("\r", "");
-        if (expandIncludes && currentCleanLine.StartsWith(Globals.IncludeTag, StringComparison.Ordinal))
+        if (expandIncludes && currentCleanLine.TryGetControlValue(Globals.IncludeTag, out var filename))
         {
-          var filename = currentCleanLine.Substring(Globals.IncludeTag.Length + 1);
-          var path = $"{Path.GetDirectoryName(sourcePath)}\\{filename}";
-          path = path.Substring(0, path.Length - 3);
+          var path = LocateFile(Path.GetDirectoryName(sourcePath), filename);
           if (!File.Exists(path))
           {
-            path = $"{GetProgramDirectory()}\\{filename}";
-            path = path.Substring(0, path.Length - 3);
-          }
-          if (!File.Exists(path))
-          {
-            path = $"{Environment.CurrentDirectory}\\{filename}";
-            path = path.Substring(0, path.Length - 3);
+            path = LocateFile(GetProgramDirectory(), filename);
           }
           expandedContents += File.ReadAllText(path);
+        }
+        else if (currentCleanLine.TryGetControlValue(Globals.TargetTag, out var target))
+        {
+          targetPath = $"{Path.GetDirectoryName(targetPath)}\\{target}";
         }
         else
         {
@@ -349,6 +378,12 @@ namespace Run2
       File.WriteAllText(targetPath, expandedContents);
     }
 
+    private static string GetDirectory(string directory, string pattern)
+    {
+      var result = Path.GetDirectoryName($"{directory}\\{pattern}");
+      return result;
+    }
+
     private static Exception InnerMostException(this Exception exception)
     {
       var result = exception;
@@ -357,6 +392,18 @@ namespace Run2
         result = result.InnerException;
       }
       return result;
+    }
+
+    private static bool TryGetControlValue(this string line, string controlTag, out string controlValue)
+    {
+      if (line.StartsWith(controlTag, StringComparison.Ordinal))
+      {
+        controlValue = line.Substring(controlTag.Length + 1);
+        controlValue = controlValue.Substring(0, controlValue.Length - 3);
+        return true;
+      }
+      controlValue = "";
+      return false;
     }
   }
 }

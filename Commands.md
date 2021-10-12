@@ -564,6 +564,9 @@ performtest ( size ( arrayof 1 2 3 4 5 6 ) ) 6
 performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
 ~~~
 ~~~
+performtest ( sort ( split '3;1;4;1;5;9' ';' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
+~~~
+~~~
 performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
 ~~~
 ~~~
@@ -1084,6 +1087,22 @@ See:
 
 ---
 
+#### Char.MaxValue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.MaxValue
+
+---
+
+#### Char.MinValue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Char.MinValue
+
+---
+
 #### Char.Parse
 
 See:
@@ -1268,6 +1287,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ChangeType
+
+---
+
+#### Convert.DBNull
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.DBNull
 
 ---
 
@@ -1867,6 +1894,10 @@ performtest (
   )
   False
 ~~~
+
+---
+
+#### directoryseparator
 
 ---
 
@@ -2507,6 +2538,20 @@ See:
 
 ---
 
+#### getextension
+
+gets the extension from a path
+
+* path: path
+
+**Examples**
+
+~~~
+performtest ( getextension 'c:\windows\notepad.exe' ) '.exe'
+~~~
+
+---
+
 #### getfilename
 
 gets the filename from a path
@@ -2517,6 +2562,9 @@ gets the filename from a path
 
 ~~~
 performtest ( getfilename 'C:\Windows\notepad.exe' ) 'notepad.exe'
+~~~
+~~~
+performtest ( getfilename ( removetrailingdirectoryseparator 'c:\windows\system32\' ) ) 'system32'
 ~~~
 
 ---
@@ -2912,6 +2960,22 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.InsertRange
+
+---
+
+#### Int32.MaxValue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Int32.MaxValue
+
+---
+
+#### Int32.MinValue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Int32.MinValue
 
 ---
 
@@ -3514,6 +3578,20 @@ performtest (
 
 ---
 
+#### locatedirectories
+
+searches directories
+
+* basedirectory: directory in which the search should begin
+* pattern: pattern to be searched for
+
+**Returns**
+
+
+an array of all directories that could be found
+
+---
+
 #### locatedirectory
 
 searches for a directory
@@ -3560,6 +3638,20 @@ performtest ( fileexists ( locatefile basedirectory DOESNOTEXIST ) ) False
 ~~~
 performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
 ~~~
+
+---
+
+#### locatefiles
+
+searches files
+
+* basedirectory: directory in which the search should begin
+* pattern: pattern to be searched for
+
+**Returns**
+
+
+an array of all paths that could be found
 
 ---
 
@@ -3734,6 +3826,14 @@ See:
 
 ---
 
+#### Math.E
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Math.E
+
+---
+
 #### Math.Exp
 
 See:
@@ -3830,6 +3930,14 @@ See:
 
 ---
 
+#### Math.PI
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Math.PI
+
+---
+
 #### Math.Pow
 
 See:
@@ -3908,6 +4016,14 @@ See:
 
 ---
 
+#### Math.Tau
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Math.Tau
+
+---
+
 #### Math.Truncate
 
 See:
@@ -3948,6 +4064,23 @@ the median
 
 ~~~
 performtest ( medianof 5 3 2 4 1 ) 3
+~~~
+
+---
+
+#### multireplace
+
+replaces by multiple pairs of searchstring/replacement
+
+**Returns**
+
+
+the modified string
+
+**Examples**
+
+~~~
+performtest ( multireplace 'Hello World!' 'Hello' 'Good' 'World' 'Bye' ) 'Good Bye!'
 ~~~
 
 ---
@@ -4191,6 +4324,14 @@ See:
 
 ---
 
+#### Path.AltDirectorySeparatorChar
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.AltDirectorySeparatorChar
+
+---
+
 #### Path.ChangeExtension
 
 See:
@@ -4204,6 +4345,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.Combine
+
+---
+
+#### Path.DirectorySeparatorChar
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.DirectorySeparatorChar
 
 ---
 
@@ -4319,6 +4468,14 @@ See:
 
 ---
 
+#### Path.InvalidPathChars
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.InvalidPathChars
+
+---
+
 #### Path.IsPathFullyQualified
 
 See:
@@ -4343,6 +4500,14 @@ See:
 
 ---
 
+#### Path.PathSeparator
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.PathSeparator
+
+---
+
 #### Path.TrimEndingDirectorySeparator
 
 See:
@@ -4356,6 +4521,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.TryJoin
+
+---
+
+#### Path.VolumeSeparatorChar
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.VolumeSeparatorChar
 
 ---
 
@@ -4629,6 +4802,23 @@ See:
 
 ---
 
+#### removetrailingdirectoryseparator
+
+removes all trailing occurrences of the directory-separator from a path
+
+* path: path
+
+**Examples**
+
+~~~
+performtest ( removetrailingdirectoryseparator 'c:\windows\' ) 'c:\windows'
+~~~
+~~~
+performtest ( getfilename ( removetrailingdirectoryseparator 'c:\windows\system32\' ) ) 'system32'
+~~~
+
+---
+
 #### replace
 
 replaces a substring
@@ -4769,6 +4959,13 @@ See:
 
 ---
 
+#### setvariable
+
+* "name"
+* value
+
+---
+
 #### Sign
 
 See:
@@ -4857,6 +5054,9 @@ performtest ( sort 'hello' ) 'ehllo'
 ~~~
 performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
 ~~~
+~~~
+performtest ( sort ( split '3;1;4;1;5;9' ';' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
+~~~
 
 ---
 
@@ -4911,6 +5111,7 @@ performtest ( sortstring 'foobar' ) 'abfoor'
 creates an array by splitting a string at carriage-returns
 
 * string: string to be splitted
+* separator: (optional) separator
 
 **Returns**
 
@@ -4934,6 +5135,9 @@ performtest (
 ~~~
 ~~~
 performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
+~~~
+~~~
+performtest ( sort ( split '3;1;4;1;5;9' ';' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
 ~~~
 
 ---
@@ -5018,6 +5222,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Create
+
+---
+
+#### String.Empty
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.String.Empty
 
 ---
 
@@ -5514,6 +5726,21 @@ See:
 
 ---
 
+#### trimend
+
+removes all trailing occurrences of a character from a string
+
+* string: string
+* character: character
+
+**Examples**
+
+~~~
+performtest ( trimend 'c:\windows\' '\' ) 'c:\windows'
+~~~
+
+---
+
 #### TrimEnd
 
 See:
@@ -5728,10 +5955,23 @@ performtest (
   6
 ~~~
 
+#### Missing Documentation:
+
+
+* directoryseparator
+
+* setvariable
+  - "name"
+  - value
+
 #### Missing Examples:
 
 * copyfiles
+* directoryseparator
 * isconvertabletoarray
 * isnull
+* locatedirectories
+* locatefiles
+* setvariable
 * toarray
 * tostring

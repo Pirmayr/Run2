@@ -117,6 +117,9 @@ Math.Max
 Math.MaxMagnitude
 Math.Min
 Math.MinMagnitude
+Math.E
+Math.PI
+Math.Tau
 String.Concat
 String.Format
 String.Join
@@ -130,6 +133,7 @@ String.Create
 String.Copy
 String.IsNullOrEmpty
 String.IsNullOrWhiteSpace
+String.Empty
 Replace
 Split
 Substring
@@ -186,6 +190,8 @@ Char.ToUpper
 Char.ToUpperInvariant
 Char.ToLower
 Char.ToLowerInvariant
+Char.MaxValue
+Char.MinValue
 Convert.ToDateTime
 Convert.ToString
 Convert.ToByte
@@ -213,8 +219,11 @@ Convert.IsDBNull
 Convert.ChangeType
 Convert.ToBoolean
 Convert.ToChar
+Convert.DBNull
 Int32.Parse
 Int32.TryParse
+Int32.MaxValue
+Int32.MinValue
 TryFormat
 Path.ChangeExtension
 Path.GetDirectoryName
@@ -237,6 +246,11 @@ Path.GetTempPath
 Path.GetTempFileName
 Path.IsPathRooted
 Path.GetPathRoot
+Path.DirectorySeparatorChar
+Path.AltDirectorySeparatorChar
+Path.VolumeSeparatorChar
+Path.PathSeparator
+Path.InvalidPathChars
 ArrayList.Adapter
 ArrayList.FixedSize
 ArrayList.ReadOnly
@@ -292,8 +306,10 @@ Helpers.IsBlock
 Helpers.IsStrongQuote
 Helpers.IsStruct
 Helpers.IsWeakQuote
+Helpers.LocateDirectories
 Helpers.LocateDirectory
 Helpers.LocateFile
+Helpers.LocateFiles
 Helpers.RemoveStrongQuotes
 Helpers.WriteLine
 AsReadOnly
@@ -451,6 +467,7 @@ deletedirectory
 dequeue
 dir
 directoryexists
+directoryseparator
 dos
 endswith
 enqueue
@@ -459,6 +476,7 @@ fileexists
 finddirectory
 finddirectorywithparent
 getdirectory
+getextension
 getfilename
 getfiles
 getfname
@@ -483,10 +501,13 @@ join
 joinfrom
 listof
 listtail
+locatedirectories
 locatedirectory
 locatefile
+locatefiles
 median
 medianof
+multireplace
 newarray
 newdictionary
 newlist
@@ -502,7 +523,9 @@ primes
 push
 quote
 readfile
+removetrailingdirectoryseparator
 replace
+setvariable
 size
 sort
 sortarray
@@ -522,6 +545,7 @@ tocharacters
 todouble
 toint32
 tostring
+trimend
 typename
 typeof
 upperbound

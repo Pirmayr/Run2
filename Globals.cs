@@ -12,6 +12,7 @@ namespace Run2
     public const string ScriptNameDefault = "build.run2";
     public const string ScriptNameSystem = "system.run2";
     public const char StrongQuote = '"';
+    public const string TargetTag = "<!--@target";
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
     public const char WeakQuote = '\'';

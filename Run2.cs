@@ -11,7 +11,7 @@ namespace Run2
 {
   internal static class Run2
   {
-    public static int MostRecentLineNumber { get; set; }
+    private static int MostRecentLineNumber { get; set; }
 
     public static void EnterScope()
     {
@@ -114,19 +114,11 @@ namespace Run2
       object result = null;
       foreach (var subCommand in subCommands)
       {
-        var oldMostRecentLineNumber = MostRecentLineNumber;
-        try
+        MostRecentLineNumber = subCommand.Arguments.LineNumber;
+        result = RunCommand(subCommand.CommandName, subCommand.Arguments);
+        if (Globals.DoBreak)
         {
-          MostRecentLineNumber = subCommands.LineNumber;
-          result = RunCommand(subCommand.CommandName, subCommand.Arguments);
-          if (Globals.DoBreak)
-          {
-            break;
-          }
-        }
-        finally
-        {
-          MostRecentLineNumber = oldMostRecentLineNumber;
+          break;
         }
       }
       return result;
@@ -153,6 +145,7 @@ namespace Run2
       {
         MethodInfo methodInfo => !methodInfo.IsSpecialName,
         PropertyInfo propertyInfo => !propertyInfo.IsSpecialName,
+        FieldInfo => true,
         _ => false
       };
     }
@@ -227,7 +220,8 @@ namespace Run2
       var definitions = new Dictionary<string, Tokens>();
       var commandName = firstCommandName;
       var subtokens = new Tokens();
-      subtokens.LineNumber = tokens.LineNumber;
+      var lineNumber = 0 < tokens.LineNumber ? tokens.LineNumber : 0;
+      subtokens.LineNumber = lineNumber;
       while (0 < tokens.Count)
       {
         var token = tokens.Dequeue();
@@ -254,7 +248,6 @@ namespace Run2
       }
       foreach (var name in definitions.Keys)
       {
-        var lineNumber = definitions[name].LineNumber;
         if (name.IsStrongQuote(out var unquotedName))
         {
           Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true, ScriptPath = path, LineNumber = lineNumber });
@@ -298,7 +291,7 @@ namespace Run2
             definitionTokens.Dequeue();
           }
         }
-        userCommand.SubCommands = GetSubCommands(definitionTokens);
+        userCommand.SubCommands = GetSubCommands(definitionTokens, ref lineNumber);
       }
     }
 
@@ -315,12 +308,6 @@ namespace Run2
       }
       else if (Helpers.IsBlock(ref currentTokenString))
       {
-        /*
-        if (lineNumber == -1)
-        {
-          Helpers.WriteLine("Unexpected line number -1");
-        }
-        */
         var tokens = GetTokens(currentTokenString, lineNumber);
         tokens.LineNumber = lineNumber;
         result.Enqueue(tokens);
@@ -331,20 +318,13 @@ namespace Run2
       }
     }
 
-    private static SubCommands GetSubCommands(Tokens tokens)
+    private static SubCommands GetSubCommands(Tokens tokens, ref int lineNumber)
     {
-      /*
-      if (tokens.LineNumber == -1)
-      {
-        Helpers.WriteLine("Unexpected line number -1");
-      }
-      */
       var result = new SubCommands();
-      result.LineNumber = tokens.LineNumber;
+      lineNumber = 0 < tokens.LineNumber ? tokens.LineNumber : lineNumber;
       while (0 < tokens.Count)
       {
         var subCommand = new SubCommand { CommandName = tokens.DequeueString(false) };
-        subCommand.Arguments.LineNumber = result.LineNumber;
         result.Add(subCommand);
         while (0 < tokens.Count)
         {
@@ -355,13 +335,25 @@ namespace Run2
           var token = tokens.Dequeue();
           if (token is Tokens tokensValue)
           {
-            subCommand.Arguments.Enqueue(GetSubCommands(tokensValue));
+            subCommand.Arguments.Enqueue(GetSubCommands(tokensValue, ref lineNumber));
           }
           else
           {
             subCommand.Arguments.Enqueue(token);
           }
         }
+        if (subCommand.Arguments.LineNumber < 0)
+        {
+          subCommand.Arguments.LineNumber = lineNumber;
+        }
+        if (result.LineNumber < 0)
+        {
+          result.LineNumber = lineNumber;
+        }
+      }
+      if (lineNumber == -1)
+      {
+        Helpers.WriteLine("Unexpected line number -1");
       }
       return result;
     }

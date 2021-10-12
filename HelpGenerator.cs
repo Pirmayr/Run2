@@ -79,24 +79,6 @@ namespace Run2
       return result.ToString();
     }
 
-    private static void HandleParameters(StringBuilder builder, Command command, ICollection<string> missingDocumentationParameters)
-    {
-      var parameterNames = command.GetParameterNames();
-      if (0 < parameterNames.Count)
-      {
-        builder.Append("\n");
-        foreach (var parameterName in parameterNames)
-        {
-          var parameterDescription = command.GetParameterDescription(parameterName);
-          builder.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
-          if (string.IsNullOrEmpty(parameterDescription))
-          {
-            missingDocumentationParameters.Add(parameterName);
-          }
-        }
-      }
-    }
-
     private static void GetCommandNames(SubCommand subCommand, ref HashSet<string> commandNames)
     {
       commandNames.Add(subCommand.CommandName);
@@ -147,6 +129,24 @@ namespace Run2
         }
       }
       return result;
+    }
+
+    private static void HandleParameters(StringBuilder builder, Command command, ICollection<string> missingDocumentationParameters)
+    {
+      var parameterNames = command.GetParameterNames();
+      if (0 < parameterNames.Count)
+      {
+        builder.Append("\n");
+        foreach (var parameterName in parameterNames)
+        {
+          var parameterDescription = command.GetParameterDescription(parameterName);
+          builder.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
+          if (string.IsNullOrEmpty(parameterDescription))
+          {
+            missingDocumentationParameters.Add(parameterName);
+          }
+        }
+      }
     }
   }
 }
