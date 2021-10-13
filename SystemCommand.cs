@@ -25,11 +25,6 @@ namespace Run2
       return false;
     }
 
-    public override int GetLineNumber()
-    {
-      return -1;
-    }
-
     public override string GetName()
     {
       return action.Method.Name;

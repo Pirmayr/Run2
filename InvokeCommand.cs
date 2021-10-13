@@ -33,11 +33,6 @@ namespace Run2
       return FullNames.Count == 0;
     }
 
-    public override int GetLineNumber()
-    {
-      return -1;
-    }
-
     public override string GetName()
     {
       return MemberName;

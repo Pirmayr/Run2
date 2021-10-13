@@ -321,9 +321,13 @@ namespace Run2
       return value.IsStrongQuote(out var result) ? result : value;
     }
 
-    public static void WriteLine(string message)
+    public static void WriteLine(string message, int verbosity = 5)
     {
-      Console.WriteLine(message);
+      var verbosityLevel = Run2.TryGetVariable("verbositylevel", out var value) ? (int) value : 5;
+      if (verbosityLevel <= verbosity)
+      {
+        Console.WriteLine(message);
+      }
     }
 
     [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]

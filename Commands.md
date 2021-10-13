@@ -6190,6 +6190,7 @@ performs a while-loop
 writes text on the console
 
 * text: text to be written
+* verbosity: (optional; default: 5) the verbosity-level of the message
 
 **Returns**
 

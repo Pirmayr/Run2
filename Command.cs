@@ -8,8 +8,6 @@ namespace Run2
 
     public abstract bool GetHideHelp();
 
-    public abstract int GetLineNumber();
-
     public abstract string GetName();
 
     public abstract string GetParameterDescription(string name);

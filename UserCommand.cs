@@ -8,7 +8,7 @@ namespace Run2
 
     public bool IsQuoted { get; init; }
 
-    public int LineNumber { get; set; }
+    public int LineNumber { get; init; }
 
     public string Name { get; init; }
 
@@ -32,11 +32,6 @@ namespace Run2
     public override bool GetHideHelp()
     {
       return false;
-    }
-
-    public override int GetLineNumber()
-    {
-      return LineNumber;
     }
 
     public override string GetName()

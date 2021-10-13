@@ -983,7 +983,8 @@ command write
   'writes text on the console'
   'the text written'
   text 'text to be written'
-  Console.WriteLine ( ToString text )
+  verbosity '(optional; default: 5) the verbosity-level of the message'
+  Helpers.WriteLine ( ToString text ) ( if ( isnull verbosity ) 5 verbosity )
   return text
 
 command writefile

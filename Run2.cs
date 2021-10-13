@@ -139,6 +139,11 @@ namespace Run2
       Globals.Variables.Set(name, value);
     }
 
+    public static bool TryGetVariable(string name, out object value)
+    {
+      return Globals.Variables.TryGetValue(name, out value);
+    }
+
     private static bool AcceptMember(MemberInfo member)
     {
       return member switch
@@ -475,6 +480,7 @@ namespace Run2
       SetGlobalVariable("basedirectory", Globals.BaseDirectory);
       SetGlobalVariable("programdirectory", Helpers.GetProgramDirectory());
       SetGlobalVariable("scriptpathsystem", Globals.ScriptPathSystem);
+      SetGlobalVariable("verbositylevel", 5);
     }
 
     private static bool TryPeekDocumentation(Tokens tokens, out string description)
