@@ -137,10 +137,22 @@ namespace Run2
       if (0 < parameterNames.Count)
       {
         builder.Append("\n");
-        foreach (var parameterName in parameterNames)
+        foreach (var item in parameterNames)
         {
+          item.GetParameterInformation(out var parameterName, out var isOptional, out var defaultValue);
           var parameterDescription = command.GetParameterDescription(parameterName);
           builder.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
+          if (isOptional)
+          {
+            if (defaultValue == null)
+            {
+              builder.Append($" (optional)");
+            }
+            else
+            {
+              builder.Append($" (optional; default: {CodeFormatter.ToCode(defaultValue)})");
+            }
+          }
           if (string.IsNullOrEmpty(parameterDescription))
           {
             missingDocumentationParameters.Add(parameterName);

@@ -43,9 +43,9 @@ namespace Run2
       return "";
     }
 
-    public override List<string> GetParameterNames()
+    public override List<object> GetParameterNames()
     {
-      return new List<string>();
+      return new List<object>();
     }
 
     public override string GetRemarks()

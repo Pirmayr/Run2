@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Reflection;
+using System.Linq;
 
 namespace Run2
 {
@@ -37,6 +38,44 @@ namespace Run2
         return RunSubCommands(subCommands);
       }
       return value;
+    }
+
+    public static string GetNameFromToken(this object token)
+    {
+      switch (token)
+      {
+        case string stringValue:
+          return stringValue;
+        case Tokens tokensValue:
+          return tokensValue.PeekString();
+        default:
+          false.Check("Could not get command-name");
+          return "";
+      }
+    }
+
+    public static void GetParameterInformation(this object token, out string name, out bool isOptional, out object defaultValue)
+    {
+      name = "";
+      isOptional = false;
+      defaultValue = null;
+      switch (token)
+      {
+        case string stringValue:
+          name = stringValue;
+          isOptional = false;
+          defaultValue = null;
+          return;
+        case Tokens tokensValue:
+          (tokensValue.Count is >= 1 and <= 2).Check("The declaration of optional parameters must contain the parameter-name and optionally the default-value");
+          name = tokensValue.PeekString();
+          isOptional = true;
+          defaultValue = tokensValue.ElementAtOrDefault(1);
+          return;
+        default:
+          false.Check("Could not get command-name");
+          break;
+      }
     }
 
     public static object GetCommands()
@@ -222,8 +261,8 @@ namespace Run2
     private static void BuildUserCommands(string path, Tokens tokens)
     {
       var firstCommandName = Path.GetFileNameWithoutExtension(path);
-      var definitions = new Dictionary<string, Tokens>();
-      var commandName = firstCommandName;
+      var definitions = new Dictionary<object, Tokens>();
+      object commandName = firstCommandName;
       var subtokens = new Tokens();
       var lineNumber = 0 < tokens.LineNumber ? tokens.LineNumber : 0;
       subtokens.LineNumber = lineNumber;
@@ -255,16 +294,16 @@ namespace Run2
       {
         if (name.IsStrongQuote(out var unquotedName))
         {
-          Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true, ScriptPath = path, LineNumber = lineNumber });
+          Globals.Commands.Add(unquotedName, new UserCommand { Name = unquotedName, IsQuoted = true, ScriptPath = path });
         }
         else
         {
-          Globals.Commands.Add(name, new UserCommand { Name = name, ScriptPath = path, LineNumber = lineNumber });
+          Globals.Commands.Add(name.GetNameFromToken(), new UserCommand { Name = name.GetNameFromToken(), ScriptPath = path });
         }
       }
-      foreach (var (definitionName, definitionTokens) in definitions)
+      foreach (var (key, definitionTokens) in definitions)
       {
-        var userCommand = Globals.Commands[definitionName.RemoveStrongQuotes()] as UserCommand;
+        var userCommand = Globals.Commands[key.GetNameFromToken().RemoveStrongQuotes()] as UserCommand;
         (userCommand != null).Check("User-command must not be null");
         if (TryPeekDocumentation(definitionTokens, out var description))
         {
@@ -283,12 +322,13 @@ namespace Run2
         }
         while (0 < definitionTokens.Count)
         {
-          var peekedTokenString = definitionTokens.PeekString();
+          var peekedToken = definitionTokens.Peek();
+          var peekedTokenString = peekedToken.GetNameFromToken();
           if (Globals.Commands.ContainsKey(peekedTokenString))
           {
             break;
           }
-          userCommand.ParameterNames.Add(peekedTokenString);
+          userCommand.ParameterNames.Add(peekedToken);
           definitionTokens.Dequeue();
           if (TryPeekDocumentation(definitionTokens, out var parameterDescription))
           {

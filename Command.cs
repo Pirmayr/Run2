@@ -12,7 +12,7 @@ namespace Run2
 
     public abstract string GetParameterDescription(string name);
 
-    public abstract List<string> GetParameterNames();
+    public abstract List<object> GetParameterNames();
 
     public abstract string GetRemarks();
 

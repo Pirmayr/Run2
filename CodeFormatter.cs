@@ -36,10 +36,16 @@ namespace Run2
           {
             result.Append($"\n  '{userCommandValue.Remarks}'");
           }
-          foreach (var parameterName in userCommandValue.GetParameterNames())
+          foreach (var item in userCommandValue.GetParameterNames())
           {
+            var parameterName = item.GetNameFromToken();
+            var parameterDeclaration = parameterName;
+            if (item is Tokens tokensValue)
+            {
+              parameterDeclaration = $"({ToCode(tokensValue, 0, false)} )";
+            }
             result.AppendNewLine(true);
-            result.AppendIndented(parameterName, 2, true);
+            result.AppendIndented(parameterDeclaration, 2, true);
             if (userCommandValue.ParameterDescriptions.TryGetValue(parameterName, out var parameterDescription))
             {
               result.Append($" '{parameterDescription}'");
@@ -63,6 +69,13 @@ namespace Run2
     {
       var result = DoToCode(tokens, indent, false);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(tokens, indent, true) : result;
+    }
+
+    public static string ToCode(object value)
+    {
+      var tokens = new Tokens();
+      tokens.Enqueue(value);
+      return ToCode(tokens, 0, false);
     }
 
     private static string DoToCode(Tokens tokens, int indent, bool newLine)

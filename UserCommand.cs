@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Run2
 {
@@ -8,13 +9,11 @@ namespace Run2
 
     public bool IsQuoted { get; init; }
 
-    public int LineNumber { get; init; }
-
     public string Name { get; init; }
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
-    public List<string> ParameterNames { get; } = new();
+    public List<object> ParameterNames { get; } = new();
 
     public string Remarks { get; set; }
 
@@ -44,7 +43,7 @@ namespace Run2
       return ParameterDescriptions.TryGetValue(name, out var result) ? result : "";
     }
 
-    public override List<string> GetParameterNames()
+    public override List<object> GetParameterNames()
     {
       return ParameterNames;
     }
@@ -63,11 +62,31 @@ namespace Run2
     {
       Run2.EnterScope();
       (ParameterNames.Count == 0 || arguments.Count <= ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
-      foreach (var parameterName in ParameterNames)
+      foreach (var item in ParameterNames)
       {
+        object defaultValue = null;
+        var isOptional = false;
+        if (item is Tokens tokensValue)
+        {
+          isOptional = true;
+          if (2 <= tokensValue.Count)
+          {
+            defaultValue = Run2.Evaluate(tokensValue.ElementAtOrDefault(1));
+          }
+        }
+        var parameterName = item.GetNameFromToken();
         var isQuotedParameter = parameterName.IsStrongQuote(out var unquotedParameterName);
         var actualParameterName = isQuotedParameter ? unquotedParameterName : parameterName;
-        var value = 0 < arguments.Count ? arguments.DequeueObject(!isQuotedParameter) : null;
+        object value;
+        if (0 < arguments.Count)
+        {
+          value = arguments.DequeueObject(!isQuotedParameter);
+        }
+        else
+        {
+          isOptional.Check("Missing argument must be declared as options");
+          value = defaultValue;
+        }
         Run2.SetLocalVariable(actualParameterName, value);
       }
       var argumentsList = arguments.ToList(!IsQuoted);

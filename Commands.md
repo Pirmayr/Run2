@@ -1576,7 +1576,7 @@ copies files from one location to another
 * destinationdirectory: directory to copy to
 * destinationfilename: name of the file after beeing copied; if "null" or empty, the filename remains unchanged
 * expandincludes: if true, includes are expanded
-* lineaction: action to be performed on every line
+* lineaction: action to be performed on every line (optional)
 
 **Examples**
 
@@ -2978,7 +2978,7 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 increments a variable
 
 * "name": name of the variable
-* amount: increment
+* amount: the value added to the current value of the variable (optional; default:  1)
 
 **Returns**
 
@@ -3015,6 +3015,14 @@ performtest (
   return value
   )
   'foobar'
+~~~
+~~~
+performtest (
+  local value 1
+  increment value
+  return value
+  )
+  2
 ~~~
 
 ---
@@ -3472,7 +3480,7 @@ See:
 joins strings to a string separated by a character
 
 * strings: strings
-* separator: (optional; default: blank) separator
+* separator: separator (optional; default:  ' ')
 
 **Returns**
 
@@ -3752,6 +3760,14 @@ performtest (
   getvariable foobar
   )
   4712
+~~~
+~~~
+performtest (
+  local value 1
+  increment value
+  return value
+  )
+  2
 ~~~
 
 ---
@@ -4341,7 +4357,7 @@ performtest ( isdictionary ( newdictionary ) ) True
 
 creates a list
 
-* values: (optional) values with which the list is to be initialized
+* values: values with which the list is to be initialized (optional)
 
 **Returns**
 
@@ -4371,7 +4387,7 @@ performtest ( isarray ( toarray ( newlist ) ) ) True
 
 creates a queue
 
-* values: (optional) value with which the queue is to be initialized
+* values: value with which the queue is to be initialized (optional)
 
 **Returns**
 
@@ -5138,6 +5154,14 @@ performtest (
   )
   4712
 ~~~
+~~~
+performtest (
+  local value 1
+  increment value
+  return value
+  )
+  2
+~~~
 
 ---
 
@@ -5378,10 +5402,10 @@ performtest ( sortstring 'foobar' ) 'abfoor'
 
 #### split
 
-creates an array by splitting a string at carriage-returns
+creates an array by splitting a string at a separator
 
 * string: string to be splitted
-* separator: (optional) separator
+* separator: separator (optional; default:  '~n')
 
 **Returns**
 
@@ -6190,7 +6214,7 @@ performs a while-loop
 writes text on the console
 
 * text: text to be written
-* verbosity: (optional; default: 5) the verbosity-level of the message
+* verbosity: the verbosity-level of the message (optional; default:  5)
 
 **Returns**
 

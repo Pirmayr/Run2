@@ -36,10 +36,10 @@ namespace Run2
       return attribute != null ? attribute.ParameterDescriptions[name] : "";
     }
 
-    public override List<string> GetParameterNames()
+    public override List<object> GetParameterNames()
     {
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
-      return attribute?.ParameterDescriptions.Keys.ToList() ?? new List<string>();
+      return attribute?.ParameterDescriptions.Keys.ToList<object>() ?? new List<object>();
     }
 
     public override string GetRemarks()

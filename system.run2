@@ -91,7 +91,7 @@ command copyfiles
   destinationdirectory 'directory to copy to'
   destinationfilename 'name of the file after beeing copied; if "null" or empty, the filename remains unchanged'
   expandincludes 'if true, includes are expanded'
-  lineaction 'action to be performed on every line'
+  ( lineaction ) 'action to be performed on every line'
   Helpers.CopyFiles sourcedirectory sourcespecification destinationdirectory destinationfilename expandincludes lineaction
 
 command createdirectory
@@ -261,7 +261,7 @@ command increment
   'the incremented value of the variable'
   'incrementing a string by a string means appending one string to the other'
   "name" 'name of the variable'
-  amount 'increment'
+  ( amount 1 ) 'the value added to the current value of the variable'
   set name ( + ( get name ) amount )
 
 command initialize
@@ -361,7 +361,7 @@ command join
   'a string'
   'the command applies to arrays of strings or any object that can be converted to an array of strings'
   strings 'strings'
-  separator '(optional; default: blank) separator'
+  ( separator ' ' ) 'separator'
   String.Join ( if ( isnull separator ) ' ' separator ) ( if ( isarray strings ) strings ( toarray strings ) )
 
 command joinfrom
@@ -444,13 +444,13 @@ command newlist
   'creates a list'
   'the new list'
   'the type of the list is "ArrayList"'
-  values '(optional) values with which the list is to be initialized'
+  ( values ) 'values with which the list is to be initialized'
   if ( isnull values ) ( ArrayList.new ) ( ArrayList.new values )
 
 command newqueue
   'creates a queue'
   'the new queue'
-  values '(optional) value with which the queue is to be initialized'
+  ( values ) 'value with which the queue is to be initialized'
   if ( == values ( null ) ) ( Queue.new ) ( Queue.new values )
 
 command newset
@@ -752,6 +752,12 @@ command performtests
   performtest ( isstring ( tostring 4711 ) ) True
   performtest ( checkin c:\ 'hi' True ) 0
   performtest ( cleanworkspace c:\ True ) 0
+  performtest (
+    local value 1
+    increment value
+    return value
+    )
+    2
   return testsok
 
 command pop
@@ -852,10 +858,10 @@ command sortstring
   String.new characters
 
 command split
-  'creates an array by splitting a string at carriage-returns'
+  'creates an array by splitting a string at a separator'
   'an array of strings'
   string 'string to be splitted'
-  separator '(optional) separator'
+  ( separator '~n' ) 'separator'
   Split string ( tochar ( if ( isnull separator ) '~n' separator ) )
 
 command square
@@ -983,7 +989,7 @@ command write
   'writes text on the console'
   'the text written'
   text 'text to be written'
-  verbosity '(optional; default: 5) the verbosity-level of the message'
+  ( verbosity 5 ) 'the verbosity-level of the message'
   Helpers.WriteLine ( ToString text ) ( if ( isnull verbosity ) 5 verbosity )
   return text
 
