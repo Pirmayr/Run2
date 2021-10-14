@@ -102,7 +102,7 @@ command createdirectory
 command decrement
   'decrements a variable'
   "name" 'name of the variable'
-  amount 'decrement'
+  ( amount 1 ) 'the value subtracted from the original value of the varable'
   set name ( - ( get name ) amount )
 
 command deletedirectory
@@ -261,7 +261,7 @@ command increment
   'the incremented value of the variable'
   'incrementing a string by a string means appending one string to the other'
   "name" 'name of the variable'
-  ( amount 1 ) 'the value added to the current value of the variable'
+  ( amount 1 ) 'the value added to the original value of the variable'
   set name ( + ( get name ) amount )
 
 command initialize

@@ -2,8 +2,6 @@
 
 Run2 is a scripting language. It is intended to be a robust and simple tool for running tasks. The original motivation was to be able to build and test software reliably.
 
-[Documentation](../../wiki)
-
 ## Properties
 
 * Very simple syntax. Scripts consist entirely of commands. Commands can be nested and can return values. 
@@ -12,6 +10,10 @@ Run2 is a scripting language. It is intended to be a robust and simple tool for 
 * Run2 needs no setup. "Run2.exe" is everything needed.
 * Extensive logging.
 * It can be used on every .NET-platform. That means it can run in Windows, Linux, and macOS.
+
+## Predefined Commands
+
+[Documentation](Commands.md)
 
 ## Examples
 
@@ -60,7 +62,3 @@ write (factorial 10)
 ```
 
 There is no difference between predefined commands and commands defined by the user.
-
-## Predefined Commands
-
-[Documentation](Commands.md)

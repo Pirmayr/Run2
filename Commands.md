@@ -1651,7 +1651,7 @@ See:
 decrements a variable
 
 * "name": name of the variable
-* amount: decrement
+* amount: the value subtracted from the original value of the varable (optional; default:  1)
 
 **Examples**
 
@@ -2978,7 +2978,7 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 increments a variable
 
 * "name": name of the variable
-* amount: the value added to the current value of the variable (optional; default:  1)
+* amount: the value added to the original value of the variable (optional; default:  1)
 
 **Returns**
 
