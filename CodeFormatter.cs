@@ -71,7 +71,7 @@ namespace Run2
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(tokens, indent, true) : result;
     }
 
-    public static string ToCode(object value)
+    internal static string ToCode(object value)
     {
       var tokens = new TokensList();
       tokens.Enqueue(value);

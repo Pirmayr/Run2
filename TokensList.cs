@@ -39,11 +39,6 @@ namespace Run2
       Add(value);
     }
 
-    public void MoveFirst()
-    {
-      dequeueIndex = 0;
-    }
-
     public object Peek()
     {
       return this[dequeueIndex];
