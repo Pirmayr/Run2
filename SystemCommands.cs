@@ -18,16 +18,17 @@ namespace Run2
       return value1 + value2;
     }
 
-    [Documentation(2, 2, null, "performs the 'and'-operation", "value1", "first value", "value2", "second value")]
+    [Documentation(2, int.MaxValue, null, "performs the 'and'-operation", "value1", "first value", "value2", "second value")]
     public static object And(TokensList arguments)
     {
-      var value1 = arguments.DequeueDynamic();
-      if (!value1)
+      while (0 < arguments.Count)
       {
-        return false;
+        if (!arguments.DequeueBool())
+        {
+          return false;
+        }
       }
-      var value2 = arguments.DequeueDynamic();
-      return value2;
+      return true;
     }
 
     [Documentation(2, 2, null, "returns the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element")]
@@ -67,19 +68,6 @@ namespace Run2
     {
       var value = arguments.DequeueObject();
       var result = Run2.Evaluate(value);
-      return result;
-    }
-
-    [Documentation(1, int.MaxValue, null, "evaluates an array or a list", "values", "values to be evaluated")]
-    public static object EvaluateValues(TokensList arguments)
-    {
-      var result = new List();
-      var values = arguments.DequeueObject() as IEnumerable;
-      (values != null).Check("Values must be of type 'IEnumerable'");
-      foreach (var value in values)
-      {
-        result.Add(Run2.Evaluate(value));
-      }
       return result;
     }
 
@@ -210,13 +198,18 @@ namespace Run2
       return value1 <= value2;
     }
 
-    [Documentation(2, 2, null, "creates or sets a local variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
+    [Documentation(2, int.MaxValue, null, "creates local variables", "name", "name of the variable", "value", "value to be assigned to the variable")]
     public static object Local(TokensList arguments)
     {
-      var variableName = arguments.DequeueString(false);
-      var variableValue = arguments.DequeueObject();
-      Run2.SetLocalVariable(variableName, variableValue);
-      return variableValue;
+      (arguments.Count % 2 == 0).Check("The number of arguments must be even");
+      object result = null;
+      while (0 < arguments.Count)
+      {
+        var variableName = arguments.DequeueString(false);
+        result = arguments.DequeueObject();
+        Run2.SetLocalVariable(variableName, result);
+      }
+      return result;
     }
 
     [Documentation(2, 2, null, "executes a command with all elements of an array or list; the variable 'item' holds the current element", "arrayOrList", "array or list", "command", "command")]
@@ -268,16 +261,17 @@ namespace Run2
       return null;
     }
 
-    [Documentation(2, 2, null, "performs the 'or'-operation", "value1", "first value", "value2", "second value")]
+    [Documentation(2, int.MaxValue, null, "performs the 'or'-operation", "value1", "first value", "value2", "second value")]
     public static object Or(TokensList arguments)
     {
-      var value1 = arguments.DequeueDynamic();
-      if (value1)
+      while (0 < arguments.Count)
       {
-        return true;
+        if (arguments.DequeueBool())
+        {
+          return true;
+        }
       }
-      var value2 = arguments.DequeueDynamic();
-      return value2;
+      return false;
     }
 
     [Documentation(2, 3, null, "assigns a new value to the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element", "value", "value to be set")]

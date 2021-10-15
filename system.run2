@@ -356,6 +356,19 @@ command iswhitespace
   value 'value to be checked'
   Char.IsWhiteSpace ( tochar value )
 
+command itemadded
+  'checks if a collection contains a value and adds the value if necessary'
+  'if the value was not in the collection, "true" is returned, otherwise "false"'
+  'only applies to collections for which the "containskey" command can be called (e.g. sets)'
+  collection 'collection'
+  value 'value'
+  ( "action" ) 'action if the value was added'
+  if ( containskey collection value ) False (
+    additem collection value
+    if ( not ( isnull action ) ) ( evaluate action )
+    return True
+    )
+
 command join
   'joins strings to a string separated by a character'
   'a string'

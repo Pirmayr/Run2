@@ -2073,14 +2073,6 @@ evaluates an object
 
 ---
 
-#### evaluatevalues
-
-evaluates an array or a list
-
-* values: values to be evaluated
-
----
-
 #### factorial
 
 computes the factorial of a number
@@ -3468,6 +3460,26 @@ See:
 
 ---
 
+#### itemadded
+
+checks if a collection contains a value and adds the value if necessary
+
+* collection: collection
+* value: value
+* "action": action if the value was added (optional)
+
+**Returns**
+
+
+if the value was not in the collection, "true" is returned, otherwise "false"
+
+**Remarks**
+
+
+only applies to collections for which the "containskey" command can be called (e.g. sets)
+
+---
+
 #### join
 
 joins strings to a string separated by a character
@@ -3626,7 +3638,7 @@ performtest ( listtail ( listof 4 7 1 1 ) ) ( listof 7 1 1 )
 
 #### local
 
-creates or sets a local variable
+creates local variables
 
 * name: name of the variable
 * value: value to be assigned to the variable
@@ -6259,3 +6271,7 @@ performtest (
   )
   6
 ~~~
+
+#### Missing Examples:
+
+* itemadded

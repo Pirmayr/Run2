@@ -5,7 +5,6 @@ break
 /
 ==
 evaluate
-evaluatevalues
 for
 foreach
 get
@@ -329,7 +328,6 @@ SubCommands.new
 Dequeue
 DequeueObject
 Enqueue
-MoveFirst
 Peek
 TryDequeue
 TryPeek
@@ -503,6 +501,7 @@ isnull
 isset
 isstring
 iswhitespace
+itemadded
 join
 joinfrom
 listof

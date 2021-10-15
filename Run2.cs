@@ -25,6 +25,12 @@ namespace Run2
       {
         if (value is string && Globals.Variables.TryGetValue(stringValue, out var result))
         {
+          /*
+          if (result is SubCommands subCommandsValue)
+          {
+            return RunSubCommands(subCommandsValue);
+          }
+          */
           return result;
         }
         foreach (var key in Globals.Variables.GetKeys())
