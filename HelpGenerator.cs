@@ -144,14 +144,7 @@ namespace Run2
           builder.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
           if (isOptional)
           {
-            if (defaultValue == null)
-            {
-              builder.Append($" (optional)");
-            }
-            else
-            {
-              builder.Append($" (optional; default: {CodeFormatter.ToCode(defaultValue)})");
-            }
+            builder.Append(defaultValue == null ? " (optional)" : $" (optional; default: {CodeFormatter.ToCode(defaultValue)})");
           }
           if (string.IsNullOrEmpty(parameterDescription))
           {

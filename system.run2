@@ -611,7 +611,7 @@ command performtests
   performtest ( concatenationof Hello ' ' World! ) 'Hello World!'
   performtest (
     local foobar 4711
-    at ( quote foobar ) 0
+    quote foobar
     )
     foobar
   performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
@@ -795,10 +795,11 @@ command push
   Push stack value
   return value
 
-command "quote"
-  'returns the unevaluated arguments'
-  'the unenvaluated arguments'
-  return arguments
+command quote
+  'returns the unevaluated value'
+  'the unenvaluated value'
+  "value" 'value'
+  return value
 
 command readfile
   'returns the text contained in a file'

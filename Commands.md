@@ -656,13 +656,6 @@ performtest ( at ( split 'Hello~nworld!' ) 1 ) 'world!'
 ~~~
 ~~~
 performtest (
-  local foobar 4711
-  at ( quote foobar ) 0
-  )
-  foobar
-~~~
-~~~
-performtest (
   local values ( newarray 1000 0 )
   put values 100 'foobar'
   at values 100
@@ -3679,7 +3672,7 @@ performtest (
 ~~~
 performtest (
   local foobar 4711
-  at ( quote foobar ) 0
+  quote foobar
   )
   foobar
 ~~~
@@ -4950,19 +4943,21 @@ See:
 
 #### quote
 
-returns the unevaluated arguments
+returns the unevaluated value
+
+* "value": value
 
 **Returns**
 
 
-the unenvaluated arguments
+the unenvaluated value
 
 **Examples**
 
 ~~~
 performtest (
   local foobar 4711
-  at ( quote foobar ) 0
+  quote foobar
   )
   foobar
 ~~~

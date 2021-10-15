@@ -72,7 +72,7 @@ namespace Run2
       foreach (var sourcePath in Directory.GetFiles(sourceDirectory, pattern, SearchOption.AllDirectories))
       {
         var targetPath = destinationDirectory + "\\" + (string.IsNullOrEmpty(destinationFilename) ? Path.GetFileName(sourcePath) : destinationFilename);
-        ExpandIncludes(sourcePath, targetPath, expand, lineAction);
+        ExpandPragmas(sourcePath, targetPath, expand, lineAction);
       }
     }
 
@@ -346,13 +346,14 @@ namespace Run2
       return builder.Length == 0 || builder[^1] == character;
     }
 
-    private static void ExpandIncludes(string sourcePath, string targetPath, bool expandIncludes, string lineCommand)
+    private static void ExpandPragmas(string sourcePath, string targetPath, bool expandIncludes, string lineCommand)
     {
+      var replacements = new Dictionary<string, string>();
       var expandedContents = "";
       foreach (var currentLine in File.ReadAllText(sourcePath).Split('\n'))
       {
         var currentCleanLine = currentLine.Replace("\r", "");
-        if (expandIncludes && currentCleanLine.TryGetControlValue(Globals.IncludeTag, out var filename))
+        if (expandIncludes && currentCleanLine.TryGetControlValue(Globals.IncludePragma, out var filename))
         {
           var path = LocateFile(Path.GetDirectoryName(sourcePath), filename);
           if (!File.Exists(path))
@@ -361,13 +362,19 @@ namespace Run2
           }
           expandedContents += File.ReadAllText(path);
         }
-        else if (currentCleanLine.TryGetControlValue(Globals.TargetTag, out var target))
+        else if (currentCleanLine.TryGetControlValue(Globals.TargetPragma, out var target))
         {
           targetPath = $"{Path.GetDirectoryName(targetPath)}\\{target}";
         }
+        else if (currentCleanLine.TryGetControlValue(Globals.ReplacePragma, out var replacementInformation))
+        {
+          var replacementItems = replacementInformation.Split('|');
+          (replacementItems.Length == 2).Check("Replacement-pragma needs two arguments separated by '|'");
+          replacements[replacementItems[0]] = replacementItems[1];
+        }
         else
         {
-          expandedContents += $"{currentCleanLine}\n";
+          expandedContents += $"{currentLine}\n";
         }
       }
       if (!string.IsNullOrEmpty(lineCommand))
@@ -378,6 +385,10 @@ namespace Run2
           lines.Add(Run2.RunCommand(lineCommand, new Tokens(new[] { line })) as string);
         }
         expandedContents = string.Join('\n', lines);
+      }
+      foreach (var (substring, replacement) in replacements)
+      {
+        expandedContents = expandedContents.Replace(substring, replacement);
       }
       File.WriteAllText(targetPath, expandedContents);
     }

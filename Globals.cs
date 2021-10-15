@@ -6,13 +6,14 @@ namespace Run2
   {
     public const char BlockEnd = ')';
     public const char BlockStart = '(';
-    public const string IncludeTag = "<!--@include";
+    public const string IncludePragma = "<!--@include";
     public const int MaxCodeLineLength = 100;
     public const string PseudoCommandNameCommand = "command";
     public const string ScriptNameDefault = "build.run2";
     public const string ScriptNameSystem = "system.run2";
     public const char StrongQuote = '"';
-    public const string TargetTag = "<!--@target";
+    public const string TargetPragma = "<!--@target";
+    public const string ReplacePragma = "<!--@replace";
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
     public const char WeakQuote = '\'';
