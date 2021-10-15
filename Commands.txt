@@ -326,11 +326,12 @@ TrimExcess
 TrueForAll
 LineNumber
 SubCommands.new
+Dequeue
 DequeueObject
 Enqueue
-Dequeue
-TryDequeue
+MoveFirst
 Peek
+TryDequeue
 TryPeek
 EnterScope
 Get

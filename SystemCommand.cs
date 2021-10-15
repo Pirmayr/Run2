@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Run2
@@ -36,10 +34,11 @@ namespace Run2
       return attribute != null ? attribute.ParameterDescriptions[name] : "";
     }
 
-    public override List<object> GetParameterNames()
+    public override List GetParameterNames()
     {
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
-      return attribute?.ParameterDescriptions.Keys.ToList<object>() ?? new List<object>();
+      // return attribute?.ParameterDescriptions.Keys.ToList() ?? new List();
+      return attribute == null ? new List() : new List(attribute.ParameterDescriptions.Keys);
     }
 
     public override string GetRemarks()
@@ -52,7 +51,7 @@ namespace Run2
       return "";
     }
 
-    public override object Run(Tokens arguments)
+    public override object Run(TokensList arguments)
     {
       var method = action.Method;
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));

@@ -43,9 +43,9 @@ namespace Run2
       return "";
     }
 
-    public override List<object> GetParameterNames()
+    public override List GetParameterNames()
     {
-      return new List<object>();
+      return new List();
     }
 
     public override string GetRemarks()
@@ -58,7 +58,7 @@ namespace Run2
       return "";
     }
 
-    public override object Run(Tokens arguments)
+    public override object Run(TokensList arguments)
     {
       return Helpers.Invoke(MemberName, Type ?? arguments.DequeueObject(), arguments.ToList(true).ToArray());
     }

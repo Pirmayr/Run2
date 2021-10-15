@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Run2
+﻿namespace Run2
 {
   internal abstract class Command
   {
@@ -12,12 +10,12 @@ namespace Run2
 
     public abstract string GetParameterDescription(string name);
 
-    public abstract List<object> GetParameterNames();
+    public abstract List GetParameterNames();
 
     public abstract string GetRemarks();
 
     public abstract string GetReturns();
 
-    public abstract object Run(Tokens arguments);
+    public abstract object Run(TokensList arguments);
   }
 }

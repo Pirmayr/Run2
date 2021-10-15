@@ -13,7 +13,7 @@ namespace Run2
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
-    public List<object> ParameterNames { get; } = new();
+    public List ParameterNames { get; } = new();
 
     public string Remarks { get; set; }
 
@@ -43,7 +43,7 @@ namespace Run2
       return ParameterDescriptions.TryGetValue(name, out var result) ? result : "";
     }
 
-    public override List<object> GetParameterNames()
+    public override List GetParameterNames()
     {
       return ParameterNames;
     }
@@ -58,7 +58,7 @@ namespace Run2
       return Returns;
     }
 
-    public override object Run(Tokens arguments)
+    public override object Run(TokensList arguments)
     {
       Run2.EnterScope();
       (ParameterNames.Count == 0 || arguments.Count <= ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
@@ -66,7 +66,7 @@ namespace Run2
       {
         object defaultValue = null;
         var isOptional = false;
-        if (item is Tokens tokensValue)
+        if (item is TokensList tokensValue)
         {
           isOptional = true;
           if (2 <= tokensValue.Count)

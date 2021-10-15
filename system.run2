@@ -329,7 +329,7 @@ command islist
   'if the object is a list, "true" is returned, otherwise "false"'
   'the object can be of the "ArrayList"-type or the generic "List"-type'
   object 'object'
-  or ( hastype object 'ArrayList' ) ( hastype object 'List`1' )
+  or ( hastype object 'ArrayList' ) ( hastype object 'List' )
 
 command isnull
   'tests, if an object has the value "null"'

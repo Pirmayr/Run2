@@ -9,18 +9,18 @@ namespace Run2
     public const string IncludePragma = "<!--@include";
     public const int MaxCodeLineLength = 100;
     public const string PseudoCommandNameCommand = "command";
+    public const string ReplacePragma = "<!--@replace";
     public const string ScriptNameDefault = "build.run2";
     public const string ScriptNameSystem = "system.run2";
     public const char StrongQuote = '"';
     public const string TargetPragma = "<!--@target";
-    public const string ReplacePragma = "<!--@replace";
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
     public const char WeakQuote = '\'';
 
-    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
+    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "TokensList", "Variables" };
 
-    public static Tokens Arguments { get; set; }
+    public static TokensList Arguments { get; set; }
 
     public static string BaseDirectory { get; set; }
 

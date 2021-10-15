@@ -382,7 +382,7 @@ namespace Run2
         var lines = new List<string>();
         foreach (var line in expandedContents.Split('\n'))
         {
-          lines.Add(Run2.RunCommand(lineCommand, new Tokens(new[] { line })) as string);
+          lines.Add(Run2.RunCommand(lineCommand, new TokensList(new[] { line })) as string);
         }
         expandedContents = string.Join('\n', lines);
       }

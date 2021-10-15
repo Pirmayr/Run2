@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Reflection;
-using System.Linq;
 
 namespace Run2
 {
@@ -40,13 +40,18 @@ namespace Run2
       return value;
     }
 
+    public static object GetCommands()
+    {
+      return string.Join('\n', Globals.Commands.Keys);
+    }
+
     public static string GetNameFromToken(this object token)
     {
       switch (token)
       {
         case string stringValue:
           return stringValue;
-        case Tokens tokensValue:
+        case TokensList tokensValue:
           return tokensValue.PeekString();
         default:
           false.Check("Could not get command-name");
@@ -66,7 +71,7 @@ namespace Run2
           isOptional = false;
           defaultValue = null;
           return;
-        case Tokens tokensValue:
+        case TokensList tokensValue:
           (tokensValue.Count is >= 1 and <= 2).Check("The declaration of optional parameters must contain the parameter-name and optionally the default-value");
           name = tokensValue.PeekString();
           isOptional = true;
@@ -76,11 +81,6 @@ namespace Run2
           false.Check("Could not get command-name");
           break;
       }
-    }
-
-    public static object GetCommands()
-    {
-      return string.Join('\n', Globals.Commands.Keys);
     }
 
     public static object GetVariable(string name)
@@ -103,7 +103,7 @@ namespace Run2
       Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.ScriptNameDefault);
       Globals.ScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.ScriptName);
       Globals.ScriptDirectory = Path.GetDirectoryName(Globals.ScriptPath);
-      Globals.Arguments = new Tokens(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
+      Globals.Arguments = new TokensList(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
       File.Exists(Globals.ScriptPath).Check($"Could not find script '{Globals.ScriptName}' (base-directory: '{Globals.BaseDirectory}')");
       BuildSystemCommands();
       BuildInvokeCommands();
@@ -121,7 +121,7 @@ namespace Run2
       Globals.Variables.LeaveScope();
     }
 
-    public static object RunCommand(string name, Tokens arguments)
+    public static object RunCommand(string name, TokensList arguments)
     {
       try
       {
@@ -258,12 +258,12 @@ namespace Run2
       }
     }
 
-    private static void BuildUserCommands(string path, Tokens tokens)
+    private static void BuildUserCommands(string path, TokensList tokens)
     {
       var firstCommandName = Path.GetFileNameWithoutExtension(path);
-      var definitions = new Dictionary<object, Tokens>();
+      var definitions = new Dictionary<object, TokensList>();
       object commandName = firstCommandName;
-      var subtokens = new Tokens();
+      var subtokens = new TokensList();
       var lineNumber = 0 < tokens.LineNumber ? tokens.LineNumber : 0;
       subtokens.LineNumber = lineNumber;
       while (0 < tokens.Count)
@@ -345,7 +345,7 @@ namespace Run2
     {
     }
 
-    private static void EnqueueToken(string currentTokenString, int lineNumber, Tokens result)
+    private static void EnqueueToken(string currentTokenString, int lineNumber, TokensList result)
     {
       if (Helpers.IsWeakQuote(ref currentTokenString))
       {
@@ -363,7 +363,7 @@ namespace Run2
       }
     }
 
-    private static SubCommands GetSubCommands(Tokens tokens, ref int lineNumber)
+    private static SubCommands GetSubCommands(TokensList tokens, ref int lineNumber)
     {
       var result = new SubCommands();
       lineNumber = 0 < tokens.LineNumber ? tokens.LineNumber : lineNumber;
@@ -378,7 +378,7 @@ namespace Run2
             break;
           }
           var token = tokens.Dequeue();
-          if (token is Tokens tokensValue)
+          if (token is TokensList tokensValue)
           {
             subCommand.Arguments.Enqueue(GetSubCommands(tokensValue, ref lineNumber));
           }
@@ -403,9 +403,9 @@ namespace Run2
       return result;
     }
 
-    private static Tokens GetTokens(string code, int lineNumber)
+    private static TokensList GetTokens(string code, int lineNumber)
     {
-      var result = new Tokens();
+      var result = new TokensList();
       var tokenString = "";
       var blockLevel = 0;
       var expectedBlockEnders = new Stack<char>();
@@ -523,7 +523,7 @@ namespace Run2
       SetGlobalVariable("verbositylevel", 5);
     }
 
-    private static bool TryPeekDocumentation(Tokens tokens, out string description)
+    private static bool TryPeekDocumentation(TokensList tokens, out string description)
     {
       if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate is WeakQuote weaklyQuotedString)
       {

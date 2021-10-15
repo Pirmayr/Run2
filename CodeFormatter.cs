@@ -40,7 +40,7 @@ namespace Run2
           {
             var parameterName = item.GetNameFromToken();
             var parameterDeclaration = parameterName;
-            if (item is Tokens tokensValue)
+            if (item is TokensList tokensValue)
             {
               parameterDeclaration = $"({ToCode(tokensValue, 0, false)} )";
             }
@@ -65,7 +65,7 @@ namespace Run2
     }
 
     // ReSharper disable once MemberCanBePrivate.Global
-    public static string ToCode(this Tokens tokens, int indent, bool newLine)
+    public static string ToCode(this TokensList tokens, int indent, bool newLine)
     {
       var result = DoToCode(tokens, indent, false);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(tokens, indent, true) : result;
@@ -73,12 +73,12 @@ namespace Run2
 
     public static string ToCode(object value)
     {
-      var tokens = new Tokens();
+      var tokens = new TokensList();
       tokens.Enqueue(value);
       return ToCode(tokens, 0, false);
     }
 
-    private static string DoToCode(Tokens tokens, int indent, bool newLine)
+    private static string DoToCode(TokensList tokens, int indent, bool newLine)
     {
       var multilineSubCommandWritten = false;
       var result = new StringBuilder();
