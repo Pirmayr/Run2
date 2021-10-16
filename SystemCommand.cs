@@ -51,7 +51,7 @@ namespace Run2
       return "";
     }
 
-    public override object Run(TokensList arguments)
+    public override object Run(Tokens arguments)
     {
       var method = action.Method;
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));

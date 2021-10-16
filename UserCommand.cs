@@ -58,7 +58,7 @@ namespace Run2
       return Returns;
     }
 
-    public override object Run(TokensList arguments)
+    public override object Run(Tokens arguments)
     {
       Run2.EnterScope();
       (ParameterNames.Count == 0 || arguments.Count <= ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
@@ -66,7 +66,7 @@ namespace Run2
       {
         object defaultValue = null;
         var isOptional = false;
-        if (item is TokensList tokensValue)
+        if (item is Tokens tokensValue)
         {
           isOptional = true;
           if (2 <= tokensValue.Count)

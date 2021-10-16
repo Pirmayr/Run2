@@ -5,7 +5,7 @@
     // ReSharper disable once UnusedMember.Global
     public int Count => Arguments.Count + 1;
 
-    internal TokensList Arguments { get; } = new();
+    internal Tokens Arguments { get; } = new();
 
     internal string CommandName { get; init; }
 

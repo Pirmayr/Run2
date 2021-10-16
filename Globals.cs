@@ -18,9 +18,9 @@ namespace Run2
     public const string VariableNameArguments = "arguments";
     public const char WeakQuote = '\'';
 
-    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "TokensList", "Variables" };
+    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
 
-    public static TokensList Arguments { get; set; }
+    public static Tokens Arguments { get; set; }
 
     public static string BaseDirectory { get; set; }
 

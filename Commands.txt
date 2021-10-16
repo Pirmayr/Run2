@@ -331,6 +331,7 @@ Enqueue
 Peek
 TryDequeue
 TryPeek
+DequeueIndex
 EnterScope
 Get
 GetKeys

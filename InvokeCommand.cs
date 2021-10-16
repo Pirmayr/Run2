@@ -58,7 +58,7 @@ namespace Run2
       return "";
     }
 
-    public override object Run(TokensList arguments)
+    public override object Run(Tokens arguments)
     {
       return Helpers.Invoke(MemberName, Type ?? arguments.DequeueObject(), arguments.ToList(true).ToArray());
     }

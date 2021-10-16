@@ -16,6 +16,6 @@
 
     public abstract string GetReturns();
 
-    public abstract object Run(TokensList arguments);
+    public abstract object Run(Tokens arguments);
   }
 }

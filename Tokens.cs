@@ -4,29 +4,29 @@ using System.Diagnostics.CodeAnalysis;
 namespace Run2
 {
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
-  public sealed class TokensList : List
+  public sealed class Tokens : List
   {
-    private int dequeueIndex;
+    public new int Count => base.Count - DequeueIndex;
 
-    public new int Count => base.Count - dequeueIndex;
+    public int DequeueIndex { get; set; }
 
     public int LineNumber { get; set; } = -1;
 
-    internal TokensList()
+    internal Tokens()
     {
     }
 
-    internal TokensList(IEnumerable<object> values) : base(values)
+    internal Tokens(IEnumerable<object> values) : base(values)
     {
     }
 
-    private TokensList(TokensList tokens) : base(tokens)
+    private Tokens(Tokens tokens) : base(tokens)
     {
     }
 
     public object Dequeue()
     {
-      return this[dequeueIndex++];
+      return this[DequeueIndex++];
     }
 
     public object DequeueObject(bool evaluate = true)
@@ -34,19 +34,23 @@ namespace Run2
       return Process(Dequeue(), evaluate);
     }
 
-    public void Enqueue(object value)
+    public void Enqueue(object value, bool isWeakQuote = false)
     {
       Add(value);
+      if (!Run2.Properties.TryGetValue(value, out _))
+      {
+        Run2.Properties.AddOrUpdate(value, new Properties { IsWeakQuote = isWeakQuote });
+      }
     }
 
     public object Peek()
     {
-      return this[dequeueIndex];
+      return this[DequeueIndex];
     }
 
     public bool TryDequeue(out object result)
     {
-      if (dequeueIndex < base.Count)
+      if (DequeueIndex < base.Count)
       {
         result = Dequeue();
         return true;
@@ -57,7 +61,7 @@ namespace Run2
 
     public bool TryPeek(out object result)
     {
-      if (dequeueIndex < base.Count)
+      if (DequeueIndex < base.Count)
       {
         result = Peek();
         return true;
@@ -66,9 +70,9 @@ namespace Run2
       return false;
     }
 
-    internal TokensList Clone(int skip = 0)
+    internal Tokens Clone(int skip = 0)
     {
-      var result = new TokensList(this);
+      var result = new Tokens(this);
       while (0 < skip)
       {
         result.Dequeue();
@@ -105,7 +109,7 @@ namespace Run2
     internal List ToList(bool evaluate)
     {
       var result = new List();
-      for (var i = dequeueIndex; i < base.Count; ++i)
+      for (var i = DequeueIndex; i < base.Count; ++i)
       {
         result.Add(Process(this[i], evaluate));
       }

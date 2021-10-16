@@ -40,7 +40,7 @@ namespace Run2
           {
             var parameterName = item.GetNameFromToken();
             var parameterDeclaration = parameterName;
-            if (item is TokensList tokensValue)
+            if (item is Tokens tokensValue)
             {
               parameterDeclaration = $"({ToCode(tokensValue, 0, false)} )";
             }
@@ -65,7 +65,7 @@ namespace Run2
     }
 
     // ReSharper disable once MemberCanBePrivate.Global
-    public static string ToCode(this TokensList tokens, int indent, bool newLine)
+    public static string ToCode(this Tokens tokens, int indent, bool newLine)
     {
       var result = DoToCode(tokens, indent, false);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(tokens, indent, true) : result;
@@ -73,12 +73,12 @@ namespace Run2
 
     internal static string ToCode(object value)
     {
-      var tokens = new TokensList();
+      var tokens = new Tokens();
       tokens.Enqueue(value);
       return ToCode(tokens, 0, false);
     }
 
-    private static string DoToCode(TokensList tokens, int indent, bool newLine)
+    private static string DoToCode(Tokens tokens, int indent, bool newLine)
     {
       var multilineSubCommandWritten = false;
       var result = new StringBuilder();
@@ -108,27 +108,29 @@ namespace Run2
             }
             break;
           }
-          case WeakQuote:
-          {
-            result.AppendNewLine(multilineSubCommandWritten);
-            result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, multilineSubCommandWritten);
-            multilineSubCommandWritten = false;
-            break;
-          }
           default:
-            result.AppendNewLine(multilineSubCommandWritten);
-            string itemString;
-            switch (item)
+            if (item.GetProperties().IsWeakQuote)
             {
-              case double doubleValue:
-                itemString = doubleValue.ToString("0.0############################");
-                break;
-              default:
-                itemString = item.ToString();
-                break;
+              result.AppendNewLine(multilineSubCommandWritten);
+              result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, multilineSubCommandWritten);
+              multilineSubCommandWritten = false;
             }
-            result.AppendIndented($"{itemString}", indent, multilineSubCommandWritten);
-            multilineSubCommandWritten = false;
+            else
+            {
+              result.AppendNewLine(multilineSubCommandWritten);
+              string itemString;
+              switch (item)
+              {
+                case double doubleValue:
+                  itemString = doubleValue.ToString("0.0############################");
+                  break;
+                default:
+                  itemString = item.ToString();
+                  break;
+              }
+              result.AppendIndented($"{itemString}", indent, multilineSubCommandWritten);
+              multilineSubCommandWritten = false;
+            }
             break;
         }
       }
