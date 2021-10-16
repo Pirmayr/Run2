@@ -1,9 +1,9 @@
 ﻿namespace Run2
 {
-  internal class Properties
+  public sealed class Properties
   {
-    public bool IsWeakQuote { get; init; }
+    internal bool IsWeakQuote { get; init; }
 
-    public int LineNumber { get; set; }
+    internal int LineNumber { get; init; }
   }
 }

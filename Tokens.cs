@@ -10,8 +10,6 @@ namespace Run2
 
     public int DequeueIndex { get; set; }
 
-    public int LineNumber { get; set; } = -1;
-
     internal Tokens()
     {
     }
@@ -34,13 +32,10 @@ namespace Run2
       return Process(Dequeue(), evaluate);
     }
 
-    public void Enqueue(object value, bool isWeakQuote = false)
+    public void Enqueue(object value, Properties properties = null)
     {
       Add(value);
-      if (!Run2.Properties.TryGetValue(value, out _))
-      {
-        Run2.Properties.AddOrUpdate(value, new Properties { IsWeakQuote = isWeakQuote });
-      }
+      value.AddProperties(properties);
     }
 
     public object Peek()

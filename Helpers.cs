@@ -237,7 +237,7 @@ namespace Run2
 
     public static bool IsStruct(this Type type)
     {
-      return type.IsValueType && /*!type.IsPrimitive &&*/ !type.IsEnum;
+      return type.IsValueType && !type.IsEnum;
     }
 
     public static bool IsWeakQuote(ref string text)

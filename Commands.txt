@@ -323,7 +323,6 @@ ForEach
 RemoveAll
 TrimExcess
 TrueForAll
-LineNumber
 SubCommands.new
 Dequeue
 DequeueObject

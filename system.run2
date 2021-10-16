@@ -5,6 +5,7 @@ command addentry
   key 'key'
   value 'value'
   Add dictionary key value
+
   return dictionary
 
 command additem

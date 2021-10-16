@@ -13,9 +13,18 @@ namespace Run2
 {
   internal static class Run2
   {
-    public static ConditionalWeakTable<object, Properties> Properties { get; } = new();
+    private static ConditionalWeakTable<object, Properties> Properties { get; } = new();
 
-    private static int MostRecentLineNumber { get; set; }
+    public static void AddProperties(this object value, Properties properties)
+    {
+      if (properties != null)
+      {
+        if (!Properties.TryGetValue(value, out _))
+        {
+          Properties.AddOrUpdate(value, properties);
+        }
+      }
+    }
 
     public static void EnterScope()
     {
@@ -28,12 +37,6 @@ namespace Run2
       {
         if (value is string && Globals.Variables.TryGetValue(stringValue, out var result))
         {
-          /*
-          if (result is SubCommands subCommandsValue)
-          {
-            return RunSubCommands(subCommandsValue);
-          }
-          */
           return result;
         }
         foreach (var key in Globals.Variables.GetKeys())
@@ -159,7 +162,7 @@ namespace Run2
         {
           throw;
         }
-        Helpers.HandleException(exception, MostRecentLineNumber);
+        Helpers.HandleException(exception, name.GetProperties().LineNumber);
         throw new RuntimeException("Runtime error");
       }
       finally
@@ -173,7 +176,6 @@ namespace Run2
       object result = null;
       foreach (var subCommand in subCommands)
       {
-        MostRecentLineNumber = subCommand.Arguments.LineNumber;
         result = RunCommand(subCommand.CommandName, subCommand.Arguments);
         if (Globals.DoBreak)
         {
@@ -284,8 +286,6 @@ namespace Run2
       var definitions = new Dictionary<object, Tokens>();
       object commandName = firstCommandName;
       var subtokens = new Tokens();
-      var lineNumber = 0 < tokens.LineNumber ? tokens.LineNumber : 0;
-      subtokens.LineNumber = lineNumber;
       while (0 < tokens.Count)
       {
         var token = tokens.Dequeue();
@@ -356,7 +356,7 @@ namespace Run2
             definitionTokens.Dequeue();
           }
         }
-        userCommand.SubCommands = GetSubCommands(definitionTokens, ref lineNumber);
+        userCommand.SubCommands = GetSubCommands(definitionTokens);
       }
     }
 
@@ -369,26 +369,22 @@ namespace Run2
     {
       if (Helpers.IsWeakQuote(ref currentTokenString))
       {
-        // result.Enqueue(new WeakQuote(currentTokenString));
-        result.Enqueue(currentTokenString, true);
-        // currentTokenString.GetProperties().IsWeakQuote = true;
+        result.Enqueue(currentTokenString, new Properties { IsWeakQuote = true, LineNumber = lineNumber });
       }
       else if (Helpers.IsBlock(ref currentTokenString))
       {
         var tokens = GetTokens(currentTokenString, lineNumber);
-        tokens.LineNumber = lineNumber;
-        result.Enqueue(tokens);
+        result.Enqueue(tokens, new Properties { LineNumber = lineNumber });
       }
       else
       {
-        result.Enqueue(currentTokenString.GetBestTypedObject());
+        result.Enqueue(currentTokenString.GetBestTypedObject(), new Properties { LineNumber = lineNumber });
       }
     }
 
-    private static SubCommands GetSubCommands(Tokens tokens, ref int lineNumber)
+    private static SubCommands GetSubCommands(Tokens tokens)
     {
       var result = new SubCommands();
-      lineNumber = 0 < tokens.LineNumber ? tokens.LineNumber : lineNumber;
       while (0 < tokens.Count)
       {
         var subCommand = new SubCommand { CommandName = tokens.DequeueString(false) };
@@ -402,25 +398,13 @@ namespace Run2
           var token = tokens.Dequeue();
           if (token is Tokens tokensValue)
           {
-            subCommand.Arguments.Enqueue(GetSubCommands(tokensValue, ref lineNumber));
+            subCommand.Arguments.Enqueue(GetSubCommands(tokensValue));
           }
           else
           {
             subCommand.Arguments.Enqueue(token);
           }
         }
-        if (subCommand.Arguments.LineNumber < 0)
-        {
-          subCommand.Arguments.LineNumber = lineNumber;
-        }
-        if (result.LineNumber < 0)
-        {
-          result.LineNumber = lineNumber;
-        }
-      }
-      if (lineNumber == -1)
-      {
-        Helpers.WriteLine("Unexpected line number -1");
       }
       return result;
     }
@@ -429,6 +413,7 @@ namespace Run2
     {
       var result = new Tokens();
       var tokenString = "";
+      var tokenStringLineNumber = lineNumber;
       var blockLevel = 0;
       var expectedBlockEnders = new Stack<char>();
       var expectedBlockLevels = new Stack<int>();
@@ -446,8 +431,9 @@ namespace Run2
           {
             continue;
           }
-          EnqueueToken(tokenString, lineNumber, result);
+          EnqueueToken(tokenString, tokenStringLineNumber, result);
           tokenString = "";
+          tokenStringLineNumber = lineNumber;
         }
         else
         {
@@ -517,7 +503,7 @@ namespace Run2
       }
       if (tokenString != "")
       {
-        EnqueueToken(tokenString, lineNumber, result);
+        EnqueueToken(tokenString, tokenStringLineNumber, result);
       }
       if (0 < blockLevel)
       {
@@ -529,7 +515,7 @@ namespace Run2
     private static void LoadCommand(string path)
     {
       File.Exists(path).Check($"Script '{path}' not found");
-      var tokens = GetTokens(File.ReadAllText(path), 0);
+      var tokens = GetTokens(File.ReadAllText(path), 1);
       BuildUserCommands(path, tokens);
     }
 
