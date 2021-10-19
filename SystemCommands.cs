@@ -240,7 +240,7 @@ namespace Run2
       var value2 = arguments.DequeueObject();
       if (BigInteger.TryParse(value1.ToString(), out var bigIntegerValue1) && BigInteger.TryParse(value2.ToString(), out var bigIntegerValue2))
       {
-        return (bigIntegerValue1 * bigIntegerValue2).ToString().GetBestTypedObject();
+        return (bigIntegerValue1 * bigIntegerValue2).ToString().ToBestType();
       }
       return (dynamic) value1 * (dynamic) value2;
     }
@@ -313,7 +313,7 @@ namespace Run2
         }
         executablePath = commandOrpathOrDirectory;
       }
-      Helpers.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
+      Run2.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
       return result;
     }
 

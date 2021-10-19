@@ -62,7 +62,7 @@ namespace Run2
                 element += currentCharacter;
                 currentCharacter = GetNextCharacter(characters);
               }
-              result.Enqueue(new Token(TokenKind.Element, element.GetBestTypedObject()));
+              result.Enqueue(new Token(TokenKind.Element, element.ToBestType()));
               break;
           }
         }

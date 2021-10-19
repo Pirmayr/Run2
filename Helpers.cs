@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
@@ -9,7 +8,6 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 
 namespace Run2
 {
@@ -50,17 +48,6 @@ namespace Run2
       return value1 == value2;
     }
 
-    public static Type BaseTypeOfMember(this Type type, string memberName, BindingFlags bindingFlags)
-    {
-      var result = type;
-      while (result != null && result.Name != "ValueType" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
-      {
-        var baseType = type.BaseType;
-        result = baseType;
-      }
-      return result;
-    }
-
     public static void Check([DoesNotReturnIf(false)] this bool condition, string message)
     {
       Checked(condition, message);
@@ -74,79 +61,6 @@ namespace Run2
         var targetPath = destinationDirectory + "\\" + (string.IsNullOrEmpty(destinationFilename) ? Path.GetFileName(sourcePath) : destinationFilename);
         ExpandPragmas(sourcePath, targetPath, expand, lineAction);
       }
-    }
-
-    public static void Execute(string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
-    {
-      var mostRecentException = new Exception("Execution failed");
-      for (var i = 0; i < tryCount; ++i)
-      {
-        try
-        {
-          var process = new Process();
-          process.StartInfo.FileName = executablePath;
-          process.StartInfo.Arguments = arguments;
-          process.StartInfo.WorkingDirectory = workingDirectory;
-          process.StartInfo.UseShellExecute = false;
-          process.StartInfo.RedirectStandardOutput = true;
-          process.StartInfo.RedirectStandardError = true;
-          WriteLine($"Starting process '{executablePath}':");
-          WriteLine($"  Working-directory '{workingDirectory}'");
-          WriteLine($"  Arguments '{arguments}' ...");
-          process.Start();
-          output = process.StandardOutput.ReadToEnd().Trim();
-          error = process.StandardError.ReadToEnd();
-          process.WaitForExit(processTimeout).Check($"Process '{executablePath}' has timed out");
-          WriteLine($"Process '{executablePath}' terminated");
-          (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check($"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
-          return;
-        }
-        catch (Exception exception)
-        {
-          mostRecentException = exception;
-          HandleException(exception);
-        }
-        Thread.Sleep(5000);
-      }
-      throw mostRecentException;
-    }
-
-    public static object GetBestTypedObject(this string currentToken)
-    {
-      object bestTypedObject;
-      if (currentToken.IsAnyString(out var stringResult))
-      {
-        if (bool.TryParse(stringResult, out var boolResult))
-        {
-          bestTypedObject = boolResult;
-        }
-        else if (int.TryParse(stringResult, out var intResult))
-        {
-          bestTypedObject = intResult;
-        }
-        else if (BigInteger.TryParse(stringResult, out var bigIntegerResult))
-        {
-          bestTypedObject = bigIntegerResult;
-        }
-        else if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
-        {
-          bestTypedObject = doubleResult;
-        }
-        else
-        {
-          bestTypedObject = stringResult;
-        }
-      }
-      else
-      {
-        bestTypedObject = currentToken;
-      }
-      return bestTypedObject;
-    }
-
-    public static string GetCommandNameFromPath(string path)
-    {
-      return Path.GetFileNameWithoutExtension(path);
     }
 
     public static string GetInvalidParametersCountErrorMessage(string commandName, int actualCount, int expectedCountFrom, int expectedCountTo)
@@ -220,22 +134,6 @@ namespace Run2
       }
     }
 
-    public static bool IsStrongQuote(this object value, out string result)
-    {
-      if (value is string stringValue && stringValue.StartsWith(Globals.StrongQuote) && stringValue.EndsWith(Globals.StrongQuote))
-      {
-        result = stringValue.Substring(1, stringValue.Length - 2);
-        return true;
-      }
-      result = null;
-      return false;
-    }
-
-    public static bool IsStruct(this Type type)
-    {
-      return type.IsValueType && !type.IsEnum;
-    }
-
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     // ReSharper disable once MemberCanBePrivate.Global
     // ReSharper disable once ReturnTypeCanBeEnumerable.Global
@@ -297,6 +195,39 @@ namespace Run2
       }
       searchDirectory = GetDirectory(baseDirectory, pattern);
       return Directory.Exists(searchDirectory) ? Directory.GetFiles(searchDirectory, filename, SearchOption.AllDirectories).OrderByDescending(static item => item).ToArray() : new[] { "" };
+    }
+
+    public static object ToBestType(this string currentToken)
+    {
+      object bestTypedObject;
+      if (currentToken.IsAnyString(out var stringResult))
+      {
+        if (bool.TryParse(stringResult, out var boolResult))
+        {
+          bestTypedObject = boolResult;
+        }
+        else if (int.TryParse(stringResult, out var intResult))
+        {
+          bestTypedObject = intResult;
+        }
+        else if (BigInteger.TryParse(stringResult, out var bigIntegerResult))
+        {
+          bestTypedObject = bigIntegerResult;
+        }
+        else if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
+        {
+          bestTypedObject = doubleResult;
+        }
+        else
+        {
+          bestTypedObject = stringResult;
+        }
+      }
+      else
+      {
+        bestTypedObject = currentToken;
+      }
+      return bestTypedObject;
     }
 
     public static void WriteLine(string message, int verbosity = 5)

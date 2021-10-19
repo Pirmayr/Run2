@@ -154,7 +154,7 @@ namespace Run2
       }
       for (var i = 0; i < subCommands.Count; ++i)
       {
-        var subCommand = subCommands[i];
+        var subCommand = subCommands[i] as SubCommand;
         if (0 < result.Length)
         {
           result.AppendNewLine(newLine);

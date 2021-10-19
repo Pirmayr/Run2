@@ -8,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Run2
 {
@@ -50,6 +51,41 @@ namespace Run2
         return RunSubCommands(subCommands);
       }
       return value;
+    }
+
+    public static void Execute(string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
+    {
+      var mostRecentException = new Exception("Execution failed");
+      for (var i = 0; i < tryCount; ++i)
+      {
+        try
+        {
+          var process = new Process();
+          process.StartInfo.FileName = executablePath;
+          process.StartInfo.Arguments = arguments;
+          process.StartInfo.WorkingDirectory = workingDirectory;
+          process.StartInfo.UseShellExecute = false;
+          process.StartInfo.RedirectStandardOutput = true;
+          process.StartInfo.RedirectStandardError = true;
+          Helpers.WriteLine($"Starting process '{executablePath}':");
+          Helpers.WriteLine($"  Working-directory '{workingDirectory}'");
+          Helpers.WriteLine($"  Arguments '{arguments}' ...");
+          process.Start();
+          output = process.StandardOutput.ReadToEnd().Trim();
+          error = process.StandardError.ReadToEnd();
+          process.WaitForExit(processTimeout).Check($"Process '{executablePath}' has timed out");
+          Helpers.WriteLine($"Process '{executablePath}' terminated");
+          (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check($"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
+          return;
+        }
+        catch (Exception exception)
+        {
+          mostRecentException = exception;
+          Helpers.HandleException(exception);
+        }
+        Thread.Sleep(5000);
+      }
+      throw mostRecentException;
     }
 
     public static object GetCommands()
@@ -129,7 +165,7 @@ namespace Run2
         LoadCommand(Globals.ScriptPathSystem);
       }
       LoadCommand(Globals.ScriptPath);
-      RunCommand(Helpers.GetCommandNameFromPath(Globals.ScriptPath), Globals.Arguments);
+      RunCommand(GetCommandNameFromPath(Globals.ScriptPath), Globals.Arguments);
       Helpers.WriteLine("Script terminated successfully");
     }
 
@@ -174,7 +210,7 @@ namespace Run2
     public static object RunSubCommands(SubCommands subCommands)
     {
       object result = null;
-      foreach (var subCommand in subCommands)
+      foreach (SubCommand subCommand in subCommands)
       {
         result = RunCommand(subCommand.CommandName, subCommand.Arguments);
         if (Globals.DoBreak)
@@ -235,6 +271,17 @@ namespace Run2
       }
     }
 
+    private static Type BaseTypeOfMember(this Type type, string memberName, BindingFlags bindingFlags)
+    {
+      var result = type;
+      while (result != null && result.Name != "ValueType" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
+      {
+        var baseType = type.BaseType;
+        result = baseType;
+      }
+      return result;
+    }
+
     private static void BuildInvokeCommands()
     {
       var localFullName = Assembly.GetExecutingAssembly().FullName;
@@ -283,6 +330,16 @@ namespace Run2
     // ReSharper disable once UnusedParameter.Local
     private static void CreateStandardObject(object instance)
     {
+    }
+
+    private static string GetCommandNameFromPath(string path)
+    {
+      return Path.GetFileNameWithoutExtension(path);
+    }
+
+    private static bool IsStruct(this Type type)
+    {
+      return type.IsValueType && !type.IsEnum;
     }
 
     private static void LoadCommand(string path)

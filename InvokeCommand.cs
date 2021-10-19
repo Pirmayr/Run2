@@ -25,6 +25,12 @@ namespace Run2
 
     public string Name => MemberName;
 
+    public List ParameterNames => new();
+
+    public string Remarks => "";
+
+    public string Returns => "";
+
     private string MemberName { get; }
 
     private Type Type { get; }
@@ -38,21 +44,6 @@ namespace Run2
     public string GetParameterDescription(string name)
     {
       return "";
-    }
-
-    public List ParameterNames
-    {
-      get { return new List(); }
-    }
-
-    public string Remarks
-    {
-      get { return ""; }
-    }
-
-    public string Returns
-    {
-      get { return ""; }
     }
 
     public object Run(Items arguments)

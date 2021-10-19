@@ -49,7 +49,7 @@ namespace Run2
           }
         }
         var parameterName = item.GetNameFromToken();
-        var isQuotedParameter = parameterName.IsStrongQuote(out var unquotedParameterName);
+        var isQuotedParameter = IsStrongQuote(parameterName, out var unquotedParameterName);
         var actualParameterName = isQuotedParameter ? unquotedParameterName : parameterName;
         object value;
         if (0 < arguments.Count)
@@ -82,6 +82,17 @@ namespace Run2
         }
         ++countFrom;
       }
+    }
+
+    public static bool IsStrongQuote(object value, out string result)
+    {
+      if (value is string stringValue && stringValue.StartsWith(Globals.StrongQuote) && stringValue.EndsWith(Globals.StrongQuote))
+      {
+        result = stringValue.Substring(1, stringValue.Length - 2);
+        return true;
+      }
+      result = null;
+      return false;
     }
   }
 }

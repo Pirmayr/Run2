@@ -86,7 +86,7 @@ namespace Run2
       {
         if (token is SubCommands subCommandsValue)
         {
-          foreach (var subCommandValue in subCommandsValue)
+          foreach (SubCommand subCommandValue in subCommandsValue)
           {
             GetCommandNames(subCommandValue, ref commandNames);
           }
@@ -101,7 +101,7 @@ namespace Run2
       {
         if (command is UserCommand userCommand)
         {
-          foreach (var subCommand in userCommand.SubCommands)
+          foreach (SubCommand subCommand in userCommand.SubCommands)
           {
             if (subCommand.CommandName == filterCommandName)
             {

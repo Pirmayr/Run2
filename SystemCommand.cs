@@ -19,17 +19,6 @@ namespace Run2
 
     public string Name => action.Method.Name;
 
-    public SystemCommand(CommandAction action)
-    {
-      this.action = action;
-    }
-
-    public string GetParameterDescription(string name)
-    {
-      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
-      return attribute != null ? attribute.ParameterDescriptions[name] : "";
-    }
-
     public List ParameterNames
     {
       get
@@ -40,14 +29,19 @@ namespace Run2
       }
     }
 
-    public string Remarks
+    public string Remarks => "";
+
+    public string Returns => "";
+
+    public SystemCommand(CommandAction action)
     {
-      get { return ""; }
+      this.action = action;
     }
 
-    public string Returns
+    public string GetParameterDescription(string name)
     {
-      get { return ""; }
+      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
+      return attribute != null ? attribute.ParameterDescriptions[name] : "";
     }
 
     public object Run(Items arguments)
