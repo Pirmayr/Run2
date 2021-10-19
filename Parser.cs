@@ -4,11 +4,6 @@
   {
     private static Token currentToken;
 
-    private static void CheckToken(this Token token, TokenKind tokenKind)
-    {
-      (token.TokenKind == tokenKind).Check($"Expected {tokenKind}");
-    }
-
     public static void Parse(Tokens tokens)
     {
       currentToken = tokens.Dequeue();
@@ -43,6 +38,11 @@
       (currentToken.TokenKind == TokenKind.EOF).Check("Unexpected eof of file while parsing");
     }
 
+    private static void CheckToken(this Token token, TokenKind tokenKind)
+    {
+      (token.TokenKind == tokenKind).Check($"Expected {tokenKind}");
+    }
+
     private static void ParseParameters(Tokens tokens, UserCommand userCommand)
     {
       while (currentToken.TokenKind is TokenKind.Element or TokenKind.Text or TokenKind.LeftParenthesis)
@@ -66,7 +66,7 @@
             currentToken = tokens.Dequeue();
             if (currentToken.TokenKind is TokenKind.Element or TokenKind.Text or TokenKind.Quote)
             {
-              items.Enqueue(currentToken.Value, new Properties { IsWeakQuote = currentToken.TokenKind == TokenKind.Quote });
+              items.Enqueue(currentToken.Value, new Properties { IsWeakQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
               currentToken = tokens.Dequeue();
             }
             (currentToken.TokenKind == TokenKind.RightParenthesis).Check("Expected right parenthesis");
@@ -96,7 +96,7 @@
             currentToken = tokens.Dequeue();
             break;
           case TokenKind.Element or TokenKind.Text or TokenKind.Quote:
-            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsWeakQuote = currentToken.TokenKind == TokenKind.Quote });
+            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsWeakQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
             currentToken = tokens.Dequeue();
             break;
           default:
@@ -112,6 +112,7 @@
         var subCommand = new SubCommand();
         subCommands.Add(subCommand);
         subCommand.CommandName = currentToken.ToString();
+        subCommand.CommandName.AddProperties(new Properties { LineNumber = currentToken.LineNumber });
         currentToken = tokens.Dequeue();
         ParseStatement(tokens, subCommand);
       }

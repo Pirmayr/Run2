@@ -9,11 +9,14 @@ namespace Run2
 
     public object Value { get; init; }
 
-    public Token(TokenKind tokenKind, object value)
+    public Token(TokenKind tokenKind, object value, int lineNumber)
     {
       TokenKind = tokenKind;
       Value = value;
+      LineNumber = lineNumber;
     }
+
+    public int LineNumber { get; }
 
     public override string ToString()
     {

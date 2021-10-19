@@ -15,8 +15,9 @@ namespace Run2
     {
       var code = File.ReadAllText(scriptPath);
       var characters = new CharacterQueue(code);
+      var lineNumber = 1;
       var result = new Tokens();
-      var currentCharacter = GetNextCharacter(characters);
+      var currentCharacter = GetNextCharacter(characters, ref lineNumber);
       var blockLevel = 0;
       while (currentCharacter != EOF)
       {
@@ -25,58 +26,63 @@ namespace Run2
           switch (currentCharacter)
           {
             case BlockBeginCharacter:
-              result.Enqueue(new Token(TokenKind.LeftParenthesis, '('));
+              result.Enqueue(new Token(TokenKind.LeftParenthesis, '(', lineNumber));
               ++blockLevel;
               break;
             case BlockEndCharacter:
-              result.Enqueue(new Token(TokenKind.RightParenthesis, ')'));
+              result.Enqueue(new Token(TokenKind.RightParenthesis, ')', lineNumber));
               --blockLevel;
               break;
             case TextDelimiter:
               var text = TextDelimiter.ToString();
-              currentCharacter = GetNextCharacter(characters);
+              currentCharacter = GetNextCharacter(characters, ref lineNumber);
               while (currentCharacter != TextDelimiter && currentCharacter != EOF)
               {
                 text += Unescape(characters, currentCharacter);
-                currentCharacter = GetNextCharacter(characters);
+                currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
               (currentCharacter != EOF).Check("Unexpected end of file while reading a text");
               text += TextDelimiter.ToString();
-              result.Enqueue(new Token(TokenKind.Text, text));
+              result.Enqueue(new Token(TokenKind.Text, text, lineNumber));
               break;
             case QuoteDelimiter:
               var quote = "";
-              currentCharacter = GetNextCharacter(characters);
+              currentCharacter = GetNextCharacter(characters, ref lineNumber);
               while (currentCharacter != QuoteDelimiter && currentCharacter != EOF)
               {
                 quote += Unescape(characters, currentCharacter);
-                currentCharacter = GetNextCharacter(characters);
+                currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
               (currentCharacter != EOF).Check("Unexpected end of file while reading a quote");
-              result.Enqueue(new Token(TokenKind.Quote, quote));
+              result.Enqueue(new Token(TokenKind.Quote, quote, lineNumber));
               break;
             default:
               var element = "";
               while (IsElementCharacter(currentCharacter))
               {
                 element += currentCharacter;
-                currentCharacter = GetNextCharacter(characters);
+                currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
-              result.Enqueue(new Token(TokenKind.Element, element.ToBestType()));
+              result.Enqueue(new Token(TokenKind.Element, element.ToBestType(), lineNumber));
               break;
           }
         }
-        currentCharacter = GetNextCharacter(characters);
+        currentCharacter = GetNextCharacter(characters, ref lineNumber);
       }
       (blockLevel == 0).Check(0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
       IdentifyCommands(result, scriptPath);
-      result.Enqueue(new Token(TokenKind.EOF, "EOF"));
+      result.Enqueue(new Token(TokenKind.EOF, "EOF", lineNumber));
       return result;
     }
 
-    private static char GetNextCharacter(this CharacterQueue characters)
+    private static char GetNextCharacter(this CharacterQueue characters, ref int lineNumber)
     {
-      return 0 < characters.Count ? characters.Dequeue() : EOF;
+      var result = 0 < characters.Count ? characters.Dequeue() : EOF;
+      if (result == '\n')
+      {
+        ++lineNumber;
+      }
+      return result;
     }
 
     private static void IdentifyCommands(Tokens tokens, string scriptPath)

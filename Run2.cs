@@ -198,6 +198,7 @@ namespace Run2
         {
           throw;
         }
+        var properties = name.GetProperties();
         Helpers.HandleException(exception, name.GetProperties().LineNumber);
         throw new RuntimeException("Runtime error");
       }
