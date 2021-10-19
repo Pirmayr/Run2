@@ -7,7 +7,7 @@ namespace Run2
   {
     public string Description { get; set; }
 
-    public bool IsQuoted { get; set; }
+    public bool IsQuoted { get; init; }
 
     public string Name { get; init; }
 
@@ -21,7 +21,7 @@ namespace Run2
 
     public string ScriptPath { get; init; }
 
-    public SubCommands SubCommands { get; set; } = new();
+    public SubCommands SubCommands { get; } = new();
 
     public override string GetDescription()
     {

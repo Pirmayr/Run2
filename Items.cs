@@ -18,11 +18,7 @@ namespace Run2
     {
     }
 
-    private Items(Items items) : base(items)
-    {
-    }
-
-    public object Dequeue()
+    private object Dequeue()
     {
       return this[DequeueIndex++];
     }
@@ -38,7 +34,7 @@ namespace Run2
       value.AddProperties(properties);
     }
 
-    public object Peek()
+    private object Peek()
     {
       return this[DequeueIndex];
     }
@@ -52,28 +48,6 @@ namespace Run2
       }
       result = null;
       return false;
-    }
-
-    public bool TryPeek(out object result)
-    {
-      if (DequeueIndex < base.Count)
-      {
-        result = Peek();
-        return true;
-      }
-      result = null;
-      return false;
-    }
-
-    internal Items Clone(int skip = 0)
-    {
-      var result = new Items(this);
-      while (0 < skip)
-      {
-        result.Dequeue();
-        --skip;
-      }
-      return result;
     }
 
     internal bool DequeueBool(bool evaluate = true)

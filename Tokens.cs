@@ -2,7 +2,7 @@
 
 namespace Run2
 {
-  public class Tokens : Queue<Token>
+  public sealed class Tokens : Queue<Token>
   {
   }
 }

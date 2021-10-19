@@ -4,7 +4,7 @@
   {
     private static Token currentToken;
 
-    public static void CheckToken(this Token token, TokenKind tokenKind)
+    private static void CheckToken(this Token token, TokenKind tokenKind)
     {
       (token.TokenKind == tokenKind).Check($"Expected {tokenKind}");
     }

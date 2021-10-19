@@ -220,16 +220,6 @@ namespace Run2
       }
     }
 
-    public static bool IsBlock(ref string text)
-    {
-      if (text.StartsWith(Globals.BlockStart) && text.EndsWith(Globals.BlockEnd))
-      {
-        text = text.Substring(1, text.Length - 2);
-        return true;
-      }
-      return false;
-    }
-
     public static bool IsStrongQuote(this object value, out string result)
     {
       if (value is string stringValue && stringValue.StartsWith(Globals.StrongQuote) && stringValue.EndsWith(Globals.StrongQuote))
@@ -244,16 +234,6 @@ namespace Run2
     public static bool IsStruct(this Type type)
     {
       return type.IsValueType && !type.IsEnum;
-    }
-
-    public static bool IsWeakQuote(ref string text)
-    {
-      if (text.StartsWith(Globals.WeakQuote) && text.EndsWith(Globals.WeakQuote))
-      {
-        text = text.Substring(1, text.Length - 2);
-        return true;
-      }
-      return false;
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -317,11 +297,6 @@ namespace Run2
       }
       searchDirectory = GetDirectory(baseDirectory, pattern);
       return Directory.Exists(searchDirectory) ? Directory.GetFiles(searchDirectory, filename, SearchOption.AllDirectories).OrderByDescending(static item => item).ToArray() : new[] { "" };
-    }
-
-    public static string RemoveStrongQuotes(this string value)
-    {
-      return value.IsStrongQuote(out var result) ? result : value;
     }
 
     public static void WriteLine(string message, int verbosity = 5)

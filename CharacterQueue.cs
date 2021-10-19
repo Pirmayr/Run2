@@ -2,7 +2,7 @@
 
 namespace Run2
 {
-  public class CharacterQueue : Queue<char>
+  public sealed class CharacterQueue : Queue<char>
   {
     public CharacterQueue(string text) : base(text)
     {

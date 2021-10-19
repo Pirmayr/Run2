@@ -3,11 +3,11 @@
 namespace Run2
 {
   [DebuggerDisplay("{TokenKind} {Value.GetType().Name} {Value}")]
-  public class Token
+  public sealed class Token
   {
     public TokenKind TokenKind { get; set; }
 
-    public object Value { get; set; }
+    public object Value { get; init; }
 
     public Token(TokenKind tokenKind, object value)
     {

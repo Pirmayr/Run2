@@ -6,8 +6,8 @@ namespace Run2
   {
     private const char BlockBeginCharacter = '(';
     private const char BlockEndCharacter = ')';
-    private const char EscapeCharacter = '~';
     private const char EOF = (char) 0;
+    private const char EscapeCharacter = '~';
     private const char QuoteDelimiter = '\'';
     private const char TextDelimiter = '"';
 
@@ -74,17 +74,6 @@ namespace Run2
       return result;
     }
 
-    private static char Unescape(CharacterQueue characters, char character)
-    {
-      if (character == EscapeCharacter)
-      {
-        (0 < characters.Count).Check("Unexpected end of file while escaping character");
-        var result = characters.Dequeue();
-        return result == 'n' ? '\n' : result;
-      }
-      return character;
-    }
-
     private static char GetNextCharacter(this CharacterQueue characters)
     {
       return 0 < characters.Count ? characters.Dequeue() : EOF;
@@ -133,6 +122,17 @@ namespace Run2
           return false;
       }
       return !char.IsWhiteSpace(character);
+    }
+
+    private static char Unescape(CharacterQueue characters, char character)
+    {
+      if (character == EscapeCharacter)
+      {
+        (0 < characters.Count).Check("Unexpected end of file while escaping character");
+        var result = characters.Dequeue();
+        return result == 'n' ? '\n' : result;
+      }
+      return character;
     }
   }
 }
