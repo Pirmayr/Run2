@@ -15,7 +15,7 @@ namespace Run2
       var missingDocumentation = "";
       var insertLine = false;
       result.Append("# Predefined Run2-Commands");
-      foreach (var (name, command) in Globals.Commands.Where(static item => !item.Value.GetHideHelp()).OrderBy(static item => item.Key))
+      foreach (var (name, command) in Globals.Commands.Where(static item => !item.Value.HideHelp).OrderBy(static item => item.Key))
       {
         if (insertLine)
         {
@@ -23,22 +23,22 @@ namespace Run2
         }
         insertLine = true;
         result.Append($"\n\n#### {name}");
-        if (!string.IsNullOrEmpty(command.GetDescription()))
+        if (!string.IsNullOrEmpty(command.Description))
         {
-          result.Append($"\n\n{command.GetDescription()}");
+          result.Append($"\n\n{command.Description}");
         }
-        var commandDocumentationMissing = string.IsNullOrEmpty(command.GetDescription());
+        var commandDocumentationMissing = string.IsNullOrEmpty(command.Description);
         var missingDocumentationParameters = new List<string>();
         HandleParameters(result, command, missingDocumentationParameters);
-        if (!string.IsNullOrEmpty(command.GetReturns()))
+        if (!string.IsNullOrEmpty(command.Returns))
         {
           result.Append("\n\n**Returns**\n");
-          result.Append($"\n\n{command.GetReturns()}");
+          result.Append($"\n\n{command.Returns}");
         }
-        if (!string.IsNullOrEmpty(command.GetRemarks()))
+        if (!string.IsNullOrEmpty(command.Remarks))
         {
           result.Append("\n\n**Remarks**\n");
-          result.Append($"\n\n{command.GetRemarks()}");
+          result.Append($"\n\n{command.Remarks}");
         }
         if (commandDocumentationMissing || 0 < missingDocumentationParameters.Count)
         {
@@ -131,9 +131,9 @@ namespace Run2
       return result;
     }
 
-    private static void HandleParameters(StringBuilder builder, Command command, ICollection<string> missingDocumentationParameters)
+    private static void HandleParameters(StringBuilder builder, ICommand command, ICollection<string> missingDocumentationParameters)
     {
-      var parameterNames = command.GetParameterNames();
+      var parameterNames = command.ParameterNames;
       if (0 < parameterNames.Count)
       {
         builder.Append("\n");

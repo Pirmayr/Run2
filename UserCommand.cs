@@ -3,9 +3,11 @@ using System.Linq;
 
 namespace Run2
 {
-  internal sealed class UserCommand : Command
+  internal sealed class UserCommand : ICommand
   {
     public string Description { get; set; }
+
+    public bool HideHelp => false;
 
     public bool IsQuoted { get; init; }
 
@@ -23,42 +25,12 @@ namespace Run2
 
     public SubCommands SubCommands { get; } = new();
 
-    public override string GetDescription()
-    {
-      return Description;
-    }
-
-    public override bool GetHideHelp()
-    {
-      return false;
-    }
-
-    public override string GetName()
-    {
-      return Name;
-    }
-
-    public override string GetParameterDescription(string name)
+    public string GetParameterDescription(string name)
     {
       return ParameterDescriptions.TryGetValue(name, out var result) ? result : "";
     }
 
-    public override List GetParameterNames()
-    {
-      return ParameterNames;
-    }
-
-    public override string GetRemarks()
-    {
-      return Remarks;
-    }
-
-    public override string GetReturns()
-    {
-      return Returns;
-    }
-
-    public override object Run(Items arguments)
+    public object Run(Items arguments)
     {
       Run2.EnterScope();
       var actualCount = arguments.Count;

@@ -2,55 +2,55 @@
 
 namespace Run2
 {
-  internal sealed class SystemCommand : Command
+  internal sealed class SystemCommand : ICommand
   {
     private readonly CommandAction action;
+
+    public string Description
+    {
+      get
+      {
+        var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
+        return attribute != null ? attribute.Description : "";
+      }
+    }
+
+    public bool HideHelp => false;
+
+    public string Name => action.Method.Name;
 
     public SystemCommand(CommandAction action)
     {
       this.action = action;
     }
 
-    public override string GetDescription()
-    {
-      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
-      return attribute != null ? attribute.Description : "";
-    }
-
-    public override bool GetHideHelp()
-    {
-      return false;
-    }
-
-    public override string GetName()
-    {
-      return action.Method.Name;
-    }
-
-    public override string GetParameterDescription(string name)
+    public string GetParameterDescription(string name)
     {
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
       return attribute != null ? attribute.ParameterDescriptions[name] : "";
     }
 
-    public override List GetParameterNames()
+    public List ParameterNames
     {
-      var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
-      // return attribute?.ParameterDescriptions.Keys.ToList() ?? new List();
-      return attribute == null ? new List() : new List(attribute.ParameterDescriptions.Keys);
+      get
+      {
+        var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
+        // return attribute?.ParameterDescriptions.Keys.ToList() ?? new List();
+        return attribute == null ? new List() : new List(attribute.ParameterDescriptions.Keys);
+      }
     }
 
-    public override string GetRemarks()
+    public string Remarks
     {
-      return "";
+      get { return ""; }
     }
 
-    public override string GetReturns()
+    public string Returns
     {
-      return "";
+      get { return ""; }
     }
 
-    public override object Run(Items arguments)
+    public object Run(Items arguments)
     {
       var method = action.Method;
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));

@@ -4,9 +4,26 @@ using System.Text;
 
 namespace Run2
 {
-  internal sealed class InvokeCommand : Command
+  internal sealed class InvokeCommand : ICommand
   {
+    public string Description
+    {
+      get
+      {
+        var result = new StringBuilder("See:\n");
+        foreach (var fullName in FullNames)
+        {
+          result.Append($"\n* https://docs.microsoft.com/en-us/dotnet/api/{fullName}");
+        }
+        return result.ToString();
+      }
+    }
+
     public HashSet<string> FullNames { get; } = new();
+
+    public bool HideHelp => FullNames.Count == 0;
+
+    public string Name => MemberName;
 
     private string MemberName { get; }
 
@@ -18,47 +35,27 @@ namespace Run2
       Type = type;
     }
 
-    public override string GetDescription()
-    {
-      var result = new StringBuilder("See:\n");
-      foreach (var fullName in FullNames)
-      {
-        result.Append($"\n* https://docs.microsoft.com/en-us/dotnet/api/{fullName}");
-      }
-      return result.ToString();
-    }
-
-    public override bool GetHideHelp()
-    {
-      return FullNames.Count == 0;
-    }
-
-    public override string GetName()
-    {
-      return MemberName;
-    }
-
-    public override string GetParameterDescription(string name)
+    public string GetParameterDescription(string name)
     {
       return "";
     }
 
-    public override List GetParameterNames()
+    public List ParameterNames
     {
-      return new List();
+      get { return new List(); }
     }
 
-    public override string GetRemarks()
+    public string Remarks
     {
-      return "";
+      get { return ""; }
     }
 
-    public override string GetReturns()
+    public string Returns
     {
-      return "";
+      get { return ""; }
     }
 
-    public override object Run(Items arguments)
+    public object Run(Items arguments)
     {
       return Helpers.Invoke(MemberName, Type ?? arguments.DequeueObject(), arguments.ToList(true).ToArray());
     }

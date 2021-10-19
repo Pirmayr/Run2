@@ -11,7 +11,7 @@ namespace Run2
     public static string ToCode(string filter)
     {
       var result = new StringBuilder();
-      foreach (var command in Globals.Commands.Values.OrderBy(static item => item.GetName()))
+      foreach (var command in Globals.Commands.Values.OrderBy(static item => item.Name))
       {
         if (command is UserCommand userCommandValue)
         {
@@ -36,7 +36,7 @@ namespace Run2
           {
             result.Append($"\n  '{userCommandValue.Remarks}'");
           }
-          foreach (var item in userCommandValue.GetParameterNames())
+          foreach (var item in userCommandValue.ParameterNames)
           {
             var parameterName = item.GetNameFromToken();
             var parameterDeclaration = parameterName;

@@ -24,7 +24,7 @@ namespace Run2
 
     public static string BaseDirectory { get; set; }
 
-    public static Dictionary<string, Command> Commands { get; } = new();
+    public static Dictionary<string, ICommand> Commands { get; } = new();
 
     public static bool Debug { get; set; }
 
