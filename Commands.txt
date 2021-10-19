@@ -296,6 +296,7 @@ Helpers.CopyFiles
 Helpers.Execute
 Helpers.GetBestTypedObject
 Helpers.GetCommandNameFromPath
+Helpers.GetInvalidParametersCountErrorMessage
 Helpers.GetProgramDirectory
 Helpers.HandleException
 Helpers.Invoke
@@ -311,6 +312,12 @@ Helpers.LocateFile
 Helpers.LocateFiles
 Helpers.RemoveStrongQuotes
 Helpers.WriteLine
+Dequeue
+DequeueObject
+Enqueue
+Peek
+TryDequeue
+TryPeek
 AsReadOnly
 ConvertAll
 Exists
@@ -323,14 +330,8 @@ ForEach
 RemoveAll
 TrimExcess
 TrueForAll
-SubCommands.new
-Dequeue
-DequeueObject
-Enqueue
-Peek
-TryDequeue
-TryPeek
 DequeueIndex
+SubCommands.new
 EnterScope
 Get
 GetKeys

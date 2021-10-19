@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace Run2
 {
@@ -51,7 +50,7 @@ namespace Run2
       return "";
     }
 
-    public override object Run(Tokens arguments)
+    public override object Run(Items arguments)
     {
       var method = action.Method;
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));
@@ -60,15 +59,9 @@ namespace Run2
         var actualCount = arguments.Count;
         var expectedCountFrom = attribute.ArgumentsCountFrom;
         var expectedCountTo = attribute.ArgumentsCountTo;
-        (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(GetInvalidParametersCountErrorMessage(method, actualCount, expectedCountFrom, expectedCountTo));
+        (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(method.Name.ToLower(), actualCount, expectedCountFrom, expectedCountTo));
       }
       return action(arguments);
-    }
-
-    private static string GetInvalidParametersCountErrorMessage(MemberInfo memberInfo, int actualCount, int expectedCountFrom, int expectedCountTo)
-    {
-      var expected = expectedCountFrom == expectedCountTo ? $"{expectedCountFrom}" : $"{expectedCountFrom} to {expectedCountTo}";
-      return $"Number of arguments encountered for command '{memberInfo.Name.ToLower()}': {actualCount}; number expected: {expected}";
     }
   }
 }

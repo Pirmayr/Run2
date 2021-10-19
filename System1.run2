@@ -269,7 +269,7 @@ command initialize
   'the command always returns "true"'
   global windowsdirectory windir
   global programfilesdirectory ProgramFiles
-  global programfiles32directory ProgramFiles(x86)
+  global programfiles32directory 'ProgramFiles(x86)'
   global visualstudiodirectory ( locatedirectory '[programfiles32directory]\Microsoft Visual Studio' '????' )
   global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
   global binariesbranchdirectory ( finddirectorywithparent scriptdirectory branches )

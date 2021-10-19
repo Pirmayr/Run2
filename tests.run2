@@ -1,2 +1,3 @@
-﻿'performs various tests'
-performtest ( system ) true
+﻿command tests
+  'performs various tests'
+  performtest ( system ) true

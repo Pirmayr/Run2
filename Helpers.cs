@@ -149,6 +149,12 @@ namespace Run2
       return Path.GetFileNameWithoutExtension(path);
     }
 
+    public static string GetInvalidParametersCountErrorMessage(string commandName, int actualCount, int expectedCountFrom, int expectedCountTo)
+    {
+      var expected = expectedCountFrom == expectedCountTo ? $"{expectedCountFrom}" : $"from {expectedCountFrom} to {expectedCountTo}";
+      return $"Number of arguments for command '{commandName}' is {actualCount}, but the number expected is {expected}";
+    }
+
     public static string GetProgramDirectory()
     {
       return Path.GetDirectoryName(AppContext.BaseDirectory);
@@ -379,7 +385,7 @@ namespace Run2
         var lines = new List<string>();
         foreach (var line in expandedContents.Split('\n'))
         {
-          lines.Add(Run2.RunCommand(lineCommand, new Tokens(new[] { line })) as string);
+          lines.Add(Run2.RunCommand(lineCommand, new Items(new[] { line })) as string);
         }
         expandedContents = string.Join('\n', lines);
       }

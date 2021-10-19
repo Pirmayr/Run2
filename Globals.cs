@@ -8,7 +8,7 @@ namespace Run2
     public const char BlockStart = '(';
     public const string IncludePragma = "<!--@include";
     public const int MaxCodeLineLength = 100;
-    public const string PseudoCommandNameCommand = "command";
+    public const string PragmaCommand = "command";
     public const string ReplacePragma = "<!--@replace";
     public const string ScriptNameDefault = "build.run2";
     public const string ScriptNameSystem = "system.run2";
@@ -18,9 +18,9 @@ namespace Run2
     public const string VariableNameArguments = "arguments";
     public const char WeakQuote = '\'';
 
-    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Tokens", "Variables" };
+    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables" };
 
-    public static Tokens Arguments { get; set; }
+    public static Items Arguments { get; set; }
 
     public static string BaseDirectory { get; set; }
 

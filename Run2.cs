@@ -63,7 +63,7 @@ namespace Run2
       {
         case string stringValue:
           return stringValue;
-        case Tokens tokensValue:
+        case Items tokensValue:
           return tokensValue.PeekString();
         default:
           false.Check("Could not get command-name");
@@ -83,7 +83,7 @@ namespace Run2
           isOptional = false;
           defaultValue = null;
           return;
-        case Tokens tokensValue:
+        case Items tokensValue:
           (tokensValue.Count is >= 1 and <= 2).Check("The declaration of optional parameters must contain the parameter-name and optionally the default-value");
           name = tokensValue.PeekString();
           isOptional = true;
@@ -120,7 +120,7 @@ namespace Run2
       Globals.ScriptName = CommandLineParser.GetOptionString("scriptName", Globals.ScriptNameDefault);
       Globals.ScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.ScriptName);
       Globals.ScriptDirectory = Path.GetDirectoryName(Globals.ScriptPath);
-      Globals.Arguments = new Tokens(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
+      Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments", new List<string>()));
       File.Exists(Globals.ScriptPath).Check($"Could not find script '{Globals.ScriptName}' (base-directory: '{Globals.BaseDirectory}')");
       BuildSystemCommands();
       BuildInvokeCommands();
@@ -138,7 +138,7 @@ namespace Run2
       Globals.Variables.LeaveScope();
     }
 
-    public static object RunCommand(string name, Tokens arguments)
+    public static object RunCommand(string name, Items arguments)
     {
       var oldDequeueIndex = arguments.DequeueIndex;
       try
@@ -280,16 +280,16 @@ namespace Run2
       }
     }
 
-    private static void BuildUserCommands(string path, Tokens tokens)
+    private static void BuildUserCommands(string path, Items items)
     {
       var firstCommandName = Path.GetFileNameWithoutExtension(path);
-      var definitions = new Dictionary<object, Tokens>();
+      var definitions = new Dictionary<object, Items>();
       object commandName = firstCommandName;
-      var subtokens = new Tokens();
-      while (0 < tokens.Count)
+      var subtokens = new Items();
+      while (0 < items.Count)
       {
-        var token = tokens.Dequeue();
-        if (token.ToString()?.Equals(Globals.PseudoCommandNameCommand, StringComparison.OrdinalIgnoreCase) == true)
+        var token = items.Dequeue();
+        if (token.ToString()?.Equals(Globals.PragmaCommand, StringComparison.OrdinalIgnoreCase) == true)
         {
           if (0 < subtokens.Count)
           {
@@ -297,8 +297,8 @@ namespace Run2
             definitions.Add(commandName, subtokens.Clone());
             subtokens.Clear();
           }
-          (0 < tokens.Count).Check("Unexpected end of script while searching for command-definitions");
-          commandName = tokens.Dequeue().ToString();
+          (0 < items.Count).Check("Unexpected end of script while searching for command-definitions");
+          commandName = items.Dequeue().ToString();
         }
         else
         {
@@ -365,7 +365,7 @@ namespace Run2
     {
     }
 
-    private static void EnqueueToken(string currentTokenString, int lineNumber, Tokens result)
+    private static void EnqueueToken(string currentTokenString, int lineNumber, Items result)
     {
       if (Helpers.IsWeakQuote(ref currentTokenString))
       {
@@ -373,7 +373,7 @@ namespace Run2
       }
       else if (Helpers.IsBlock(ref currentTokenString))
       {
-        var tokens = GetTokens(currentTokenString, lineNumber);
+        var tokens = GetTokens(currentTokenString, lineNumber, true);
         result.Enqueue(tokens, new Properties { LineNumber = lineNumber });
       }
       else
@@ -382,21 +382,21 @@ namespace Run2
       }
     }
 
-    private static SubCommands GetSubCommands(Tokens tokens)
+    private static SubCommands GetSubCommands(Items items)
     {
       var result = new SubCommands();
-      while (0 < tokens.Count)
+      while (0 < items.Count)
       {
-        var subCommand = new SubCommand { CommandName = tokens.DequeueString(false) };
+        var subCommand = new SubCommand { CommandName = items.DequeueString(false) };
         result.Add(subCommand);
-        while (0 < tokens.Count)
+        while (0 < items.Count)
         {
-          if (tokens.Peek() is string peekedTokenString && Globals.Commands.ContainsKey(peekedTokenString) && !peekedTokenString.GetProperties().IsWeakQuote)
+          if (items.Peek() is string peekedTokenString && Globals.Commands.ContainsKey(peekedTokenString) && !peekedTokenString.GetProperties().IsWeakQuote)
           {
             break;
           }
-          var token = tokens.Dequeue();
-          if (token is Tokens tokensValue)
+          var token = items.Dequeue();
+          if (token is Items tokensValue)
           {
             subCommand.Arguments.Enqueue(GetSubCommands(tokensValue));
           }
@@ -409,114 +409,137 @@ namespace Run2
       return result;
     }
 
-    private static Tokens GetTokens(string code, int lineNumber)
+    private static Items GetTokens(string code, int lineNumber, bool isNested)
     {
-      var result = new Tokens();
-      var tokenString = "";
-      var tokenStringLineNumber = lineNumber;
-      var blockLevel = 0;
-      var expectedBlockEnders = new Stack<char>();
-      var expectedBlockLevels = new Stack<int>();
-      var characters = new Queue<char>(code);
-      while (0 < characters.Count)
+      try
       {
-        var currentCharacter = characters.Dequeue();
-        if (currentCharacter == '\n')
+        var result = new Items();
+        var tokenString = "";
+        var tokenStringLineNumber = lineNumber;
+        var blockLevel = 0;
+        var expectedBlockEnders = new Stack<char>();
+        var blockStartLineNumbers = new Stack<int>();
+        var expectedBlockLevels = new Stack<int>();
+        var characters = new Queue<char>(code);
+        while (0 < characters.Count)
         {
-          ++lineNumber;
-        }
-        if (char.IsWhiteSpace(currentCharacter) && blockLevel == 0)
-        {
-          if (tokenString == "")
+          var currentCharacter = characters.Dequeue();
+          if (currentCharacter == '\n')
           {
-            continue;
+            ++lineNumber;
           }
-          EnqueueToken(tokenString, tokenStringLineNumber, result);
-          tokenString = "";
-          tokenStringLineNumber = lineNumber;
-        }
-        else
-        {
-          switch (currentCharacter)
+          if (char.IsWhiteSpace(currentCharacter) && blockLevel == 0)
           {
-            case Globals.BlockStart:
+            if (tokenString == "")
             {
-              tokenString += currentCharacter;
-              ++blockLevel;
-              expectedBlockLevels.Push(blockLevel);
-              expectedBlockEnders.Push(Globals.BlockEnd);
-              break;
+              continue;
             }
-            case Globals.BlockEnd:
+            (!isNested || tokenString != "command").Check("Commands must not be nested");
+            EnqueueToken(tokenString, tokenStringLineNumber, result);
+            tokenString = "";
+            tokenStringLineNumber = lineNumber;
+          }
+          else
+          {
+            switch (currentCharacter)
             {
-              var expectedBlockEnder = expectedBlockEnders.Pop();
-              (expectedBlockEnder == Globals.BlockEnd).Check($"Expected block-ender: {expectedBlockEnder}");
-              var expectedBlockLevel = expectedBlockLevels.Pop();
-              (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel}");
-              --blockLevel;
-              tokenString += currentCharacter;
-              break;
-            }
-            case Globals.StrongQuote:
-            case Globals.WeakQuote:
-            {
-              if (0 < expectedBlockEnders.Count && expectedBlockEnders.Peek() == currentCharacter)
+              case Globals.BlockStart:
               {
-                expectedBlockEnders.Pop();
-                var expectedBlockLevel = expectedBlockLevels.Pop();
-                (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel}");
-                --blockLevel;
-                if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
-                {
-                  tokenString += currentCharacter;
-                }
-              }
-              else
-              {
-                if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
-                {
-                  tokenString += currentCharacter;
-                }
+                tokenString += currentCharacter;
                 ++blockLevel;
                 expectedBlockLevels.Push(blockLevel);
-                expectedBlockEnders.Push(currentCharacter);
+                expectedBlockEnders.Push(Globals.BlockEnd);
+                blockStartLineNumbers.Push(lineNumber);
+                break;
               }
-              break;
-            }
-            case '~':
-              var nextCharacter = characters.Dequeue();
-              switch (nextCharacter)
+              case Globals.BlockEnd:
               {
-                case 'n':
-                  tokenString += '\n';
-                  break;
-                default:
-                  tokenString += nextCharacter;
-                  break;
+                (0 < expectedBlockEnders.Count).Check("Unexpected end of block");
+                var expectedBlockEnder = expectedBlockEnders.Pop();
+                var blockStartLineNumber = blockStartLineNumbers.Pop();
+                (expectedBlockEnder == Globals.BlockEnd).Check($"Expected block-ender: {expectedBlockEnder} (block started in line {blockStartLineNumber})");
+                var expectedBlockLevel = expectedBlockLevels.Pop();
+                (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel} (block started in line {blockStartLineNumber})");
+                --blockLevel;
+                tokenString += currentCharacter;
+                break;
               }
-              break;
-            default:
-              tokenString += currentCharacter;
-              break;
+              case Globals.StrongQuote:
+              case Globals.WeakQuote:
+              {
+                if (0 < expectedBlockEnders.Count && expectedBlockEnders.Peek() == currentCharacter)
+                {
+                  expectedBlockEnders.Pop();
+                  var blockStartLineNumber = blockStartLineNumbers.Pop();
+                  var expectedBlockLevel = expectedBlockLevels.Pop();
+                  (expectedBlockLevel == blockLevel).Check($"Expected block-level: {expectedBlockLevel} (block started in line {blockStartLineNumber})");
+                  --blockLevel;
+                  if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
+                  {
+                    tokenString += currentCharacter;
+                  }
+                }
+                else
+                {
+                  if (currentCharacter is Globals.StrongQuote or Globals.WeakQuote || 0 < blockLevel)
+                  {
+                    tokenString += currentCharacter;
+                  }
+                  ++blockLevel;
+                  expectedBlockLevels.Push(blockLevel);
+                  blockStartLineNumbers.Push(lineNumber);
+                  expectedBlockEnders.Push(currentCharacter);
+                }
+                break;
+              }
+              case '~':
+                var nextCharacter = characters.Dequeue();
+                switch (nextCharacter)
+                {
+                  case 'n':
+                    tokenString += '\n';
+                    break;
+                  default:
+                    tokenString += nextCharacter;
+                    break;
+                }
+                break;
+              default:
+                tokenString += currentCharacter;
+                break;
+            }
           }
         }
+        if (tokenString != "")
+        {
+          (!isNested || tokenString != "command").Check("Commands must not be nested");
+          EnqueueToken(tokenString, tokenStringLineNumber, result);
+        }
+        if (0 < blockLevel)
+        {
+          false.Check($"Unexpected end of script; number of unclosed blocks: {blockLevel} (block started in line {blockStartLineNumbers.ToArray()[0]})");
+        }
+        return result;
       }
-      if (tokenString != "")
+      catch (Exception exception)
       {
-        EnqueueToken(tokenString, tokenStringLineNumber, result);
+        if (exception is RuntimeException)
+        {
+          throw;
+        }
+        Helpers.HandleException(exception, lineNumber);
+        throw new RuntimeException("Runtime error");
       }
-      if (0 < blockLevel)
-      {
-        false.Check($"Unexpected end of script; number of unclosed blocks: {blockLevel}");
-      }
-      return result;
     }
 
     private static void LoadCommand(string path)
     {
       File.Exists(path).Check($"Script '{path}' not found");
-      var tokens = GetTokens(File.ReadAllText(path), 1);
+      Parser.Parse(Scanner.Scan(path));
+      /*
+      var tokens = GetTokens(code, 1, false);
       BuildUserCommands(path, tokens);
+      */
     }
 
     private static void OnGlobalScopeCreated(object sender, EventArgs e)
@@ -531,9 +554,9 @@ namespace Run2
       SetGlobalVariable("verbositylevel", 5);
     }
 
-    private static bool TryPeekDocumentation(Tokens tokens, out string description)
+    private static bool TryPeekDocumentation(Items items, out string description)
     {
-      if (tokens.TryPeek(out var descriptionCandidate) && descriptionCandidate.GetProperties().IsWeakQuote)
+      if (items.TryPeek(out var descriptionCandidate) && descriptionCandidate.GetProperties().IsWeakQuote)
       {
         description = descriptionCandidate as string;
         return true;

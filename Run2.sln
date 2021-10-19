@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Run2", "Run2.csproj", "{759E1890-97D7-4ED3-B0E5-8CDD08982197}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71033EC5-5425-44EB-AA5D-BB5DB2B0DDE5}"
+	ProjectSection(SolutionItems) = preProject
+		Scanner.txt = Scanner.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

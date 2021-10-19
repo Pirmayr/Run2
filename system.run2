@@ -5,7 +5,6 @@ command addentry
   key 'key'
   value 'value'
   Add dictionary key value
-
   return dictionary
 
 command additem
@@ -270,7 +269,7 @@ command initialize
   'the command always returns "true"'
   global windowsdirectory windir
   global programfilesdirectory ProgramFiles
-  global programfiles32directory ProgramFiles(x86)
+  global programfiles32directory 'ProgramFiles(x86)'
   global visualstudiodirectory ( locatedirectory '[programfiles32directory]\Microsoft Visual Studio' '????' )
   global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
   global binariesbranchdirectory ( finddirectorywithparent scriptdirectory branches )
@@ -920,7 +919,7 @@ command system
   if ( return testsok ) (
     write 'Writing results to disk ...'
     writefile [basedirectory]\..\..\..\Commands.md ( gethelp )
-    writefile [basedirectory]\..\..\..\System1.run2 ( getcode System.run2 )
+    writefile [basedirectory]\..\..\..\System.run2 ( getcode System.run2 )
     )
   return testsok
 

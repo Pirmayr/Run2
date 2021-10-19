@@ -7,7 +7,7 @@ namespace Run2
   {
     public string Description { get; set; }
 
-    public bool IsQuoted { get; init; }
+    public bool IsQuoted { get; set; }
 
     public string Name { get; init; }
 
@@ -21,7 +21,7 @@ namespace Run2
 
     public string ScriptPath { get; init; }
 
-    public SubCommands SubCommands { get; set; }
+    public SubCommands SubCommands { get; set; } = new();
 
     public override string GetDescription()
     {
@@ -58,15 +58,17 @@ namespace Run2
       return Returns;
     }
 
-    public override object Run(Tokens arguments)
+    public override object Run(Items arguments)
     {
       Run2.EnterScope();
-      (ParameterNames.Count == 0 || arguments.Count <= ParameterNames.Count).Check($"Command '{Name}' has {arguments.Count} arguments, but {ParameterNames.Count} were expected");
+      var actualCount = arguments.Count;
+      GetParameterCounts(out var expectedCountFrom, out var expectedCountTo);
+      (ParameterNames.Count == 0 || expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(Name, actualCount, expectedCountFrom, expectedCountTo));
       foreach (var item in ParameterNames)
       {
         object defaultValue = null;
         var isOptional = false;
-        if (item is Tokens tokensValue)
+        if (item is Items tokensValue)
         {
           isOptional = true;
           if (2 <= tokensValue.Count)
@@ -84,7 +86,7 @@ namespace Run2
         }
         else
         {
-          isOptional.Check("Missing argument must be declared as options");
+          isOptional.Check("Missing arguments must be declared as optional");
           value = defaultValue;
         }
         Run2.SetLocalVariable(actualParameterName, value);
@@ -94,6 +96,20 @@ namespace Run2
       var result = Run2.RunSubCommands(SubCommands);
       Run2.LeaveScope();
       return result;
+    }
+
+    private void GetParameterCounts(out int countFrom, out int countTo)
+    {
+      countTo = ParameterNames.Count;
+      countFrom = 0;
+      foreach (var parameterName in ParameterNames)
+      {
+        if (parameterName is Items)
+        {
+          break;
+        }
+        ++countFrom;
+      }
     }
   }
 }
