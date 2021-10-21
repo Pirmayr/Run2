@@ -69,7 +69,7 @@
               items.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
               currentToken = tokens.Dequeue();
             }
-            (currentToken.TokenKind == TokenKind.RightParenthesis).Check("Expected right parenthesis");
+            (currentToken.TokenKind == TokenKind.RightParenthesis).Check($"Expected right parenthesis in line {currentToken.LineNumber}");
             currentToken = tokens.Dequeue();
             break;
         }
@@ -92,7 +92,7 @@
             var subCommands = new SubCommands();
             subCommand.Arguments.Enqueue(subCommands);
             ParseStatements(tokens, subCommands);
-            (currentToken.TokenKind == TokenKind.RightParenthesis).Check("Expected right parenthesis");
+            (currentToken.TokenKind == TokenKind.RightParenthesis).Check($"Expected right parenthesis in line {currentToken.LineNumber}");
             currentToken = tokens.Dequeue();
             break;
           case TokenKind.Element or TokenKind.Text or TokenKind.Quote:
