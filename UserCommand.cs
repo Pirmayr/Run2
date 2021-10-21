@@ -3,19 +3,19 @@ using System.Linq;
 
 namespace Run2
 {
-  internal sealed class UserCommand : ICommand
+  public sealed class UserCommand : ICommand
   {
     public string Description { get; set; }
 
     public bool HideHelp => false;
-
-    public bool IsQuoted { get; init; }
 
     public string Name { get; init; }
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
     public List ParameterNames { get; } = new();
+
+    public bool QuoteArguments { get; init; }
 
     public string Remarks { get; set; }
 
@@ -32,27 +32,27 @@ namespace Run2
 
     public object Run(Items arguments)
     {
-      Run2.EnterScope();
-      var actualCount = arguments.Count;
+      Globals.Variables.EnterScope();
+      var actualCount = arguments.QueueCount;
       GetParameterCounts(out var expectedCountFrom, out var expectedCountTo);
       (ParameterNames.Count == 0 || expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(Name, actualCount, expectedCountFrom, expectedCountTo));
       foreach (var item in ParameterNames)
       {
         object defaultValue = null;
         var isOptional = false;
-        if (item is Items tokensValue)
+        if (item is Items itemsValue)
         {
           isOptional = true;
-          if (2 <= tokensValue.Count)
+          if (2 <= itemsValue.QueueCount)
           {
-            defaultValue = Run2.Evaluate(tokensValue.ElementAtOrDefault(1));
+            defaultValue = Run2.Evaluate(itemsValue.ElementAtOrDefault(1));
           }
         }
-        var parameterName = item.GetNameFromToken();
-        var isQuotedParameter = IsStrongQuote(parameterName, out var unquotedParameterName);
+        var parameterName = item.GetNameFromItem();
+        var isQuotedParameter = parameterName.IsStrongQuote(out var unquotedParameterName);
         var actualParameterName = isQuotedParameter ? unquotedParameterName : parameterName;
         object value;
-        if (0 < arguments.Count)
+        if (0 < arguments.QueueCount)
         {
           value = arguments.DequeueObject(!isQuotedParameter);
         }
@@ -61,12 +61,12 @@ namespace Run2
           isOptional.Check("Missing arguments must be declared as optional");
           value = defaultValue;
         }
-        Run2.SetLocalVariable(actualParameterName, value);
+        Globals.Variables.SetLocal(actualParameterName, value);
       }
-      var argumentsList = arguments.ToList(!IsQuoted);
-      Run2.SetLocalVariable(Globals.VariableNameArguments, argumentsList);
-      var result = Run2.RunSubCommands(SubCommands);
-      Run2.LeaveScope();
+      var argumentsList = arguments.ToList(!QuoteArguments);
+      Globals.Variables.SetLocal(Globals.VariableNameArguments, argumentsList);
+      var result = Run2.ExecuteSubCommands(SubCommands);
+      Globals.Variables.LeaveScope();
       return result;
     }
 
@@ -82,17 +82,6 @@ namespace Run2
         }
         ++countFrom;
       }
-    }
-
-    public static bool IsStrongQuote(object value, out string result)
-    {
-      if (value is string stringValue && stringValue.StartsWith(Globals.StrongQuote) && stringValue.EndsWith(Globals.StrongQuote))
-      {
-        result = stringValue.Substring(1, stringValue.Length - 2);
-        return true;
-      }
-      result = null;
-      return false;
     }
   }
 }

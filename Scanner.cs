@@ -4,12 +4,12 @@ namespace Run2
 {
   public static class Scanner
   {
+    public const char TextDelimiter = '"';
     private const char BlockBeginCharacter = '(';
     private const char BlockEndCharacter = ')';
     private const char EOF = (char) 0;
     private const char EscapeCharacter = '~';
     private const char QuoteDelimiter = '\'';
-    private const char TextDelimiter = '"';
 
     public static Tokens Scan(string scriptPath)
     {
@@ -28,10 +28,12 @@ namespace Run2
             case BlockBeginCharacter:
               result.Enqueue(new Token(TokenKind.LeftParenthesis, '(', lineNumber));
               ++blockLevel;
+              currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             case BlockEndCharacter:
               result.Enqueue(new Token(TokenKind.RightParenthesis, ')', lineNumber));
               --blockLevel;
+              currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             case TextDelimiter:
               var text = TextDelimiter.ToString();
@@ -44,6 +46,7 @@ namespace Run2
               (currentCharacter != EOF).Check("Unexpected end of file while reading a text");
               text += TextDelimiter.ToString();
               result.Enqueue(new Token(TokenKind.Text, text, lineNumber));
+              currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             case QuoteDelimiter:
               var quote = "";
@@ -55,6 +58,7 @@ namespace Run2
               }
               (currentCharacter != EOF).Check("Unexpected end of file while reading a quote");
               result.Enqueue(new Token(TokenKind.Quote, quote, lineNumber));
+              currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             default:
               var element = "";
@@ -67,7 +71,10 @@ namespace Run2
               break;
           }
         }
-        currentCharacter = GetNextCharacter(characters, ref lineNumber);
+        else
+        {
+          currentCharacter = GetNextCharacter(characters, ref lineNumber);
+        }
       }
       (blockLevel == 0).Check(0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
       IdentifyCommands(result, scriptPath);
@@ -96,7 +103,7 @@ namespace Run2
           token.TokenKind = TokenKind.CommandName;
           var commandName = token.Value.ToString();
           (!string.IsNullOrEmpty(commandName)).Check("Command-name must not be null");
-          Globals.Commands.Add(commandName, new UserCommand { Name = commandName, ScriptPath = scriptPath, IsQuoted = token.TokenKind == TokenKind.Text });
+          Globals.Commands.Add(commandName, new UserCommand { Name = commandName, ScriptPath = scriptPath, QuoteArguments = token.TokenKind == TokenKind.Text });
         }
         else if (token.Value.ToString() == Globals.PragmaCommand)
         {

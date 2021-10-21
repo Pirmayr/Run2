@@ -1,6 +1,6 @@
 ﻿namespace Run2
 {
-  internal static class Parser
+  public static class Parser
   {
     private static Token currentToken;
 
@@ -66,7 +66,7 @@
             currentToken = tokens.Dequeue();
             if (currentToken.TokenKind is TokenKind.Element or TokenKind.Text or TokenKind.Quote)
             {
-              items.Enqueue(currentToken.Value, new Properties { IsWeakQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
+              items.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
               currentToken = tokens.Dequeue();
             }
             (currentToken.TokenKind == TokenKind.RightParenthesis).Check("Expected right parenthesis");
@@ -96,7 +96,7 @@
             currentToken = tokens.Dequeue();
             break;
           case TokenKind.Element or TokenKind.Text or TokenKind.Quote:
-            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsWeakQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
+            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
             currentToken = tokens.Dequeue();
             break;
           default:

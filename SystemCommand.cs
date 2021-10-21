@@ -2,7 +2,7 @@
 
 namespace Run2
 {
-  internal sealed class SystemCommand : ICommand
+  public sealed class SystemCommand : ICommand
   {
     private readonly CommandAction action;
 
@@ -24,7 +24,6 @@ namespace Run2
       get
       {
         var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
-        // return attribute?.ParameterDescriptions.Keys.ToList() ?? new List();
         return attribute == null ? new List() : new List(attribute.ParameterDescriptions.Keys);
       }
     }
@@ -50,7 +49,7 @@ namespace Run2
       var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));
       if (attribute != null)
       {
-        var actualCount = arguments.Count;
+        var actualCount = arguments.QueueCount;
         var expectedCountFrom = attribute.ArgumentsCountFrom;
         var expectedCountTo = attribute.ArgumentsCountTo;
         (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(method.Name.ToLower(), actualCount, expectedCountFrom, expectedCountTo));

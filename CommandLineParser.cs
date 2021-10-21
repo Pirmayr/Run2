@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Run2
 {
-  internal static class CommandLineParser
+  public static class CommandLineParser
   {
     private const string CommandPrefix = "-";
     private static readonly Dictionary<string, List<string>> options = new();
@@ -16,11 +16,11 @@ namespace Run2
       return options.TryGetValue(key, out var value) ? string.Join("|", value) : defaultValue;
     }
 
-    public static IEnumerable<string> GetOptionStrings(string name, List<string> defaultValue)
+    public static IEnumerable<string> GetOptionStrings(string name, List<string> defaultValue = null)
     {
       Parse();
       var key = GetKey(name);
-      return options.TryGetValue(key, out var value) ? value : defaultValue;
+      return options.TryGetValue(key, out var value) ? value : defaultValue ?? new List<string>();
     }
 
     public static bool OptionExists(string name)

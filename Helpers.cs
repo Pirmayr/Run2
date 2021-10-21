@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
@@ -8,12 +9,24 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace Run2
 {
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public static class Helpers
   {
+    public static void AddProperties(this object value, Properties properties)
+    {
+      if (properties != null)
+      {
+        if (!Globals.Properties.TryGetValue(value, out _))
+        {
+          Globals.Properties.AddOrUpdate(value, properties);
+        }
+      }
+    }
+
     public static void AppendIndented(this StringBuilder builder, dynamic value, int indent, bool newLineMode)
     {
       builder.Append(newLineMode ? $"{new string(' ', indent)}{value}" : builder.EndsWith(' ') ? $"{value}" : $" {value}");
@@ -63,15 +76,58 @@ namespace Run2
       }
     }
 
+    public static void Execute(string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
+    {
+      var mostRecentException = new Exception("Execution failed");
+      for (var i = 0; i < tryCount; ++i)
+      {
+        try
+        {
+          var process = new Process();
+          process.StartInfo.FileName = executablePath;
+          process.StartInfo.Arguments = arguments;
+          process.StartInfo.WorkingDirectory = workingDirectory;
+          process.StartInfo.UseShellExecute = false;
+          process.StartInfo.RedirectStandardOutput = true;
+          process.StartInfo.RedirectStandardError = true;
+          WriteLine($"Starting process '{executablePath}':");
+          WriteLine($"  Working-directory '{workingDirectory}'");
+          WriteLine($"  Arguments '{arguments}' ...");
+          process.Start();
+          output = process.StandardOutput.ReadToEnd().Trim();
+          error = process.StandardError.ReadToEnd();
+          process.WaitForExit(processTimeout).Check($"Process '{executablePath}' has timed out");
+          WriteLine($"Process '{executablePath}' terminated");
+          (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check($"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
+          return;
+        }
+        catch (Exception exception)
+        {
+          mostRecentException = exception;
+          HandleException(exception);
+        }
+        Thread.Sleep(5000);
+      }
+      throw mostRecentException;
+    }
+
+    public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
+    {
+      foreach (var item in enumeration)
+      {
+        action(item);
+      }
+    }
+
     public static string GetInvalidParametersCountErrorMessage(string commandName, int actualCount, int expectedCountFrom, int expectedCountTo)
     {
       var expected = expectedCountFrom == expectedCountTo ? $"{expectedCountFrom}" : $"from {expectedCountFrom} to {expectedCountTo}";
       return $"Number of arguments for command '{commandName}' is {actualCount}, but the number expected is {expected}";
     }
 
-    public static string GetProgramDirectory()
+    public static Properties GetProperties(this object value)
     {
-      return Path.GetDirectoryName(AppContext.BaseDirectory);
+      return Globals.Properties.GetOrCreateValue(value);
     }
 
     public static void HandleException(Exception exception, int lineNumber = -1)
@@ -121,17 +177,15 @@ namespace Run2
       return result;
     }
 
-    public static bool IsAnyString(this object value, out string stringResult)
+    public static bool IsStrongQuote(this object value, out string result)
     {
-      switch (value)
+      if (value is string stringValue && stringValue.StartsWith(Scanner.TextDelimiter) && stringValue.EndsWith(Scanner.TextDelimiter))
       {
-        case string stringValue:
-          stringResult = stringValue;
-          return true;
-        default:
-          stringResult = "";
-          return false;
+        result = stringValue.Substring(1, stringValue.Length - 2);
+        return true;
       }
+      result = null;
+      return false;
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -200,28 +254,21 @@ namespace Run2
     public static object ToBestType(this string currentToken)
     {
       object bestTypedObject;
-      if (currentToken.IsAnyString(out var stringResult))
+      if (bool.TryParse(currentToken, out var boolResult))
       {
-        if (bool.TryParse(stringResult, out var boolResult))
-        {
-          bestTypedObject = boolResult;
-        }
-        else if (int.TryParse(stringResult, out var intResult))
-        {
-          bestTypedObject = intResult;
-        }
-        else if (BigInteger.TryParse(stringResult, out var bigIntegerResult))
-        {
-          bestTypedObject = bigIntegerResult;
-        }
-        else if (double.TryParse(stringResult, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
-        {
-          bestTypedObject = doubleResult;
-        }
-        else
-        {
-          bestTypedObject = stringResult;
-        }
+        bestTypedObject = boolResult;
+      }
+      else if (int.TryParse(currentToken, out var intResult))
+      {
+        bestTypedObject = intResult;
+      }
+      else if (BigInteger.TryParse(currentToken, out var bigIntegerResult))
+      {
+        bestTypedObject = bigIntegerResult;
+      }
+      else if (double.TryParse(currentToken, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleResult))
+      {
+        bestTypedObject = doubleResult;
       }
       else
       {
@@ -232,7 +279,7 @@ namespace Run2
 
     public static void WriteLine(string message, int verbosity = 5)
     {
-      var verbosityLevel = Run2.TryGetVariable("verbositylevel", out var value) ? (int) value : 5;
+      var verbosityLevel = Globals.Variables.TryGetValue("verbositylevel", out var value) ? (int) value : 5;
       if (verbosityLevel <= verbosity)
       {
         Console.WriteLine(message);
@@ -267,7 +314,7 @@ namespace Run2
           var path = LocateFile(Path.GetDirectoryName(sourcePath), filename);
           if (!File.Exists(path))
           {
-            path = LocateFile(GetProgramDirectory(), filename);
+            path = LocateFile(Globals.ProgramDirectory, filename);
           }
           expandedContents += File.ReadAllText(path);
         }
@@ -288,12 +335,7 @@ namespace Run2
       }
       if (!string.IsNullOrEmpty(lineCommand))
       {
-        var lines = new List<string>();
-        foreach (var line in expandedContents.Split('\n'))
-        {
-          lines.Add(Run2.RunCommand(lineCommand, new Items(new[] { line })) as string);
-        }
-        expandedContents = string.Join('\n', lines);
+        expandedContents = string.Join('\n', expandedContents.Split('\n').Select(line => Run2.ExecuteCommand(lineCommand, new Items(line)).ToString()));
       }
       foreach (var (substring, replacement) in replacements)
       {

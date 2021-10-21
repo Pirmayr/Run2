@@ -2,8 +2,8 @@
 {
   public sealed class Properties
   {
-    internal bool IsWeakQuote { get; init; }
+    public bool IsQuote { get; init; }
 
-    internal int LineNumber { get; init; }
+    public int LineNumber { get; init; }
   }
 }

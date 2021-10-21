@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Run2
 {
-  internal sealed class DocumentationAttribute : Attribute
+  public sealed class DocumentationAttribute : Attribute
   {
     public int ArgumentsCountFrom { get; }
 

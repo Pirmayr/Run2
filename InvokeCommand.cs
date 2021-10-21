@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Run2
 {
-  internal sealed class InvokeCommand : ICommand
+  public sealed class InvokeCommand : ICommand
   {
     public string Description
     {

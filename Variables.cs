@@ -13,6 +13,29 @@ namespace Run2
 
     public event EventHandler globalScopeCreated;
 
+    public IEnumerable<string> Keys
+    {
+      get
+      {
+        var handled = new HashSet<string>();
+        foreach (var scope in scopes)
+        {
+          foreach (var key in scope.Keys)
+          {
+            if (!handled.Contains(key))
+            {
+              handled.Add(key);
+            }
+          }
+        }
+        foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+        {
+          handled.Add(environmentVariable.Key.ToString());
+        }
+        return handled;
+      }
+    }
+
     public void EnterScope()
     {
       var newScope = new Scope();
@@ -28,26 +51,6 @@ namespace Run2
     {
       TryGetValue(name, out var result).Check("Could not find variable '{name}'");
       return result;
-    }
-
-    public IEnumerable<string> GetKeys()
-    {
-      var handled = new HashSet<string>();
-      foreach (var scope in scopes)
-      {
-        foreach (var key in scope.Keys)
-        {
-          if (!handled.Contains(key))
-          {
-            handled.Add(key);
-          }
-        }
-      }
-      foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
-      {
-        handled.Add(environmentVariable.Key.ToString());
-      }
-      return handled;
     }
 
     public void LeaveScope()

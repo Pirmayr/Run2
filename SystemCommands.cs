@@ -7,7 +7,7 @@ namespace Run2
 {
   [SuppressMessage("ReSharper", "UnusedType.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  internal static class SystemCommands
+  public static class SystemCommands
   {
     [Documentation(2, 2, "+", "adds two values", "value1", "first value", "value2", "second value")]
     public static object Add(Items arguments)
@@ -20,7 +20,7 @@ namespace Run2
     [Documentation(2, int.MaxValue, null, "performs the 'and'-operation", "value1", "first value", "value2", "second value")]
     public static object And(Items arguments)
     {
-      while (0 < arguments.Count)
+      while (0 < arguments.QueueCount)
       {
         if (!arguments.DequeueBool())
         {
@@ -81,7 +81,7 @@ namespace Run2
       var code = arguments.DequeueObject(false);
       for (var i = from; i <= to; i += step)
       {
-        Run2.SetLocalVariable(variableName, i);
+        Globals.Variables.SetLocal(variableName, (object) i);
         result = Run2.Evaluate(code);
         if (Globals.DoBreak)
         {
@@ -101,7 +101,7 @@ namespace Run2
       var code = arguments.DequeueObject(false);
       foreach (var value in values)
       {
-        Run2.SetLocalVariable(variableName, value);
+        Globals.Variables.SetLocal(variableName, (object) value);
         result = Run2.Evaluate(code);
       }
       return result;
@@ -111,7 +111,7 @@ namespace Run2
     public static object Get(Items arguments)
     {
       var variableName = arguments.DequeueString();
-      return Run2.GetVariable(variableName);
+      return Globals.Variables.Get(variableName);
     }
 
     [Documentation(1, 1, null, "returns the formatted script")]
@@ -119,14 +119,14 @@ namespace Run2
     public static object GetCode(Items arguments)
     {
       var filter = arguments.DequeueString();
-      return CodeFormatter.ToCode(filter);
+      return CodeFormatter.GetCode(filter);
     }
 
     [Documentation(0, 0, null, "returns the list of commands")]
     // ReSharper disable once UnusedParameter.Global
     public static object GetCommands(Items arguments)
     {
-      return Run2.GetCommands();
+      return string.Join('\n', Globals.Commands.Keys);
     }
 
     [Documentation(0, 0, null, "returns help-information (formatted as markdown)")]
@@ -136,13 +136,24 @@ namespace Run2
       return HelpGenerator.GetHelp();
     }
 
-    [Documentation(2, 2, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
+    [Documentation(2, int.MaxValue, null, "creates or sets a global variable", "name", "name of the variable", "value", "value to be assigned to the variable")]
     public static object Global(Items arguments)
     {
-      var variableName = arguments.DequeueString(false);
-      var variableValue = arguments.DequeueObject();
-      Run2.SetGlobalVariable(variableName, variableValue);
-      return variableValue;
+      var evaluate = false;
+      if (arguments.Peek() is true)
+      {
+        evaluate = true;
+        arguments.Dequeue();
+      }
+      (arguments.QueueCount % 2 == 0).Check("The number of arguments must be even");
+      object result = null;
+      while (0 < arguments.QueueCount)
+      {
+        var variableName = arguments.DequeueString(evaluate);
+        result = arguments.DequeueObject();
+        Globals.Variables.SetGlobal(variableName, result);
+      }
+      return result;
     }
 
     [Documentation(2, 2, ">", "tests if value1 is greater than value2", "value1", "first value", "value2", "second value")]
@@ -200,13 +211,19 @@ namespace Run2
     [Documentation(2, int.MaxValue, null, "creates local variables", "name", "name of the variable", "value", "value to be assigned to the variable")]
     public static object Local(Items arguments)
     {
-      (arguments.Count % 2 == 0).Check("The number of arguments must be even");
-      object result = null;
-      while (0 < arguments.Count)
+      var evaluate = false;
+      if (arguments.Peek() is true)
       {
-        var variableName = arguments.DequeueString(false);
+        evaluate = true;
+        arguments.Dequeue();
+      }
+      (arguments.QueueCount % 2 == 0).Check("The number of arguments must be even");
+      object result = null;
+      while (0 < arguments.QueueCount)
+      {
+        var variableName = arguments.DequeueString(evaluate);
         result = arguments.DequeueObject();
-        Run2.SetLocalVariable(variableName, result);
+        Globals.Variables.SetLocal(variableName, result);
       }
       return result;
     }
@@ -219,7 +236,7 @@ namespace Run2
       var code = arguments.DequeueObject(false);
       foreach (var value in values)
       {
-        Run2.SetLocalVariable("item", value);
+        Globals.Variables.SetLocal("item", (object) value);
         result = Run2.Evaluate(code);
       }
       return result;
@@ -263,7 +280,7 @@ namespace Run2
     [Documentation(2, int.MaxValue, null, "performs the 'or'-operation", "value1", "first value", "value2", "second value")]
     public static object Or(Items arguments)
     {
-      while (0 < arguments.Count)
+      while (0 < arguments.QueueCount)
       {
         if (arguments.DequeueBool())
         {
@@ -295,7 +312,7 @@ namespace Run2
       var commandOrpathOrDirectory = arguments.DequeueString();
       if (Globals.Commands.ContainsKey(commandOrpathOrDirectory))
       {
-        return Run2.RunCommand(commandOrpathOrDirectory, arguments);
+        return Run2.ExecuteCommand(commandOrpathOrDirectory, arguments);
       }
       string workingDirectory;
       string executablePath;
@@ -309,21 +326,32 @@ namespace Run2
         workingDirectory = Path.GetDirectoryName(commandOrpathOrDirectory);
         if (string.IsNullOrEmpty(workingDirectory) || !Directory.Exists(workingDirectory))
         {
-          workingDirectory = Helpers.GetProgramDirectory();
+          workingDirectory = Globals.ProgramDirectory;
         }
         executablePath = commandOrpathOrDirectory;
       }
-      Run2.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
+      Helpers.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
       return result;
     }
 
-    [Documentation(2, 2, null, "assigns a new value to an existing variable; the variable can exist in any active scope", "value", "the value to be assigned to the variable")]
+    [Documentation(2, int.MaxValue, null, "assigns a new value to an existing variable; the variable can exist in any active scope", "value", "the value to be assigned to the variable")]
     public static object Set(Items arguments)
     {
-      var variableName = arguments.DequeueString();
-      var variableValue = arguments.DequeueObject();
-      Run2.SetVariable(variableName, variableValue);
-      return variableValue;
+      var evaluate = false;
+      if (arguments.Peek() is true)
+      {
+        evaluate = true;
+        arguments.Dequeue();
+      }
+      (arguments.QueueCount % 2 == 0).Check("The number of arguments must be even");
+      object result = null;
+      while (0 < arguments.QueueCount)
+      {
+        var variableName = arguments.DequeueString(evaluate);
+        result = arguments.DequeueObject();
+        Globals.Variables.Set(variableName, result);
+      }
+      return result;
     }
 
     [Documentation(2, 2, "-", "subtracts second number from first number", "a", "first number", "b", "second number")]
@@ -337,7 +365,7 @@ namespace Run2
     [Documentation(2, int.MaxValue, null, "calls the first command for which a condition holds true", "condition-command-pairs", "pairs consisting of condition and command; the first command whose condition is 'true' is executed")]
     public static object Switch(Items arguments)
     {
-      while (1 < arguments.Count)
+      while (1 < arguments.QueueCount)
       {
         var condition = arguments.DequeueBool();
         var code = arguments.DequeueObject(false);
@@ -346,7 +374,7 @@ namespace Run2
           return Run2.Evaluate(code);
         }
       }
-      if (0 < arguments.Count)
+      if (0 < arguments.QueueCount)
       {
         var code = arguments.DequeueObject(false);
         return Run2.Evaluate(code);

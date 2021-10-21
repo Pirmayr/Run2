@@ -1628,6 +1628,15 @@ performtest (
   )
   True
 ~~~
+~~~
+performtest (
+  createdirectory c:\testdirectory\subdirectory1
+  createdirectory c:\testdirectory\subdirectory2
+  createdirectory c:\testdirectory\subdirectory3
+  size ( getdirectories c:\testdirectory )
+  )
+  3
+~~~
 
 ---
 
@@ -2546,6 +2555,31 @@ performtest (
 
 ---
 
+#### foreachdirectorypair
+
+sorts the subdirectories of a directory and performs an action on each pair of subdirectory and immediately following subdirectory
+
+* directory: directory to iterate
+* "name1": name of the variable to receive the subdirectory1
+* "name2": name of the variable to receive the subdirectory2
+* "action": action to be performed
+
+**Examples**
+
+~~~
+performtest (
+  local result ''
+  foreachdirectorypair c:\testdirectory directory1 directory2 (
+    increment result directory1
+    increment result directory2
+    )
+  return result
+  )
+  'c:\testdirectory\subdirectory1c:\testdirectory\subdirectory2c:\testdirectory\subdirectory2c:\testdirectory\subdirectory3'
+~~~
+
+---
+
 #### get
 
 return the value of a variable; the variable can exist in any active scope
@@ -2579,6 +2613,26 @@ returns the formatted script
 #### getcommands
 
 returns the list of commands
+
+---
+
+#### getdirectories
+
+returns an array of the subdirectories in a directory
+
+* directory: directory
+
+**Examples**
+
+~~~
+performtest (
+  createdirectory c:\testdirectory\subdirectory1
+  createdirectory c:\testdirectory\subdirectory2
+  createdirectory c:\testdirectory\subdirectory3
+  size ( getdirectories c:\testdirectory )
+  )
+  3
+~~~
 
 ---
 
@@ -2824,17 +2878,6 @@ the value of the variable
 
 enables the variable value to be retrieved by preventing the name from being evaluated
 
-**Examples**
-
-~~~
-performtest (
-  local foobar 4711
-  setvariable foobar 4712
-  getvariable foobar
-  )
-  4712
-~~~
-
 ---
 
 #### global
@@ -2977,6 +3020,17 @@ incrementing a string by a string means appending one string to the other
 
 **Examples**
 
+~~~
+performtest (
+  local result ''
+  foreachdirectorypair c:\testdirectory directory1 directory2 (
+    increment result directory1
+    increment result directory2
+    )
+  return result
+  )
+  'c:\testdirectory\subdirectory1c:\testdirectory\subdirectory2c:\testdirectory\subdirectory2c:\testdirectory\subdirectory3'
+~~~
 ~~~
 performtest (
   global value 4711
@@ -3478,6 +3532,16 @@ if the value was not in the collection, "true" is returned, otherwise "false"
 
 only applies to collections for which the "containskey" command can be called (e.g. sets)
 
+**Examples**
+
+~~~
+performtest (
+  local testset ( newset )
+  itemadded testset 'hello'
+  )
+  True
+~~~
+
 ---
 
 #### join
@@ -3668,6 +3732,17 @@ performtest (
 ~~~
 ~~~
 performtest (
+  local result ''
+  foreachdirectorypair c:\testdirectory directory1 directory2 (
+    increment result directory1
+    increment result directory2
+    )
+  return result
+  )
+  'c:\testdirectory\subdirectory1c:\testdirectory\subdirectory2c:\testdirectory\subdirectory2c:\testdirectory\subdirectory3'
+~~~
+~~~
+performtest (
   local value 1234
   increment value 2
   return value
@@ -3752,27 +3827,18 @@ performtest (
 ~~~
 ~~~
 performtest (
-  local foobar 4711
-  setvariable foobar 4712
-  return foobar
-  )
-  4712
-~~~
-~~~
-performtest (
-  local foobar 4711
-  setvariable foobar 4712
-  getvariable foobar
-  )
-  4712
-~~~
-~~~
-performtest (
   local value 1
   increment value
   return value
   )
   2
+~~~
+~~~
+performtest (
+  local testset ( newset )
+  itemadded testset 'hello'
+  )
+  True
 ~~~
 
 ---
@@ -4279,6 +4345,19 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 ---
 
+#### mostrecentrevision
+
+Returns the most recently checked-in revision in a svn-repository
+
+* workspacedirectory: directory of a workspace associated with a svn-repository
+
+**Returns**
+
+
+The most recently checked-in revision
+
+---
+
 #### multireplace
 
 replaces by multiple pairs of searchstring/replacement
@@ -4455,6 +4534,13 @@ performtest (
 ~~~
 ~~~
 performtest ( isnull ( newset ) ) False
+~~~
+~~~
+performtest (
+  local testset ( newset )
+  itemadded testset 'hello'
+  )
+  True
 ~~~
 
 ---
@@ -5106,6 +5192,17 @@ returns a value
 
 ~~~
 performtest (
+  local result ''
+  foreachdirectorypair c:\testdirectory directory1 directory2 (
+    increment result directory1
+    increment result directory2
+    )
+  return result
+  )
+  'c:\testdirectory\subdirectory1c:\testdirectory\subdirectory2c:\testdirectory\subdirectory2c:\testdirectory\subdirectory3'
+~~~
+~~~
+performtest (
   global value 4711
   increment value 1
   return value
@@ -5152,14 +5249,6 @@ performtest (
     )
   )
   ( arrayof 11 )
-~~~
-~~~
-performtest (
-  local foobar 4711
-  setvariable foobar 4712
-  return foobar
-  )
-  4712
 ~~~
 ~~~
 performtest (
@@ -5223,44 +5312,6 @@ See:
 
 ---
 
-#### setvariable
-
-sets a variable to a new value
-
-* "name": name of the variable
-* value: the new value
-
-**Returns**
-
-
-the new value
-
-**Remarks**
-
-
-enables a new variable value to be set by preventing the variable name from being evaluated
-
-**Examples**
-
-~~~
-performtest (
-  local foobar 4711
-  setvariable foobar 4712
-  return foobar
-  )
-  4712
-~~~
-~~~
-performtest (
-  local foobar 4711
-  setvariable foobar 4712
-  getvariable foobar
-  )
-  4712
-~~~
-
----
-
 #### Sign
 
 See:
@@ -5290,6 +5341,15 @@ performtest ( size ( arrayof 1 2 3 4 5 6 ) ) 6
 ~~~
 ~~~
 performtest ( size ( listof 1 2 3 4 5 6 7 ) ) 7
+~~~
+~~~
+performtest (
+  createdirectory c:\testdirectory\subdirectory1
+  createdirectory c:\testdirectory\subdirectory2
+  createdirectory c:\testdirectory\subdirectory3
+  size ( getdirectories c:\testdirectory )
+  )
+  3
 ~~~
 ~~~
 performtest ( size ( getfiles c:\testdirectory ) ) 3
@@ -6274,4 +6334,5 @@ performtest (
 
 #### Missing Examples:
 
-* itemadded
+* getvariable
+* mostrecentrevision

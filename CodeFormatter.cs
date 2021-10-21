@@ -8,7 +8,7 @@ namespace Run2
   public static class CodeFormatter
   {
     // ReSharper disable once MemberCanBeInternal
-    public static string ToCode(string filter)
+    public static string GetCode(string filter)
     {
       var result = new StringBuilder();
       foreach (var command in Globals.Commands.Values.OrderBy(static item => item.Name))
@@ -23,7 +23,7 @@ namespace Run2
           {
             result.Append("\n\n");
           }
-          result.Append(userCommandValue.IsQuoted ? $"command \"{userCommandValue.Name}\"" : $"command {userCommandValue.Name}");
+          result.Append(userCommandValue.QuoteArguments ? $"command \"{userCommandValue.Name}\"" : $"command {userCommandValue.Name}");
           if (!string.IsNullOrEmpty(userCommandValue.Description))
           {
             result.Append($"\n  '{userCommandValue.Description}'");
@@ -38,11 +38,11 @@ namespace Run2
           }
           foreach (var item in userCommandValue.ParameterNames)
           {
-            var parameterName = item.GetNameFromToken();
+            var parameterName = item.GetNameFromItem();
             var parameterDeclaration = parameterName;
-            if (item is Items tokensValue)
+            if (item is Items itemsValue)
             {
-              parameterDeclaration = $"({ToCode(tokensValue, 0, false)} )";
+              parameterDeclaration = $"({ToCode(itemsValue, 0, false)} )";
             }
             result.AppendNewLine(true);
             result.AppendIndented(parameterDeclaration, 2, true);
@@ -71,7 +71,7 @@ namespace Run2
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(items, indent, true) : result;
     }
 
-    internal static string ToCode(object value)
+    public static string ToCode(this object value)
     {
       var tokens = new Items();
       tokens.Enqueue(value);
@@ -109,7 +109,7 @@ namespace Run2
             break;
           }
           default:
-            if (item.GetProperties().IsWeakQuote)
+            if (item.GetProperties().IsQuote)
             {
               result.AppendNewLine(multilineSubCommandWritten);
               result.AppendIndented($"'{item.ToString()?.Replace("\n", "~n")}'", indent, multilineSubCommandWritten);

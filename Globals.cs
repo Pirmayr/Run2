@@ -1,24 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Run2
 {
-  internal static class Globals
+  public static class Globals
   {
-    public const char BlockEnd = ')';
-    public const char BlockStart = '(';
+    public const string DefaultUserScriptFilename = "build.run2";
     public const string IncludePragma = "<!--@include";
     public const int MaxCodeLineLength = 100;
     public const string PragmaCommand = "command";
     public const string ReplacePragma = "<!--@replace";
-    public const string ScriptNameDefault = "build.run2";
-    public const string ScriptNameSystem = "system.run2";
-    public const char StrongQuote = '"';
+    public const string SystemScriptFilename = "system.run2";
     public const string TargetPragma = "<!--@target";
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
-    public const char WeakQuote = '\'';
-
-    public static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables" };
 
     public static Items Arguments { get; set; }
 
@@ -30,13 +26,19 @@ namespace Run2
 
     public static bool DoBreak { get; set; }
 
-    public static object ScriptDirectory { get; set; }
+    public static string ProgramDirectory { get; set; }
 
-    public static string ScriptName { get; set; }
+    public static ConditionalWeakTable<object, Properties> Properties { get; } = new();
 
-    public static string ScriptPath { get; set; }
+    public static string SystemScriptPath { get; set; }
 
-    public static string ScriptPathSystem { get; set; }
+    public static object UserScriptDirectory => Path.GetDirectoryName(UserScriptPath);
+
+    public static string UserScriptFilename { get; set; }
+
+    public static string UserScriptName => Path.GetFileNameWithoutExtension(UserScriptPath);
+
+    public static string UserScriptPath { get; set; }
 
     public static Variables Variables { get; } = new();
   }

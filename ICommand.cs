@@ -1,6 +1,6 @@
 ﻿namespace Run2
 {
-  internal interface ICommand
+  public interface ICommand
   {
     string Description { get; }
 
@@ -8,13 +8,13 @@
 
     string Name { get; }
 
-    string GetParameterDescription(string name);
-
     List ParameterNames { get; }
 
     string Remarks { get; }
 
     string Returns { get; }
+
+    string GetParameterDescription(string name);
 
     object Run(Items arguments);
   }

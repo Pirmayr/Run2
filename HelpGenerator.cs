@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Run2
 {
-  internal static class HelpGenerator
+  public static class HelpGenerator
   {
     public static string GetHelp()
     {
@@ -59,7 +59,7 @@ namespace Run2
             result.Append("\n~~~");
           }
         }
-        else if (name != Globals.TestCommand && name != Path.GetFileNameWithoutExtension(Globals.ScriptName) && command is UserCommand)
+        else if (name != Globals.TestCommand && name != Path.GetFileNameWithoutExtension(Globals.UserScriptFilename) && command is UserCommand)
         {
           if (0 < missingReferences.Length)
           {
@@ -82,9 +82,9 @@ namespace Run2
     private static void GetCommandNames(SubCommand subCommand, ref HashSet<string> commandNames)
     {
       commandNames.Add(subCommand.CommandName);
-      foreach (var token in subCommand.Arguments)
+      foreach (var item in subCommand.Arguments)
       {
-        if (token is SubCommands subCommandsValue)
+        if (item is SubCommands subCommandsValue)
         {
           foreach (SubCommand subCommandValue in subCommandsValue)
           {
@@ -144,7 +144,7 @@ namespace Run2
           builder.Append($"\n* {parameterName}" + (string.IsNullOrEmpty(parameterDescription) ? "" : $": {parameterDescription}"));
           if (isOptional)
           {
-            builder.Append(defaultValue == null ? " (optional)" : $" (optional; default: {CodeFormatter.ToCode(defaultValue)})");
+            builder.Append(defaultValue == null ? " (optional)" : $" (optional; default: {defaultValue.ToCode()})");
           }
           if (string.IsNullOrEmpty(parameterDescription))
           {

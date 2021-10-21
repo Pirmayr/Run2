@@ -2,13 +2,13 @@
 
 namespace Run2
 {
-  internal static class Program
+  public static class Program
   {
     private static int Main()
     {
       try
       {
-        Run2.Initialize();
+        Run2.RunScript();
         return 0;
       }
       catch (Exception exception)

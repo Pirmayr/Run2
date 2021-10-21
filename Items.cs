@@ -6,26 +6,46 @@ namespace Run2
   [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class Items : List
   {
-    public new int Count => base.Count - DequeueIndex;
-
     public int DequeueIndex { get; set; }
 
-    internal Items()
+    public int QueueCount => Count - DequeueIndex;
+
+    public Items()
     {
     }
 
-    internal Items(IEnumerable<object> values) : base(values)
+    public Items(object value)
+    {
+      Add(value);
+    }
+
+    public Items(IEnumerable<object> values) : base(values)
     {
     }
 
-    private object Dequeue()
+    public bool DequeueBool(bool evaluate = true)
     {
-      return this[DequeueIndex++];
+      var result = DequeueObject(evaluate);
+      if (result is string stringValue)
+      {
+        return bool.Parse(stringValue);
+      }
+      return (bool) result;
+    }
+
+    public dynamic DequeueDynamic(bool evaluate = true)
+    {
+      return DequeueObject(evaluate);
     }
 
     public object DequeueObject(bool evaluate = true)
     {
       return Process(Dequeue(), evaluate);
+    }
+
+    public string DequeueString(bool evaluate = true)
+    {
+      return DequeueObject(evaluate).ToString();
     }
 
     public void Enqueue(object value, Properties properties = null)
@@ -34,14 +54,24 @@ namespace Run2
       value.AddProperties(properties);
     }
 
-    private object Peek()
+    public string PeekString()
     {
-      return this[DequeueIndex];
+      return Peek().ToString();
+    }
+
+    public List ToList(bool evaluate)
+    {
+      var result = new List();
+      for (var i = DequeueIndex; i < Count; ++i)
+      {
+        result.Add(Process(this[i], evaluate));
+      }
+      return result;
     }
 
     public bool TryDequeue(out object result)
     {
-      if (DequeueIndex < base.Count)
+      if (DequeueIndex < Count)
       {
         result = Dequeue();
         return true;
@@ -50,44 +80,19 @@ namespace Run2
       return false;
     }
 
-    internal bool DequeueBool(bool evaluate = true)
-    {
-      var result = DequeueObject(evaluate);
-      if (result.IsAnyString(out var stringValue))
-      {
-        return bool.Parse(stringValue);
-      }
-      return (bool) result;
-    }
-
-    internal dynamic DequeueDynamic(bool evaluate = true)
-    {
-      return DequeueObject(evaluate);
-    }
-
-    internal string DequeueString(bool evaluate = true)
-    {
-      return DequeueObject(evaluate).ToString();
-    }
-
-    internal string PeekString()
-    {
-      return Peek().ToString();
-    }
-
-    internal List ToList(bool evaluate)
-    {
-      var result = new List();
-      for (var i = DequeueIndex; i < base.Count; ++i)
-      {
-        result.Add(Process(this[i], evaluate));
-      }
-      return result;
-    }
-
     private static object Process(object value, bool evaluate)
     {
       return evaluate ? Run2.Evaluate(value) : value;
+    }
+
+    public object Dequeue()
+    {
+      return this[DequeueIndex++];
+    }
+
+    public object Peek()
+    {
+      return this[DequeueIndex];
     }
   }
 }

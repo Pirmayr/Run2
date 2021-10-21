@@ -1,4 +1,4 @@
 ﻿namespace Run2
 {
-  internal delegate object CommandAction(Items arguments);
+  public delegate object CommandAction(Items arguments);
 }
