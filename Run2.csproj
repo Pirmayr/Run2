@@ -7,6 +7,8 @@
     <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>Run2.snk</AssemblyOriginatorKeyFile>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

@@ -197,6 +197,13 @@ namespace Run2
     {
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
+      if (value1 is string value1Value)
+      {
+        if (value2 is string value2Value)
+        {
+          return string.Compare(value1Value, value2Value, StringComparison.Ordinal) < 0;
+        }
+      }
       return value1 < value2;
     }
 

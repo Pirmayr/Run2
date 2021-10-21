@@ -225,12 +225,29 @@ performtest ( >= 47 11 ) True
 
 ---
 
+#### Abort
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Abort
+
+---
+
 #### Add
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Add
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Add
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Add
+
+---
+
+#### AddDays
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddDays
 
 ---
 
@@ -258,6 +275,14 @@ performtest (
   )
   2
 ~~~
+
+---
+
+#### AddHours
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddHours
 
 ---
 
@@ -290,11 +315,59 @@ performtest (
 
 ---
 
+#### AddMilliseconds
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddMilliseconds
+
+---
+
+#### AddMinutes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddMinutes
+
+---
+
+#### AddMonths
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddMonths
+
+---
+
 #### AddRange
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.AddRange
+
+---
+
+#### AddSeconds
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddSeconds
+
+---
+
+#### AddTicks
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddTicks
+
+---
+
+#### AddYears
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.AddYears
 
 ---
 
@@ -304,6 +377,14 @@ performs the 'and'-operation
 
 * value1: first value
 * value2: second value
+
+---
+
+#### ApartmentState
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.ApartmentState
 
 ---
 
@@ -1175,7 +1256,7 @@ performs a svn-checkin
 
 * branchdirectory: the directory to check in
 * commitmessage: the commit-message
-* test: (optional) if "true", the command is not performed (for testing purposes)
+* test: if "true", the command is not performed, if "false" the command is performed (optional; default:  False)
 
 **Examples**
 
@@ -1229,6 +1310,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.CompareTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Char.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.CompareTo
@@ -1640,6 +1722,206 @@ performtest (
 
 ---
 
+#### CurrentCulture
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.CurrentCulture
+
+---
+
+#### CurrentUICulture
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.CurrentUICulture
+
+---
+
+#### Date
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Date
+
+---
+
+#### DateTime.Compare
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Compare
+
+---
+
+#### DateTime.DaysInMonth
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.DaysInMonth
+
+---
+
+#### DateTime.Equals
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Equals
+
+---
+
+#### DateTime.FromBinary
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.FromBinary
+
+---
+
+#### DateTime.FromFileTime
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.FromFileTime
+
+---
+
+#### DateTime.FromFileTimeUtc
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.FromFileTimeUtc
+
+---
+
+#### DateTime.FromOADate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.FromOADate
+
+---
+
+#### DateTime.IsLeapYear
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.IsLeapYear
+
+---
+
+#### DateTime.MaxValue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.MaxValue
+
+---
+
+#### DateTime.MinValue
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.MinValue
+
+---
+
+#### DateTime.Now
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Now
+
+---
+
+#### DateTime.Parse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Parse
+
+---
+
+#### DateTime.ParseExact
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ParseExact
+
+---
+
+#### DateTime.SpecifyKind
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.SpecifyKind
+
+---
+
+#### DateTime.Today
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Today
+
+---
+
+#### DateTime.TryParse
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.TryParse
+
+---
+
+#### DateTime.TryParseExact
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.TryParseExact
+
+---
+
+#### DateTime.UnixEpoch
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.UnixEpoch
+
+---
+
+#### DateTime.UtcNow
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.UtcNow
+
+---
+
+#### Day
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Day
+
+---
+
+#### DayOfWeek
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.DayOfWeek
+
+---
+
+#### DayOfYear
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.DayOfYear
+
+---
+
 #### Deconstruct
 
 See:
@@ -1982,6 +2264,14 @@ performtest ( directoryseparator ) ( tochar '\' )
 
 ---
 
+#### DisableComObjectEagerCleanup
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.DisableComObjectEagerCleanup
+
+---
+
 #### dos
 
 executes specified dos-command and returns the output
@@ -2069,8 +2359,20 @@ See:
 
 See:
 
-* https://docs.microsoft.com/en-us/dotnet/api/System.Object.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Array.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Math.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.String.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Equals
 
 ---
 
@@ -2079,6 +2381,14 @@ See:
 evaluates an object
 
 * object: object to be evaluated
+
+---
+
+#### ExecutionContext
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.ExecutionContext
 
 ---
 
@@ -2588,6 +2898,14 @@ return the value of a variable; the variable can exist in any active scope
 
 ---
 
+#### GetApartmentState
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.GetApartmentState
+
+---
+
 #### GetBitLength
 
 See:
@@ -2613,6 +2931,22 @@ returns the formatted script
 #### getcommands
 
 returns the list of commands
+
+---
+
+#### GetCompressedStack
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.GetCompressedStack
+
+---
+
+#### GetDateTimeFormats
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.GetDateTimeFormats
 
 ---
 
@@ -2726,8 +3060,20 @@ performtest ( getfname 'C:\Windows\System32' ) 'System32'
 
 See:
 
-* https://docs.microsoft.com/en-us/dotnet/api/System.Object.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Math.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.String.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetHashCode
 
 ---
 
@@ -2831,8 +3177,20 @@ performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) )
 
 See:
 
-* https://docs.microsoft.com/en-us/dotnet/api/System.Object.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Math.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.String.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetType
 
 ---
 
@@ -2841,6 +3199,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetTypeCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.GetTypeCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Char.GetTypeCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.GetTypeCode
 
@@ -2979,6 +3338,14 @@ performtest ( head ( arrayof 1 2 3 4 ) ) 1
 ~~~
 performtest ( head ( listof 4 7 1 1 ) ) 4
 ~~~
+
+---
+
+#### Hour
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Hour
 
 ---
 
@@ -3157,6 +3524,14 @@ See:
 
 ---
 
+#### Interrupt
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Interrupt
+
+---
+
 #### invokeinstancemember
 
 calls the 'Invoke'-method of the type of the specified object
@@ -3180,6 +3555,14 @@ if all tests succeeded, true is returned, otherwise false
 ~~~
 performtest ( invoketests ) True
 ~~~
+
+---
+
+#### IsAlive
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.IsAlive
 
 ---
 
@@ -3213,6 +3596,14 @@ performtest ( isarray ( newarray 100 0 ) ) True
 ~~~
 performtest ( isarray ( toarray ( newlist ) ) ) True
 ~~~
+
+---
+
+#### IsBackground
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.IsBackground
 
 ---
 
@@ -3264,6 +3655,14 @@ the test checks if the object already is an array, or has the method "ToArray"
 ~~~
 performtest ( isconvertibletoarray ( newlist ) ) True
 ~~~
+
+---
+
+#### IsDaylightSavingTime
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.IsDaylightSavingTime
 
 ---
 
@@ -3472,6 +3871,14 @@ See:
 
 ---
 
+#### IsThreadPoolThread
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.IsThreadPoolThread
+
+---
+
 #### iswhitespace
 
 checks if a value is white space
@@ -3569,6 +3976,14 @@ performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
 
 ---
 
+#### Join
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Join
+
+---
+
 #### joinfrom
 
 joins the arguments to a string separated by blanks
@@ -3602,6 +4017,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Keys
+
+---
+
+#### Kind
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Kind
 
 ---
 
@@ -3937,6 +4360,14 @@ performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.LongLength
+
+---
+
+#### ManagedThreadId
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.ManagedThreadId
 
 ---
 
@@ -4345,6 +4776,59 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 ---
 
+#### merge
+
+* fromworkspacedirectory
+* toworkspacedirectory
+* commitmessage: the commit-message
+* test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
+
+---
+
+#### mergeup
+
+* startworkspacedirectory
+* commitmessage
+* test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
+
+---
+
+#### Millisecond
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Millisecond
+
+---
+
+#### Minute
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Minute
+
+---
+
+#### monitorrepository
+
+monitors a repository for changes and starts an action if a change occurs
+
+* workspacedirectory: workspace associated with a repository
+* checkcontinuously: if "true", the test is run indefinitely, if "false" the test is performed only once.
+* intervall: the intervall in milliseconds between checks
+* performactiononfirstpass: if "true" the action is always carried out on the first pass, if "false" the check is carried out on the first pass too
+* "action": the action to be performed when a change occurs
+
+---
+
+#### Month
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Month
+
+---
+
 #### mostrecentrevision
 
 Returns the most recently checked-in revision in a svn-repository
@@ -4372,6 +4856,14 @@ the modified string
 ~~~
 performtest ( multireplace 'Hello World!' 'Hello' 'Good' 'World' 'Bye' ) 'Good Bye!'
 ~~~
+
+---
+
+#### Name
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Name
 
 ---
 
@@ -4976,6 +5468,14 @@ performtest ( size ( primes 1000 ) ) 167
 
 ---
 
+#### Priority
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Priority
+
+---
+
 #### push
 
 pushes an element
@@ -5075,6 +5575,7 @@ See:
 returns the text contained in a file
 
 * path: path of the file
+* default: default value if the file does not exist (optional; default:  '')
 
 **Returns**
 
@@ -5182,6 +5683,14 @@ See:
 
 ---
 
+#### Resume
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Resume
+
+---
+
 #### return
 
 returns a value
@@ -5278,6 +5787,14 @@ runs an external program with the arguments given
 
 ---
 
+#### Second
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Second
+
+---
+
 #### set
 
 assigns a new value to an existing variable; the variable can exist in any active scope
@@ -5293,6 +5810,22 @@ performtest (
   )
   1234
 ~~~
+
+---
+
+#### SetApartmentState
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.SetApartmentState
+
+---
+
+#### SetCompressedStack
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.SetCompressedStack
 
 ---
 
@@ -5393,6 +5926,14 @@ performtest ( size ( locatedirectories c:\windows 'system' ) ) 1
 ~~~
 performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
 ~~~
+
+---
+
+#### sleep
+
+sleeps for the given amount of time
+
+* timeout: the timeout in milliseconds
 
 ---
 
@@ -5535,6 +6076,14 @@ performtest ( square 2 ) 4
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Synchronized
+
+---
+
+#### Start
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Start
 
 ---
 
@@ -5706,6 +6255,14 @@ See:
 
 ---
 
+#### Subtract
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Subtract
+
+---
+
 #### sum
 
 returns the sum of the given values
@@ -5744,6 +6301,14 @@ the sum
 ~~~
 performtest ( sumof 1 2 3 ) 6
 ~~~
+
+---
+
+#### Suspend
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Suspend
 
 ---
 
@@ -5834,11 +6399,211 @@ performs various tests
 
 ---
 
+#### Thread.AllocateDataSlot
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.AllocateDataSlot
+
+---
+
+#### Thread.AllocateNamedDataSlot
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.AllocateNamedDataSlot
+
+---
+
+#### Thread.BeginCriticalRegion
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.BeginCriticalRegion
+
+---
+
+#### Thread.BeginThreadAffinity
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.BeginThreadAffinity
+
+---
+
+#### Thread.CurrentPrincipal
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.CurrentPrincipal
+
+---
+
+#### Thread.CurrentThread
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.CurrentThread
+
+---
+
+#### Thread.EndCriticalRegion
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.EndCriticalRegion
+
+---
+
+#### Thread.EndThreadAffinity
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.EndThreadAffinity
+
+---
+
+#### Thread.FreeNamedDataSlot
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.FreeNamedDataSlot
+
+---
+
+#### Thread.GetCurrentProcessorId
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.GetCurrentProcessorId
+
+---
+
+#### Thread.GetData
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.GetData
+
+---
+
+#### Thread.GetDomain
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.GetDomain
+
+---
+
+#### Thread.GetDomainID
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.GetDomainID
+
+---
+
+#### Thread.GetNamedDataSlot
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.GetNamedDataSlot
+
+---
+
+#### Thread.MemoryBarrier
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.MemoryBarrier
+
+---
+
+#### Thread.ResetAbort
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.ResetAbort
+
+---
+
+#### Thread.SetData
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.SetData
+
+---
+
+#### Thread.Sleep
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Sleep
+
+---
+
+#### Thread.SpinWait
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.SpinWait
+
+---
+
+#### Thread.VolatileRead
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.VolatileRead
+
+---
+
+#### Thread.VolatileWrite
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.VolatileWrite
+
+---
+
+#### Thread.Yield
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Yield
+
+---
+
+#### ThreadState
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.ThreadState
+
+---
+
 #### throw
 
 throws an exception
 
 * message: message
+
+---
+
+#### Ticks
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Ticks
+
+---
+
+#### TimeOfDay
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.TimeOfDay
 
 ---
 
@@ -5893,6 +6658,14 @@ performtest ( typename ( tobiginteger 4711 ) ) 'BigInteger'
 ~~~
 performtest ( typename ( tobiginteger '4711' ) ) 'BigInteger'
 ~~~
+
+---
+
+#### ToBinary
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToBinary
 
 ---
 
@@ -5998,6 +6771,22 @@ performtest ( typename ( todouble '4711' ) ) 'Double'
 
 ---
 
+#### ToFileTime
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToFileTime
+
+---
+
+#### ToFileTimeUtc
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToFileTimeUtc
+
+---
+
 #### toint32
 
 converts a value to an "int32"-value
@@ -6028,6 +6817,30 @@ performtest ( typename ( toint32 '4711' ) ) 'Int32'
 
 ---
 
+#### ToLocalTime
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToLocalTime
+
+---
+
+#### ToLongDateString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToLongDateString
+
+---
+
+#### ToLongTimeString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToLongTimeString
+
+---
+
 #### ToLower
 
 See:
@@ -6041,6 +6854,30 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.ToLowerInvariant
+
+---
+
+#### ToOADate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToOADate
+
+---
+
+#### ToShortDateString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToShortDateString
+
+---
+
+#### ToShortTimeString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToShortTimeString
 
 ---
 
@@ -6067,14 +6904,34 @@ performtest ( isstring ( tostring 4711 ) ) True
 
 See:
 
-* https://docs.microsoft.com/en-us/dotnet/api/System.Object.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Array.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Math.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.String.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ToString
 
 **Examples**
 
 ~~~
 performtest ( ToString ( at 'Hello' 1 ) ) 'e'
 ~~~
+
+---
+
+#### ToUniversalTime
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.ToUniversalTime
 
 ---
 
@@ -6146,8 +7003,17 @@ See:
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.TryFormat
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.TryFormat
 * https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.TryFormat
+
+---
+
+#### TrySetApartmentState
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.TrySetApartmentState
 
 ---
 
@@ -6332,7 +7198,30 @@ performtest (
   6
 ~~~
 
+---
+
+#### Year
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Year
+
+#### Missing Documentation:
+
+
+* merge
+  - fromworkspacedirectory
+  - toworkspacedirectory
+
+* mergeup
+  - startworkspacedirectory
+  - commitmessage
+
 #### Missing Examples:
 
 * getvariable
+* merge
+* mergeup
+* monitorrepository
 * mostrecentrevision
+* sleep

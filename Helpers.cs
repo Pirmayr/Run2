@@ -316,7 +316,7 @@ namespace Run2
           {
             path = LocateFile(Globals.ProgramDirectory, filename);
           }
-          expandedContents += File.ReadAllText(path);
+          expandedContents += path != null && File.Exists(path) ? File.ReadAllText(path) : "";
         }
         else if (currentCleanLine.TryGetControlValue(Globals.TargetPragma, out var target))
         {

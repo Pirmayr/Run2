@@ -12,7 +12,7 @@ namespace Run2
 {
   public static class Run2
   {
-    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables" };
+    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime" };
 
     public static object Evaluate(object value)
     {
@@ -33,10 +33,6 @@ namespace Run2
 
     public static object ExecuteCommand(string name, Items arguments)
     {
-      if (name == "foreachdirectorypair")
-      {
-        int a = 0;
-      }
       var oldDequeueIndex = arguments.DequeueIndex;
       try
       {
@@ -166,7 +162,7 @@ namespace Run2
     private static Type BaseTypeOfMember(this Type type, string memberName, BindingFlags bindingFlags)
     {
       var result = type;
-      while (result != null && result.Name != "ValueType" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
+      while (result != null && result.Name != "ValueType" && result.BaseType?.Name != "Object" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
       {
         var baseType = type.BaseType;
         result = baseType;
@@ -250,8 +246,7 @@ namespace Run2
       Globals.Variables.SetGlobal("commands", Globals.Commands);
       Globals.Variables.SetGlobal("variables", Globals.Variables);
       Globals.Variables.SetGlobal("userscriptpath", Globals.UserScriptPath);
-      var value = Globals.UserScriptDirectory;
-      Globals.Variables.SetGlobal("userscriptdirectory", value);
+      Globals.Variables.SetGlobal("userscriptdirectory", Globals.UserScriptDirectory);
       Globals.Variables.SetGlobal("basedirectory", Globals.BaseDirectory);
       Globals.Variables.SetGlobal("programdirectory", Globals.ProgramDirectory);
       Globals.Variables.SetGlobal("systemscriptpath", Globals.SystemScriptPath);
