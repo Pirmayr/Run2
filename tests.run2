@@ -1,4 +1,4 @@
-﻿loadscript build
+loadscript build
 
 command invoketests
   'invokes the tests'
@@ -310,9 +310,15 @@ command tests
   'if all tests succeeded, true is returned, otherwise false'
   performtest ( invoketests ) True
   writefile [basedirectory]\..\..\..\Commands.txt ( getcommands )
-  if (and False (return testsok) ) (
+  if ( return testsok ) (
     write 'Writing results to disk ...'
     writefile [basedirectory]\..\..\..\Commands.md ( gethelp )
-    writefile [basedirectory]\..\..\..\System.run2 ( getcode System.run2 )
+    writefile [basedirectory]\..\..\..\core.run2 ( getcode core.run2 )
+    writefile [basedirectory]\..\..\..\collections.run2 ( getcode collections.run2 )
+    writefile [basedirectory]\..\..\..\filesystem.run2 ( getcode filesystem.run2 )
+    writefile [basedirectory]\..\..\..\io.run2 ( getcode io.run2 )
+    writefile [basedirectory]\..\..\..\math.run2 ( getcode math.run2 )
+    writefile [basedirectory]\..\..\..\os.run2 ( getcode os.run2 )
+    writefile [basedirectory]\..\..\..\tests.run2 ( getcode tests.run2 )
     )
   return testsok

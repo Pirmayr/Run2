@@ -993,6 +993,17 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 
 ---
 
+#### build
+
+performs various initializations
+
+**Returns**
+
+
+the command always returns "true"
+
+---
+
 #### canparseint32
 
 tests whether the specified string can be parsed to an int32
@@ -3224,24 +3235,6 @@ See:
 
 ---
 
-#### getvariable
-
-returns the value of a variable
-
-* "name": name of the variable
-
-**Returns**
-
-
-the value of the variable
-
-**Remarks**
-
-
-enables the variable value to be retrieved by preventing the name from being evaluated
-
----
-
 #### global
 
 creates or sets a global variable
@@ -3453,23 +3446,6 @@ See:
 
 ---
 
-#### initialize
-
-performs various initializations
-
-**Returns**
-
-
-the command always returns "true"
-
-**Examples**
-
-~~~
-performtest ( initialize ) True
-~~~
-
----
-
 #### Initialize
 
 See:
@@ -3481,7 +3457,8 @@ See:
 #### inputbox
 
 * prompt
-* title (optional; default:  'Input')
+* title (optional; default:  'input')
+* default (optional; default:  '')
 
 ---
 
@@ -5293,6 +5270,17 @@ performs the 'or'-operation
 
 ---
 
+#### os
+
+performs various initializations
+
+**Returns**
+
+
+the command always returns "true"
+
+---
+
 #### PadLeft
 
 See:
@@ -6499,23 +6487,6 @@ See:
 
 ---
 
-#### system
-
-various tests
-
-**Returns**
-
-
-if all tests succeeded, true is returned, otherwise false
-
-**Examples**
-
-~~~
-performtest ( system ) True
-~~~
-
----
-
 #### tail
 
 tail of an object (e.g. an array, a list, or a string)
@@ -6556,7 +6527,12 @@ performtest (
 
 #### tests
 
-performs various tests
+various tests
+
+**Returns**
+
+
+if all tests succeeded, true is returned, otherwise false
 
 ---
 
@@ -7383,6 +7359,7 @@ See:
 * inputbox
   - prompt
   - title
+  - default
 
 * isnullorempty
   - string
@@ -7398,12 +7375,14 @@ See:
 
 #### Missing Examples:
 
-* getvariable
+* build
 * inputbox
 * isnullorempty
 * merge
 * mergeup
 * monitorrepository
 * mostrecentrevision
+* os
 * sleep
+* tests
 * update

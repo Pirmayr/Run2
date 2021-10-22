@@ -1,7 +1,21 @@
-﻿command dir
+command dir
   'executes the Windows command "dir" and returns the result'
   dos 'dir' ( join arguments )
 
 command dos
   'executes specified dos-command and returns the output'
   if ( directoryexists ( at arguments 0 ) ) ( run ( at arguments 0 ) cmd /c ( join ( tail arguments ) ) ) ( run cmd /c ( join arguments ) )
+
+command os
+  'performs various initializations'
+  'the command always returns "true"'
+  global windowsdirectory windir
+  global programfilesdirectory ProgramFiles
+  global programfiles32directory 'ProgramFiles(x86)'
+  global visualstudiodirectory ( locatedirectory '[programfiles32directory]\Microsoft Visual Studio' '????' )
+  global run2projectdirectory ( finddirectory programdirectory 'Run2' )
+  global now ( DateTime.Now )
+  global currentyear ( ToString ( Year now ) 'D4' )
+  global currentmonth ( ToString ( Month now ) 'D2' )
+  global currentday ( ToString ( Day now ) 'D2' )
+  return True

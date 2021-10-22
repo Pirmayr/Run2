@@ -1,4 +1,4 @@
-﻿command build.domain
+﻿command build
   'performs various initializations'
   'the command always returns "true"'
   global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )

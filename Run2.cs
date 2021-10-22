@@ -153,23 +153,13 @@ namespace Run2
       CreateStandardObject(new Stack());
       Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Debug = CommandLineParser.OptionExists("debug");
-      Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
       Globals.ProgramDirectory = Path.GetDirectoryName(AppContext.BaseDirectory);
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Globals.ProgramDirectory);
-      // Globals.SystemScriptPath = Helpers.LocateFile(Globals.ProgramDirectory, Globals.SystemScriptName);
       Globals.UserScriptFilename = CommandLineParser.GetOptionString("scriptName", Globals.DefaultUserScriptFilename);
       Globals.UserScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.UserScriptFilename);
       File.Exists(Globals.UserScriptPath).Check($"Could not find script '{Globals.UserScriptFilename}' (base-directory: '{Globals.BaseDirectory}')");
       BuildSystemCommands();
       BuildInvokeCommands();
-      /*
-      LoadScripts(Globals.ProgramDirectory, "*.core.run2");
-      LoadScripts(Globals.ProgramDirectory, "*.domain.run2");
-      LoadScripts(Globals.ProgramDirectory, "*.subdomain.run2");
-      LoadScripts(Globals.BaseDirectory, "*.core.run2");
-      LoadScripts(Globals.BaseDirectory, "*.domain.run2");
-      LoadScripts(Globals.BaseDirectory, "*.subdomain.run2");
-      */
       LoadScript(Globals.SystemScriptName);
       LoadScript(Globals.UserScriptPath);
       Helpers.WriteLine("Script terminated successfully");
@@ -265,18 +255,6 @@ namespace Run2
     private static bool IsStruct(this Type type)
     {
       return type.IsValueType && !type.IsEnum;
-    }
-
-    private static void LoadScripts(string directory, string pattern)
-    {
-      foreach (var path in Helpers.LocateFiles(directory, pattern))
-      {
-        if (!loadedScripts.Contains(path))
-        {
-          loadedScripts.Add(path);
-          LoadScript(path);
-        }
-      }
     }
 
     private static void LoadType(string fullQualifiedTypeName)

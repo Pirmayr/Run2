@@ -7,7 +7,7 @@
     public static void Parse(Tokens tokens)
     {
       currentToken = tokens.Dequeue();
-      while (currentToken.TokenKind == TokenKind.PragmaCommand || currentToken.TokenKind == TokenKind.PragmaReadScript)
+      while (currentToken.TokenKind is TokenKind.PragmaCommand or TokenKind.PragmaReadScript)
       {
         switch (currentToken.TokenKind)
         {

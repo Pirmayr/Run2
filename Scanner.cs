@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Run2
 {
@@ -77,7 +78,7 @@ namespace Run2
         }
       }
       (blockLevel == 0).Check(0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
-      LoadScripts(result);
+      ImportScripts(result, Path.GetFileNameWithoutExtension(scriptPath));
       IdentifyCommands(result, scriptPath);
       result.Enqueue(new Token(TokenKind.EOF, "EOF", lineNumber));
       return result;
@@ -138,25 +139,31 @@ namespace Run2
       return !char.IsWhiteSpace(character);
     }
 
-    private static void LoadScripts(Tokens tokens)
+    private static void ImportScripts(Tokens tokens, string scriptName)
     {
-      var pragmaLoadScriptRead = false;
+      var pragmaImportRead = false;
       foreach (var token in tokens)
       {
-        if (pragmaLoadScriptRead)
+        if (pragmaImportRead)
         {
-          pragmaLoadScriptRead = false;
-          var scriptName = token.Value.ToString();
-          (!string.IsNullOrEmpty(scriptName)).Check("Script-name must not be null");
-          Run2.LoadScript(scriptName);
+          pragmaImportRead = false;
+          var importName = token.Value.ToString();
+          (!string.IsNullOrEmpty(importName)).Check("Script-name must not be null");
+          Run2.LoadScript(importName);
+          if (!Globals.Imports.TryGetValue(scriptName, out var importsList))
+          {
+            importsList = new List<string>();
+            Globals.Imports.Add(scriptName, importsList);
+          }
+          importsList.Add(importName);
         }
-        else if (token.Value.ToString() == Globals.PragmaLoadScript)
+        else if (token.Value.ToString() == Globals.PragmaImport)
         {
-          pragmaLoadScriptRead = true;
+          pragmaImportRead = true;
           token.TokenKind = TokenKind.PragmaReadScript;
         }
       }
-      (!pragmaLoadScriptRead).Check("Unexpected end of file while identifying commands");
+      (!pragmaImportRead).Check("Unexpected end of file while identifying commands");
     }
 
     private static char Unescape(CharacterQueue characters, char character)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,17 @@ namespace Run2
     public static string GetCode(string filter)
     {
       var result = new StringBuilder();
+      if (Globals.Imports.TryGetValue(Path.GetFileNameWithoutExtension(filter), out var importsList))
+      {
+        foreach (var item in importsList)
+        {
+          if (0 < result.Length)
+          {
+            result.Append("\n");
+          }
+          result.Append($"loadscript {item}");
+        }
+      }
       foreach (var command in Globals.Commands.Values.OrderBy(static item => item.Name))
       {
         if (command is UserCommand userCommandValue)

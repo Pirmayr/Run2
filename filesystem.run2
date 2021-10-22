@@ -1,4 +1,4 @@
-﻿command copyfiles
+command copyfiles
   'copies files from one location to another'
   sourcedirectory 'directory to copy from'
   sourcespecification 'name of the file to copy or a pattern (e.g. "*.run2")'
@@ -131,4 +131,3 @@ command removetrailingdirectoryseparator
   'removes all trailing occurrences of the directory-separator from a path'
   path 'path'
   trimend path ( directoryseparator )
-

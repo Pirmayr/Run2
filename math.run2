@@ -1,4 +1,4 @@
-﻿command average
+command average
   'computes the average of the given values'
   'the average'
   values 'values'
@@ -64,4 +64,3 @@ command sumof
   'returns the sum of the arguments'
   'the sum'
   sum arguments
-

@@ -1,4 +1,4 @@
-﻿command besttype
+command besttype
   'tries to find the best type for the given object'
   object 'object'
   if ( isstring object ) ( switch ( canparseint32 object ) ( toint32 object ) object ) object

@@ -4,17 +4,4 @@ loadscript filesystem
 loadscript io
 loadscript math
 loadscript os
-
-command system
-  'performs various initializations'
-  'the command always returns "true"'
-  global windowsdirectory windir
-  global programfilesdirectory ProgramFiles
-  global programfiles32directory 'ProgramFiles(x86)'
-  global visualstudiodirectory ( locatedirectory '[programfiles32directory]\Microsoft Visual Studio' '????' )
-  global run2projectdirectory ( finddirectory programdirectory 'Run2' )
-  global now ( DateTime.Now )
-  global currentyear ( ToString ( Year now ) 'D4' )
-  global currentmonth ( ToString ( Month now ) 'D2' )
-  global currentday ( ToString ( Day now ) 'D2' )
-  return True
+loadscript build

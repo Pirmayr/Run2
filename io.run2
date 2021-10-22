@@ -1,4 +1,4 @@
-﻿command inputbox
+command inputbox
   prompt
   ( title 'input' )
   ( default '' )
