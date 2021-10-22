@@ -7,33 +7,42 @@
     public static void Parse(Tokens tokens)
     {
       currentToken = tokens.Dequeue();
-      while (currentToken.TokenKind == TokenKind.PragmaCommand)
+      while (currentToken.TokenKind == TokenKind.PragmaCommand || currentToken.TokenKind == TokenKind.PragmaReadScript)
       {
-        currentToken = tokens.Dequeue();
-        currentToken.CheckToken(TokenKind.CommandName);
-        var commandName = currentToken.Value.ToString();
-        (!string.IsNullOrEmpty(commandName)).Check("Command names must not be null or empty");
-        Globals.Commands.TryGetValue(commandName, out var command).Check($"Command {commandName} not found while parsing");
-        var userCommand = command as UserCommand;
-        (userCommand != null).Check($"Expected command {commandName} to be a user-command");
-        currentToken = tokens.Dequeue();
-        if (currentToken.TokenKind == TokenKind.Quote)
+        switch (currentToken.TokenKind)
         {
-          userCommand.Description = currentToken.Value.ToString();
-          currentToken = tokens.Dequeue();
+          case TokenKind.PragmaCommand:
+            currentToken = tokens.Dequeue();
+            currentToken.CheckToken(TokenKind.CommandName);
+            var commandName = currentToken.Value.ToString();
+            (!string.IsNullOrEmpty(commandName)).Check("Command names must not be null or empty");
+            Globals.Commands.TryGetValue(commandName, out var command).Check($"Command {commandName} not found while parsing");
+            var userCommand = command as UserCommand;
+            (userCommand != null).Check($"Expected command {commandName} to be a user-command");
+            currentToken = tokens.Dequeue();
+            if (currentToken.TokenKind == TokenKind.Quote)
+            {
+              userCommand.Description = currentToken.Value.ToString();
+              currentToken = tokens.Dequeue();
+            }
+            if (currentToken.TokenKind == TokenKind.Quote)
+            {
+              userCommand.Returns = currentToken.Value.ToString();
+              currentToken = tokens.Dequeue();
+            }
+            if (currentToken.TokenKind == TokenKind.Quote)
+            {
+              userCommand.Remarks = currentToken.Value.ToString();
+              currentToken = tokens.Dequeue();
+            }
+            ParseParameters(tokens, userCommand);
+            ParseStatements(tokens, userCommand.SubCommands);
+            break;
+          case TokenKind.PragmaReadScript:
+            currentToken = tokens.Dequeue();
+            currentToken = tokens.Dequeue();
+            break;
         }
-        if (currentToken.TokenKind == TokenKind.Quote)
-        {
-          userCommand.Returns = currentToken.Value.ToString();
-          currentToken = tokens.Dequeue();
-        }
-        if (currentToken.TokenKind == TokenKind.Quote)
-        {
-          userCommand.Remarks = currentToken.Value.ToString();
-          currentToken = tokens.Dequeue();
-        }
-        ParseParameters(tokens, userCommand);
-        ParseStatements(tokens, userCommand.SubCommands);
       }
       (currentToken.TokenKind == TokenKind.EOF).Check("Unexpected eof of file while parsing");
     }

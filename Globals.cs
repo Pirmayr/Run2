@@ -6,12 +6,14 @@ namespace Run2
 {
   public static class Globals
   {
+    public const string DefaultExtension = "run2";
     public const string DefaultUserScriptFilename = "build.run2";
     public const string IncludePragma = "<!--@include";
     public const int MaxCodeLineLength = 100;
     public const string PragmaCommand = "command";
+    public const string PragmaLoadScript = "loadscript";
     public const string ReplacePragma = "<!--@replace";
-    public const string SystemScriptFilename = "system.run2";
+    public const string SystemScriptName = "core";
     public const string TargetPragma = "<!--@target";
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
@@ -30,7 +32,7 @@ namespace Run2
 
     public static ConditionalWeakTable<object, Properties> Properties { get; } = new();
 
-    public static string SystemScriptPath { get; set; }
+    // public static string SystemScriptPath { get; set; }
 
     public static object UserScriptDirectory => Path.GetDirectoryName(UserScriptPath);
 

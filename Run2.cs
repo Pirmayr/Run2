@@ -12,6 +12,8 @@ namespace Run2
 {
   public static class Run2
   {
+    private static readonly HashSet<string> loadedScripts = new();
+
     private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime" };
 
     public static object Evaluate(object value)
@@ -115,8 +117,34 @@ namespace Run2
       }
     }
 
+    public static void LoadScript(string scriptNameOrPath)
+    {
+      var scriptPath = scriptNameOrPath;
+      if (!File.Exists(scriptPath))
+      {
+        var scriptFileName = $"{scriptNameOrPath}.{Globals.DefaultExtension}";
+        scriptPath = Helpers.LocateFile(Globals.ProgramDirectory, scriptFileName);
+        if (string.IsNullOrEmpty(scriptPath))
+        {
+          scriptPath = Helpers.LocateFile(Globals.BaseDirectory, scriptFileName);
+        }
+      }
+      if (!loadedScripts.Contains(scriptPath))
+      {
+        loadedScripts.Add(scriptPath);
+        File.Exists(scriptPath).Check($"Script '{scriptNameOrPath}' not found");
+        Parser.Parse(Scanner.Scan(scriptPath));
+        var commandName = Path.GetFileNameWithoutExtension(scriptPath);
+        if (Globals.Commands.ContainsKey(commandName))
+        {
+          ExecuteCommand(commandName, new Items());
+        }
+      }
+    }
+
     public static void RunScript()
     {
+      LoadType("Microsoft.VisualBasic.Interaction, Microsoft.VisualBasic.Core");
       CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
       CreateStandardObject(new ArrayList());
       CreateStandardObject(new BigInteger());
@@ -128,18 +156,22 @@ namespace Run2
       Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
       Globals.ProgramDirectory = Path.GetDirectoryName(AppContext.BaseDirectory);
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Globals.ProgramDirectory);
-      Globals.SystemScriptPath = Helpers.LocateFile(Globals.ProgramDirectory, Globals.SystemScriptFilename);
+      // Globals.SystemScriptPath = Helpers.LocateFile(Globals.ProgramDirectory, Globals.SystemScriptName);
       Globals.UserScriptFilename = CommandLineParser.GetOptionString("scriptName", Globals.DefaultUserScriptFilename);
       Globals.UserScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.UserScriptFilename);
       File.Exists(Globals.UserScriptPath).Check($"Could not find script '{Globals.UserScriptFilename}' (base-directory: '{Globals.BaseDirectory}')");
       BuildSystemCommands();
       BuildInvokeCommands();
-      if (File.Exists(Globals.SystemScriptPath))
-      {
-        LoadScript(Globals.SystemScriptPath);
-      }
+      /*
+      LoadScripts(Globals.ProgramDirectory, "*.core.run2");
+      LoadScripts(Globals.ProgramDirectory, "*.domain.run2");
+      LoadScripts(Globals.ProgramDirectory, "*.subdomain.run2");
+      LoadScripts(Globals.BaseDirectory, "*.core.run2");
+      LoadScripts(Globals.BaseDirectory, "*.domain.run2");
+      LoadScripts(Globals.BaseDirectory, "*.subdomain.run2");
+      */
+      LoadScript(Globals.SystemScriptName);
       LoadScript(Globals.UserScriptPath);
-      ExecuteCommand(Globals.UserScriptName, Globals.Arguments);
       Helpers.WriteLine("Script terminated successfully");
     }
 
@@ -235,10 +267,21 @@ namespace Run2
       return type.IsValueType && !type.IsEnum;
     }
 
-    private static void LoadScript(string path)
+    private static void LoadScripts(string directory, string pattern)
     {
-      File.Exists(path).Check($"Script '{path}' not found");
-      Parser.Parse(Scanner.Scan(path));
+      foreach (var path in Helpers.LocateFiles(directory, pattern))
+      {
+        if (!loadedScripts.Contains(path))
+        {
+          loadedScripts.Add(path);
+          LoadScript(path);
+        }
+      }
+    }
+
+    private static void LoadType(string fullQualifiedTypeName)
+    {
+      (Type.GetType(fullQualifiedTypeName) != null).Check($"Could not load type {fullQualifiedTypeName}");
     }
 
     private static void OnGlobalScopeCreated(object sender, EventArgs e)
@@ -249,7 +292,7 @@ namespace Run2
       Globals.Variables.SetGlobal("userscriptdirectory", Globals.UserScriptDirectory);
       Globals.Variables.SetGlobal("basedirectory", Globals.BaseDirectory);
       Globals.Variables.SetGlobal("programdirectory", Globals.ProgramDirectory);
-      Globals.Variables.SetGlobal("systemscriptpath", Globals.SystemScriptPath);
+      // Globals.Variables.SetGlobal("systemscriptpath", Globals.SystemScriptPath);
       Globals.Variables.SetGlobal("verbositylevel", 5);
     }
   }

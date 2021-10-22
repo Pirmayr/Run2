@@ -8,6 +8,7 @@
     Quote,
     Text,
     PragmaCommand,
+    PragmaReadScript,
     CommandName,
     EOF
   }

@@ -1266,17 +1266,17 @@ performtest ( checkin c:\ 'hi' True ) 0
 
 ---
 
-#### cleanworkspace
+#### cleanup
 
-cleans the specified workspace
+performs a svn-cleanup
 
-* cleanupdirectory: the directory to clean up
-* test: (optional) if "true", the command is not performed (for testing purposes)
+* branchdirectory: the directory to update
+* test: if "true", the command is not performed, if "false" the command is performed (optional; default:  False)
 
 **Examples**
 
 ~~~
-performtest ( cleanworkspace c:\ True ) 0
+performtest ( cleanup c:\ True ) 0
 ~~~
 
 ---
@@ -2373,6 +2373,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Equals
 
 ---
 
@@ -3074,6 +3075,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.GetHashCode
 
 ---
 
@@ -3191,6 +3193,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.GetType
 
 ---
 
@@ -3475,6 +3478,13 @@ See:
 
 ---
 
+#### inputbox
+
+* prompt
+* title (optional; default:  'Input')
+
+---
+
 #### Insert
 
 See:
@@ -3521,6 +3531,150 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.TryParse
+
+---
+
+#### Interaction.AppActivate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.AppActivate
+
+---
+
+#### Interaction.Beep
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Beep
+
+---
+
+#### Interaction.CallByName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.CallByName
+
+---
+
+#### Interaction.Choose
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Choose
+
+---
+
+#### Interaction.Command
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Command
+
+---
+
+#### Interaction.CreateObject
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.CreateObject
+
+---
+
+#### Interaction.DeleteSetting
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.DeleteSetting
+
+---
+
+#### Interaction.Environ
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Environ
+
+---
+
+#### Interaction.GetAllSettings
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.GetAllSettings
+
+---
+
+#### Interaction.GetObject
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.GetObject
+
+---
+
+#### Interaction.GetSetting
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.GetSetting
+
+---
+
+#### Interaction.IIf
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.IIf
+
+---
+
+#### Interaction.InputBox
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.InputBox
+
+---
+
+#### Interaction.MsgBox
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.MsgBox
+
+---
+
+#### Interaction.Partition
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Partition
+
+---
+
+#### Interaction.SaveSetting
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.SaveSetting
+
+---
+
+#### Interaction.Shell
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Shell
+
+---
+
+#### Interaction.Switch
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Switch
 
 ---
 
@@ -3784,6 +3938,12 @@ if the object has the value "null", "true" is returned, otherwise "false"
 ~~~
 performtest ( isnull ( newset ) ) False
 ~~~
+
+---
+
+#### isnullorempty
+
+* string
 
 ---
 
@@ -4778,7 +4938,7 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 #### merge
 
-* fromworkspacedirectory
+* fromrepositoryurl
 * toworkspacedirectory
 * commitmessage: the commit-message
 * test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
@@ -4787,6 +4947,7 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 #### mergeup
 
+* branchesurl
 * startworkspacedirectory
 * commitmessage
 * test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
@@ -6918,6 +7079,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.ToString
 
 **Examples**
 
@@ -7090,6 +7252,15 @@ performtest ( typename ( typeof 'foobar' ) ) RuntimeType
 
 ---
 
+#### update
+
+performs a svn-update
+
+* branchdirectory: the directory to update
+* test: if "true", the command is not performed, if "false" the command is performed (optional; default:  False)
+
+---
+
 #### upperbound
 
 returns the upper-bound of an object (e.g. an array or a list)
@@ -7209,19 +7380,30 @@ See:
 #### Missing Documentation:
 
 
+* inputbox
+  - prompt
+  - title
+
+* isnullorempty
+  - string
+
 * merge
-  - fromworkspacedirectory
+  - fromrepositoryurl
   - toworkspacedirectory
 
 * mergeup
+  - branchesurl
   - startworkspacedirectory
   - commitmessage
 
 #### Missing Examples:
 
 * getvariable
+* inputbox
+* isnullorempty
 * merge
 * mergeup
 * monitorrepository
 * mostrecentrevision
 * sleep
+* update

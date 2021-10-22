@@ -77,6 +77,7 @@ namespace Run2
         }
       }
       (blockLevel == 0).Check(0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
+      LoadScripts(result);
       IdentifyCommands(result, scriptPath);
       result.Enqueue(new Token(TokenKind.EOF, "EOF", lineNumber));
       return result;
@@ -135,6 +136,27 @@ namespace Run2
           return false;
       }
       return !char.IsWhiteSpace(character);
+    }
+
+    private static void LoadScripts(Tokens tokens)
+    {
+      var pragmaLoadScriptRead = false;
+      foreach (var token in tokens)
+      {
+        if (pragmaLoadScriptRead)
+        {
+          pragmaLoadScriptRead = false;
+          var scriptName = token.Value.ToString();
+          (!string.IsNullOrEmpty(scriptName)).Check("Script-name must not be null");
+          Run2.LoadScript(scriptName);
+        }
+        else if (token.Value.ToString() == Globals.PragmaLoadScript)
+        {
+          pragmaLoadScriptRead = true;
+          token.TokenKind = TokenKind.PragmaReadScript;
+        }
+      }
+      (!pragmaLoadScriptRead).Check("Unexpected end of file while identifying commands");
     }
 
     private static char Unescape(CharacterQueue characters, char character)

@@ -1,0 +1,99 @@
+﻿command build.domain
+  'performs various initializations'
+  'the command always returns "true"'
+  global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
+  global binariesbranchdirectory ( finddirectorywithparent userscriptdirectory branches )
+  global branch ( getfname binariesbranchdirectory )
+  global issmajorversion ( substring branch 1 2 )
+  global issminorversion ( substring branch 3 2 )
+  global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
+  global workspacesdirectory ( finddirectory userscriptdirectory Workspaces )
+  global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
+  global binariesbranchesurl 'https://svn.moveit.at/svn/binary/branches'
+  global svnexepath '[programfilesdirectory]\TortoiseSVN\bin\svn.exe'
+  global commitprefix 'PIC[currentyear][currentmonth][currentday]'
+  return True
+
+command checkin
+  'performs a svn-checkin'
+  branchdirectory 'the directory to check in'
+  commitmessage 'the commit-message'
+  ( test False ) 'if "true", the command is not performed, if "false" the command is performed'
+  local exitcode 0
+  if ( return test ) ( write 'simulating checkin: "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"' ) ( run "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]" )
+  return exitcode
+
+command cleanup
+  'performs a svn-cleanup'
+  branchdirectory 'the directory to update'
+  ( test False ) 'if "true", the command is not performed, if "false" the command is performed'
+  local exitcode 0
+  if ( return test ) ( write 'simulating cleanup: "[svnexepath]" cleanup "[branchdirectory]"' ) ( run "[svnexepath]" 'cleanup' "[branchdirectory]" )
+  return exitcode
+
+command merge
+  fromrepositoryurl
+  toworkspacedirectory
+  commitmessage 'the commit-message'
+  ( test False ) 'if "true", the command is simulated, if "false" the command is performed'
+  local exitcode 0
+  if ( return test ) (
+    write 'simulating merge "svnexepath" merge --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]"'
+    )
+    ( run svnexepath 'merge' --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]" )
+  return exitcode
+
+command mergeup
+  branchesurl
+  startworkspacedirectory
+  commitmessage
+  ( test False ) 'if "true", the command is simulated, if "false" the command is performed'
+  local workspacesdirectory ( getdirectory startworkspacedirectory )
+  foreachdirectorypair workspacesdirectory fromworkspacedirectory toworkspacedirectory (
+    local frombranch ( getfname fromworkspacedirectory )
+    if ( < startworkspacedirectory toworkspacedirectory ) (
+      if ( == ( update toworkspacedirectory test ) 0 ) (
+        if ( == ( merge '[branchesurl]/[frombranch]' toworkspacedirectory commitmessage test ) 0 ) ( checkin toworkspacedirectory commitmessage test )
+        )
+      )
+    )
+
+command monitorrepository
+  'monitors a repository for changes and starts an action if a change occurs'
+  workspacedirectory 'workspace associated with a repository'
+  checkcontinuously 'if "true", the test is run indefinitely, if "false" the test is performed only once.'
+  intervall 'the intervall in milliseconds between checks'
+  performactiononfirstpass 'if "true" the action is always carried out on the first pass, if "false" the check is carried out on the first pass too'
+  "action" 'the action to be performed when a change occurs'
+  local result ''
+  local revisionpath '[workspacedirectory]\revision.txt'
+  local isfirstpass True
+  local continue True
+  while ( return continue ) (
+    local oldrevision ( readfile revisionpath '0' )
+    local newrevision ( mostrecentrevision workspacedirectory )
+    write '[oldrevision] / [newrevision]'
+    if ( or ( != oldrevision newrevision ) ( and performactiononfirstpass isfirstpass ) ) (
+      writefile revisionpath newrevision
+      set result ( evaluate action )
+      )
+    set continue checkcontinuously
+    set isfirstpass False
+    sleep intervall
+    )
+  return result
+
+command mostrecentrevision
+  'Returns the most recently checked-in revision in a svn-repository'
+  'The most recently checked-in revision'
+  workspacedirectory 'directory of a workspace associated with a svn-repository'
+  run workspacedirectory svnexepath 'info --revision HEAD --show-item last-changed-revision'
+
+command update
+  'performs a svn-update'
+  branchdirectory 'the directory to update'
+  ( test False ) 'if "true", the command is not performed, if "false" the command is performed'
+  local exitcode 0
+  if ( return test ) ( write 'simulating update: "[svnexepath]" update "[branchdirectory]"' ) ( run "[svnexepath]" 'update' "[branchdirectory]" )
+  return exitcode
+

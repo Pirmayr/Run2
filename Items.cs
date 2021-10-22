@@ -23,6 +23,11 @@ namespace Run2
     {
     }
 
+    public object Dequeue()
+    {
+      return this[DequeueIndex++];
+    }
+
     public bool DequeueBool(bool evaluate = true)
     {
       var result = DequeueObject(evaluate);
@@ -54,6 +59,11 @@ namespace Run2
       value.AddProperties(properties);
     }
 
+    public object Peek()
+    {
+      return this[DequeueIndex];
+    }
+
     public string PeekString()
     {
       return Peek().ToString();
@@ -83,16 +93,6 @@ namespace Run2
     private static object Process(object value, bool evaluate)
     {
       return evaluate ? Run2.Evaluate(value) : value;
-    }
-
-    public object Dequeue()
-    {
-      return this[DequeueIndex++];
-    }
-
-    public object Peek()
-    {
-      return this[DequeueIndex];
     }
   }
 }
