@@ -1,5 +1,1 @@
 ﻿loadscript tests
-
-command check
-  'performs various tests'
-  performtest ( system ) true

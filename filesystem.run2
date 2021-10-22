@@ -1,0 +1,134 @@
+﻿command copyfiles
+  'copies files from one location to another'
+  sourcedirectory 'directory to copy from'
+  sourcespecification 'name of the file to copy or a pattern (e.g. "*.run2")'
+  destinationdirectory 'directory to copy to'
+  destinationfilename 'name of the file after beeing copied; if "null" or empty, the filename remains unchanged'
+  expandincludes 'if true, includes are expanded'
+  ( lineaction ) 'action to be performed on every line'
+  Helpers.CopyFiles sourcedirectory sourcespecification destinationdirectory destinationfilename expandincludes lineaction
+
+command createdirectory
+  'creates specified directory'
+  directory 'directory to be created'
+  Directory.CreateDirectory directory
+
+command deletedirectory
+  'deletes specified directory'
+  directory 'directory to be deleted'
+  Directory.Delete directory ( return True )
+
+command directoryexists
+  'tests wether the specified directory exists'
+  directory 'directory to be tested for existence'
+  Directory.Exists directory
+
+command directoryseparator
+  'returns the directory-separator'
+  Path.DirectorySeparatorChar
+
+command fileexists
+  'checks if a file exists'
+  path 'path of the file'
+  File.Exists path
+
+command finddirectory
+  'gets the directory with the given name'
+  directory 'directory from where to search upwards'
+  name 'name'
+  local result ''
+  while ( != directory ( null ) ) (
+    if ( == ( getfname directory ) name ) ( local result ( break directory ) )
+    local directory ( getdirectory directory )
+    )
+  return result
+
+command finddirectorywithparent
+  'finds the directory whose parent has the given name'
+  directory 'directory from where to search upwards'
+  parent 'name of the parent'
+  local result ''
+  local parentdirectory ( getdirectory directory )
+  while ( != parentdirectory ( null ) ) (
+    if ( == ( getfname parentdirectory ) parent ) ( local result ( break directory ) )
+    local directory parentdirectory
+    local parentdirectory ( getdirectory parentdirectory )
+    )
+  return result
+
+command foreachdirectorypair
+  'sorts the subdirectories of a directory and performs an action on each pair of subdirectory and immediately following subdirectory'
+  directory 'directory to iterate'
+  "name1" 'name of the variable to receive the subdirectory1'
+  "name2" 'name of the variable to receive the subdirectory2'
+  "action" 'action to be performed'
+  local directories ( sort ( getdirectories directory ) )
+  for i 0 ( - ( size directories ) 2 ) 1 (
+    local True name1 ( at directories i )
+    local True name2 ( at directories ( + i 1 ) )
+    evaluate action
+    )
+
+command getdirectories
+  'returns an array of the subdirectories in a directory'
+  directory 'directory'
+  Directory.GetDirectories directory
+
+command getdirectory
+  'gets the directory from a path'
+  path 'path'
+  Path.GetDirectoryName path
+
+command getextension
+  'gets the extension from a path'
+  path 'path'
+  Path.GetExtension path
+
+command getfilename
+  'gets the filename from a path'
+  path 'path'
+  Path.GetFileName path
+
+command getfiles
+  'returns an array of paths of the files in a directory'
+  directory 'directory'
+  Directory.GetFiles directory
+
+command getfname
+  'gets the filename without extension from a path'
+  path 'path'
+  Path.GetFileNameWithoutExtension path
+
+command locatedirectories
+  'searches directories'
+  'an array of all directories that could be found'
+  basedirectory 'directory in which the search should begin'
+  pattern 'pattern to be searched for'
+  return ( Helpers.LocateDirectories basedirectory pattern )
+
+command locatedirectory
+  'searches for a directory'
+  'if the directory could be found, the directory is returned, otherwise an empty string'
+  basedirectory 'directory in which the search should begin'
+  pattern 'pattern to be searched for'
+  return ( Helpers.LocateDirectory basedirectory pattern )
+
+command locatefile
+  'searches for a file'
+  'if the file could be found, the path of the file is returned, otherwise an empty string'
+  basedirectory 'directory in which the search should begin'
+  pattern 'pattern to be searched for'
+  return ( Helpers.LocateFile basedirectory pattern )
+
+command locatefiles
+  'searches files'
+  'an array of all paths that could be found'
+  basedirectory 'directory in which the search should begin'
+  pattern 'pattern to be searched for'
+  return ( Helpers.LocateFiles basedirectory pattern )
+
+command removetrailingdirectoryseparator
+  'removes all trailing occurrences of the directory-separator from a path'
+  path 'path'
+  trimend path ( directoryseparator )
+

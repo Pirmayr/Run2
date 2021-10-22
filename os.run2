@@ -1,0 +1,7 @@
+﻿command dir
+  'executes the Windows command "dir" and returns the result'
+  dos 'dir' ( join arguments )
+
+command dos
+  'executes specified dos-command and returns the output'
+  if ( directoryexists ( at arguments 0 ) ) ( run ( at arguments 0 ) cmd /c ( join ( tail arguments ) ) ) ( run cmd /c ( join arguments ) )

@@ -305,7 +305,7 @@ command performtests
     )
   return testsok
 
-command system
+command tests
   'various tests'
   'if all tests succeeded, true is returned, otherwise false'
   performtest ( invoketests ) True

@@ -1,0 +1,28 @@
+﻿command inputbox
+  prompt
+  ( title 'input' )
+  ( default '' )
+  Interaction.InputBox prompt title default -1 -1
+
+command readfile
+  'returns the text contained in a file'
+  'the text contained in the file'
+  path 'path of the file'
+  ( default '' ) 'default value if the file does not exist'
+  if ( fileexists path ) ( File.ReadAllText path ) default
+
+command write
+  'writes text on the console'
+  'the text written'
+  text 'text to be written'
+  ( verbosity 5 ) 'the verbosity-level of the message'
+  Helpers.WriteLine ( ToString text ) ( if ( isnull verbosity ) 5 verbosity )
+  return text
+
+command writefile
+  'writes text to a file'
+  'the text written'
+  path 'path of the file'
+  text 'text to be written'
+  File.WriteAllText path text
+  return text

@@ -1,0 +1,67 @@
+﻿command average
+  'computes the average of the given values'
+  'the average'
+  values 'values'
+  / ( todouble ( sum values ) ) ( size values )
+
+command averageof
+  'computes the average of the arguments'
+  'the average'
+  average arguments
+
+command factorial
+  'computes the factorial of a number'
+  number 'number'
+  if ( == number 1 ) 1 ( * ( factorial ( - number 1 ) ) number )
+
+command median
+  'returns the median of the given numbers'
+  'the median'
+  values 'numbers'
+  at ( sort values ) ( / ( size values ) 2 )
+
+command medianof
+  'returns the median of the arguments'
+  'the median'
+  median arguments
+
+command power
+  'computes the power of two numbers'
+  'the power'
+  a 'base'
+  b 'exponent'
+  Math.Pow a b
+
+command primes
+  'computes the primes up to n'
+  'a list of primes up to n'
+  n 'upper limit'
+  local result ( newlist )
+  local table ( newarray ( + n 1 ) True )
+  for i 3 n 2 (
+    if ( at table i ) (
+      additem result i
+      for j i n i ( put table j False )
+      )
+    )
+  return result
+
+command square
+  'computes the square of a number'
+  'the square of the number'
+  n 'number'
+  * n n
+
+command sum
+  'returns the sum of the given values'
+  'the sum'
+  'the values must be numbers'
+  values 'values'
+  local result 0
+  map values ( increment result ( besttype item ) )
+
+command sumof
+  'returns the sum of the arguments'
+  'the sum'
+  sum arguments
+

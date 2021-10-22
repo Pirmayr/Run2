@@ -13,7 +13,7 @@ namespace Run2
     public const string PragmaCommand = "command";
     public const string PragmaLoadScript = "loadscript";
     public const string ReplacePragma = "<!--@replace";
-    public const string SystemScriptName = "core";
+    public const string SystemScriptName = "system";
     public const string TargetPragma = "<!--@target";
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
