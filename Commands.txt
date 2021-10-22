@@ -674,7 +674,7 @@ sumof
 dir
 dos
 os
-build
+builds
 checkin
 cleanup
 merge

@@ -1,4 +1,4 @@
-loadscript build
+loadscript builds
 
 command invoketests
   'invokes the tests'
@@ -313,12 +313,13 @@ command tests
   if ( return testsok ) (
     write 'Writing results to disk ...'
     writefile [basedirectory]\..\..\..\Commands.md ( gethelp )
-    writefile [basedirectory]\..\..\..\core.run2 ( getcode core.run2 )
-    writefile [basedirectory]\..\..\..\collections.run2 ( getcode collections.run2 )
-    writefile [basedirectory]\..\..\..\filesystem.run2 ( getcode filesystem.run2 )
-    writefile [basedirectory]\..\..\..\io.run2 ( getcode io.run2 )
-    writefile [basedirectory]\..\..\..\math.run2 ( getcode math.run2 )
-    writefile [basedirectory]\..\..\..\os.run2 ( getcode os.run2 )
-    writefile [basedirectory]\..\..\..\tests.run2 ( getcode tests.run2 )
+    writefile [basedirectory]\..\..\..\core.run2 ( getcode core )
+    writefile [basedirectory]\..\..\..\collections.run2 ( getcode collections )
+    writefile [basedirectory]\..\..\..\filesystem.run2 ( getcode 'filesystem' )
+    writefile [basedirectory]\..\..\..\io.run2 ( getcode 'io' )
+    writefile [basedirectory]\..\..\..\math.run2 ( getcode 'math' )
+    writefile [basedirectory]\..\..\..\os.run2 ( getcode 'os' )
+    writefile [basedirectory]\..\..\..\system.run2 ( getcode 'system' )
+    writefile [basedirectory]\..\..\..\tests.run2 ( getcode 'tests' )
     )
   return testsok

@@ -117,7 +117,7 @@ namespace Run2
       }
     }
 
-    public static void LoadScript(string scriptNameOrPath)
+    public static void LoadScript(string scriptNameOrPath, Items arguments = null)
     {
       var scriptPath = scriptNameOrPath;
       if (!File.Exists(scriptPath))
@@ -137,7 +137,7 @@ namespace Run2
         var commandName = Path.GetFileNameWithoutExtension(scriptPath);
         if (Globals.Commands.ContainsKey(commandName))
         {
-          ExecuteCommand(commandName, new Items());
+          ExecuteCommand(commandName, arguments ?? new Items());
         }
       }
     }
@@ -152,6 +152,7 @@ namespace Run2
       CreateStandardObject(new Queue());
       CreateStandardObject(new Stack());
       Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
+      Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
       Globals.Debug = CommandLineParser.OptionExists("debug");
       Globals.ProgramDirectory = Path.GetDirectoryName(AppContext.BaseDirectory);
       Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Globals.ProgramDirectory);
@@ -161,7 +162,7 @@ namespace Run2
       BuildSystemCommands();
       BuildInvokeCommands();
       LoadScript(Globals.SystemScriptName);
-      LoadScript(Globals.UserScriptPath);
+      LoadScript(Globals.UserScriptPath, Globals.Arguments);
       Helpers.WriteLine("Script terminated successfully");
     }
 

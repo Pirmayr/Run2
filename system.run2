@@ -1,7 +1,6 @@
-﻿loadscript core
+loadscript core
 loadscript collections
 loadscript filesystem
 loadscript io
 loadscript math
 loadscript os
-loadscript build

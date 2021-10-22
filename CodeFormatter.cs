@@ -27,7 +27,7 @@ namespace Run2
       {
         if (command is UserCommand userCommandValue)
         {
-          if (!userCommandValue.ScriptPath.Contains(filter, StringComparison.InvariantCultureIgnoreCase))
+          if (Path.GetFileNameWithoutExtension(userCommandValue.ScriptPath)?.Equals(filter) != true)
           {
             continue;
           }

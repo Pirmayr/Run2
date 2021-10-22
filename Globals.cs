@@ -39,5 +39,7 @@ namespace Run2
     public static Variables Variables { get; } = new();
 
     public static Dictionary<string, List<string>> Imports { get; set; } = new();
+
+    public static Items Arguments { get; set; }
   }
 }

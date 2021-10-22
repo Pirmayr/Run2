@@ -993,7 +993,7 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 
 ---
 
-#### build
+#### builds
 
 performs various initializations
 
@@ -7375,7 +7375,7 @@ See:
 
 #### Missing Examples:
 
-* build
+* builds
 * inputbox
 * isnullorempty
 * merge

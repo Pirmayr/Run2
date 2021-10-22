@@ -118,7 +118,7 @@ namespace Run2
     // ReSharper disable once UnusedParameter.Global
     public static object GetCode(Items arguments)
     {
-      var filter = arguments.DequeueString();
+      var filter = arguments.DequeueString(false);
       return CodeFormatter.GetCode(filter);
     }
 
