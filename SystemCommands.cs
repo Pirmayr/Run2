@@ -314,28 +314,29 @@ namespace Run2
     [Documentation(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
     public static object Run(Items arguments)
     {
-      var commandOrpathOrDirectory = arguments.DequeueString();
-      if (Globals.Commands.ContainsKey(commandOrpathOrDirectory))
+      var commandOrPathOrDirectory = arguments.DequeueString();
+      if (Globals.Commands.ContainsKey(commandOrPathOrDirectory))
       {
-        return Run2.ExecuteCommand(commandOrpathOrDirectory, arguments);
+        return Run2.ExecuteCommand(commandOrPathOrDirectory, arguments);
       }
       string workingDirectory;
       string executablePath;
-      if (Directory.Exists(commandOrpathOrDirectory))
+      if (Directory.Exists(commandOrPathOrDirectory))
       {
-        workingDirectory = commandOrpathOrDirectory;
+        workingDirectory = commandOrPathOrDirectory;
         executablePath = arguments.DequeueString();
       }
       else
       {
-        workingDirectory = Path.GetDirectoryName(commandOrpathOrDirectory);
+        workingDirectory = Path.GetDirectoryName(commandOrPathOrDirectory);
         if (string.IsNullOrEmpty(workingDirectory) || !Directory.Exists(workingDirectory))
         {
           workingDirectory = Globals.ProgramDirectory;
         }
-        executablePath = commandOrpathOrDirectory;
+        executablePath = commandOrPathOrDirectory;
       }
-      Helpers.Execute(executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
+      var properties = commandOrPathOrDirectory.GetProperties();
+      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
       return result;
     }
 

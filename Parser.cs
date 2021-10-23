@@ -15,10 +15,10 @@
             currentToken = tokens.Dequeue();
             currentToken.CheckToken(TokenKind.CommandName);
             var commandName = currentToken.Value.ToString();
-            (!string.IsNullOrEmpty(commandName)).Check("Command names must not be null or empty");
-            Globals.Commands.TryGetValue(commandName, out var command).Check($"Command {commandName} not found while parsing");
+            (!string.IsNullOrEmpty(commandName)).Check(currentToken, "Command names must not be null or empty");
+            Globals.Commands.TryGetValue(commandName, out var command).Check(currentToken, $"Command '{commandName}' not found while parsing");
             var userCommand = command as UserCommand;
-            (userCommand != null).Check($"Expected command {commandName} to be a user-command");
+            (userCommand != null).Check(currentToken, $"Expected command '{commandName}' to be a user-command");
             currentToken = tokens.Dequeue();
             if (currentToken.TokenKind == TokenKind.Quote)
             {
@@ -44,12 +44,12 @@
             break;
         }
       }
-      (currentToken.TokenKind == TokenKind.EOF).Check("Unexpected eof of file while parsing");
+      (currentToken.TokenKind == TokenKind.EOF).Check(currentToken, "Unexpected eof of file while parsing");
     }
 
     private static void CheckToken(this Token token, TokenKind tokenKind)
     {
-      (token.TokenKind == tokenKind).Check($"Expected {tokenKind}");
+      (token.TokenKind == tokenKind).Check(currentToken, $"Expected {tokenKind}");
     }
 
     private static void ParseParameters(Tokens tokens, UserCommand userCommand)
@@ -67,7 +67,7 @@
             break;
           case TokenKind.LeftParenthesis:
             currentToken = tokens.Dequeue();
-            (currentToken.TokenKind is TokenKind.Element or TokenKind.Text).Check("Expected name of a parameter");
+            (currentToken.TokenKind is TokenKind.Element or TokenKind.Text).Check(currentToken, "Expected name of a parameter");
             parameterName = currentToken.ToString();
             var items = new Items();
             items.Enqueue(parameterName);
@@ -75,10 +75,10 @@
             currentToken = tokens.Dequeue();
             if (currentToken.TokenKind is TokenKind.Element or TokenKind.Text or TokenKind.Quote)
             {
-              items.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
+              items.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });
               currentToken = tokens.Dequeue();
             }
-            (currentToken.TokenKind == TokenKind.RightParenthesis).Check($"Expected right parenthesis in line {currentToken.LineNumber}");
+            (currentToken.TokenKind == TokenKind.RightParenthesis).Check(currentToken, "Expected right parenthesis");
             currentToken = tokens.Dequeue();
             break;
         }
@@ -101,11 +101,11 @@
             var subCommands = new SubCommands();
             subCommand.Arguments.Enqueue(subCommands);
             ParseStatements(tokens, subCommands);
-            (currentToken.TokenKind == TokenKind.RightParenthesis).Check($"Expected right parenthesis in line {currentToken.LineNumber}");
+            (currentToken.TokenKind == TokenKind.RightParenthesis).Check(currentToken, "Expected right parenthesis");
             currentToken = tokens.Dequeue();
             break;
           case TokenKind.Element or TokenKind.Text or TokenKind.Quote:
-            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, LineNumber = currentToken.LineNumber });
+            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });
             currentToken = tokens.Dequeue();
             break;
           default:
@@ -121,7 +121,7 @@
         var subCommand = new SubCommand();
         subCommands.Add(subCommand);
         subCommand.CommandName = currentToken.ToString();
-        subCommand.CommandName.AddProperties(new Properties { LineNumber = currentToken.LineNumber });
+        subCommand.CommandName.AddProperties(new Properties { ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });
         currentToken = tokens.Dequeue();
         ParseStatement(tokens, subCommand);
       }

@@ -65,6 +65,16 @@ namespace Run2
       Checked(condition, message);
     }
 
+    public static void Check([DoesNotReturnIf(false)] this bool condition, string scriptNameOrPath, int lineNumber, string message)
+    {
+      Check(condition, $"Error in script '{scriptNameOrPath.GetScriptName()}' at line {lineNumber}: {message}");
+    }
+
+    public static void Check([DoesNotReturnIf(false)] this bool condition, Token token, string message)
+    {
+      Check(condition, token.ScriptPath, token.LineNumber, message);
+    }
+
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static void CopyFiles(string sourceDirectory, string pattern, string destinationDirectory, string destinationFilename, bool expand, string lineAction)
     {
@@ -75,7 +85,7 @@ namespace Run2
       }
     }
 
-    public static void Execute(string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
+    public static void Execute(string scriptPath, int lineNumber, string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
     {
       var mostRecentException = new Exception("Execution failed");
       for (var i = 0; i < tryCount; ++i)
@@ -95,16 +105,16 @@ namespace Run2
           process.Start();
           output = process.StandardOutput.ReadToEnd().Trim();
           error = process.StandardError.ReadToEnd();
-          process.WaitForExit(processTimeout).Check($"Process '{executablePath}' has timed out");
+          process.WaitForExit(processTimeout).Check(scriptPath, lineNumber, $"Process '{executablePath}' has timed out");
           WriteLine($"Process '{executablePath}' terminated");
           Globals.Variables.SetLocal("exitcode", process.ExitCode);
-          (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check($"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
+          (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check(scriptPath, lineNumber, $"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
           return;
         }
         catch (Exception exception)
         {
           mostRecentException = exception;
-          HandleException(exception);
+          HandleException(exception, scriptPath, lineNumber);
         }
         Thread.Sleep(5000);
       }
@@ -130,11 +140,16 @@ namespace Run2
       return Globals.Properties.GetOrCreateValue(value);
     }
 
-    public static void HandleException(Exception exception, int lineNumber = -1)
+    private static string GetScriptName(this string path)
+    {
+      return Path.GetFileNameWithoutExtension(path);
+    }
+
+    public static void HandleException(Exception exception, string scriptPath = null, int lineNumber = -1)
     {
       if (exception is not RuntimeException)
       {
-        WriteLine(0 < lineNumber ? $"Exception around line {lineNumber}:" : "Exception:");
+        WriteLine(!string.IsNullOrEmpty(scriptPath) && 0 < lineNumber ? $"Exception in script '{scriptPath.GetScriptName()}' at line {lineNumber}:" : "Exception:");
         WriteLine(exception.InnerMostException().Message);
       }
     }

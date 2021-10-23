@@ -39,12 +39,12 @@ namespace Run2
               }
               break;
             case BlockBeginCharacter:
-              result.Enqueue(new Token(TokenKind.LeftParenthesis, '(', lineNumber));
+              result.Enqueue(new Token(TokenKind.LeftParenthesis, '(', scriptPath, lineNumber));
               ++blockLevel;
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             case BlockEndCharacter:
-              result.Enqueue(new Token(TokenKind.RightParenthesis, ')', lineNumber));
+              result.Enqueue(new Token(TokenKind.RightParenthesis, ')', scriptPath, lineNumber));
               --blockLevel;
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
@@ -56,9 +56,9 @@ namespace Run2
                 text += Unescape(characters, currentCharacter);
                 currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
-              (currentCharacter != EOF).Check("Unexpected end of file while reading a text");
+              (currentCharacter != EOF).Check(scriptPath, lineNumber, "Unexpected end of file while reading a text");
               text += TextDelimiter.ToString();
-              result.Enqueue(new Token(TokenKind.Text, text, lineNumber));
+              result.Enqueue(new Token(TokenKind.Text, text, scriptPath, lineNumber));
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             case QuoteDelimiter:
@@ -69,8 +69,8 @@ namespace Run2
                 quote += Unescape(characters, currentCharacter);
                 currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
-              (currentCharacter != EOF).Check("Unexpected end of file while reading a quote");
-              result.Enqueue(new Token(TokenKind.Quote, quote, lineNumber));
+              (currentCharacter != EOF).Check(scriptPath, lineNumber, "Unexpected end of file while reading a quote");
+              result.Enqueue(new Token(TokenKind.Quote, quote, scriptPath, lineNumber));
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             default:
@@ -80,7 +80,7 @@ namespace Run2
                 element += currentCharacter;
                 currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
-              result.Enqueue(new Token(TokenKind.Element, element.ToBestType(), lineNumber));
+              result.Enqueue(new Token(TokenKind.Element, element.ToBestType(), scriptPath, lineNumber));
               break;
           }
         }
@@ -89,10 +89,10 @@ namespace Run2
           currentCharacter = GetNextCharacter(characters, ref lineNumber);
         }
       }
-      (blockLevel == 0).Check(0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
+      (blockLevel == 0).Check(scriptPath, lineNumber, 0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
       ImportScripts(result, Path.GetFileNameWithoutExtension(scriptPath));
-      IdentifyCommands(result, scriptPath);
-      result.Enqueue(new Token(TokenKind.EOF, "EOF", lineNumber));
+      IdentifyCommands(result);
+      result.Enqueue(new Token(TokenKind.EOF, "EOF", scriptPath, lineNumber));
       return result;
     }
 
@@ -106,18 +106,20 @@ namespace Run2
       return result;
     }
 
-    private static void IdentifyCommands(Tokens tokens, string scriptPath)
+    private static void IdentifyCommands(Tokens tokens)
     {
+      Token mostRecentToken = null;
       var pragmaCommandRead = false;
       foreach (var token in tokens)
       {
+        mostRecentToken = token;
         if (pragmaCommandRead)
         {
           pragmaCommandRead = false;
           token.TokenKind = TokenKind.CommandName;
           var commandName = token.Value.ToString();
-          (!string.IsNullOrEmpty(commandName)).Check("Command-name must not be null");
-          Globals.Commands.Add(commandName, new UserCommand { Name = commandName, ScriptPath = scriptPath, QuoteArguments = token.TokenKind == TokenKind.Text });
+          (!string.IsNullOrEmpty(commandName)).Check(token, "Command-name must not be null");
+          Globals.Commands.Add(commandName, new UserCommand { Name = commandName, ScriptPath = token.ScriptPath, QuoteArguments = token.TokenKind == TokenKind.Text });
         }
         else if (token.Value.ToString() == Globals.PragmaCommand)
         {
@@ -125,7 +127,7 @@ namespace Run2
           token.TokenKind = TokenKind.PragmaCommand;
         }
       }
-      (!pragmaCommandRead).Check("Unexpected end of file while identifying commands");
+      (mostRecentToken != null && !pragmaCommandRead).Check(mostRecentToken, "Unexpected end of file while identifying commands");
       foreach (var token in tokens)
       {
         var valueString = token.Value.ToString();
@@ -139,14 +141,16 @@ namespace Run2
 
     private static void ImportScripts(Tokens tokens, string scriptName)
     {
+      Token mostRecentToken = null;
       var pragmaImportRead = false;
       foreach (var token in tokens)
       {
+        mostRecentToken = token;
         if (pragmaImportRead)
         {
           pragmaImportRead = false;
           var importName = token.Value.ToString();
-          (!string.IsNullOrEmpty(importName)).Check("Script-name must not be null");
+          (!string.IsNullOrEmpty(importName)).Check(token, "Script-name must not be null");
           Run2.LoadScript(importName);
           if (!Globals.Imports.TryGetValue(scriptName, out var importsList))
           {
@@ -161,7 +165,7 @@ namespace Run2
           token.TokenKind = TokenKind.PragmaReadScript;
         }
       }
-      (!pragmaImportRead).Check("Unexpected end of file while identifying commands");
+      (mostRecentToken != null && !pragmaImportRead).Check(mostRecentToken, "Unexpected end of file while identifying commands");
     }
 
     private static bool IsElementCharacter(char character)

@@ -58,7 +58,8 @@ namespace Run2
         {
           throw;
         }
-        Helpers.HandleException(exception, name.GetProperties().LineNumber);
+        var properties = name.GetProperties();
+        Helpers.HandleException(exception, properties.ScriptPath, properties.LineNumber);
         throw new RuntimeException("Runtime error");
       }
       finally

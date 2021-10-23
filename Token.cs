@@ -7,14 +7,17 @@ namespace Run2
   {
     public int LineNumber { get; }
 
+    public string ScriptPath { get; set; }
+
     public TokenKind TokenKind { get; set; }
 
     public object Value { get; init; }
 
-    public Token(TokenKind tokenKind, object value, int lineNumber)
+    public Token(TokenKind tokenKind, object value, string scriptPath, int lineNumber)
     {
       TokenKind = tokenKind;
       Value = value;
+      ScriptPath = scriptPath;
       LineNumber = lineNumber;
     }
 
