@@ -13,7 +13,6 @@ using System.Threading;
 
 namespace Run2
 {
-  [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public static class Helpers
   {
     public static void AddProperties(this object value, Properties properties)
@@ -66,7 +65,7 @@ namespace Run2
       Checked(condition, message);
     }
 
-    // ReSharper disable once UnusedMember.Global
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static void CopyFiles(string sourceDirectory, string pattern, string destinationDirectory, string destinationFilename, bool expand, string lineAction)
     {
       foreach (var sourcePath in Directory.GetFiles(sourceDirectory, pattern, SearchOption.AllDirectories))
@@ -189,9 +188,8 @@ namespace Run2
       return false;
     }
 
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    // ReSharper disable once MemberCanBePrivate.Global
-    // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "ReturnTypeCanBeEnumerable.Global")]
     public static string[] LocateDirectories(string baseDirectory, string pattern)
     {
       Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
@@ -215,20 +213,19 @@ namespace Run2
       return Directory.Exists(searchDirectory) ? Directory.GetDirectories(searchDirectory, filename, SearchOption.AllDirectories).OrderByDescending(static item => item).ToArray() : new[] { "" };
     }
 
-    // ReSharper disable once UnusedMember.Global
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static string LocateDirectory(string baseDirectory, string pattern)
     {
       return LocateDirectories(baseDirectory, pattern).FirstOrDefault();
     }
 
-    // ReSharper disable once UnusedMember.Global
     public static string LocateFile(string baseDirectory, string pattern)
     {
       return LocateFiles(baseDirectory, pattern).FirstOrDefault();
     }
 
-    // ReSharper disable once MemberCanBePrivate.Global
-    // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "ReturnTypeCanBeEnumerable.Global")]
     public static string[] LocateFiles(string baseDirectory, string pattern)
     {
       Directory.Exists(baseDirectory).Check($"Base-directory '{baseDirectory} does not exist");
@@ -287,8 +284,8 @@ namespace Run2
       }
     }
 
-    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
     [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Local")]
+    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
     private static bool Checked([DoesNotReturnIf(false)] this bool condition, string message)
     {
       if (!condition)

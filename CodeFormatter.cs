@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Run2
 {
-  // ReSharper disable once MemberCanBeInternal
   public static class CodeFormatter
   {
-    // ReSharper disable once MemberCanBeInternal
     public static string GetCode(string filter)
     {
       var result = new StringBuilder();
@@ -68,18 +66,10 @@ namespace Run2
       return result.ToString();
     }
 
-    // ReSharper disable once MemberCanBeInternal
     public static string ToCode(this SubCommand subCommand, int indent, bool newLine)
     {
       var result = DoToCode(subCommand, indent, false);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(subCommand, indent, true) : result;
-    }
-
-    // ReSharper disable once MemberCanBePrivate.Global
-    public static string ToCode(this Items items, int indent, bool newLine)
-    {
-      var result = DoToCode(items, indent, false);
-      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(items, indent, true) : result;
     }
 
     public static string ToCode(this object value)
@@ -173,6 +163,12 @@ namespace Run2
         result.AppendIndented(subCommand.ToCode(indent, newLine), newLine || i == 0 ? indent : 1, newLine);
       }
       return result.ToString();
+    }
+
+    private static string ToCode(this Items items, int indent, bool newLine)
+    {
+      var result = DoToCode(items, indent, false);
+      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(items, indent, true) : result;
     }
 
     private static string ToCode(this SubCommands subCommands, int indent, bool newLine)

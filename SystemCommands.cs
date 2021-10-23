@@ -5,7 +5,6 @@ using System.Numerics;
 
 namespace Run2
 {
-  [SuppressMessage("ReSharper", "UnusedType.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public static class SystemCommands
   {
@@ -115,7 +114,6 @@ namespace Run2
     }
 
     [Documentation(1, 1, null, "returns the formatted script")]
-    // ReSharper disable once UnusedParameter.Global
     public static object GetCode(Items arguments)
     {
       var filter = arguments.DequeueString(false);
@@ -123,14 +121,14 @@ namespace Run2
     }
 
     [Documentation(0, 0, null, "returns the list of commands")]
-    // ReSharper disable once UnusedParameter.Global
+    [SuppressMessage("ReSharper", "UnusedParameter.Global")]
     public static object GetCommands(Items arguments)
     {
       return string.Join('\n', Globals.Commands.Keys);
     }
 
     [Documentation(0, 0, null, "returns help-information (formatted as markdown)")]
-    // ReSharper disable once UnusedParameter.Global
+    [SuppressMessage("ReSharper", "UnusedParameter.Global")]
     public static object GetHelp(Items arguments)
     {
       return HelpGenerator.GetHelp();
@@ -278,7 +276,7 @@ namespace Run2
     }
 
     [Documentation(0, 0, null, "the value 'null'")]
-    // ReSharper disable once UnusedParameter.Global
+    [SuppressMessage("ReSharper", "UnusedParameter.Global")]
     public static object Null(Items arguments)
     {
       return null;

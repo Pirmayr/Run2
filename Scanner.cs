@@ -8,10 +8,10 @@ namespace Run2
     public const char TextDelimiter = '"';
     private const char BlockBeginCharacter = '(';
     private const char BlockEndCharacter = ')';
+    private const char CommentCharacter = ';';
     private const char EOF = (char) 0;
     private const char EscapeCharacter = '~';
     private const char QuoteDelimiter = '\'';
-    private const char CommentCharacter = ';';
 
     public static Tokens Scan(string scriptPath)
     {

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Run2
 {
-  [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class Variables
   {
     private readonly Stack<Scope> scopes = new();

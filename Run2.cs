@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -248,7 +249,7 @@ namespace Run2
       }
     }
 
-    // ReSharper disable once UnusedParameter.Local
+    [SuppressMessage("ReSharper", "UnusedParameter.Local")]
     private static void CreateStandardObject(object instance)
     {
     }
@@ -271,7 +272,6 @@ namespace Run2
       Globals.Variables.SetGlobal("userscriptdirectory", Globals.UserScriptDirectory);
       Globals.Variables.SetGlobal("basedirectory", Globals.BaseDirectory);
       Globals.Variables.SetGlobal("programdirectory", Globals.ProgramDirectory);
-      // Globals.Variables.SetGlobal("systemscriptpath", Globals.SystemScriptPath);
       Globals.Variables.SetGlobal("verbositylevel", 5);
     }
   }

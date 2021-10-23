@@ -9,7 +9,6 @@
   global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
   global workspacesdirectory ( finddirectory userscriptdirectory Workspaces )
   global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
-  global binariesbranchesurl 'https://svn.moveit.at/svn/binary/branches'
   global svnexepath '[programfilesdirectory]\TortoiseSVN\bin\svn.exe'
   global commitprefix 'PIC[currentyear][currentmonth][currentday]'
   return True

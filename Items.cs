@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Run2
 {
-  [SuppressMessage("ReSharper", "MemberCanBeInternal")]
   public sealed class Items : List
   {
     public int DequeueIndex { get; set; }
