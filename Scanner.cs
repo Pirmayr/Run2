@@ -11,6 +11,7 @@ namespace Run2
     private const char EOF = (char) 0;
     private const char EscapeCharacter = '~';
     private const char QuoteDelimiter = '\'';
+    private const char CommentCharacter = ';';
 
     public static Tokens Scan(string scriptPath)
     {
@@ -26,6 +27,17 @@ namespace Run2
         {
           switch (currentCharacter)
           {
+            case CommentCharacter:
+              currentCharacter = characters.GetNextCharacter(ref lineNumber);
+              while (currentCharacter != '\n' && currentCharacter != EOF)
+              {
+                currentCharacter = characters.GetNextCharacter(ref lineNumber);
+              }
+              if (currentCharacter == '\n')
+              {
+                currentCharacter = characters.GetNextCharacter(ref lineNumber);
+              }
+              break;
             case BlockBeginCharacter:
               result.Enqueue(new Token(TokenKind.LeftParenthesis, '(', lineNumber));
               ++blockLevel;

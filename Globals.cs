@@ -28,7 +28,7 @@ namespace Run2
 
     public static bool DoBreak { get; set; }
 
-    public static Dictionary<string, List<string>> Imports { get; set; } = new();
+    public static Dictionary<string, List<string>> Imports { get; } = new();
 
     public static string ProgramDirectory { get; set; }
 
