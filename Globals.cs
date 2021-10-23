@@ -18,6 +18,8 @@ namespace Run2
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
 
+    public static Items Arguments { get; set; }
+
     public static string BaseDirectory { get; set; }
 
     public static Dictionary<string, ICommand> Commands { get; } = new();
@@ -25,6 +27,8 @@ namespace Run2
     public static bool Debug { get; set; }
 
     public static bool DoBreak { get; set; }
+
+    public static Dictionary<string, List<string>> Imports { get; set; } = new();
 
     public static string ProgramDirectory { get; set; }
 
@@ -37,9 +41,5 @@ namespace Run2
     public static string UserScriptPath { get; set; }
 
     public static Variables Variables { get; } = new();
-
-    public static Dictionary<string, List<string>> Imports { get; set; } = new();
-
-    public static Items Arguments { get; set; }
   }
 }

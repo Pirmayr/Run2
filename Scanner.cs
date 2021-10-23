@@ -125,20 +125,6 @@ namespace Run2
       }
     }
 
-    private static bool IsElementCharacter(char character)
-    {
-      switch (character)
-      {
-        case BlockBeginCharacter:
-        case BlockEndCharacter:
-        case QuoteDelimiter:
-        case TextDelimiter:
-        case EOF:
-          return false;
-      }
-      return !char.IsWhiteSpace(character);
-    }
-
     private static void ImportScripts(Tokens tokens, string scriptName)
     {
       var pragmaImportRead = false;
@@ -164,6 +150,20 @@ namespace Run2
         }
       }
       (!pragmaImportRead).Check("Unexpected end of file while identifying commands");
+    }
+
+    private static bool IsElementCharacter(char character)
+    {
+      switch (character)
+      {
+        case BlockBeginCharacter:
+        case BlockEndCharacter:
+        case QuoteDelimiter:
+        case TextDelimiter:
+        case EOF:
+          return false;
+      }
+      return !char.IsWhiteSpace(character);
     }
 
     private static char Unescape(CharacterQueue characters, char character)

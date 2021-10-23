@@ -98,6 +98,7 @@ namespace Run2
           error = process.StandardError.ReadToEnd();
           process.WaitForExit(processTimeout).Check($"Process '{executablePath}' has timed out");
           WriteLine($"Process '{executablePath}' terminated");
+          Globals.Variables.SetLocal("exitcode", process.ExitCode);
           (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check($"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
           return;
         }
