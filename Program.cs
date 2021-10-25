@@ -8,6 +8,7 @@ namespace Run2
     {
       try
       {
+        // Helpers.Test();
         Run2.RunScript();
         return 0;
       }

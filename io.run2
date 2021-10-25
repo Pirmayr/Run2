@@ -1,3 +1,13 @@
+command comparefiles
+  'compares two files'
+  path1 'path to the first file'
+  path2 'path to the second file'
+  separator 'line-comment separator'
+  local lines1 ( split ( readfile path1 ) '~n' )
+  local lines2 ( split ( readfile path2 ) '~n' )
+  for i 0 ( Math.Min ( upperbound lines1 ) ( upperbound lines2 ) ) 1 ( if ( != ( prefix ( at lines1 i ) separator ) ( prefix ( at lines2 i ) separator ) ) ( break ) )
+  return ( if ( and ( == i ( size lines1 ) ) ( == i ( size lines2 ) ) ) -1 i )
+
 command inputbox
   prompt
   ( title 'input' )
@@ -10,6 +20,11 @@ command readfile
   path 'path of the file'
   ( default '' ) 'default value if the file does not exist'
   if ( fileexists path ) ( File.ReadAllText path ) default
+
+command tmp
+  local line1 ( at ( split ( at lines1 i ) '//' ) 0 )
+  local line2 ( at ( split ( at lines2 i ) '//' ) 0 )
+  if ( != line1 line2 ) ( write 'files are not equal' )
 
 command write
   'writes text on the console'

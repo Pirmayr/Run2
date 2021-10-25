@@ -2,15 +2,8 @@
   'performs various initializations'
   'the command always returns "true"'
   global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
-  global binariesbranchdirectory ( finddirectorywithparent userscriptdirectory branches )
-  global branch ( getfname binariesbranchdirectory )
-  global issmajorversion ( substring branch 1 2 )
-  global issminorversion ( substring branch 3 2 )
-  global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
-  global workspacesdirectory ( finddirectory userscriptdirectory Workspaces )
-  global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
+  global vstestconsolepath ( locatefile visualstudiodirectory 'vstest.console.exe' )
   global svnexepath '[programfilesdirectory]\TortoiseSVN\bin\svn.exe'
-  global commitprefix 'PIC[currentyear][currentmonth][currentday]'
   return True
 
 command checkin
@@ -96,3 +89,9 @@ command update
   if ( return test ) ( write 'simulating update: "[svnexepath]" update "[branchdirectory]"' ) ( run "[svnexepath]" 'update' "[branchdirectory]" )
   return exitcode
 
+command postmessagetoteams
+  'posts a message to a teams-channel'
+  title 'title'
+  message 'message'
+  hook 'hook-url of the channel'
+  return (invokeinstancemember 'ReasonPhrase' (invokeinstancemember 'Result' (PostAsync (HttpClient.new) (Uri.new hook) (StringContent.new '{"Title":"[title]","Text":"[message]"}' (Encoding.UTF8) 'application/json'))))

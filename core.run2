@@ -91,6 +91,12 @@ command notempty
   object 'object'
   not ( isempty object )
 
+command notnull
+  'checks if an object is not null'
+  'if the object is null, "false" is returned, otherwise "true"'
+  object 'object'
+  not ( isnull object )
+
 command quote
   'returns the unevaluated value'
   'the unenvaluated value'

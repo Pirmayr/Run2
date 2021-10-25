@@ -92,8 +92,6 @@ namespace Run2
       {
         try
         {
-          output = "";
-          var verbosityLevel = Globals.Variables.TryGetValue("verbositylevel", out var value) ? (int) value : 5;
           var process = new Process();
           process.StartInfo.FileName = executablePath;
           process.StartInfo.Arguments = arguments;
@@ -104,47 +102,12 @@ namespace Run2
           WriteLine($"Starting process '{executablePath}':");
           WriteLine($"  Working-directory '{workingDirectory}'");
           WriteLine($"  Arguments '{arguments}' ...");
-          var timedOut = false;
-          var stopwatch = new Stopwatch();
-          stopwatch.Start();
           process.Start();
-          while (true)
-          {
-            if (process.HasExited)
-            {
-              break;
-            }
-            if (processTimeout < stopwatch.ElapsedMilliseconds)
-            {
-              timedOut = true;
-              break;
-            }
-            var line = process.StandardOutput.ReadLine();
-            if (line != null)
-            {
-              if (0 < output.Length)
-              {
-                output += '\n';
-              }
-              output += line;
-              WriteLine(line, verbosityLevel, 5);
-            }
-          }
-          stopwatch.Stop();
+          var timedOut = process.StartProcess(processTimeout, out output);
           (!timedOut).Check($"The process {executablePath} has timed out");
           WriteLine($"Process '{executablePath}' terminated");
           Globals.Variables.SetLocal("exitcode", process.ExitCode);
           (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check(scriptPath, lineNumber, $"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
-          var remainder = process.StandardOutput.ReadToEnd();
-          if (!string.IsNullOrEmpty(remainder))
-          {
-            if (0 < output.Length)
-            {
-              output += '\n';
-            }
-            output += remainder;
-            Write(remainder, verbosityLevel, 5);
-          }
           return;
         }
         catch (Exception exception)
@@ -195,7 +158,7 @@ namespace Run2
 
     public static object InvokeMember(string memberName, Type type, object target, object[] arguments)
     {
-      var bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
+      var bindingFlags = BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance;
       if (memberName == "_new")
       {
         bindingFlags |= BindingFlags.CreateInstance;
@@ -403,6 +366,48 @@ namespace Run2
         result = result.InnerException;
       }
       return result;
+    }
+
+    private static bool StartProcess(this Process process, int processTimeout, out string output)
+    {
+      output = "";
+      var timedOut = false;
+      var stopwatch = new Stopwatch();
+      stopwatch.Start();
+      while (true)
+      {
+        if (process.HasExited)
+        {
+          var remainder = process.StandardOutput.ReadToEnd();
+          if (!string.IsNullOrEmpty(remainder))
+          {
+            if (0 < output.Length)
+            {
+              output += '\n';
+            }
+            output += remainder;
+            Write(remainder, 5, 5);
+          }
+          break;
+        }
+        if (processTimeout < stopwatch.ElapsedMilliseconds)
+        {
+          timedOut = true;
+          break;
+        }
+        var line = process.StandardOutput.ReadLine();
+        if (line != null)
+        {
+          if (0 < output.Length)
+          {
+            output += '\n';
+          }
+          output += line;
+          WriteLine(line, 5, 5);
+        }
+      }
+      stopwatch.Stop();
+      return timedOut;
     }
 
     private static bool TryGetControlValue(this string line, string controlTag, out string controlValue)

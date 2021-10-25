@@ -13,6 +13,19 @@ command buildprojects
 	    )
 	  )
   )
+
+command ISS
+  global binariesbranchdirectory ( finddirectorywithparent userscriptdirectory branches )
+  global branch ( getfname binariesbranchdirectory )
+  global issmajorversion ( substring branch 1 2 )
+  global issminorversion ( substring branch 3 2 )
+  global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
+  global workspacesdirectory ( finddirectory userscriptdirectory Workspaces )
+  global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
+  global jumbounittestsassemblypath '[binariesbranchdirectory]\moveIT.Jumbo\UnitTests\bin\x64\Release\netcoreapp3.1\UnitTests.dll'
+  global trackdirectory '[IssInstallationPath]\MasterData\Jumbo\Tracks'
+  global commitprefix 'PIC[currentyear][currentmonth][currentday]'  
+  global teamshook 'https://moveitat.webhook.office.com/webhookb2/df5cb2a4-71e8-4c4b-b7ff-3c72f9e0aae8@6c32a88d-7bdd-4d28-9c0b-bc0ecb33c6de/IncomingWebhook/319bd7498e864046bee18713f4153e40/93a9e1d7-1b98-47a4-be10-fdbbcc665d5a'
   
 command accepted
   and (itemadded handled (join arguments) (write value)) (!= projectname 'Buildtools')
@@ -45,4 +58,8 @@ command publishdocumentation
 command rebuild 
   if (and (accepted action projectdirectory) (== (getextension projectpath) '.sln'))
     (run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=Release;Platform=x64 -verbosity:minimal)
+  
+command trackdebug 
+  if (and (accepted action projectdirectory) (== (getextension projectpath) '.sln'))
+    (run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=TrackDebug;Platform=x64 -verbosity:minimal)
   

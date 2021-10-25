@@ -233,6 +233,42 @@ See:
 
 ---
 
+#### AbsolutePath
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.AbsolutePath
+
+---
+
+#### AbsoluteUri
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.AbsoluteUri
+
+---
+
+#### accepted
+
+---
+
+#### Activator.CreateInstance
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Activator.CreateInstance
+
+---
+
+#### Activator.CreateInstanceFrom
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Activator.CreateInstanceFrom
+
+---
+
 #### Add
 
 See:
@@ -720,6 +756,22 @@ performtest ( arraytail ( arrayof 4 7 1 1 ) ) ( arrayof 7 1 1 )
 
 ---
 
+#### Assembly
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.Assembly
+
+---
+
+#### AssemblyQualifiedName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.AssemblyQualifiedName
+
+---
+
 #### at
 
 returns the element of an array, a list, or a string at the specified index
@@ -743,6 +795,25 @@ performtest (
   )
   'foobar'
 ~~~
+~~~
+performtest ( at ( split 'foo//bar' '//' ) 0 ) 'foo'
+~~~
+
+---
+
+#### Attributes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.Attributes
+
+---
+
+#### Authority
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Authority
 
 ---
 
@@ -786,6 +857,22 @@ the average
 ~~~
 performtest ( averageof 1 2 3 4 ) 2.5
 ~~~
+
+---
+
+#### BaseAddress
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.BaseAddress
+
+---
+
+#### BaseType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.BaseType
 
 ---
 
@@ -979,6 +1066,14 @@ See:
 
 ---
 
+#### BodyName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.BodyName
+
+---
+
 #### break
 
 breaks the innermost loop and returns a value
@@ -993,6 +1088,14 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 
 ---
 
+#### buildprojects
+
+* projectsdirectory
+* actions
+* checkinmessage (optional; default:  'Diverses')
+
+---
+
 #### builds
 
 performs various initializations
@@ -1001,6 +1104,14 @@ performs various initializations
 
 
 the command always returns "true"
+
+---
+
+#### CancelPendingRequests
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.CancelPendingRequests
 
 ---
 
@@ -1277,6 +1388,14 @@ performtest ( checkin c:\ 'hi' True ) 0
 
 ---
 
+#### checkinbinaries
+
+---
+
+#### checkinsources
+
+---
+
 #### cleanup
 
 performs a svn-cleanup
@@ -1309,10 +1428,29 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.Clone
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Clone
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.Clone
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Clone
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Clone
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Clone
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Clone
+
+---
+
+#### CodePage
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.CodePage
+
+---
+
+#### comparefiles
+
+compares two files
+
+* path1: path to the first file
+* path2: path to the second file
+* separator: line-comment separator
 
 ---
 
@@ -1324,6 +1462,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Char.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.CompareTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Enum.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.CompareTo
 
 ---
@@ -1392,6 +1531,14 @@ See:
 
 ---
 
+#### ContainsGenericParameters
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.ContainsGenericParameters
+
+---
+
 #### containskey
 
 checks if a collection contains a key
@@ -1426,6 +1573,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.ContainsValue
+
+---
+
+#### Content
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.Content
 
 ---
 
@@ -1686,6 +1841,15 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.CopyTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.CopyTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.CopyTo
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.CopyTo
+
+---
+
+#### CopyToAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.CopyToAsync
 
 ---
 
@@ -1746,6 +1910,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.CurrentUICulture
+
+---
+
+#### CustomAttributes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.CustomAttributes
 
 ---
 
@@ -1933,6 +2105,30 @@ See:
 
 ---
 
+#### DeclaringMethod
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.DeclaringMethod
+
+---
+
+#### DeclaringType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.DeclaringType
+
+---
+
+#### DecoderFallback
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.DecoderFallback
+
+---
+
 #### Deconstruct
 
 See:
@@ -1958,6 +2154,38 @@ performtest (
   )
   4700
 ~~~
+
+---
+
+#### DefaultRequestHeaders
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.DefaultRequestHeaders
+
+---
+
+#### DefaultRequestVersion
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.DefaultRequestVersion
+
+---
+
+#### DefaultVersionPolicy
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.DefaultVersionPolicy
+
+---
+
+#### DeleteAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.DeleteAsync
 
 ---
 
@@ -2283,6 +2511,24 @@ See:
 
 ---
 
+#### Dispose
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpMessageInvoker.Dispose
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.Dispose
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.Dispose
+
+---
+
+#### DnsSafeHost
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.DnsSafeHost
+
+---
+
 #### dos
 
 executes specified dos-command and returns the output
@@ -2292,6 +2538,126 @@ executes specified dos-command and returns the output
 ~~~
 performtest ( dos echo 'hello world' ) 'hello world'
 ~~~
+
+---
+
+#### EncoderFallback
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.EncoderFallback
+
+---
+
+#### Encoding.ASCII
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.ASCII
+
+---
+
+#### Encoding.BigEndianUnicode
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.BigEndianUnicode
+
+---
+
+#### Encoding.Convert
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.Convert
+
+---
+
+#### Encoding.CreateTranscodingStream
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.CreateTranscodingStream
+
+---
+
+#### Encoding.Default
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.Default
+
+---
+
+#### Encoding.GetEncoding
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetEncoding
+
+---
+
+#### Encoding.GetEncodings
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetEncodings
+
+---
+
+#### Encoding.Latin1
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.Latin1
+
+---
+
+#### Encoding.RegisterProvider
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.RegisterProvider
+
+---
+
+#### Encoding.Unicode
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.Unicode
+
+---
+
+#### Encoding.UTF32
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.UTF32
+
+---
+
+#### Encoding.UTF7
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.UTF7
+
+---
+
+#### Encoding.UTF8
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.UTF8
+
+---
+
+#### EncodingName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.EncodingName
 
 ---
 
@@ -2358,6 +2724,14 @@ See:
 
 ---
 
+#### EnsureSuccessStatusCode
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode
+
+---
+
 #### EnumerateRunes
 
 See:
@@ -2373,15 +2747,23 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Activator.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Convert.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Enum.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpMessageInvoker.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.Equals
@@ -2832,6 +3214,22 @@ performtest ( finddirectorywithparent 'C:\Windows\System32\drivers' 'Windows' ) 
 
 ---
 
+#### FindInterfaces
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.FindInterfaces
+
+---
+
+#### FindMembers
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.FindMembers
+
+---
+
 #### for
 
 performs a for-loop
@@ -2902,6 +3300,50 @@ performtest (
 
 ---
 
+#### Fragment
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Fragment
+
+---
+
+#### FullName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.FullName
+
+---
+
+#### generatedocumentation
+
+---
+
+#### GenericParameterAttributes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GenericParameterAttributes
+
+---
+
+#### GenericParameterPosition
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GenericParameterPosition
+
+---
+
+#### GenericTypeArguments
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GenericTypeArguments
+
+---
+
 #### get
 
 return the value of a variable; the variable can exist in any active scope
@@ -2918,6 +3360,22 @@ See:
 
 ---
 
+#### GetArrayRank
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetArrayRank
+
+---
+
+#### GetAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.GetAsync
+
+---
+
 #### GetBitLength
 
 See:
@@ -2926,11 +3384,44 @@ See:
 
 ---
 
+#### GetByteArrayAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.GetByteArrayAsync
+
+---
+
 #### GetByteCount
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetByteCount
 * https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.GetByteCount
+
+---
+
+#### GetBytes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetBytes
+
+---
+
+#### GetCharCount
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetCharCount
+
+---
+
+#### GetChars
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetChars
 
 ---
 
@@ -2946,6 +3437,14 @@ returns the list of commands
 
 ---
 
+#### GetComponents
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.GetComponents
+
+---
+
 #### GetCompressedStack
 
 See:
@@ -2954,11 +3453,59 @@ See:
 
 ---
 
+#### GetConstructor
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetConstructor
+
+---
+
+#### GetConstructors
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetConstructors
+
+---
+
+#### GetCustomAttributes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.GetCustomAttributes
+
+---
+
+#### GetCustomAttributesData
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.GetCustomAttributesData
+
+---
+
 #### GetDateTimeFormats
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.GetDateTimeFormats
+
+---
+
+#### GetDecoder
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetDecoder
+
+---
+
+#### GetDefaultMembers
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetDefaultMembers
 
 ---
 
@@ -2996,6 +3543,22 @@ performtest ( getdirectory 'C:\Windows\notepad.exe' ) 'C:\Windows'
 
 ---
 
+#### GetElementType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetElementType
+
+---
+
+#### GetEncoder
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetEncoder
+
+---
+
 #### GetEnumerator
 
 See:
@@ -3006,6 +3569,54 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.GetEnumerator
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.GetEnumerator
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetEnumerator
+
+---
+
+#### GetEnumName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetEnumName
+
+---
+
+#### GetEnumNames
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetEnumNames
+
+---
+
+#### GetEnumUnderlyingType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetEnumUnderlyingType
+
+---
+
+#### GetEnumValues
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetEnumValues
+
+---
+
+#### GetEvent
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetEvent
+
+---
+
+#### GetEvents
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetEvents
 
 ---
 
@@ -3020,6 +3631,22 @@ gets the extension from a path
 ~~~
 performtest ( getextension 'c:\windows\notepad.exe' ) '.exe'
 ~~~
+
+---
+
+#### GetField
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetField
+
+---
+
+#### GetFields
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetFields
 
 ---
 
@@ -3068,6 +3695,30 @@ performtest ( getfname 'C:\Windows\System32' ) 'System32'
 
 ---
 
+#### GetGenericArguments
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetGenericArguments
+
+---
+
+#### GetGenericParameterConstraints
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetGenericParameterConstraints
+
+---
+
+#### GetGenericTypeDefinition
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetGenericTypeDefinition
+
+---
+
 #### GetHashCode
 
 See:
@@ -3075,15 +3726,23 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Activator.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Convert.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Enum.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpMessageInvoker.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.GetHashCode
@@ -3093,6 +3752,38 @@ See:
 #### gethelp
 
 returns help-information (formatted as markdown)
+
+---
+
+#### GetInterface
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetInterface
+
+---
+
+#### GetInterfaceMap
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetInterfaceMap
+
+---
+
+#### GetInterfaces
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetInterfaces
+
+---
+
+#### GetLeftPart
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.GetLeftPart
 
 ---
 
@@ -3120,6 +3811,22 @@ See:
 
 ---
 
+#### GetMaxByteCount
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetMaxByteCount
+
+---
+
+#### GetMaxCharCount
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetMaxCharCount
+
+---
+
 #### getmember
 
 get the array of member-information for the specified member in an object
@@ -3140,6 +3847,54 @@ performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
 
 ---
 
+#### GetMember
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetMember
+
+---
+
+#### GetMembers
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetMembers
+
+---
+
+#### GetMethod
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetMethod
+
+---
+
+#### GetMethods
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetMethods
+
+---
+
+#### GetNestedType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetNestedType
+
+---
+
+#### GetNestedTypes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetNestedTypes
+
+---
+
 #### GetObjectData
 
 See:
@@ -3156,11 +3911,59 @@ See:
 
 ---
 
+#### GetPreamble
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetPreamble
+
+---
+
+#### GetProperties
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetProperties
+
+---
+
+#### GetProperty
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetProperty
+
+---
+
 #### GetRange
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.GetRange
+
+---
+
+#### GetStreamAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.GetStreamAsync
+
+---
+
+#### GetString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetString
+
+---
+
+#### GetStringAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.GetStringAsync
 
 ---
 
@@ -3193,15 +3996,23 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Activator.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Convert.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Enum.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpMessageInvoker.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.GetType
@@ -3216,6 +4027,7 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.GetTypeCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Char.GetTypeCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.GetTypeCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Enum.GetTypeCode
 
 ---
 
@@ -3264,6 +4076,30 @@ performtest (
 
 ---
 
+#### GUID
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GUID
+
+---
+
+#### HasElementType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.HasElementType
+
+---
+
+#### HasFlag
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Enum.HasFlag
+
+---
+
 #### Hashtable.Synchronized
 
 See:
@@ -3292,6 +4128,14 @@ performtest ( hasmember 'hello' 'Length' ) True
 ~~~
 performtest ( hasmember 'hello' 'Count' ) False
 ~~~
+
+---
+
+#### HasSameMetadataDefinitionAs
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.HasSameMetadataDefinitionAs
 
 ---
 
@@ -3337,11 +4181,60 @@ performtest ( head ( listof 4 7 1 1 ) ) 4
 
 ---
 
+#### HeaderName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.HeaderName
+
+---
+
+#### Headers
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.Headers
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.Headers
+
+---
+
+#### Host
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Host
+
+---
+
+#### HostNameType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.HostNameType
+
+---
+
 #### Hour
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Hour
+
+---
+
+#### HttpClient.DefaultProxy
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.DefaultProxy
+
+---
+
+#### IdnHost
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IdnHost
 
 ---
 
@@ -3672,6 +4565,14 @@ calls the 'Invoke'-method of the type of the specified object
 
 ---
 
+#### InvokeMember
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.InvokeMember
+
+---
+
 #### invoketests
 
 invokes the tests
@@ -3689,11 +4590,43 @@ performtest ( invoketests ) True
 
 ---
 
+#### IsAbsoluteUri
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsAbsoluteUri
+
+---
+
+#### IsAbstract
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsAbstract
+
+---
+
 #### IsAlive
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.IsAlive
+
+---
+
+#### IsAlwaysNormalized
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.IsAlwaysNormalized
+
+---
+
+#### IsAnsiClass
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsAnsiClass
 
 ---
 
@@ -3730,11 +4663,91 @@ performtest ( isarray ( toarray ( newlist ) ) ) True
 
 ---
 
+#### IsArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsArray
+
+---
+
+#### IsAssignableFrom
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsAssignableFrom
+
+---
+
+#### IsAssignableTo
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsAssignableTo
+
+---
+
+#### IsAutoClass
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsAutoClass
+
+---
+
+#### IsAutoLayout
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsAutoLayout
+
+---
+
 #### IsBackground
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.IsBackground
+
+---
+
+#### IsBaseOf
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsBaseOf
+
+---
+
+#### IsBrowserDisplay
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.IsBrowserDisplay
+
+---
+
+#### IsBrowserSave
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.IsBrowserSave
+
+---
+
+#### IsByRef
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsByRef
+
+---
+
+#### IsByRefLike
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsByRefLike
 
 ---
 
@@ -3762,6 +4775,46 @@ performtest ( ischar ( tochar 'hello' ) ) True
 ~~~
 performtest ( ischar ( tochar 4711 ) ) True
 ~~~
+
+---
+
+#### IsClass
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsClass
+
+---
+
+#### IsCollectible
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.IsCollectible
+
+---
+
+#### IsCOMObject
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsCOMObject
+
+---
+
+#### IsConstructedGenericType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsConstructedGenericType
+
+---
+
+#### IsContextful
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsContextful
 
 ---
 
@@ -3794,6 +4847,22 @@ performtest ( isconvertibletoarray ( newlist ) ) True
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.IsDaylightSavingTime
+
+---
+
+#### IsDefaultPort
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsDefaultPort
+
+---
+
+#### IsDefined
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.IsDefined
 
 ---
 
@@ -3843,11 +4912,51 @@ performtest ( isempty ( listof 1 2 3 ) ) False
 
 ---
 
+#### IsEnum
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsEnum
+
+---
+
+#### IsEnumDefined
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsEnumDefined
+
+---
+
+#### IsEquivalentTo
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsEquivalentTo
+
+---
+
 #### IsEven
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.IsEven
+
+---
+
+#### IsExplicitLayout
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsExplicitLayout
+
+---
+
+#### IsFile
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsFile
 
 ---
 
@@ -3858,6 +4967,78 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsFixedSize
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.IsFixedSize
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.IsFixedSize
+
+---
+
+#### IsGenericMethodParameter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsGenericMethodParameter
+
+---
+
+#### IsGenericParameter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsGenericParameter
+
+---
+
+#### IsGenericType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsGenericType
+
+---
+
+#### IsGenericTypeDefinition
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsGenericTypeDefinition
+
+---
+
+#### IsGenericTypeParameter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsGenericTypeParameter
+
+---
+
+#### IsImport
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsImport
+
+---
+
+#### IsInstanceOfType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsInstanceOfType
+
+---
+
+#### IsInterface
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsInterface
+
+---
+
+#### IsLayoutSequential
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsLayoutSequential
 
 ---
 
@@ -3891,11 +5072,107 @@ performtest ( islist ( newlist ) ) True
 
 ---
 
+#### IsLoopback
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsLoopback
+
+---
+
+#### IsMailNewsDisplay
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.IsMailNewsDisplay
+
+---
+
+#### IsMailNewsSave
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.IsMailNewsSave
+
+---
+
+#### IsMarshalByRef
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsMarshalByRef
+
+---
+
+#### IsNested
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNested
+
+---
+
+#### IsNestedAssembly
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNestedAssembly
+
+---
+
+#### IsNestedFamANDAssem
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNestedFamANDAssem
+
+---
+
+#### IsNestedFamily
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNestedFamily
+
+---
+
+#### IsNestedFamORAssem
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNestedFamORAssem
+
+---
+
+#### IsNestedPrivate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNestedPrivate
+
+---
+
+#### IsNestedPublic
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNestedPublic
+
+---
+
 #### IsNormalized
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.IsNormalized
+
+---
+
+#### IsNotPublic
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsNotPublic
 
 ---
 
@@ -3932,6 +5209,14 @@ See:
 
 ---
 
+#### IsPointer
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsPointer
+
+---
+
 #### IsPowerOfTwo
 
 See:
@@ -3940,13 +5225,74 @@ See:
 
 ---
 
+#### IsPrimitive
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsPrimitive
+
+---
+
+#### IsPublic
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsPublic
+
+---
+
 #### IsReadOnly
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.IsReadOnly
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.IsReadOnly
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.IsReadOnly
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.IsReadOnly
+
+---
+
+#### ISS
+
+---
+
+#### IsSealed
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSealed
+
+---
+
+#### IsSecurityCritical
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSecurityCritical
+
+---
+
+#### IsSecuritySafeCritical
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSecuritySafeCritical
+
+---
+
+#### IsSecurityTransparent
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSecurityTransparent
+
+---
+
+#### IsSerializable
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSerializable
 
 ---
 
@@ -3966,6 +5312,30 @@ if the object is a set, "true" is returned, otherwise "false"
 ~~~
 performtest ( isset ( newset ) ) True
 ~~~
+
+---
+
+#### IsSignatureType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSignatureType
+
+---
+
+#### IsSingleByte
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.IsSingleByte
+
+---
+
+#### IsSpecialName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSpecialName
 
 ---
 
@@ -3996,6 +5366,22 @@ performtest ( isstring ( tostring 4711 ) ) True
 
 ---
 
+#### IsSubclassOf
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSubclassOf
+
+---
+
+#### IsSuccessStatusCode
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.IsSuccessStatusCode
+
+---
+
 #### IsSynchronized
 
 See:
@@ -4008,11 +5394,75 @@ See:
 
 ---
 
+#### IsSZArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSZArray
+
+---
+
 #### IsThreadPoolThread
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.IsThreadPoolThread
+
+---
+
+#### IsTypeDefinition
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsTypeDefinition
+
+---
+
+#### IsUnc
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsUnc
+
+---
+
+#### IsUnicodeClass
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsUnicodeClass
+
+---
+
+#### IsValueType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsValueType
+
+---
+
+#### IsVariableBoundArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsVariableBoundArray
+
+---
+
+#### IsVisible
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsVisible
+
+---
+
+#### IsWellFormedOriginalString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsWellFormedOriginalString
 
 ---
 
@@ -4260,6 +5710,14 @@ performtest ( listtail ( listof 4 7 1 1 ) ) ( listof 7 1 1 )
 
 ---
 
+#### LoadIntoBufferAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.LoadIntoBufferAsync
+
+---
+
 #### local
 
 creates local variables
@@ -4403,6 +5861,14 @@ performtest (
 
 ---
 
+#### LocalPath
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.LocalPath
+
+---
+
 #### locatedirectories
 
 searches directories
@@ -4497,6 +5963,54 @@ performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.LongLength
+
+---
+
+#### MakeArrayType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.MakeArrayType
+
+---
+
+#### MakeByRefType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.MakeByRefType
+
+---
+
+#### MakeGenericType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.MakeGenericType
+
+---
+
+#### MakePointerType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.MakePointerType
+
+---
+
+#### MakeRelative
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.MakeRelative
+
+---
+
+#### MakeRelativeUri
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.MakeRelativeUri
 
 ---
 
@@ -4877,6 +6391,14 @@ See:
 
 ---
 
+#### MaxResponseContentBufferSize
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.MaxResponseContentBufferSize
+
+---
+
 #### median
 
 returns the median of the given numbers
@@ -4913,6 +6435,14 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 ---
 
+#### MemberType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.MemberType
+
+---
+
 #### merge
 
 * fromrepositoryurl
@@ -4931,6 +6461,18 @@ performtest ( medianof 5 3 2 4 1 ) 3
 
 ---
 
+#### mergeupbinaries
+
+---
+
+#### MetadataToken
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.MetadataToken
+
+---
+
 #### Millisecond
 
 See:
@@ -4944,6 +6486,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Minute
+
+---
+
+#### Module
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.Module
 
 ---
 
@@ -5001,7 +6551,16 @@ performtest ( multireplace 'Hello World!' 'Hello' 'Good' 'World' 'Bye' ) 'Good B
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.Name
 * https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Name
+
+---
+
+#### Namespace
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.Namespace
 
 ---
 
@@ -5198,6 +6757,20 @@ performtest (
 
 ---
 
+#### newstringarrayof
+
+---
+
+#### newstringlist
+
+* values
+
+---
+
+#### newstringlistof
+
+---
+
 #### Normalize
 
 See:
@@ -5247,6 +6820,19 @@ performtest ( notempty ( arrayof 1 2 3 ) ) True
 
 ---
 
+#### notnull
+
+checks if an object is not null
+
+* object: object
+
+**Returns**
+
+
+if the object is null, "false" is returned, otherwise "true"
+
+---
+
 #### null
 
 the value 'null'
@@ -5267,6 +6853,14 @@ performs the 'or'-operation
 
 * value1: first value
 * value2: second value
+
+---
+
+#### OriginalString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.OriginalString
 
 ---
 
@@ -5294,6 +6888,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.PadRight
+
+---
+
+#### PatchAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.PatchAsync
 
 ---
 
@@ -5505,6 +7107,14 @@ See:
 
 ---
 
+#### PathAndQuery
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.PathAndQuery
+
+---
+
 #### Peek
 
 See:
@@ -5578,6 +7188,32 @@ See:
 
 ---
 
+#### Port
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Port
+
+---
+
+#### PostAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.PostAsync
+
+---
+
+#### postmessagetoteams
+
+posts a message to a teams-channel
+
+* title: title
+* message: message
+* hook: hook-url of the channel
+
+---
+
 #### power
 
 computes the power of two numbers
@@ -5595,6 +7231,23 @@ the power
 ~~~
 performtest ( power 3 4 ) 81
 ~~~
+
+---
+
+#### Preamble
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.Preamble
+
+---
+
+#### prefix
+
+return the part of a string which lies before a separator
+
+* string: string
+* separator: separator
 
 ---
 
@@ -5622,6 +7275,10 @@ performtest ( size ( primes 1000 ) ) 167
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Thread.Priority
+
+---
+
+#### publishdocumentation
 
 ---
 
@@ -5680,6 +7337,22 @@ performtest (
 
 ---
 
+#### PutAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.PutAsync
+
+---
+
+#### Query
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Query
+
+---
+
 #### Queue.Synchronized
 
 See:
@@ -5716,6 +7389,38 @@ performtest (
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.Rank
+
+---
+
+#### ReadAsByteArrayAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.ReadAsByteArrayAsync
+
+---
+
+#### ReadAsStream
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.ReadAsStream
+
+---
+
+#### ReadAsStreamAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.ReadAsStreamAsync
+
+---
+
+#### ReadAsStringAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.ReadAsStringAsync
 
 ---
 
@@ -5757,6 +7462,26 @@ performtest (
 ~~~
 performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) ) ) ) 168
 ~~~
+
+---
+
+#### ReasonPhrase
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.ReasonPhrase
+
+---
+
+#### rebuild
+
+---
+
+#### ReflectedType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.ReflectedType
 
 ---
 
@@ -5829,6 +7554,14 @@ performtest ( replace 'Hello World!' 'Hello' 'Bye' ) 'Bye World!'
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Replace
+
+---
+
+#### RequestMessage
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.RequestMessage
 
 ---
 
@@ -5936,11 +7669,43 @@ runs an external program with the arguments given
 
 ---
 
+#### Scheme
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Scheme
+
+---
+
 #### Second
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Second
+
+---
+
+#### Segments
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Segments
+
+---
+
+#### Send
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpMessageInvoker.Send
+
+---
+
+#### SendAsync
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpMessageInvoker.SendAsync
 
 ---
 
@@ -6190,6 +7955,9 @@ performtest ( sort ( split '3~n1~n4~n1~n5~n9' ) ) ( arrayof '1' '1' '3' '4' '5' 
 ~~~
 performtest ( sort ( split '3;1;4;1;5;9' ';' ) ) ( arrayof '1' '1' '3' '4' '5' '9' )
 ~~~
+~~~
+performtest ( at ( split 'foo//bar' '//' ) 0 ) 'foo'
+~~~
 
 ---
 
@@ -6241,6 +8009,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.StartsWith
+
+---
+
+#### StatusCode
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.StatusCode
 
 ---
 
@@ -6356,6 +8132,30 @@ See:
 
 ---
 
+#### StringSplitOptions.None
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.StringSplitOptions.None
+
+---
+
+#### StringSplitOptions.RemoveEmptyEntries
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.StringSplitOptions.RemoveEmptyEntries
+
+---
+
+#### StringSplitOptions.TrimEntries
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.StringSplitOptions.TrimEntries
+
+---
+
 #### stringtail
 
 returns a string without its first character
@@ -6372,6 +8172,14 @@ the tail of the string
 ~~~
 performtest ( stringtail 'Hello' ) 'ello'
 ~~~
+
+---
+
+#### StructLayoutAttribute
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.StructLayoutAttribute
 
 ---
 
@@ -6744,6 +8552,18 @@ See:
 
 ---
 
+#### Timeout
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.Timeout
+
+---
+
+#### tmp
+
+---
+
 #### toarray
 
 converts an object to an array
@@ -7044,15 +8864,23 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.ValueType.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Activator.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Convert.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Enum.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Runtime.ConstrainedExecution.CriticalFinalizerObject.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Path.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/Internal.Console.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpMessageInvoker.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.ByteArrayContent.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.Directory.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.IO.File.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/Microsoft.VisualBasic.Interaction.ToString
@@ -7086,6 +8914,18 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.ToUpperInvariant
+
+---
+
+#### trackdebug
+
+---
+
+#### TrailingHeaders
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.TrailingHeaders
 
 ---
 
@@ -7163,6 +9003,158 @@ See:
 
 ---
 
+#### Type.DefaultBinder
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.DefaultBinder
+
+---
+
+#### Type.Delimiter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.Delimiter
+
+---
+
+#### Type.EmptyTypes
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.EmptyTypes
+
+---
+
+#### Type.FilterAttribute
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.FilterAttribute
+
+---
+
+#### Type.FilterName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.FilterName
+
+---
+
+#### Type.FilterNameIgnoreCase
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.FilterNameIgnoreCase
+
+---
+
+#### Type.GetType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetType
+
+---
+
+#### Type.GetTypeArray
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetTypeArray
+
+---
+
+#### Type.GetTypeCode
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetTypeCode
+
+---
+
+#### Type.GetTypeFromCLSID
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetTypeFromCLSID
+
+---
+
+#### Type.GetTypeFromHandle
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetTypeFromHandle
+
+---
+
+#### Type.GetTypeFromProgID
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetTypeFromProgID
+
+---
+
+#### Type.GetTypeHandle
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.GetTypeHandle
+
+---
+
+#### Type.MakeGenericMethodParameter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.MakeGenericMethodParameter
+
+---
+
+#### Type.MakeGenericSignatureType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.MakeGenericSignatureType
+
+---
+
+#### Type.Missing
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.Missing
+
+---
+
+#### Type.ReflectionOnlyGetType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.ReflectionOnlyGetType
+
+---
+
+#### TypeHandle
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.TypeHandle
+
+---
+
+#### TypeInitializer
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.TypeInitializer
+
+---
+
 #### typename
 
 returns the name of the type of an object
@@ -7228,6 +9220,14 @@ performtest ( typename ( typeof 'foobar' ) ) RuntimeType
 
 ---
 
+#### UnderlyingSystemType
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Type.UnderlyingSystemType
+
+---
+
 #### update
 
 performs a svn-update
@@ -7264,11 +9264,227 @@ performtest ( upperbound ( split 'Hello~nworld' ) ) 1
 
 ---
 
+#### Uri.CheckHostName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.CheckHostName
+
+---
+
+#### Uri.CheckSchemeName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.CheckSchemeName
+
+---
+
+#### Uri.Compare
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.Compare
+
+---
+
+#### Uri.EscapeDataString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.EscapeDataString
+
+---
+
+#### Uri.EscapeUriString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.EscapeUriString
+
+---
+
+#### Uri.FromHex
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.FromHex
+
+---
+
+#### Uri.HexEscape
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.HexEscape
+
+---
+
+#### Uri.HexUnescape
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.HexUnescape
+
+---
+
+#### Uri.IsHexDigit
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsHexDigit
+
+---
+
+#### Uri.IsHexEncoding
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsHexEncoding
+
+---
+
+#### Uri.IsWellFormedUriString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.IsWellFormedUriString
+
+---
+
+#### Uri.SchemeDelimiter
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.SchemeDelimiter
+
+---
+
+#### Uri.TryCreate
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.TryCreate
+
+---
+
+#### Uri.UnescapeDataString
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UnescapeDataString
+
+---
+
+#### Uri.UriSchemeFile
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeFile
+
+---
+
+#### Uri.UriSchemeFtp
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeFtp
+
+---
+
+#### Uri.UriSchemeGopher
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeGopher
+
+---
+
+#### Uri.UriSchemeHttp
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeHttp
+
+---
+
+#### Uri.UriSchemeHttps
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeHttps
+
+---
+
+#### Uri.UriSchemeMailto
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeMailto
+
+---
+
+#### Uri.UriSchemeNetPipe
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeNetPipe
+
+---
+
+#### Uri.UriSchemeNetTcp
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeNetTcp
+
+---
+
+#### Uri.UriSchemeNews
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeNews
+
+---
+
+#### Uri.UriSchemeNntp
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UriSchemeNntp
+
+---
+
+#### UserEscaped
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UserEscaped
+
+---
+
+#### UserInfo
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Uri.UserInfo
+
+---
+
 #### Value
 
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.DictionaryEntry.Value
+
+---
+
+#### value__
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.StringSplitOptions.value__
 
 ---
 
@@ -7280,12 +9496,36 @@ See:
 
 ---
 
+#### Version
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpResponseMessage.Version
+
+---
+
+#### WebName
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.WebName
+
+---
+
 #### while
 
 performs a while-loop
 
 * condition: condition for continuing the loop
 * code: body of the while-loop
+
+---
+
+#### WindowsCodePage
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding.WindowsCodePage
 
 ---
 
@@ -7356,6 +9596,19 @@ See:
 #### Missing Documentation:
 
 
+* accepted
+
+* buildprojects
+  - projectsdirectory
+  - actions
+  - checkinmessage
+
+* checkinbinaries
+
+* checkinsources
+
+* generatedocumentation
+
 * inputbox
   - prompt
   - title
@@ -7363,6 +9616,8 @@ See:
 
 * isnullorempty
   - string
+
+* ISS
 
 * merge
   - fromrepositoryurl
@@ -7373,16 +9628,51 @@ See:
   - startworkspacedirectory
   - commitmessage
 
+* mergeupbinaries
+
+* newstringarrayof
+
+* newstringlist
+  - values
+
+* newstringlistof
+
+* publishdocumentation
+
+* rebuild
+
+* tmp
+
+* trackdebug
+
 #### Missing Examples:
 
+* accepted
+* buildprojects
 * builds
+* checkinbinaries
+* checkinsources
+* comparefiles
+* generatedocumentation
 * inputbox
 * isnullorempty
+* ISS
 * merge
 * mergeup
+* mergeupbinaries
 * monitorrepository
 * mostrecentrevision
+* newstringarrayof
+* newstringlist
+* newstringlistof
+* notnull
 * os
+* postmessagetoteams
+* prefix
+* publishdocumentation
+* rebuild
 * sleep
 * tests
+* tmp
+* trackdebug
 * update

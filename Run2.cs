@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Numerics;
 using System.Reflection;
 
@@ -15,7 +16,7 @@ namespace Run2
   {
     private static readonly HashSet<string> loadedScripts = new();
 
-    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime" };
+    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime", "StringSplitOptions", "Activator", "Type", "HttpClient", "StringContent", "Encoding", "HttpResponseMessage", "Uri" };
 
     public static object Evaluate(object value)
     {
@@ -153,6 +154,8 @@ namespace Run2
       CreateStandardObject(new Hashtable());
       CreateStandardObject(new Queue());
       CreateStandardObject(new Stack());
+      CreateStandardObject(new HttpClient());
+      CreateStandardObject(new Uri("http://google.com"));
       Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
       Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
       Globals.Debug = CommandLineParser.OptionExists("debug");
@@ -181,15 +184,17 @@ namespace Run2
 
     private static bool AcceptType(Type type)
     {
-      return type.IsPublic && (type.IsClass || type.IsStruct()) && !type.IsNested && !type.IsGenericType && AcceptedTypes.Contains(type.Name);
+      return type.IsPublic && (type.IsClass || type.IsEnum || type.IsStruct()) && !type.IsNested && !type.IsGenericType && AcceptedTypes.Contains(type.Name);
     }
 
     private static Type BaseTypeOfMember(this Type type, string memberName, BindingFlags bindingFlags)
     {
+      Type previousResult = null;
       var result = type;
-      while (result != null && result.Name != "ValueType" && result.BaseType?.Name != "Object" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
+      while (previousResult != result && result != null && result.Name != "ValueType" && result.Name != "Enum" && result.BaseType?.Name != "Object" && result.BaseType != null && result.Name != result.BaseType.Name && 0 < result.BaseType.GetMember(memberName, bindingFlags).Length)
       {
         var baseType = type.BaseType;
+        previousResult = result;
         result = baseType;
       }
       return result;

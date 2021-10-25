@@ -203,11 +203,33 @@ command newstack
   'a stack'
   Stack.new
 
+command newstringarrayof
+  toarray ( newstringlist arguments )
+
+command newstringlist
+  values
+  local result (
+    Activator.CreateInstance (
+      Type.GetType 'System.Collections.Generic.List`1[[System.String, System.Private.CoreLib]], System.Private.CoreLib'
+      )
+    )
+  map values ( Add result ( tostring item ) )
+  return result
+
+command newstringlistof
+  newstringlist arguments
+
 command pop
   'pops an element'
   'the element popped'
   stack 'stack'
   Pop stack
+
+command prefix
+  'return the part of a string which lies before a separator'
+  string 'string'
+  separator 'separator'
+  if ( < ( local index ( IndexOf string separator ) ) 0 ) string ( Substring string 0 index )
 
 command push
   'pushes an element'
@@ -254,7 +276,7 @@ command split
   'an array of strings'
   string 'string to be splitted'
   ( separator '~n' ) 'separator'
-  Split string ( tochar ( if ( isnull separator ) '~n' separator ) )
+  Split string ( newstringarrayof separator ) ( StringSplitOptions.None )
 
 command stringtail
   'returns a string without its first character'

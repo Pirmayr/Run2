@@ -37,10 +37,10 @@ namespace Run2
       return array[index];
     }
 
-    [Documentation(1, 1, null, "breaks the innermost loop and returns a value", "value", "the value to be returned")]
+    [Documentation(0, 1, null, "breaks the innermost loop and returns a value", "value", "the value to be returned")]
     public static object Break(Items arguments)
     {
-      var result = arguments.DequeueObject();
+      var result = 0 < arguments.QueueCount ? arguments.DequeueObject() : null;
       Globals.DoBreak = true;
       return result;
     }
@@ -78,9 +78,10 @@ namespace Run2
       var to = arguments.DequeueDynamic();
       var step = arguments.DequeueDynamic();
       var code = arguments.DequeueObject(false);
-      for (var i = from; i <= to; i += step)
+      int i;
+      for (i = from; i <= to; i += step)
       {
-        Globals.Variables.SetLocal(variableName, (object) i);
+        Globals.Variables.SetLocal(variableName, i);
         result = Run2.Evaluate(code);
         if (Globals.DoBreak)
         {
@@ -88,6 +89,7 @@ namespace Run2
           break;
         }
       }
+      Globals.Variables.SetLocal(variableName, i);
       return result;
     }
 
@@ -336,7 +338,6 @@ namespace Run2
         executablePath = commandOrPathOrDirectory;
       }
       var properties = commandOrPathOrDirectory.GetProperties();
-      // Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
       Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result);
       return result;
     }

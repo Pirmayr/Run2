@@ -1,4 +1,4 @@
-loadscript builds
+loadscript ISS
 
 command invoketests
   'invokes the tests'
@@ -303,6 +303,7 @@ command performtests
     performtest ( typename ( besttype ( mostrecentrevision run2projectdirectory ) ) ) 'Int32'
     performtest ( monitorrepository run2projectdirectory False 250 True ( write 'a change occurred' ) ) 'a change occurred'
     )
+  performtest ( at ( split 'foo//bar' '//' ) 0 ) 'foo'
   return testsok
 
 command tests
@@ -322,4 +323,5 @@ command tests
     writefile [basedirectory]\..\..\..\system.run2 ( getcode 'system' )
     writefile [basedirectory]\..\..\..\tests.run2 ( getcode 'tests' )
     )
+  write ( postmessagetoteams 'title5' 'text5' teamshook )
   return testsok
