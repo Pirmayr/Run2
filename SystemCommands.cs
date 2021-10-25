@@ -336,7 +336,8 @@ namespace Run2
         executablePath = commandOrPathOrDirectory;
       }
       var properties = commandOrPathOrDirectory.GetProperties();
-      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
+      // Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result, out _);
+      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result);
       return result;
     }
 

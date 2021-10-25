@@ -85,13 +85,15 @@ namespace Run2
       }
     }
 
-    public static void Execute(string scriptPath, int lineNumber, string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output, out string error)
+    public static void Execute(string scriptPath, int lineNumber, string executablePath, string arguments, string workingDirectory, int processTimeout, int tryCount, int minimalExitCode, int maximalExitCode, out string output)
     {
       var mostRecentException = new Exception("Execution failed");
       for (var i = 0; i < tryCount; ++i)
       {
         try
         {
+          output = "";
+          var verbosityLevel = Globals.Variables.TryGetValue("verbositylevel", out var value) ? (int) value : 5;
           var process = new Process();
           process.StartInfo.FileName = executablePath;
           process.StartInfo.Arguments = arguments;
@@ -102,13 +104,47 @@ namespace Run2
           WriteLine($"Starting process '{executablePath}':");
           WriteLine($"  Working-directory '{workingDirectory}'");
           WriteLine($"  Arguments '{arguments}' ...");
+          var timedOut = false;
+          var stopwatch = new Stopwatch();
+          stopwatch.Start();
           process.Start();
-          output = process.StandardOutput.ReadToEnd().Trim();
-          error = process.StandardError.ReadToEnd();
-          process.WaitForExit(processTimeout).Check(scriptPath, lineNumber, $"Process '{executablePath}' has timed out");
+          while (true)
+          {
+            if (process.HasExited)
+            {
+              break;
+            }
+            if (processTimeout < stopwatch.ElapsedMilliseconds)
+            {
+              timedOut = true;
+              break;
+            }
+            var line = process.StandardOutput.ReadLine();
+            if (line != null)
+            {
+              if (0 < output.Length)
+              {
+                output += '\n';
+              }
+              output += line;
+              WriteLine(line, verbosityLevel, 5);
+            }
+          }
+          stopwatch.Stop();
+          (!timedOut).Check($"The process {executablePath} has timed out");
           WriteLine($"Process '{executablePath}' terminated");
           Globals.Variables.SetLocal("exitcode", process.ExitCode);
           (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check(scriptPath, lineNumber, $"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
+          var remainder = process.StandardOutput.ReadToEnd();
+          if (!string.IsNullOrEmpty(remainder))
+          {
+            if (0 < output.Length)
+            {
+              output += '\n';
+            }
+            output += remainder;
+            Write(remainder, verbosityLevel, 5);
+          }
           return;
         }
         catch (Exception exception)
@@ -138,11 +174,6 @@ namespace Run2
     public static Properties GetProperties(this object value)
     {
       return Globals.Properties.GetOrCreateValue(value);
-    }
-
-    private static string GetScriptName(this string path)
-    {
-      return Path.GetFileNameWithoutExtension(path);
     }
 
     public static void HandleException(Exception exception, string scriptPath = null, int lineNumber = -1)
@@ -292,11 +323,7 @@ namespace Run2
 
     public static void WriteLine(string message, int verbosity = 5)
     {
-      var verbosityLevel = Globals.Variables.TryGetValue("verbositylevel", out var value) ? (int) value : 5;
-      if (verbosityLevel <= verbosity)
-      {
-        Console.WriteLine(message);
-      }
+      Write($"{message}\n", Globals.Variables.TryGetValue("verbositylevel", out var value) ? (int) value : 5, verbosity);
     }
 
     [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Local")]
@@ -363,6 +390,11 @@ namespace Run2
       return result;
     }
 
+    private static string GetScriptName(this string path)
+    {
+      return Path.GetFileNameWithoutExtension(path);
+    }
+
     private static Exception InnerMostException(this Exception exception)
     {
       var result = exception;
@@ -383,6 +415,19 @@ namespace Run2
       }
       controlValue = "";
       return false;
+    }
+
+    private static void Write(string message, int verbosityLevel, int verbosity)
+    {
+      if (verbosityLevel <= verbosity)
+      {
+        Console.Write(message);
+      }
+    }
+
+    private static void WriteLine(string message, int verbosityLevel, int verbosity)
+    {
+      Write($"{message}\n", verbosityLevel, verbosity);
     }
   }
 }

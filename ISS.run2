@@ -1,0 +1,48 @@
+loadscript builds
+
+command buildprojects
+  projectsdirectory
+  actions
+  ( checkinmessage 'Diverses' )
+  local handled (newset)
+  foreach action (split actions ';') (
+    foreach projectfilepattern (arrayof '*.sln' 'TemplateParameters.txt' 'typedoc.json') (
+      foreach projectpath (locatefiles (removetrailingdirectoryseparator projectsdirectory) projectfilepattern) ( 
+	    local projectdirectory (getdirectory projectpath) projectname (getfilename projectdirectory)
+	    run action
+	    )
+	  )
+  )
+  
+command accepted
+  and (itemadded handled (join arguments) (write value)) (!= projectname 'Buildtools')
+
+command checkinbinaries
+  if (accepted action binariesbranchdirectory) 
+    (checkin binariesbranchdirectory checkinmessage False)
+	
+command checkinsources
+  if (accepted action sourcesbranchdirectory) 
+    (checkin sourcesbranchdirectory checkinmessage False)
+	
+command mergeupbinaries
+  if (accepted action binariesbranchdirectory) 
+    (mergeup binariesbranchesurl binariesbranchdirectory checkinmessage False)
+  
+command generatedocumentation
+  if (accepted action projectdirectory) (
+    switch 
+      (== projectfilepattern 'typedoc.json') 
+	    (dos '[projectdirectory]' npx typedoc)
+      (== projectfilepattern 'TemplateParameters.txt' ) 
+	    (run projectdirectory '[buildtoolsdirectory]\TemplateExpander.exe' developer md projectpath)
+	)
+	 
+command publishdocumentation
+  if (and (accepted action projectdirectory) (fileexists '[projectdirectory]\doc\Documentation.md')) 
+    (copyfiles '[projectdirectory]\doc' 'Documentation.md' '[sourcesbranchdirectory]\Dev\Doc' '[projectname].md' True)
+  
+command rebuild 
+  if (and (accepted action projectdirectory) (== (getextension projectpath) '.sln'))
+    (run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=Release;Platform=x64 -verbosity:minimal)
+  
