@@ -37,7 +37,10 @@ namespace Run2
 
     public static object ExecuteCommand(string name, Items arguments)
     {
-      var oldDequeueIndex = arguments.DequeueIndex;
+      var previousDequeueIndex = arguments.DequeueIndex;
+      var previousScriptPath = Globals.CurrentScriptPath;
+      var previousLineNumber = Globals.CurrentLineNumber;
+      name.SetCurrentScriptPathAndLineNumber();
       try
       {
         Globals.Commands.ContainsKey(name).Check($"Command '{name}' not found");
@@ -46,7 +49,9 @@ namespace Run2
           Helpers.WriteLine($"Begin '{name}'");
         }
         arguments.DequeueIndex = 0;
-        var result = Globals.Commands[name].Run(arguments);
+        var command = Globals.Commands[name];
+        command.SetCurrentScriptPathAndLineNumber();
+        var result = command.Run(arguments);
         if (Globals.Debug)
         {
           Helpers.WriteLine($"End '{name}'");
@@ -59,13 +64,14 @@ namespace Run2
         {
           throw;
         }
-        var properties = name.GetProperties();
-        Helpers.HandleException(exception, properties.ScriptPath, properties.LineNumber);
+        Helpers.HandleException(exception, Globals.CurrentScriptPath, Globals.CurrentLineNumber);
         throw new RuntimeException("Runtime error");
       }
       finally
       {
-        arguments.DequeueIndex = oldDequeueIndex;
+        Globals.CurrentLineNumber = previousLineNumber;
+        Globals.CurrentScriptPath = previousScriptPath;
+        arguments.DequeueIndex = previousDequeueIndex;
       }
     }
 

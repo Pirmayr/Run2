@@ -299,16 +299,18 @@ command performtests
     itemadded testset 'hello'
     )
     True
+  performtest ( at ( split 'foo//bar' '//' ) 0 ) 'foo'
+  if ( return alltests ) ( write ( invokeinstancemember 'ReasonPhrase' ( postmessagetoteams 'title6' 'text6' teamshook ) ) )
   if ( and ( return False ) ( directoryexists run2projectdirectory ) ) (
     performtest ( typename ( besttype ( mostrecentrevision run2projectdirectory ) ) ) 'Int32'
     performtest ( monitorrepository run2projectdirectory False 250 True ( write 'a change occurred' ) ) 'a change occurred'
     )
-  performtest ( at ( split 'foo//bar' '//' ) 0 ) 'foo'
   return testsok
 
 command tests
   'various tests'
   'if all tests succeeded, true is returned, otherwise false'
+  global alltests False
   performtest ( invoketests ) True
   writefile [basedirectory]\..\..\..\Commands.txt ( getcommands )
   if ( return testsok ) (
@@ -323,5 +325,4 @@ command tests
     writefile [basedirectory]\..\..\..\system.run2 ( getcode 'system' )
     writefile [basedirectory]\..\..\..\tests.run2 ( getcode 'tests' )
     )
-  write ( postmessagetoteams 'title5' 'text5' teamshook )
   return testsok

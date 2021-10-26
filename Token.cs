@@ -7,7 +7,7 @@ namespace Run2
   {
     public int LineNumber { get; }
 
-    public string ScriptPath { get; set; }
+    public string ScriptPath { get; }
 
     public TokenKind TokenKind { get; set; }
 

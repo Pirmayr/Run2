@@ -15,9 +15,26 @@ namespace Run2
 
     public static Tokens Scan(string scriptPath)
     {
+      var previousScriptPath = Globals.CurrentScriptPath;
+      var previousLineNumber = Globals.CurrentLineNumber;
+      try
+      {
+        return DoScan(scriptPath);
+      }
+      finally
+      {
+        Globals.CurrentLineNumber = previousLineNumber;
+        Globals.CurrentScriptPath = previousScriptPath;
+      }
+    }
+
+    private static Tokens DoScan(string scriptPath)
+    {
       var code = File.ReadAllText(scriptPath);
       var characters = new CharacterQueue(code);
       var lineNumber = 1;
+      Globals.CurrentScriptPath = scriptPath;
+      Globals.CurrentLineNumber = lineNumber;
       var result = new Tokens();
       var currentCharacter = GetNextCharacter(characters, ref lineNumber);
       var blockLevel = 0;
@@ -102,6 +119,7 @@ namespace Run2
       if (result == '\n')
       {
         ++lineNumber;
+        Globals.CurrentLineNumber = lineNumber;
       }
       return result;
     }
@@ -119,7 +137,9 @@ namespace Run2
           token.TokenKind = TokenKind.CommandName;
           var commandName = token.Value.ToString();
           (!string.IsNullOrEmpty(commandName)).Check(token, "Command-name must not be null");
-          Globals.Commands.Add(commandName, new UserCommand { Name = commandName, ScriptPath = token.ScriptPath, QuoteArguments = token.TokenKind == TokenKind.Text });
+          var newCommand = new UserCommand { Name = commandName, ScriptPath = token.ScriptPath, QuoteArguments = token.TokenKind == TokenKind.Text };
+          newCommand.AddProperties(new Properties { ScriptPath = token.ScriptPath, LineNumber = token.LineNumber });
+          Globals.Commands.Add(commandName, newCommand);
         }
         else if (token.Value.ToString() == Globals.PragmaCommand)
         {

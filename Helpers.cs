@@ -62,12 +62,13 @@ namespace Run2
 
     public static void Check([DoesNotReturnIf(false)] this bool condition, string message)
     {
-      Checked(condition, message);
+      Check(condition, Globals.CurrentScriptPath, Globals.CurrentLineNumber, message);
     }
 
     public static void Check([DoesNotReturnIf(false)] this bool condition, string scriptNameOrPath, int lineNumber, string message)
     {
-      Check(condition, $"Error in script '{scriptNameOrPath.GetScriptName()}' at line {lineNumber}: {message}");
+      var actualMessage = !string.IsNullOrEmpty(scriptNameOrPath) && 0 <= lineNumber ? $"Error in script '{scriptNameOrPath.GetScriptName()}' at line {lineNumber}: {message}" : $"Error in script: {message}";
+      Checked(condition, actualMessage);
     }
 
     public static void Check([DoesNotReturnIf(false)] this bool condition, Token token, string message)
@@ -131,7 +132,7 @@ namespace Run2
     public static string GetInvalidParametersCountErrorMessage(string commandName, int actualCount, int expectedCountFrom, int expectedCountTo)
     {
       var expected = expectedCountFrom == expectedCountTo ? $"{expectedCountFrom}" : $"from {expectedCountFrom} to {expectedCountTo}";
-      return $"Number of arguments for command '{commandName}' is {actualCount}, but the number expected is {expected}";
+      return $"Actual number of arguments for command '{commandName}' is {actualCount}, but the number expected is {expected}";
     }
 
     public static Properties GetProperties(this object value)
@@ -143,7 +144,9 @@ namespace Run2
     {
       if (exception is not RuntimeException)
       {
-        WriteLine(!string.IsNullOrEmpty(scriptPath) && 0 < lineNumber ? $"Exception in script '{scriptPath.GetScriptName()}' at line {lineNumber}:" : "Exception:");
+        var actualScriptPath = scriptPath ?? Globals.CurrentScriptPath;
+        var actualLineNumber = lineNumber < 0 ? Globals.CurrentLineNumber : lineNumber;
+        WriteLine(!string.IsNullOrEmpty(actualScriptPath) && 0 <= actualLineNumber ? $"Exception in script '{actualScriptPath.GetScriptName()}' at line {actualLineNumber}:" : "Exception:");
         WriteLine(exception.InnerMostException().Message);
       }
     }
@@ -256,6 +259,16 @@ namespace Run2
       }
       searchDirectory = GetDirectory(baseDirectory, pattern);
       return Directory.Exists(searchDirectory) ? Directory.GetFiles(searchDirectory, filename, SearchOption.AllDirectories).OrderByDescending(static item => item).ToArray() : new[] { "" };
+    }
+
+    public static void SetCurrentScriptPathAndLineNumber(this object value)
+    {
+      var properties = value.GetProperties();
+      if (!string.IsNullOrEmpty(properties?.ScriptPath) && 0 <= properties.LineNumber)
+      {
+        Globals.CurrentScriptPath = properties.ScriptPath;
+        Globals.CurrentLineNumber = properties.LineNumber;
+      }
     }
 
     public static object ToBestType(this string currentToken)

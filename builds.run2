@@ -94,4 +94,4 @@ command postmessagetoteams
   title 'title'
   message 'message'
   hook 'hook-url of the channel'
-  return (invokeinstancemember 'ReasonPhrase' (invokeinstancemember 'Result' (PostAsync (HttpClient.new) (Uri.new hook) (StringContent.new '{"Title":"[title]","Text":"[message]"}' (Encoding.UTF8) 'application/json'))))
+  return (invokeinstancemember 'Result' (PostAsync (HttpClient.new) (Uri.new hook) (StringContent.new '{"Title":"[title]","Text":"[message]"}' (Encoding.UTF8) 'application/json')))

@@ -24,6 +24,10 @@ namespace Run2
 
     public static Dictionary<string, ICommand> Commands { get; } = new();
 
+    public static int CurrentLineNumber { get; set; }
+
+    public static string CurrentScriptPath { get; set; }
+
     public static bool Debug { get; set; }
 
     public static bool DoBreak { get; set; }

@@ -582,7 +582,7 @@ Helpers.LocateDirectories
 Helpers.LocateDirectory
 Helpers.LocateFile
 Helpers.LocateFiles
-Helpers.Test
+Helpers.SetCurrentScriptPathAndLineNumber
 Helpers.ToBestType
 Helpers.WriteLine
 Dequeue
