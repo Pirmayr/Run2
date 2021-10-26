@@ -4,7 +4,14 @@ command builds
   global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
   global vstestconsolepath ( locatefile visualstudiodirectory 'vstest.console.exe' )
   global svnexepath '[programfilesdirectory]\TortoiseSVN\bin\svn.exe'
+  global buildlog ( newlist )
+  global writecallback 'buildwritecallback'
   return True
+
+command buildwritecallback
+  message
+  Console.Write message
+  additem buildlog message
 
 command checkin
   'performs a svn-checkin'

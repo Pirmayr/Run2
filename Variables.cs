@@ -51,6 +51,11 @@ namespace Run2
       return result;
     }
 
+    public object Get(string name, object defaultValue)
+    {
+      return TryGetValue(name, out var result) ? result : defaultValue;
+    }
+
     public void LeaveScope()
     {
       scopes.Pop();

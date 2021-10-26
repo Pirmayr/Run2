@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -79,6 +80,13 @@ namespace Run2
       return ToCode(tokens, 0, false);
     }
 
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    public static string ToCode(this SubCommands subCommands, int indent, bool newLine)
+    {
+      var result = DoToCode(subCommands, indent, newLine);
+      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(subCommands, indent, true) : result;
+    }
+
     private static string DoToCode(Items items, int indent, bool newLine)
     {
       var multilineSubCommandWritten = false;
@@ -95,7 +103,7 @@ namespace Run2
               var localNewLine = subCommandsCode.Contains('\n') || newLine;
               result.Append(" (");
               result.AppendNewLine(localNewLine);
-              result.Append($"{subCommandsCode}");
+              result.AppendIndented($"{subCommandsCode}", indent, localNewLine);
               result.AppendNewLine(localNewLine);
               result.AppendIndented(")", indent, localNewLine);
               multilineSubCommandWritten = true;
@@ -169,12 +177,6 @@ namespace Run2
     {
       var result = DoToCode(items, indent, false);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(items, indent, true) : result;
-    }
-
-    private static string ToCode(this SubCommands subCommands, int indent, bool newLine)
-    {
-      var result = DoToCode(subCommands, indent, newLine);
-      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(subCommands, indent, true) : result;
     }
   }
 }

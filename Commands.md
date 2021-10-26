@@ -202,7 +202,16 @@ performtest ( > 47 11 ) True
 performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
 ~~~
 ~~~
-performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
+performtest (
+> (
+size (
+      local verbositylevel 6
+      dir SystemRoot
+      )
+    )
+    0
+  )
+  True
 ~~~
 ~~~
 performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
@@ -1104,6 +1113,12 @@ performs various initializations
 
 
 the command always returns "true"
+
+---
+
+#### buildwritecallback
+
+* message
 
 ---
 
@@ -2245,7 +2260,16 @@ executes the Windows command "dir" and returns the result
 **Examples**
 
 ~~~
-performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
+performtest (
+> (
+size (
+      local verbositylevel 6
+      dir SystemRoot
+      )
+    )
+    0
+  )
+  True
 ~~~
 
 ---
@@ -5783,6 +5807,18 @@ performtest (
 ~~~
 ~~~
 performtest (
+> (
+size (
+      local verbositylevel 6
+      dir SystemRoot
+      )
+    )
+    0
+  )
+  True
+~~~
+~~~
+performtest (
   local values ( newarray 1000 0 )
   put values 100 'foobar'
   at values 100
@@ -7811,7 +7847,16 @@ performtest (
   2
 ~~~
 ~~~
-performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
+performtest (
+> (
+size (
+      local verbositylevel 6
+      dir SystemRoot
+      )
+    )
+    0
+  )
+  True
 ~~~
 ~~~
 performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
@@ -9603,6 +9648,9 @@ See:
   - actions
   - checkinmessage
 
+* buildwritecallback
+  - message
+
 * checkinbinaries
 
 * checkinsources
@@ -9650,6 +9698,7 @@ See:
 * accepted
 * buildprojects
 * builds
+* buildwritecallback
 * checkinbinaries
 * checkinsources
 * comparefiles

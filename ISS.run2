@@ -40,6 +40,12 @@ command ISS
   global trackdirectory '[IssInstallationPath]\MasterData\Jumbo\Tracks'
   global commitprefix 'PIC[currentyear][currentmonth][currentday]'
   global teamshook 'https://moveitat.webhook.office.com/webhookb2/df5cb2a4-71e8-4c4b-b7ff-3c72f9e0aae8@6c32a88d-7bdd-4d28-9c0b-bc0ecb33c6de/IncomingWebhook/319bd7498e864046bee18713f4153e40/93a9e1d7-1b98-47a4-be10-fdbbcc665d5a'
+  global logtoolpath '[buildtoolsdirectory]\moveIT.Log.Tool.exe'
+  global logtoolpatternspath '[buildtoolsdirectory]\moveIT.Log.Tool.Patterns.txt'
+  global buildloghtmpath '[binariesbranchdirectory]\Buildlog.htm'
+  global teamswebhookpath '[buildtoolsdirectory]\TeamsWebhook.txt'
+  global buildlogmsgpath '[binariesbranchdirectory]\Buildlog.msg'
+  return True
 
 command mergeupbinaries
   if ( accepted action binariesbranchdirectory ) ( mergeup binariesbranchesurl binariesbranchdirectory checkinmessage False )

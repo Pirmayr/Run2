@@ -584,6 +584,7 @@ Helpers.LocateFile
 Helpers.LocateFiles
 Helpers.SetCurrentScriptPathAndLineNumber
 Helpers.ToBestType
+Helpers.Write
 Helpers.WriteLine
 Dequeue
 DequeueBool
@@ -948,6 +949,7 @@ dir
 dos
 os
 builds
+buildwritecallback
 checkin
 cleanup
 merge

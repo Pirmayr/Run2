@@ -103,7 +103,6 @@ namespace Run2
           WriteLine($"Starting process '{executablePath}':");
           WriteLine($"  Working-directory '{workingDirectory}'");
           WriteLine($"  Arguments '{arguments}' ...");
-          process.Start();
           var timedOut = process.StartProcess(processTimeout, out output);
           (!timedOut).Check($"The process {executablePath} has timed out");
           WriteLine($"Process '{executablePath}' terminated");
@@ -297,9 +296,14 @@ namespace Run2
       return bestTypedObject;
     }
 
+    public static void Write(string message, int verbosity = 5)
+    {
+      Write(message, (int) Globals.Variables.Get("verbositylevel", 5), verbosity);
+    }
+
     public static void WriteLine(string message, int verbosity = 5)
     {
-      Write($"{message}\n", Globals.Variables.TryGetValue("verbositylevel", out var value) ? (int) value : 5, verbosity);
+      Write($"{message}\n", (int) Globals.Variables.Get("verbositylevel", 5), verbosity);
     }
 
     [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Local")]
@@ -383,6 +387,7 @@ namespace Run2
 
     private static bool StartProcess(this Process process, int processTimeout, out string output)
     {
+      process.Start();
       output = "";
       var timedOut = false;
       var stopwatch = new Stopwatch();
@@ -399,7 +404,7 @@ namespace Run2
               output += '\n';
             }
             output += remainder;
-            Write(remainder, 5, 5);
+            Write(remainder);
           }
           break;
         }
@@ -416,7 +421,7 @@ namespace Run2
             output += '\n';
           }
           output += line;
-          WriteLine(line, 5, 5);
+          WriteLine(line);
         }
       }
       stopwatch.Stop();
@@ -439,7 +444,16 @@ namespace Run2
     {
       if (verbosityLevel <= verbosity)
       {
-        Console.Write(message);
+        var writeCallback = Globals.Variables.Get("writecallback", null);
+        if (writeCallback == null)
+        {
+          Console.Write(message);
+        }
+        else
+        {
+          Run2.ExecuteCommand(writeCallback.ToString(), new Items(message));
+          Console.Write("");
+        }
       }
     }
 

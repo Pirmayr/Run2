@@ -23,7 +23,6 @@ command performtest
 command performtests
   'performs various tests'
   'if all tests succeeded, true is returned, otherwise false'
-  performtest ( multireplace 'Hello World!' 'Hello' 'Good' 'World' 'Bye' ) 'Good Bye!'
   performtest ( + 47 11 ) 58
   performtest ( - 47 11 ) 36
   performtest ( * 47 11 ) 517
@@ -72,6 +71,8 @@ command performtests
   performtest ( hasmember 'hello' 'Length' ) True
   performtest ( hasmember 'hello' 'Count' ) False
   performtest ( power 3 4 ) 81
+  performtest ( dos echo 'hello world' ) 'hello world'
+  performtest ( multireplace 'Hello World!' 'Hello' 'Good' 'World' 'Bye' ) 'Good Bye!'
   performtest (
     createdirectory c:\testdirectory
     directoryexists c:\testdirectory
@@ -150,7 +151,6 @@ command performtests
     1234
   performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
   performtest ( joinfrom 'h' 'e' 'l' 'l' 'o' ) 'h e l l o'
-  performtest ( dos echo 'hello world' ) 'hello world'
   performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
   performtest ( locatedirectory SystemRoot System32 ) '[SystemRoot]\System32'
   performtest ( locatefile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
@@ -162,7 +162,16 @@ command performtests
     quote foobar
     )
     foobar
-  performtest ( > ( size ( dir SystemRoot ) ) 0 ) True
+  performtest (
+    > (
+size (
+        local verbositylevel 6
+        dir SystemRoot
+        )
+      )
+      0
+    )
+    True
   performtest ( endswith 'Hello World!' 'World!' ) True
   performtest ( > ( size ( getmember 'Hello' 'Split' ) ) 0 ) True
   performtest ( isarray ( arrayof 1 2 3 ) ) True

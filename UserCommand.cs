@@ -33,41 +33,46 @@ namespace Run2
     public object Run(Items arguments)
     {
       Globals.Variables.EnterScope();
-      var actualCount = arguments.QueueCount;
-      GetParameterCounts(out var expectedCountFrom, out var expectedCountTo);
-      (ParameterNames.Count == 0 || expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(Name, actualCount, expectedCountFrom, expectedCountTo));
-      foreach (var item in ParameterNames)
+      try
       {
-        object defaultValue = null;
-        var isOptional = false;
-        if (item is Items itemsValue)
+        var actualCount = arguments.QueueCount;
+        GetParameterCounts(out var expectedCountFrom, out var expectedCountTo);
+        (ParameterNames.Count == 0 || expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(Name, actualCount, expectedCountFrom, expectedCountTo));
+        foreach (var item in ParameterNames)
         {
-          isOptional = true;
-          if (2 <= itemsValue.QueueCount)
+          object defaultValue = null;
+          var isOptional = false;
+          if (item is Items itemsValue)
           {
-            defaultValue = Run2.Evaluate(itemsValue.ElementAtOrDefault(1));
+            isOptional = true;
+            if (2 <= itemsValue.QueueCount)
+            {
+              defaultValue = Run2.Evaluate(itemsValue.ElementAtOrDefault(1));
+            }
           }
+          var parameterName = item.GetNameFromItem();
+          var isQuotedParameter = parameterName.IsStrongQuote(out var unquotedParameterName);
+          var actualParameterName = isQuotedParameter ? unquotedParameterName : parameterName;
+          object value;
+          if (0 < arguments.QueueCount)
+          {
+            value = arguments.DequeueObject(!isQuotedParameter);
+          }
+          else
+          {
+            isOptional.Check("Missing arguments must be declared as optional");
+            value = defaultValue;
+          }
+          Globals.Variables.SetLocal(actualParameterName, value);
         }
-        var parameterName = item.GetNameFromItem();
-        var isQuotedParameter = parameterName.IsStrongQuote(out var unquotedParameterName);
-        var actualParameterName = isQuotedParameter ? unquotedParameterName : parameterName;
-        object value;
-        if (0 < arguments.QueueCount)
-        {
-          value = arguments.DequeueObject(!isQuotedParameter);
-        }
-        else
-        {
-          isOptional.Check("Missing arguments must be declared as optional");
-          value = defaultValue;
-        }
-        Globals.Variables.SetLocal(actualParameterName, value);
+        var argumentsList = arguments.ToList(!QuoteArguments);
+        Globals.Variables.SetLocal(Globals.VariableNameArguments, argumentsList);
+        return Run2.ExecuteSubCommands(SubCommands);
       }
-      var argumentsList = arguments.ToList(!QuoteArguments);
-      Globals.Variables.SetLocal(Globals.VariableNameArguments, argumentsList);
-      var result = Run2.ExecuteSubCommands(SubCommands);
-      Globals.Variables.LeaveScope();
-      return result;
+      finally
+      {
+        Globals.Variables.LeaveScope();
+      }
     }
 
     private void GetParameterCounts(out int countFrom, out int countTo)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
@@ -153,28 +152,36 @@ namespace Run2
 
     public static void RunScript()
     {
-      LoadType("Microsoft.VisualBasic.Interaction, Microsoft.VisualBasic.Core");
-      CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-      CreateStandardObject(new ArrayList());
-      CreateStandardObject(new BigInteger());
-      CreateStandardObject(new Hashtable());
-      CreateStandardObject(new Queue());
-      CreateStandardObject(new Stack());
-      CreateStandardObject(new HttpClient());
-      CreateStandardObject(new Uri("http://google.com"));
-      Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
-      Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
-      Globals.Debug = CommandLineParser.OptionExists("debug");
-      Globals.ProgramDirectory = Path.GetDirectoryName(AppContext.BaseDirectory);
-      Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Globals.ProgramDirectory);
-      Globals.UserScriptFilename = CommandLineParser.GetOptionString("scriptName", Globals.DefaultUserScriptFilename);
-      Globals.UserScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.UserScriptFilename);
-      File.Exists(Globals.UserScriptPath).Check($"Could not find script '{Globals.UserScriptFilename}' (base-directory: '{Globals.BaseDirectory}')");
-      BuildSystemCommands();
-      BuildInvokeCommands();
-      LoadScript(Globals.SystemScriptName);
-      LoadScript(Globals.UserScriptPath, Globals.Arguments);
-      Helpers.WriteLine("Script terminated successfully");
+      try
+      {
+        LoadType("Microsoft.VisualBasic.Interaction, Microsoft.VisualBasic.Core");
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+        CreateStandardObject(new ArrayList());
+        CreateStandardObject(new BigInteger());
+        CreateStandardObject(new Hashtable());
+        CreateStandardObject(new Queue());
+        CreateStandardObject(new Stack());
+        CreateStandardObject(new HttpClient());
+        CreateStandardObject(new Uri("http://google.com"));
+        Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
+        Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
+        Globals.Debug = CommandLineParser.OptionExists("debug");
+        Globals.ProgramDirectory = Path.GetDirectoryName(AppContext.BaseDirectory);
+        Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Globals.ProgramDirectory);
+        Globals.UserScriptFilename = CommandLineParser.GetOptionString("scriptName", Globals.DefaultUserScriptFilename);
+        Globals.UserScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.UserScriptFilename);
+        File.Exists(Globals.UserScriptPath).Check($"Could not find script '{Globals.UserScriptFilename}' (base-directory: '{Globals.BaseDirectory}')");
+        Globals.Variables.EnterScope();
+        BuildSystemCommands();
+        BuildInvokeCommands();
+        LoadScript(Globals.SystemScriptName);
+        LoadScript(Globals.UserScriptPath, Globals.Arguments);
+        Helpers.WriteLine("Script terminated successfully");
+      }
+      finally
+      {
+        Globals.Variables.LeaveScope();
+      }
     }
 
     private static bool AcceptMember(MemberInfo member)
@@ -216,7 +223,6 @@ namespace Run2
           if (AcceptType(type))
           {
             var isLocalType = type.Assembly.FullName == localFullName;
-            Debug.WriteLine(type.Name);
             for (var pass = 0; pass < 2; ++pass)
             {
               var bindingFlags = BindingFlags.Public;
