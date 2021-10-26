@@ -19,7 +19,10 @@ command checkin
   commitmessage 'the commit-message'
   ( test False ) 'if "true", the command is not performed, if "false" the command is performed'
   local exitcode 0
-  if ( return test ) ( write 'simulating checkin: "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"' ) ( run "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]" )
+  if ( return test ) (
+    write 'simulating checkin: "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"'
+    )
+    ( run "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]" )
   return exitcode
 
 command cleanup
@@ -38,8 +41,9 @@ command merge
   local exitcode 0
   if ( return test ) (
     write 'simulating merge "svnexepath" merge --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]"'
+    ) (
+    run svnexepath 'merge' --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]"
     )
-    ( run svnexepath 'merge' --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]" )
   return exitcode
 
 command mergeup
@@ -52,7 +56,13 @@ command mergeup
     local frombranch ( getfname fromworkspacedirectory )
     if ( < startworkspacedirectory toworkspacedirectory ) (
       if ( == ( update toworkspacedirectory test ) 0 ) (
-        if ( == ( merge '[branchesurl]/[frombranch]' toworkspacedirectory commitmessage test ) 0 ) ( checkin toworkspacedirectory commitmessage test )
+        if (
+          == (
+            merge '[branchesurl]/[frombranch]' toworkspacedirectory commitmessage test
+            )
+            0
+          )
+          ( checkin toworkspacedirectory commitmessage test )
         )
       )
     )
@@ -72,7 +82,9 @@ command monitorrepository
     local oldrevision ( readfile revisionpath '0' )
     local newrevision ( mostrecentrevision workspacedirectory )
     write '[oldrevision] / [newrevision]'
-    if ( or ( != oldrevision newrevision ) ( and performactiononfirstpass isfirstpass ) ) (
+    if (
+      or ( != oldrevision newrevision ) ( and performactiononfirstpass isfirstpass )
+      ) (
       writefile revisionpath newrevision
       set result ( evaluate action )
       )

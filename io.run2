@@ -5,7 +5,12 @@ command comparefiles
   separator 'line-comment separator'
   local lines1 ( split ( readfile path1 ) '~n' )
   local lines2 ( split ( readfile path2 ) '~n' )
-  for i 0 ( Math.Min ( upperbound lines1 ) ( upperbound lines2 ) ) 1 ( if ( != ( prefix ( at lines1 i ) separator ) ( prefix ( at lines2 i ) separator ) ) ( break ) )
+  for i 0 ( Math.Min ( upperbound lines1 ) ( upperbound lines2 ) ) 1 (
+    if (
+      != ( prefix ( at lines1 i ) separator ) ( prefix ( at lines2 i ) separator )
+      )
+      ( break )
+    )
   return ( if ( and ( == i ( size lines1 ) ) ( == i ( size lines2 ) ) ) -1 i )
 
 command inputbox

@@ -203,8 +203,8 @@ performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( 
 ~~~
 ~~~
 performtest (
-> (
-size (
+  > (
+    size (
       local verbositylevel 6
       dir SystemRoot
       )
@@ -2261,8 +2261,8 @@ executes the Windows command "dir" and returns the result
 
 ~~~
 performtest (
-> (
-size (
+  > (
+    size (
       local verbositylevel 6
       dir SystemRoot
       )
@@ -5807,8 +5807,8 @@ performtest (
 ~~~
 ~~~
 performtest (
-> (
-size (
+  > (
+    size (
       local verbositylevel 6
       dir SystemRoot
       )
@@ -7848,8 +7848,8 @@ performtest (
 ~~~
 ~~~
 performtest (
-> (
-size (
+  > (
+    size (
       local verbositylevel 6
       dir SystemRoot
       )

@@ -10,7 +10,9 @@ command buildprojects
   local handled ( newset )
   foreach action ( split actions ';' ) (
     foreach projectfilepattern ( arrayof '*.sln' 'TemplateParameters.txt' 'typedoc.json' ) (
-      foreach projectpath ( locatefiles ( removetrailingdirectoryseparator projectsdirectory ) projectfilepattern ) (
+      foreach projectpath (
+        locatefiles ( removetrailingdirectoryseparator projectsdirectory ) projectfilepattern
+        ) (
         local projectdirectory ( getdirectory projectpath ) projectname ( getfilename projectdirectory )
         run action
         )
@@ -25,7 +27,9 @@ command checkinsources
 
 command generatedocumentation
   if ( accepted action projectdirectory ) (
-    switch ( == projectfilepattern 'typedoc.json' ) ( dos '[projectdirectory]' npx typedoc ) ( == projectfilepattern 'TemplateParameters.txt' ) ( run projectdirectory '[buildtoolsdirectory]\TemplateExpander.exe' developer md projectpath )
+    switch ( == projectfilepattern 'typedoc.json' ) ( dos '[projectdirectory]' npx typedoc ) ( == projectfilepattern 'TemplateParameters.txt' ) (
+      run projectdirectory '[buildtoolsdirectory]\TemplateExpander.exe' developer md projectpath
+      )
     )
 
 command ISS
@@ -58,11 +62,15 @@ command publishdocumentation
     )
 
 command rebuild
-  if ( and ( accepted action projectdirectory ) ( == ( getextension projectpath ) '.sln' ) ) (
+  if (
+    and ( accepted action projectdirectory ) ( == ( getextension projectpath ) '.sln' )
+    ) (
     run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=Release;Platform=x64 -verbosity:minimal
     )
 
 command trackdebug
-  if ( and ( accepted action projectdirectory ) ( == ( getextension projectpath ) '.sln' ) ) (
+  if (
+    and ( accepted action projectdirectory ) ( == ( getextension projectpath ) '.sln' )
+    ) (
     run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=TrackDebug;Platform=x64 -verbosity:minimal
     )

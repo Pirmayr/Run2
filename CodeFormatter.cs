@@ -70,7 +70,7 @@ namespace Run2
     public static string ToCode(this SubCommand subCommand, int indent, bool newLine)
     {
       var result = DoToCode(subCommand, indent, false);
-      return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(subCommand, indent, true) : result;
+      return !newLine && (Globals.MaxCodeLineLength < result.Length || result.Contains("\n")) ? DoToCode(subCommand, indent, true) : result;
     }
 
     public static string ToCode(this object value)
@@ -102,8 +102,14 @@ namespace Run2
             {
               var localNewLine = subCommandsCode.Contains('\n') || newLine;
               result.Append(" (");
+
+              if (subCommandsCode.StartsWith("size"))
+              {
+                int a = 0;
+              }
+
               result.AppendNewLine(localNewLine);
-              result.AppendIndented($"{subCommandsCode}", indent, localNewLine);
+              result.Append($"{subCommandsCode}");
               result.AppendNewLine(localNewLine);
               result.AppendIndented(")", indent, localNewLine);
               multilineSubCommandWritten = true;
@@ -168,7 +174,7 @@ namespace Run2
         {
           result.AppendNewLine(newLine);
         }
-        result.AppendIndented(subCommand.ToCode(indent, newLine), newLine || i == 0 ? indent : 1, newLine);
+        result.AppendIndented(subCommand.ToCode(indent, newLine), newLine || i == 0 ? indent : 0, newLine);
       }
       return result.ToString();
     }

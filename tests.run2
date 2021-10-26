@@ -164,7 +164,7 @@ command performtests
     foobar
   performtest (
     > (
-size (
+      size (
         local verbositylevel 6
         dir SystemRoot
         )
@@ -309,10 +309,17 @@ size (
     )
     True
   performtest ( at ( split 'foo//bar' '//' ) 0 ) 'foo'
-  if ( return alltests ) ( write ( invokeinstancemember 'ReasonPhrase' ( postmessagetoteams 'title6' 'text6' teamshook ) ) )
+  if ( return alltests ) (
+    write (
+      invokeinstancemember 'ReasonPhrase' ( postmessagetoteams 'title6' 'text6' teamshook )
+      )
+    )
   if ( and ( return False ) ( directoryexists run2projectdirectory ) ) (
     performtest ( typename ( besttype ( mostrecentrevision run2projectdirectory ) ) ) 'Int32'
-    performtest ( monitorrepository run2projectdirectory False 250 True ( write 'a change occurred' ) ) 'a change occurred'
+    performtest (
+      monitorrepository run2projectdirectory False 250 True ( write 'a change occurred' )
+      )
+      'a change occurred'
     )
   return testsok
 

@@ -12,7 +12,10 @@ command additem
   'the collection'
   collection 'collection'
   value 'value'
-  if ( isdictionary collection ) ( if ( not ( containskey collection value ) ) ( addentry collection value ( null ) ) ) ( Add collection value )
+  if ( isdictionary collection ) (
+    if ( not ( containskey collection value ) ) ( addentry collection value ( null ) )
+    )
+    ( Add collection value )
   return collection
 
 command arrayof

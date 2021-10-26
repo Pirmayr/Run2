@@ -9,7 +9,7 @@ namespace Run2
     public const string DefaultExtension = "run2";
     public const string DefaultUserScriptFilename = "build.run2";
     public const string IncludePragma = "<!--@include";
-    public const int MaxCodeLineLength = 100;
+    public const int MaxCodeLineLength = 80;
     public const string PragmaCommand = "command";
     public const string PragmaImport = "loadscript";
     public const string ReplacePragma = "<!--@replace";
