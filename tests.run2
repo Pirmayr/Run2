@@ -324,5 +324,7 @@ command tests
     writefile [basedirectory]\..\..\..\os.run2 ( getcode 'os' )
     writefile [basedirectory]\..\..\..\system.run2 ( getcode 'system' )
     writefile [basedirectory]\..\..\..\tests.run2 ( getcode 'tests' )
+    writefile [basedirectory]\..\..\..\builds.run2 ( getcode 'builds' )
+    writefile [basedirectory]\..\..\..\ISS.run2 ( getcode 'ISS' )
     )
   return testsok

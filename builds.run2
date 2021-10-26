@@ -1,4 +1,4 @@
-﻿command builds
+command builds
   'performs various initializations'
   'the command always returns "true"'
   global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
@@ -81,6 +81,19 @@ command mostrecentrevision
   workspacedirectory 'directory of a workspace associated with a svn-repository'
   run workspacedirectory svnexepath 'info --revision HEAD --show-item last-changed-revision'
 
+command postmessagetoteams
+  'posts a message to a teams-channel'
+  title 'title'
+  message 'message'
+  hook 'hook-url of the channel'
+  return (
+    invokeinstancemember 'Result' (
+      PostAsync ( HttpClient.new ) ( Uri.new hook ) (
+        StringContent.new '{"Title":"[title]","Text":"[message]"}' ( Encoding.UTF8 ) 'application/json'
+        )
+      )
+    )
+
 command update
   'performs a svn-update'
   branchdirectory 'the directory to update'
@@ -88,10 +101,3 @@ command update
   local exitcode 0
   if ( return test ) ( write 'simulating update: "[svnexepath]" update "[branchdirectory]"' ) ( run "[svnexepath]" 'update' "[branchdirectory]" )
   return exitcode
-
-command postmessagetoteams
-  'posts a message to a teams-channel'
-  title 'title'
-  message 'message'
-  hook 'hook-url of the channel'
-  return (invokeinstancemember 'Result' (PostAsync (HttpClient.new) (Uri.new hook) (StringContent.new '{"Title":"[title]","Text":"[message]"}' (Encoding.UTF8) 'application/json')))
