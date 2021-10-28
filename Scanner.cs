@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Run2
@@ -20,6 +21,15 @@ namespace Run2
       try
       {
         return DoScan(scriptPath);
+      }
+      catch (Exception exception)
+      {
+        if (exception is RuntimeException)
+        {
+          throw;
+        }
+        Helpers.HandleException(exception, Globals.CurrentScriptPath, Globals.CurrentLineNumber);
+        throw new RuntimeException("Runtime error");
       }
       finally
       {

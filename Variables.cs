@@ -11,6 +11,8 @@ namespace Run2
 
     public event EventHandler globalScopeCreated;
 
+    public int ScopesCount => scopes.Count;
+
     public IEnumerable<string> Keys
     {
       get
@@ -37,12 +39,12 @@ namespace Run2
     public void EnterScope()
     {
       var newScope = new Scope();
-      if (scopes.Count == 0)
+      scopes.Push(newScope);
+      if (scopes.Count == 1)
       {
         globalScope = newScope;
         globalScopeCreated?.Invoke(this, EventArgs.Empty);
       }
-      scopes.Push(newScope);
     }
 
     public object Get(string name)
@@ -79,6 +81,7 @@ namespace Run2
 
     public void SetGlobal(string name, object value)
     {
+      (0 < scopes.Count && globalScope != null).Check("Cannot set variable because there is no valid scope");
       globalScope[name] = value;
       if (value is string stringValue)
       {
@@ -88,20 +91,26 @@ namespace Run2
 
     public void SetLocal(string name, object value)
     {
+      (0 < scopes.Count).Check("Cannot set variable because there is no valid scope");
       scopes.Peek()[name] = value;
     }
 
     public bool TryGetValue(string name, out object value)
     {
-      foreach (var scope in scopes)
+      if (0 < scopes.Count)
       {
-        if (scope.TryGetValue(name, out value))
+        foreach (var scope in scopes)
         {
-          return true;
+          if (scope.TryGetValue(name, out value))
+          {
+            return true;
+          }
         }
+        value = Environment.GetEnvironmentVariable(name);
+        return value != null;
       }
-      value = Environment.GetEnvironmentVariable(name);
-      return value != null;
+      value = "";
+      return false;
     }
 
     private sealed class Scope : Dictionary<string, object>

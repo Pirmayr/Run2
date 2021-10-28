@@ -180,7 +180,10 @@ namespace Run2
       }
       finally
       {
-        Globals.Variables.LeaveScope();
+        if (0 < Globals.Variables.ScopesCount)
+        {
+          Globals.Variables.LeaveScope();
+        }
       }
     }
 

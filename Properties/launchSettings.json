@@ -6,7 +6,7 @@
     },
     "Build": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5120"
+      "commandLineArgs": "-baseDirectory C:\\Entwicklung\\branches\\B5210 -scriptArguments generatedocumentation;publishdocumentation;checkinsources"
     },
     "Check-in and merge-up binaries": {
       "commandName": "Project",
@@ -14,7 +14,7 @@
     },
     "Build documentation": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5120 -scriptArguments generatedocumentation;publishdocumentation;checkinsources"
+      "commandLineArgs": "-baseDirectory C:\\Entwicklung\\branches\\B5210 -scriptArguments generatedocumentation;publishdocumentation;checkinsources"
     }
   }
 }

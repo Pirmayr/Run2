@@ -63,7 +63,8 @@ command isnull
   == object ( null )
 
 command isnullorempty
-  string
+  'tests if a string is null or empty'
+  string 'string to be tested'
   String.IsNullOrEmpty string
 
 command isstring

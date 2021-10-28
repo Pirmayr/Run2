@@ -1,12 +1,13 @@
 loadscript builds
 
 command accepted
-  and ( itemadded handled ( join arguments ) ( write value ) ) ( != projectname 'Buildtools' )
+  local key (join arguments)
+  and ( != projectname 'Buildtools' ) ( itemadded handled key ( write 'performing action [value]' increment checkinmessage '~n* [key]' ) )
 
 command buildprojects
   projectsdirectory
   actions
-  ( checkinmessage 'Diverses' )
+  ( checkinmessage '[commitprefix] Aktionen:' )
   local handled ( newset )
   foreach action ( split actions ';' ) (
     foreach projectfilepattern ( arrayof '*.sln' 'TemplateParameters.txt' 'typedoc.json' ) (
@@ -20,17 +21,19 @@ command buildprojects
     )
 
 command checkinbinaries
-  if ( accepted action binariesbranchdirectory ) ( checkin binariesbranchdirectory checkinmessage False )
+  if ( accepted action binariesbranchdirectory ) ( checkin binariesbranchdirectory checkinmessage simulatesvn )
 
 command checkinsources
-  if ( accepted action sourcesbranchdirectory ) ( checkin sourcesbranchdirectory checkinmessage False )
+  if ( accepted action sourcesbranchdirectory ) ( checkin sourcesbranchdirectory checkinmessage simulatesvn )
 
 command generatedocumentation
-  if ( accepted action projectdirectory ) (
-    switch ( == projectfilepattern 'typedoc.json' ) ( dos '[projectdirectory]' npx typedoc ) ( == projectfilepattern 'TemplateParameters.txt' ) (
+
+    switch 
+    (and ( == projectfilepattern 'typedoc.json') ( accepted action projectname ) ) ( dos '[projectdirectory]' npx typedoc ) 
+    (and ( == projectfilepattern 'TemplateParameters.txt') ( accepted action projectname ) ) (
       run projectdirectory '[buildtoolsdirectory]\TemplateExpander.exe' developer md projectpath
       )
-    )
+
 
 command ISS
   global binariesbranchdirectory ( finddirectorywithparent userscriptdirectory branches )
@@ -39,7 +42,7 @@ command ISS
   global issminorversion ( substring branch 3 2 )
   global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
   global workspacesdirectory ( finddirectory userscriptdirectory Workspaces )
-  global sourcesbranchdirectory '[workspacesdirectory]\Sources\branches\[branch]'
+  global sourcesbranchdirectory (if (isnullorempty workspacesdirectory) 'C:\SRC_SVN\branches\[branch]' '[workspacesdirectory]\Sources\branches\[branch]')
   global jumbounittestsassemblypath '[binariesbranchdirectory]\moveIT.Jumbo\UnitTests\bin\x64\Release\netcoreapp3.1\UnitTests.dll'
   global trackdirectory '[IssInstallationPath]\MasterData\Jumbo\Tracks'
   global commitprefix 'PIC[currentyear][currentmonth][currentday]'
@@ -49,28 +52,29 @@ command ISS
   global buildloghtmpath '[binariesbranchdirectory]\Buildlog.htm'
   global teamswebhookpath '[buildtoolsdirectory]\TeamsWebhook.txt'
   global buildlogmsgpath '[binariesbranchdirectory]\Buildlog.msg'
+  global simulatesvn False
   return True
 
 command mergeupbinaries
-  if ( accepted action binariesbranchdirectory ) ( mergeup binariesbranchesurl binariesbranchdirectory checkinmessage False )
+  if ( accepted action binariesbranchdirectory ) ( mergeup binariesbranchesurl binariesbranchdirectory checkinmessage simulatesvn )
 
 command publishdocumentation
   if (
-    and ( accepted action projectdirectory ) ( fileexists '[projectdirectory]\doc\Documentation.md' )
+    and (  fileexists '[projectdirectory]\doc\Documentation.md' ) (accepted action projectname) 
     ) (
     copyfiles '[projectdirectory]\doc' 'Documentation.md' '[sourcesbranchdirectory]\Dev\Doc' '[projectname].md' True
     )
 
 command rebuild
   if (
-    and ( accepted action projectdirectory ) ( == ( getextension projectpath ) '.sln' )
+    and ( accepted action projectname ) ( == ( getextension projectpath ) '.sln' )
     ) (
     run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=Release;Platform=x64 -verbosity:minimal
     )
 
 command trackdebug
   if (
-    and ( accepted action projectdirectory ) ( == ( getextension projectpath ) '.sln' )
+    and ( accepted action projectname ) ( == ( getextension projectpath ) '.sln' )
     ) (
     run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=TrackDebug;Platform=x64 -verbosity:minimal
     )

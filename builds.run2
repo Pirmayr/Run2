@@ -22,7 +22,7 @@ command checkin
   if ( return test ) (
     write 'simulating checkin: "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"'
     )
-    ( run "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]" )
+    ( run branchdirectory "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]" )
   return exitcode
 
 command cleanup

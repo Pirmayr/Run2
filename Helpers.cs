@@ -67,8 +67,12 @@ namespace Run2
 
     public static void Check([DoesNotReturnIf(false)] this bool condition, string scriptNameOrPath, int lineNumber, string message)
     {
+      /*
       var actualMessage = !string.IsNullOrEmpty(scriptNameOrPath) && 0 <= lineNumber ? $"Error in script '{scriptNameOrPath.GetScriptName()}' at line {lineNumber}: {message}" : $"Error in script: {message}";
       Checked(condition, actualMessage);
+      */
+
+      Checked(condition, message);
     }
 
     public static void Check([DoesNotReturnIf(false)] this bool condition, Token token, string message)
@@ -145,8 +149,8 @@ namespace Run2
       {
         var actualScriptPath = scriptPath ?? Globals.CurrentScriptPath;
         var actualLineNumber = lineNumber < 0 ? Globals.CurrentLineNumber : lineNumber;
-        WriteLine(!string.IsNullOrEmpty(actualScriptPath) && 0 <= actualLineNumber ? $"Exception in script '{actualScriptPath.GetScriptName()}' at line {actualLineNumber}:" : "Exception:");
-        WriteLine(exception.InnerMostException().Message);
+        var message = exception.InnerMostException().Message;
+        WriteLine(!string.IsNullOrEmpty(actualScriptPath) && 0 <= actualLineNumber ? $"Error in script '{actualScriptPath.GetScriptName()}' at line {actualLineNumber}: {message}" : $"Error: {message}");
       }
     }
 
