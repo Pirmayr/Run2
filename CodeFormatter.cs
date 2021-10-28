@@ -102,12 +102,6 @@ namespace Run2
             {
               var localNewLine = subCommandsCode.Contains('\n') || newLine;
               result.Append(" (");
-
-              if (subCommandsCode.StartsWith("size"))
-              {
-                int a = 0;
-              }
-
               result.AppendNewLine(localNewLine);
               result.Append($"{subCommandsCode}");
               result.AppendNewLine(localNewLine);

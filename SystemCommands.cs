@@ -316,6 +316,11 @@ namespace Run2
     [Documentation(1, int.MaxValue, null, "runs an external program with the arguments given", "path", "path of the external program", "arguments", "the values ​​to be passed to the external program")]
     public static object Run(Items arguments)
     {
+      var maximalExitCode = 0;
+      if (arguments.Peek() is int)
+      {
+        maximalExitCode = (int) arguments.Dequeue();
+      }
       var commandOrPathOrDirectory = arguments.DequeueString();
       if (Globals.Commands.ContainsKey(commandOrPathOrDirectory))
       {
@@ -338,7 +343,7 @@ namespace Run2
         executablePath = commandOrPathOrDirectory;
       }
       var properties = commandOrPathOrDirectory.GetProperties();
-      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, 0, out var result);
+      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, maximalExitCode, out var result);
       return result;
     }
 

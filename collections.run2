@@ -210,13 +210,13 @@ command newstringarrayof
   toarray ( newstringlist arguments )
 
 command newstringlist
-  values
+  ( values )
   local result (
     Activator.CreateInstance (
       Type.GetType 'System.Collections.Generic.List`1[[System.String, System.Private.CoreLib]], System.Private.CoreLib'
       )
     )
-  map values ( Add result ( tostring item ) )
+  if (notnull values) ( map values ( Add result ( tostring item ) ) )
   return result
 
 command newstringlistof

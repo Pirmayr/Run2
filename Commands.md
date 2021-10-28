@@ -5363,6 +5363,10 @@ See:
 
 ---
 
+#### isstmp
+
+---
+
 #### isstring
 
 tests if an object is a "string"-value
@@ -7705,6 +7709,10 @@ runs an external program with the arguments given
 
 ---
 
+#### savelog
+
+---
+
 #### Scheme
 
 See:
@@ -9667,6 +9675,8 @@ See:
 
 * ISS
 
+* isstmp
+
 * merge
   - fromrepositoryurl
   - toworkspacedirectory
@@ -9689,6 +9699,8 @@ See:
 
 * rebuild
 
+* savelog
+
 * tmp
 
 * trackdebug
@@ -9706,6 +9718,7 @@ See:
 * inputbox
 * isnullorempty
 * ISS
+* isstmp
 * merge
 * mergeup
 * mergeupbinaries
@@ -9720,6 +9733,7 @@ See:
 * prefix
 * publishdocumentation
 * rebuild
+* savelog
 * sleep
 * tests
 * tmp

@@ -6,7 +6,8 @@
     },
     "Build": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Entwicklung\\branches\\B5210 -scriptArguments generatedocumentation;publishdocumentation;checkinsources"
+      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5120",
+      "workingDirectory": "C:\\Development\\Workspaces\\Binaries\\branches\\B5120\\P4\\Source\\chiemsee\\Components\\3dOcxUnitTests\\bin\\Release"
     },
     "Check-in and merge-up binaries": {
       "commandName": "Project",
@@ -14,7 +15,7 @@
     },
     "Build documentation": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Entwicklung\\branches\\B5210 -scriptArguments generatedocumentation;publishdocumentation;checkinsources"
+      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5210 -scriptArguments generatedocumentation;publishdocumentation;checkinsources"
     }
   }
 }

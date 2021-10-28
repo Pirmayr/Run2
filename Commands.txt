@@ -967,6 +967,8 @@ ISS
 mergeupbinaries
 publishdocumentation
 rebuild
+savelog
+isstmp
 trackdebug
 invoketests
 performtest
