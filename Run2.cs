@@ -15,7 +15,7 @@ namespace Run2
   {
     private static readonly HashSet<string> loadedScripts = new();
 
-    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime", "StringSplitOptions", "Activator", "Type", "HttpClient", "StringContent", "Encoding", "HttpResponseMessage", "Uri" };
+    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime", "StringSplitOptions", "Activator", "Type", "HttpClient", "StringContent", "Encoding", "HttpResponseMessage", "Uri", "Exception" };
 
     public static object Evaluate(object value)
     {
@@ -59,7 +59,7 @@ namespace Run2
       }
       catch (Exception exception)
       {
-        if (exception is RuntimeException)
+        if (0 < Globals.TryCatchFinallyLevel || exception is RuntimeException)
         {
           throw;
         }

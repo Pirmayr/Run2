@@ -216,7 +216,7 @@ command newstringlist
       Type.GetType 'System.Collections.Generic.List`1[[System.String, System.Private.CoreLib]], System.Private.CoreLib'
       )
     )
-  if (notnull values) ( map values ( Add result ( tostring item ) ) )
+  if ( notnull values ) ( map values ( Add result ( tostring item ) ) )
   return result
 
 command newstringlistof

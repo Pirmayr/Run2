@@ -11,7 +11,7 @@ command builds
 command buildwritecallback
   message
   Console.Write message
-  additem buildlog message
+  additem buildlog (trimend message '~n')
 
 command checkin
   'performs a svn-checkin'
@@ -21,8 +21,9 @@ command checkin
   local exitcode 0
   if ( return test ) (
     write 'simulating checkin: "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"'
+    ) (
+    run branchdirectory "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"
     )
-    ( run branchdirectory "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]" )
   return exitcode
 
 command cleanup

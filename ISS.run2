@@ -1,40 +1,37 @@
 loadscript builds
 
 command accepted
-  local key (join arguments)
-  and ( != projectname 'Buildtools' ) ( itemadded handled key ( write 'performing action [value]' increment checkinmessage '~n* [key]' ) )
+  and (!= projectname 'Buildtools') (itemadded handled (local key (join arguments)) (write 'performing [value]' increment checkinmessage '~n* [key]'))
 
 command buildprojects
   projectsdirectory
   actions
-  ( simulatesvn False )
-  ( checkinmessage '[commitprefix] Aktionen:' )
+  (simulatesvn False)
+  (checkinmessage '[commitprefix] Aktionen:')
   local handled ( newset )
   foreach action ( split actions ';' ) (
     foreach projectfilepattern ( arrayof '*.sln' 'TemplateParameters.txt' 'typedoc.json' ) (
-      foreach projectpath (
-        locatefiles ( removetrailingdirectoryseparator projectsdirectory ) projectfilepattern
-        ) (
+      foreach projectpath (locatefiles ( removetrailingdirectoryseparator projectsdirectory ) projectfilepattern) (
         local projectdirectory ( getdirectory projectpath ) projectname ( getfilename projectdirectory )
-        run action
-        )
-      )
-    )
+        run action)))
 
 command checkinbinaries
-  if ( accepted action binariesbranchdirectory ) ( checkin binariesbranchdirectory checkinmessage simulatesvn )
+  if (accepted action binariesbranchdirectory) (checkin binariesbranchdirectory checkinmessage simulatesvn)
 
 command checkinsources
-  if ( accepted action sourcesbranchdirectory ) ( checkin sourcesbranchdirectory checkinmessage simulatesvn )
+  if (accepted action sourcesbranchdirectory) (checkin sourcesbranchdirectory checkinmessage simulatesvn)
+
+command comparetrackfiles
+  path1
+  path2
+  if (< (local linenumber (comparefiles path1 path2 //)) 0) (write 'Trackfiles are equal') (write 'Trackfiles differ at line [linenumber]')
 
 command generatedocumentation
-
-    switch 
-    (and ( == projectfilepattern 'typedoc.json') ( accepted action projectname ) ) ( dos '[projectdirectory]' npx typedoc ) 
-    (and ( == projectfilepattern 'TemplateParameters.txt') ( accepted action projectname ) ) (
-      run projectdirectory '[buildtoolsdirectory]\TemplateExpander.exe' developer md projectpath
-      )
-
+  switch 
+    (and (istypedoctrigger) (accepted action projectname)) 
+      (dos '[projectdirectory]' npx typedoc ) 
+    (and (istemplateexpandertrigger) (accepted action projectname )) 
+      (run projectdirectory '[buildtoolsdirectory]\TemplateExpander.exe' developer md projectpath)
 
 command ISS
   global binariesbranchdirectory ( finddirectorywithparent userscriptdirectory branches )
@@ -58,37 +55,45 @@ command ISS
   global simulatesvn False
   return True
 
+command ispublishdocumentationtrigger
+  fileexists '[projectdirectory]\doc\Documentation.md'
+
+command ismsbuildtrigger
+  == (getextension projectpath) '.sln'
+
+command istemplateexpandertrigger
+  == projectfilepattern 'TemplateParameters.txt'
+
+command istypedoctrigger
+  == projectfilepattern 'typedoc.json'
+
 command mergeupbinaries
-  if ( accepted action binariesbranchdirectory ) ( mergeup binariesbranchesurl binariesbranchdirectory checkinmessage simulatesvn )
+  if ( accepted action binariesbranchdirectory ) (
+    mergeup binariesbranchesurl binariesbranchdirectory checkinmessage simulatesvn
+    )
 
 command publishdocumentation
-  if (
-    and (  fileexists '[projectdirectory]\doc\Documentation.md' ) (accepted action projectname) 
-    ) (
-    copyfiles '[projectdirectory]\doc' 'Documentation.md' '[sourcesbranchdirectory]\Dev\Doc' '[projectname].md' True
-    )
+  if (and (ispublishdocumentationtrigger) (accepted action projectname))
+    (copyfiles '[projectdirectory]\doc' 'Documentation.md' '[sourcesbranchdirectory]\Dev\Doc' '[projectname].md' True)
 
 command rebuild
-  if (
-    and ( accepted action projectname ) ( == ( getextension projectpath ) '.sln' )
-    ) (
-    run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=Release;Platform=x64 -verbosity:minimal
-    )
+  if (and (ismsbuildtrigger) (accepted action projectname)) 
+    (run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=Release;Platform=x64 -verbosity:minimal)
 
 command savelog
   File.WriteAllLines buildlogtxtpath buildlog
-  run 0 "[logtoolpath]" "[buildlogtxtpath]" "[logtoolpatternspath]" "[buildloghtmpath]"
+  run 2 "[logtoolpath]" "[buildlogtxtpath]" "[logtoolpatternspath]" "[buildloghtmpath]"
   run 2 "[logtoolpath]" "[buildlogtxtpath]" "[logtoolpatternspath]" "[buildlogmsgpath]"
   local title ''
-  switch
-  (== exitcode 0) (set title 'Success: [branch] on [COMPUTERNAME]')
-  (== exitcode 1) (set title 'Success with Warnings: [branch] on [COMPUTERNAME]')
-  (== exitcode 1) (set title 'Failure: [branch] on [COMPUTERNAME]')
-  postmessagetoteams title (readfile buildlogmsgpath) (readfile teamswebhookpath)
+  switch 
+    ( == exitcode 0 ) 
+      ( set title 'Success: [branch] on [COMPUTERNAME]' ) 
+    ( == exitcode 1 ) 
+      ( set title 'Success with Warnings: [branch] on [COMPUTERNAME]' ) 
+    ( == exitcode 2 ) 
+      ( set title 'Failure: [branch] on [COMPUTERNAME]' )
+  postmessagetoteams title ( readfile buildlogmsgpath ) ( readfile teamswebhookpath )
 
 command trackdebug
-  if (
-    and ( accepted action projectname ) ( == ( getextension projectpath ) '.sln' )
-    ) (
-    run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=TrackDebug;Platform=x64 -verbosity:minimal
-    )
+  if (and (ismsbuildtrigger) (accepted action projectname)) 
+    (run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=TrackDebug;Platform=x64 -verbosity:minimal)

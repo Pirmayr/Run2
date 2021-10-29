@@ -343,7 +343,7 @@ namespace Run2
         executablePath = commandOrPathOrDirectory;
       }
       var properties = commandOrPathOrDirectory.GetProperties();
-      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 5, 0, maximalExitCode, out var result);
+      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 1, 0, maximalExitCode, out var result);
       return result;
     }
 
@@ -400,6 +400,37 @@ namespace Run2
     {
       var message = arguments.DequeueString();
       throw new Exception(message);
+    }
+
+    [Documentation(1, 3, null, "try-catch-finally", "try", "try-block", "catch", "catch-block", "finally", "finally-block")]
+    public static object Try(Items arguments)
+    {
+      var tryBlock = arguments.DequeueObject(false);
+      var catchBlock = arguments.DequeueObject(false);
+      var finallyBlock = arguments.DequeueObject(false);
+      object result = null;
+      try
+      {
+        ++Globals.TryCatchFinallyLevel;
+        result = Run2.Evaluate(tryBlock);
+      }
+      catch (Exception exception)
+      {
+        if (catchBlock != null)
+        {
+          Globals.Variables.SetLocal("exception", exception);
+          Run2.Evaluate(catchBlock);
+        }
+      }
+      finally
+      {
+        --Globals.TryCatchFinallyLevel;
+        if (finallyBlock != null)
+        {
+          Run2.Evaluate(finallyBlock);
+        }
+      }
+      return result;
     }
 
     [Documentation(2, 2, null, "performs a while-loop", "condition", "condition for continuing the loop", "code", "body of the while-loop")]

@@ -1101,7 +1101,8 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 
 * projectsdirectory
 * actions
-* checkinmessage (optional; default:  'Diverses')
+* simulatesvn (optional; default:  False)
+* checkinmessage (optional; default:  '[commitprefix] Aktionen:')
 
 ---
 
@@ -5221,7 +5222,9 @@ performtest ( isnull ( newset ) ) False
 
 #### isnullorempty
 
-* string
+tests if a string is null or empty
+
+* string: string to be tested
 
 ---
 
@@ -5360,10 +5363,6 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsSpecialName
-
----
-
-#### isstmp
 
 ---
 
@@ -6803,7 +6802,7 @@ performtest (
 
 #### newstringlist
 
-* values
+* values (optional)
 
 ---
 
@@ -9654,6 +9653,7 @@ See:
 * buildprojects
   - projectsdirectory
   - actions
+  - simulatesvn
   - checkinmessage
 
 * buildwritecallback
@@ -9670,12 +9670,7 @@ See:
   - title
   - default
 
-* isnullorempty
-  - string
-
 * ISS
-
-* isstmp
 
 * merge
   - fromrepositoryurl
@@ -9718,7 +9713,6 @@ See:
 * inputbox
 * isnullorempty
 * ISS
-* isstmp
 * merge
 * mergeup
 * mergeupbinaries

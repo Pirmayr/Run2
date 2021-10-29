@@ -6,16 +6,16 @@
     },
     "Build": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5120",
+      "commandLineArgs": "-scriptArguments \"\" buildall",
       "workingDirectory": "C:\\Development\\Workspaces\\Binaries\\branches\\B5120\\P4\\Source\\chiemsee\\Components\\3dOcxUnitTests\\bin\\Release"
     },
     "Check-in and merge-up binaries": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5120 -scriptArguments checkinbinaries;mergeupbinaries"
+      "commandLineArgs": "-scriptArguments \"\" checkinbinaries;mergeupbinaries"
     },
     "Build documentation": {
       "commandName": "Project",
-      "commandLineArgs": "-baseDirectory C:\\Development\\Workspaces\\Binaries\\branches\\B5210 -scriptArguments generatedocumentation;publishdocumentation;checkinsources"
+      "commandLineArgs": "-scriptArguments \"\" generatedocumentation;publishdocumentation;checkinsources"
     }
   }
 }

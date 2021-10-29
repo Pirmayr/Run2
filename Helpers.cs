@@ -111,7 +111,7 @@ namespace Run2
           (!timedOut).Check($"The process {executablePath} has timed out");
           WriteLine($"Process '{executablePath}' terminated");
           Globals.Variables.SetLocal("exitcode", process.ExitCode);
-          (minimalExitCode == process.ExitCode && process.ExitCode <= maximalExitCode).Check(scriptPath, lineNumber, $"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
+          (minimalExitCode <= process.ExitCode && process.ExitCode <= maximalExitCode).Check(scriptPath, lineNumber, $"The exit-code {process.ExitCode} lies not between the allowed range of {minimalExitCode} to {maximalExitCode}");
           return;
         }
         catch (Exception exception)
@@ -145,7 +145,7 @@ namespace Run2
 
     public static void HandleException(Exception exception, string scriptPath = null, int lineNumber = -1)
     {
-      if (exception is not RuntimeException)
+      if (Globals.TryCatchFinallyLevel == 0 && exception is not RuntimeException)
       {
         var actualScriptPath = scriptPath ?? Globals.CurrentScriptPath;
         var actualLineNumber = lineNumber < 0 ? Globals.CurrentLineNumber : lineNumber;

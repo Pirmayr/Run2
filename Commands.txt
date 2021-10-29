@@ -619,6 +619,7 @@ Set
 SetGlobal
 SetLocal
 TryGetValue
+ScopesCount
 Variables.new
 BigInteger.Parse
 BigInteger.TryParse
@@ -968,7 +969,6 @@ mergeupbinaries
 publishdocumentation
 rebuild
 savelog
-isstmp
 trackdebug
 invoketests
 performtest

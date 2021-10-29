@@ -18,6 +18,8 @@ namespace Run2
     public const string TestCommand = "performtest";
     public const string VariableNameArguments = "arguments";
 
+    public static int TryCatchFinallyLevel { get; set; }
+
     public static Items Arguments { get; set; }
 
     public static string BaseDirectory { get; set; }
