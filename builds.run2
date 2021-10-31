@@ -12,7 +12,7 @@ command builds
   global svnexepath '[programfilesdirectory]\TortoiseSVN\bin\svn.exe'
   global buildlog ( newstringlist )
   global writecallback 'buildwritecallback'
-  return True
+  value True
 
 command buildprojects
   'performs build actions'
@@ -83,7 +83,7 @@ command monitorrepository
   local revisionpath '[workspacedirectory]\revision.txt'
   local isfirstpass True
   local continue True
-  while (return continue) (
+  while (value continue) (
     local oldrevision ( readfile revisionpath '0' )
     local newrevision ( mostrecentrevision workspacedirectory )
     write '[oldrevision] / [newrevision]'
@@ -93,7 +93,7 @@ command monitorrepository
     set continue checkcontinuously
     set isfirstpass False
     sleep intervall)
-  return result
+  value result
 
 command mostrecentrevision
   'Returns the most recently checked-in revision in a svn-repository'
@@ -106,9 +106,9 @@ command postmessagetoteams
   title 'title'
   message 'message'
   hook 'hook-url of the channel'
-  if (return simulatepostmessagetoteams)
+  if (value simulatepostmessagetoteams)
     (write 'simulating postmessagetoteams:~n[title]~n[message]') (
-    return (
+    value (
       invokeinstancemember 'Result' (
         PostAsync ( HttpClient.new ) ( Uri.new hook ) (
           StringContent.new '{"Title":"[title]","Text":"[message]"}' ( Encoding.UTF8 ) 'application/json'))))
@@ -117,10 +117,10 @@ command svn
   'executes a svn-command'
   svnarguments 'arguments to be passed to svn'
   local exitcode 0
-  if (return simulatesvn)
+  if (value simulatesvn)
     (write 'simulating svn: [svnarguments]')
 	(run branchdirectory "[svnexepath]" [svnarguments])
-  return exitcode
+  value exitcode
 
 command update
   'performs a svn-update'

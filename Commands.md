@@ -1103,10 +1103,9 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 
 performs build actions
 
-* projectsdirectory: the directory below which build actions are considered
-* actions: a semicolon separated list of actions
-* simulatesvn: if "true", svn actions are simulated, otherwise they are carried out (optional; default:  False)
-* checkinmessage: the commit message (optional; default:  '[commitprefix] Aktionen:')
+* projectfilepatterns: the patterns triggering a possible action
+* baseprojectsdirectory: the base-directory
+* actionpacks: a list of action packs
 
 ---
 
@@ -1400,12 +1399,11 @@ performs a svn-checkin
 
 * branchdirectory: the directory to check in
 * commitmessage: the commit-message
-* test: if "true", the command is not performed, if "false" the command is performed (optional; default:  False)
 
 **Examples**
 
 ~~~
-performtest ( checkin '' '' True ) 0
+performtest ( checkin '' '' ) 0
 ~~~
 
 ---
@@ -1413,6 +1411,12 @@ performtest ( checkin '' '' True ) 0
 #### checkinbinaries
 
 performs a check-in into the binaries-repository
+
+---
+
+#### checkindocumentation
+
+performs a check-in of documentation into the sources-repository
 
 ---
 
@@ -1427,12 +1431,11 @@ performs a check-in into the sources-repository
 performs a svn-cleanup
 
 * branchdirectory: the directory to update
-* test: if "true", the command is not performed, if "false" the command is performed (optional; default:  False)
 
 **Examples**
 
 ~~~
-performtest ( cleanup '' True ) 0
+performtest ( cleanup '' ) 0
 ~~~
 
 ---
@@ -4674,12 +4677,6 @@ invokes the tests
 
 if all tests succeeded, true is returned, otherwise false
 
-**Examples**
-
-~~~
-performtest ( invoketests ) True
-~~~
-
 ---
 
 #### IsAbsoluteUri
@@ -5196,12 +5193,6 @@ See:
 
 ---
 
-#### ismsbuildtrigger
-
-checks if a msbuild build action is to be performed in the current project directory
-
----
-
 #### IsNested
 
 See:
@@ -5301,6 +5292,14 @@ tests if a string is null or empty
 
 ---
 
+#### isnullorwhitespace
+
+tests if a string is null, empty, or consists only of whitespace characters
+
+* string: string to be tested
+
+---
+
 #### IsOne
 
 See:
@@ -5341,12 +5340,6 @@ See:
 
 ---
 
-#### ispublishdocumentationtrigger
-
-checks if a build action for publishing documents is to be performed in the current project directory
-
----
-
 #### IsReadOnly
 
 See:
@@ -5358,7 +5351,7 @@ See:
 
 ---
 
-#### ISS
+#### issbuilds
 
 initializes the ISS-module
 
@@ -5510,12 +5503,6 @@ See:
 
 ---
 
-#### istemplateexpandertrigger
-
-checks if a template expander build action is to be performed in the current project directory
-
----
-
 #### IsThreadPoolThread
 
 See:
@@ -5529,12 +5516,6 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsTypeDefinition
-
----
-
-#### istypedoctrigger
-
-checks if a typedoc build action is to be performed in the current project directory
 
 ---
 
@@ -6581,13 +6562,11 @@ performs a svn merge action
 
 * fromrepositoryurl: repository from which the merge should be performed
 * toworkspacedirectory: workspace to which the merge should be performed
-* commitmessage: the commit-message
-* test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
 
 **Examples**
 
 ~~~
-performtest ( merge '' '' '' True ) 0
+performtest ( merge '' '' ) 0
 ~~~
 
 ---
@@ -6599,7 +6578,12 @@ performs a svn merge-up action
 * branchesurl: repository-directory in which the branches are located
 * startworkspacedirectory: worksspace-directory from which the merges should start
 * commitmessage: the commit-message
-* test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
+
+**Examples**
+
+~~~
+performtest ( mergeup '' 'c:\testdirectory\subdirectory1' '' ) 0
+~~~
 
 ---
 
@@ -6679,6 +6663,14 @@ Returns the most recently checked-in revision in a svn-repository
 
 
 The most recently checked-in revision
+
+---
+
+#### msbuild
+
+rebuilds a solution
+
+* configuration: the configuration to be used in the build
 
 ---
 
@@ -7719,6 +7711,21 @@ See:
 
 ---
 
+#### replaceexhaustive
+
+keeps replacing a substring until no replacement is possible
+
+* string: string to be searched for the search-string
+* searchstring: string to be searched for
+* replacement: replacement
+
+**Returns**
+
+
+the modified string
+
+---
+
 #### RequestMessage
 
 See:
@@ -7831,9 +7838,17 @@ runs an external program with the arguments given
 
 ---
 
+#### runtracktests
+
+---
+
+#### rununittests
+
+---
+
 #### savelog
 
-saves the log, checks the log for errors and warning, and posts the results to teams
+saves the log, checks the log for errors and warnings, and posts the results to teams
 
 ---
 
@@ -8462,6 +8477,14 @@ See:
 
 ---
 
+#### svn
+
+executes a svn-command
+
+* svnarguments: arguments to be passed to svn
+
+---
+
 #### switch
 
 calls the first command for which a condition holds true
@@ -8544,6 +8567,10 @@ various tests
 
 
 if all tests succeeded, true is returned, otherwise false
+
+---
+
+#### teststmp
 
 ---
 
@@ -9445,7 +9472,6 @@ See:
 performs a svn-update
 
 * branchdirectory: the directory to update
-* test: if "true", the command is not performed, if "false" the command is performed (optional; default:  False)
 
 ---
 
@@ -9805,6 +9831,15 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Year
 
+#### Missing Documentation:
+
+
+* runtracktests
+
+* rununittests
+
+* teststmp
+
 #### Missing Examples:
 
 * accepted
@@ -9812,21 +9847,20 @@ See:
 * builds
 * buildwritecallback
 * checkinbinaries
+* checkindocumentation
 * checkinsources
 * comparefiles
 * comparetrackfiles
 * generatedocumentation
 * inputbox
-* ismsbuildtrigger
+* invoketests
 * isnullorempty
-* ispublishdocumentationtrigger
-* ISS
-* istemplateexpandertrigger
-* istypedoctrigger
-* mergeup
+* isnullorwhitespace
+* issbuilds
 * mergeupbinaries
 * monitorrepository
 * mostrecentrevision
+* msbuild
 * newstringarrayof
 * newstringlist
 * newstringlistof
@@ -9836,8 +9870,13 @@ See:
 * prefix
 * publishdocumentation
 * rebuild
+* replaceexhaustive
+* runtracktests
+* rununittests
 * savelog
 * sleep
+* svn
 * tests
+* teststmp
 * trackdebug
 * update

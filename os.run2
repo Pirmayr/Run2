@@ -18,4 +18,4 @@ command os
   global currentyear ( ToString ( Year now ) 'D4' )
   global currentmonth ( ToString ( Month now ) 'D2' )
   global currentday ( ToString ( Day now ) 'D2' )
-  return True
+  value True

@@ -52,7 +52,7 @@ command issbuilds
   global buildlogmsgpath '[binariesbranchdirectory]\Buildlog.msg'
   global teamswebhookpath '[buildtoolsdirectory]\TeamsWebhook.txt'
   global issprojectfilepatterns '*.sln;TemplateParameters.txt;typedoc.json'
-  return True
+  value True
 
 command mergeupbinaries
   'performs a merge-up action in a binaries-branch, beginning with the current branch'

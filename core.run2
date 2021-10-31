@@ -89,7 +89,7 @@ command not
   'negates a truth value'
   'if the value is "false", "true" is returned, otherwise "false"'
   value 'truth value'
-  if ( return value ) False True
+  if ( value value ) False True
 
 command notempty
   'checks if an object is not empty'
@@ -107,7 +107,7 @@ command quote
   'returns the unevaluated value'
   'the unenvaluated value'
   "value" 'value'
-  return value
+  value value
 
 command size
   'returns the size of an object (e.g. an array, a list, or a string)'

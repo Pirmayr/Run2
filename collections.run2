@@ -5,7 +5,7 @@ command addentry
   key 'key'
   value 'value'
   Add dictionary key value
-  return dictionary
+  value dictionary
 
 command additem
   'adds an item to a collection'
@@ -16,7 +16,7 @@ command additem
     if ( not ( containskey collection value ) ) ( addentry collection value ( null ) )
     )
     ( Add collection value )
-  return collection
+  value collection
 
 command arrayof
   'converts the arguments to an array'
@@ -29,7 +29,7 @@ command arraytail
   local limit ( upperbound array )
   local result ( newarray limit 0 )
   if ( <= ( size array ) 1 ) ( arrayof ) ( Array.Copy array 1 result 0 limit )
-  return result
+  value result
 
 command concatenation
   'concatenates the given strings'
@@ -65,7 +65,7 @@ command enqueue
   queue 'queue'
   value 'element to be enqueued'
   Enqueue queue value
-  return value
+  value value
 
 command gettokens
   'returns the tokenized contents of a string'
@@ -83,7 +83,7 @@ command gettokens
       ( increment token item )
     )
   if ( notempty token ) ( additem result token )
-  return result
+  value result
 
 command head
   'returns the first element of an object'
@@ -135,7 +135,7 @@ command itemadded
   if ( containskey collection value ) False (
     additem collection value
     if ( not ( isnull action ) ) ( evaluate action )
-    return True
+    value True
     )
 
 command join
@@ -154,7 +154,7 @@ command joinfrom
 command listof
   'returns the arguments as a list'
   'a list'
-  return arguments
+  value arguments
 
 command listtail
   'returns a list without its first item'
@@ -175,7 +175,7 @@ command newarray
   initialvalue '(optional) value with which the array is to be initialized'
   local result ( listof )
   if ( not ( isnull initialvalue ) ) ( for i 0 ( - length 1 ) 1 ( Add result initialvalue ) )
-  return ( ToArray result )
+  value ( ToArray result )
 
 command newdictionary
   'creates a dictionary'
@@ -219,7 +219,7 @@ command newstringlist
       )
     )
   if ( notnull values ) ( map values ( Add result ( tostring item ) ) )
-  return result
+  value result
 
 command newstringlistof
   'creates a string list from the arguments'
@@ -232,7 +232,7 @@ command pop
   Pop stack
 
 command prefix
-  'return the part of a string which lies before a separator'
+  'value the part of a string which lies before a separator'
   string 'string'
   separator 'separator'
   if ( < ( local index ( IndexOf string separator ) ) 0 ) string ( Substring string 0 index )
@@ -243,7 +243,7 @@ command push
   stack 'stack'
   value 'element'
   Push stack value
-  return value
+  value value
 
 command replace
   'replaces a substring'
@@ -268,7 +268,7 @@ command replaceexhaustive
 	set result (replace result searchstring replacement)
 	set newsize (size result)
     )  
-  return result
+  value result
 
 command sort
   'sorts an object (e.g. an array, a list, or a string)'
@@ -276,7 +276,7 @@ command sort
   object 'object to be sorted'
   switch ( isarray object ) ( sortarray object ) ( isstring object ) ( sortstring object ) (
     Sort object
-    return object
+    value object
     )
 
 command sortarray
@@ -284,7 +284,7 @@ command sortarray
   'the sorted array'
   array 'array'
   Array.Sort array
-  return array
+  value array
 
 command sortstring
   'sorts the characters of a string'
@@ -313,7 +313,7 @@ command substring
   string 'string'
   start 'start-index of the substring'
   length 'length of the substring'
-  if ( < start ( size string ) ) ( Substring string start length ) ( return '' )
+  if ( < start ( size string ) ) ( Substring string start length ) ( value '' )
 
 command tail
   'tail of an object (e.g. an array, a list, or a string)'
@@ -340,4 +340,4 @@ command upperbound
   'the upper-bound'
   'the upper-bound is the size of the object minus one'
   object 'object'
-  return ( - ( size object ) 1 )
+  value ( - ( size object ) 1 )

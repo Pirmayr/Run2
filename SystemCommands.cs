@@ -70,8 +70,7 @@ namespace Run2
     public static object Evaluate(Items arguments)
     {
       var value = arguments.DequeueObject();
-      var result = Run2.Evaluate(value);
-      return result;
+      return Run2.Evaluate(value);
     }
 
     [Documentation(5, 5, null, "performs a for-loop", "name", "name of the variable which holds the counter", "from", "start value of the counter", "to", "end value of the counter", "step", "increment for the counter", "code", "body of the for-loop")]
@@ -113,10 +112,16 @@ namespace Run2
       return result;
     }
 
-    [Documentation(1, 1, null, "return the value of a variable; the variable can exist in any active scope", "name", "name of the variable")]
+    [Documentation(1, 2, null, "return the value of a variable; the variable can exist in any active scope", "name", "name of the variable")]
     public static object Get(Items arguments)
     {
-      var variableName = arguments.DequeueString();
+      var evaluate = false;
+      if (arguments.Peek() is true)
+      {
+        evaluate = true;
+        arguments.Dequeue();
+      }
+      var variableName = arguments.DequeueString(evaluate);
       return Globals.Variables.Get(variableName);
     }
 
@@ -312,8 +317,8 @@ namespace Run2
       return value;
     }
 
-    [Documentation(1, 1, null, "returns a value", "value", "the value to be returned")]
-    public static object Return(Items arguments)
+    [Documentation(1, 1, null, "returns the value of an expression", "expression", "expression")]
+    public static object Value(Items arguments)
     {
       return arguments.DequeueObject();
     }
