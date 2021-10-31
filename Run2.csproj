@@ -22,4 +22,8 @@
     <Exec Command="rem $(TargetDir)run2.exe -scriptName test.run2" />
   </Target>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
 </Project>

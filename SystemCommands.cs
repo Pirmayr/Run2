@@ -318,7 +318,7 @@ namespace Run2
     }
 
     [Documentation(1, 1, null, "returns the value of an expression", "expression", "expression")]
-    public static object Value(Items arguments)
+    public static object Return(Items arguments)
     {
       return arguments.DequeueObject();
     }

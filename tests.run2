@@ -1,4 +1,4 @@
-loadscript ISS
+loadscript issbuilds
 
 command invoketests
   'invokes the tests'
@@ -6,7 +6,7 @@ command invoketests
   global testsok True
   performtest ( performtests ) True
   write ( if testsok 'tests ok' 'tests failed' )
-  value testsok
+  return testsok
 
 command performtest
   'tests if a code-block yields the expected result'
@@ -17,7 +17,7 @@ command performtest
     global testsok False
     local code ( CodeFormatter.ToCode code 0 False )
     write 'failure:~n([code])~nactual: [actual]~nexpected: [expected]'
-    value False
+    return False
     )
 
 command performtests
@@ -91,7 +91,7 @@ command performtests
       increment result directory1
       increment result directory2
       )
-    value result
+    return result
     )
     'c:\testdirectory\subdirectory1c:\testdirectory\subdirectory2c:\testdirectory\subdirectory2c:\testdirectory\subdirectory3'
   performtest (
@@ -115,6 +115,10 @@ command performtests
     fileexists c:\testdirectory\values1.txt
     )
     True
+  performtest ( checkin '' '' ) 0
+  performtest ( cleanup '' ) 0
+  performtest ( merge '' '' ) 0 
+  performtest ( mergeup '' 'c:\testdirectory\subdirectory1' '' ) 0 
   performtest (
     deletedirectory c:\testdirectory
     directoryexists c:\testdirectory
@@ -127,13 +131,13 @@ command performtests
   performtest (
     global value 4711
     increment value 1
-    value value
+    return value
     )
     4712
   performtest (
     local value 1234
     increment value 2
-    value value
+    return value
     )
     1236
   performtest (
@@ -143,7 +147,7 @@ command performtests
     size dictionary
     )
     2
-  performtest ( switch ( < 1 1 ) ( value 1 ) ( == 1 1 ) ( value 2 ) ( > 1 1 ) ( value 3 ) ) 2
+  performtest ( switch ( < 1 1 ) ( return 1 ) ( == 1 1 ) ( return 2 ) ( > 1 1 ) ( return 3 ) ) 2
   performtest (
     local a 4711
     set a 1234
@@ -151,7 +155,7 @@ command performtests
     1234
   performtest ( join ( arrayof 'h' 'e' 'l' 'l' 'o' ) ) 'h e l l o'
   performtest ( joinfrom 'h' 'e' 'l' 'l' 'o' ) 'h e l l o'
-  performtest ( if ( < 1 1 ) ( value 0 ) ( value 1 ) ) 1
+  performtest ( if ( < 1 1 ) ( return 0 ) ( return 1 ) ) 1
   performtest ( locatedirectory SystemRoot System32 ) '[SystemRoot]\System32'
   performtest ( locatefile SystemRoot notepad.exe ) '[SystemRoot]\notepad.exe'
   performtest ( hastype 'hello' String ) True
@@ -220,7 +224,7 @@ command performtests
   performtest (
     local a 4711
     decrement a 11
-    value a
+    return a
     )
     4700
   performtest ( size ( primes 1000 ) ) 167
@@ -255,7 +259,7 @@ command performtests
   performtest (
     local value 'foo'
     increment value 'bar'
-    value value
+    return value
     )
     'foobar'
   performtest ( typename ( tobiginteger 4711 ) ) 'BigInteger'
@@ -272,7 +276,7 @@ command performtests
       local queue ( newqueue )
       enqueue queue 47
       enqueue queue 11
-      value queue
+      return queue
       )
     )
     ( arrayof 11 )
@@ -295,14 +299,10 @@ command performtests
   performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
   performtest ( isarray ( toarray ( newlist ) ) ) True
   performtest ( isstring ( tostring 4711 ) ) True
-  performtest ( checkin '' '' True ) 0
-  performtest ( cleanup '' True ) 0
-  performtest ( merge '' '' '' True ) 0 
-  performtest ( mergeup '' '' '' True ) 0 
   performtest (
     local value 1
     increment value
-    value value
+    return value
     )
     2
   performtest (
@@ -311,31 +311,32 @@ command performtests
     )
     True
   performtest ( at ( split 'foo//bar' '//' ) 0 ) 'foo'
-  if ( value alltests ) (
+  if ( return alltests ) (
     write (
       invokeinstancemember 'ReasonPhrase' ( postmessagetoteams 'title6' 'text6' teamshook )
       )
     )
-  if ( and ( value False ) ( directoryexists run2projectdirectory ) ) (
+  if ( and ( return False ) ( directoryexists run2projectdirectory ) ) (
     performtest ( typename ( besttype ( mostrecentrevision run2projectdirectory ) ) ) 'Int32'
     performtest (
       monitorrepository run2projectdirectory False 250 True ( write 'a change occurred' )
       )
       'a change occurred'
     )
-  value testsok
+  return testsok
 
 command tests
   'various tests'
   'if all tests succeeded, true is returned, otherwise false'
   ( writesources False ) 'if "true" the sources are formatted and the previous versions are overwritten, otherwise they are left as they are'
-  global alltests False
+	global simulatesvn True
+	global simulatepostmessagetoteams True  global alltests False
   performtest ( invoketests ) True
   writefile [basedirectory]\..\..\..\Commands.txt ( getcommands )
-  if ( value testsok ) (
+  if ( return testsok ) (
     write 'Writing results to disk ...'
     writefile [basedirectory]\..\..\..\Commands.md ( gethelp )
-    if (value writesources) (
+    if (return writesources) (
       writefile [basedirectory]\..\..\..\core.run2 ( getcode core )
       writefile [basedirectory]\..\..\..\collections.run2 ( getcode collections )
       writefile [basedirectory]\..\..\..\filesystem.run2 ( getcode 'filesystem' )
@@ -348,4 +349,4 @@ command tests
       writefile [basedirectory]\..\..\..\ISS.run2 ( getcode 'ISS' )
       )
     )
-  value testsok
+  return testsok

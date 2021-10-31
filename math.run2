@@ -44,7 +44,7 @@ command primes
       for j i n i ( put table j False )
       )
     )
-  value result
+  return result
 
 command square
   'computes the square of a number'

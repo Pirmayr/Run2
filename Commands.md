@@ -4677,6 +4677,12 @@ invokes the tests
 
 if all tests succeeded, true is returned, otherwise false
 
+**Examples**
+
+~~~
+performtest ( invoketests ) True
+~~~
+
 ---
 
 #### IsAbsoluteUri
@@ -7744,9 +7750,9 @@ See:
 
 #### return
 
-returns a value
+returns the value of an expression
 
-* value: the value to be returned
+* expression: expression
 
 **Examples**
 
@@ -8567,10 +8573,6 @@ various tests
 
 
 if all tests succeeded, true is returned, otherwise false
-
----
-
-#### teststmp
 
 ---
 
@@ -9838,8 +9840,6 @@ See:
 
 * rununittests
 
-* teststmp
-
 #### Missing Examples:
 
 * accepted
@@ -9853,7 +9853,6 @@ See:
 * comparetrackfiles
 * generatedocumentation
 * inputbox
-* invoketests
 * isnullorempty
 * isnullorwhitespace
 * issbuilds
@@ -9877,6 +9876,5 @@ See:
 * sleep
 * svn
 * tests
-* teststmp
 * trackdebug
 * update

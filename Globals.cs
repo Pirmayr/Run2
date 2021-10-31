@@ -47,5 +47,8 @@ namespace Run2
     public static string UserScriptPath { get; set; }
 
     public static Variables Variables { get; } = new();
+
+    public static string TranslationsPath1 { get; set; }
+    public static string TranslationsPath2 { get; set; }
   }
 }

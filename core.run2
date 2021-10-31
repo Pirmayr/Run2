@@ -12,7 +12,7 @@ command decrement
   'decrements a variable'
   "name" 'name of the variable'
   ( amount 1 ) 'the value subtracted from the original value of the varable'
-  set True name ( - ( get name ) amount )
+  set True name ( - ( get True name ) amount )
 
 command getmember
   'get the array of member-information for the specified member in an object'
@@ -41,7 +41,7 @@ command increment
   'incrementing a string by a string means appending one string to the other'
   "name" 'name of the variable'
   ( amount 1 ) 'the value added to the original value of the variable'
-  set True name ( + ( get name ) amount )
+  set True name ( + ( get True name ) amount )
 
 command ischar
   'tests if an object is a "char"-value'
@@ -89,7 +89,7 @@ command not
   'negates a truth value'
   'if the value is "false", "true" is returned, otherwise "false"'
   value 'truth value'
-  if ( value value ) False True
+  if ( return value ) False True
 
 command notempty
   'checks if an object is not empty'
@@ -107,7 +107,7 @@ command quote
   'returns the unevaluated value'
   'the unenvaluated value'
   "value" 'value'
-  value value
+  return value
 
 command size
   'returns the size of an object (e.g. an array, a list, or a string)'

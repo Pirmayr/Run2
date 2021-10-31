@@ -11,7 +11,7 @@ command comparefiles
       )
       ( break )
     )
-  value ( if ( and ( == i ( size lines1 ) ) ( == i ( size lines2 ) ) ) -1 i )
+  return ( if ( and ( == i ( size lines1 ) ) ( == i ( size lines2 ) ) ) -1 i )
 
 command inputbox
   'shows a dialog for user-input' 
@@ -33,7 +33,7 @@ command write
   text 'text to be written'
   ( verbosity 5 ) 'the verbosity-level of the message'
   Helpers.WriteLine ( ToString text ) ( if ( isnull verbosity ) 5 verbosity )
-  value text
+  return text
 
 command writefile
   'writes text to a file'
@@ -41,4 +41,4 @@ command writefile
   path 'path of the file'
   text 'text to be written'
   File.WriteAllText path text
-  value text
+  return text
