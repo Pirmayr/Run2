@@ -1,0 +1,108 @@
+loadscript builds
+
+command checkindocumentation
+  'performs a check-in of documentation into the sources-repository'
+  if (accepted action sourcesbranchdirectory) 
+    (checkin sourcesbranchdirectory '[commitprefix] Dokumentation upgedatet')
+
+command checkinbinaries
+  'performs a check-in into the binaries-repository'
+  if (accepted action binariesbranchdirectory) 
+    (checkin binariesbranchdirectory checkinmessage)
+	
+command checkinsources
+  'performs a check-in into the sources-repository'
+  if (accepted action sourcesbranchdirectory) 
+    (checkin sourcesbranchdirectory checkinmessage)
+
+command comparetrackfiles
+  'checks two textfiles for differences'
+  path1 'path to the first textfile'
+  path2 'path to the second textfile'
+  if (< (local linenumber (comparefiles path1 path2 //)) 0) 
+    (write 'Trackfiles are equal') 
+    (write 'Trackfiles differ at line [linenumber]')
+
+command generatedocumentation
+  'performs build actions for documentation generation'
+  switch 
+    (and (== projectfilepattern 'TemplateParameters.txt') (accepted action projectname )) 
+      (run projectdirectory '[buildtoolsdirectory]\TemplateExpander.exe' developer md projectpath)
+    (and (== projectfilepattern 'typedoc.json') (accepted action projectname)) 
+      (dos '[projectdirectory]' npx typedoc ) 
+
+command issbuilds
+  'initializes the ISS-module'
+  global binariesbranchdirectory ( finddirectorywithparent userscriptdirectory branches )
+  global branch ( getfname binariesbranchdirectory )
+  global issmajorversion ( substring branch 1 2 )
+  global issminorversion ( substring branch 3 2 )
+  global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
+  global workspacesdirectory ( finddirectory userscriptdirectory Workspaces )
+  global sourcesbranchdirectory (if (isnullorempty workspacesdirectory) 'C:\SRC_SVN\branches\[branch]' '[workspacesdirectory]\Sources\branches\[branch]')
+  global jumbounittestsassemblypath '[binariesbranchdirectory]\moveIT.Jumbo\UnitTests\bin\x64\Release\netcoreapp3.1\UnitTests.dll'
+  global 3docxunittestsassemblypath '[binariesbranchdirectory]\P4\Source\chiemsee\Components\3dOcxUnitTests\bin\x64\Release\3dOcxUnitTests.dll'
+  global trackdirectory '[IssInstallationPath]\MasterData\Jumbo\Tracks'
+  global commitprefix 'PIC[currentyear][currentmonth][currentday]'
+  global teamshook 'https://moveitat.webhook.office.com/webhookb2/df5cb2a4-71e8-4c4b-b7ff-3c72f9e0aae8@6c32a88d-7bdd-4d28-9c0b-bc0ecb33c6de/IncomingWebhook/319bd7498e864046bee18713f4153e40/93a9e1d7-1b98-47a4-be10-fdbbcc665d5a'
+  global logtoolpath '[buildtoolsdirectory]\moveIT.Log.Tool.exe'
+  global logtoolpatternspath '[buildtoolsdirectory]\moveIT.Log.Tool.Patterns.txt'
+  global buildlogtxtpath '[binariesbranchdirectory]\Buildlog.txt'
+  global buildloghtmpath '[binariesbranchdirectory]\Buildlog.htm'
+  global buildlogmsgpath '[binariesbranchdirectory]\Buildlog.msg'
+  global teamswebhookpath '[buildtoolsdirectory]\TeamsWebhook.txt'
+  global issprojectfilepatterns '*.sln;TemplateParameters.txt;typedoc.json'
+  return True
+
+command mergeupbinaries
+  'performs a merge-up action in a binaries-branch, beginning with the current branch'
+  if ( accepted action binariesbranchdirectory ) 
+    (mergeup binariesbranchesurl binariesbranchdirectory)
+	
+command msbuild
+  'rebuilds a solution'
+  configuration 'the configuration to be used in the build'
+  if (and (== (getextension projectpath) '.sln') (accepted action projectname)) 
+    (run "[msbuildpath]" "[projectpath]" -restore -target:rebuild -property:Configuration=[configuration];Platform=x64 -verbosity:minimal)	
+
+command publishdocumentation
+  'copies documentation from the binaries-workspace to the sources-workspace'
+  if (and (fileexists '[projectdirectory]\doc\Documentation.md') (accepted action projectname))
+    (copyfiles '[projectdirectory]\doc' 'Documentation.md' '[sourcesbranchdirectory]\Dev\Doc' '[projectname].md' True)
+
+command rebuild
+  'rebuilds a solution with the "Release"-configuration'
+  msbuild 'Release'
+
+command rununittests
+  if (accepted action baseprojectsdirectory) (
+    run vstestconsolepath jumbounittestsassemblypath
+    foreach classname (split 'Mesa3DOCXTests;OpenGL3DOCXTests;Methods3DOCXTests' ';') 
+    (run vstestconsolepath 3docxunittestsassemblypath '/TestCaseFilter:"FullyQualifiedName~~[classname]"'))
+
+command runtracktests
+  if (accepted action baseprojectsdirectory) (
+	buildprojects issprojectfilepatterns baseprojectsdirectory 'trackdebug;McrInt'
+	run '[buildtoolsdirectory]\ShortTrackInterpreter.bat'
+	buildprojects issprojectfilepatterns baseprojectsdirectory 'rebuild;McrInt'
+	run '[buildtoolsdirectory]\ShortTrackJumbo.bat'
+	comparetrackfiles '[trackdirectory]\E24_Interpreter.txt' '[trackdirectory]\E24_Jumbo.txt')
+		
+command savelog
+  'saves the log, checks the log for errors and warnings, and posts the results to teams'
+  File.WriteAllLines buildlogtxtpath buildlog
+  run 2 "[logtoolpath]" "[buildlogtxtpath]" "[logtoolpatternspath]" "[buildloghtmpath]"
+  run 2 "[logtoolpath]" "[buildlogtxtpath]" "[logtoolpatternspath]" "[buildlogmsgpath]"
+  local title ''
+  switch 
+    ( == exitcode 0 ) 
+      ( set title 'Success: [branch] on [COMPUTERNAME]' ) 
+    ( == exitcode 1 ) 
+      ( set title 'Success with Warnings: [branch] on [COMPUTERNAME]' ) 
+    ( == exitcode 2 ) 
+      ( set title 'Failure: [branch] on [COMPUTERNAME]' )
+  postmessagetoteams title ( readfile buildlogmsgpath ) ( readfile teamswebhookpath )
+
+command trackdebug
+  'rebuilds a solution with the "TrackDebug"-configuration'
+   msbuild 'TrackDebug'

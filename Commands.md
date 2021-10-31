@@ -260,6 +260,8 @@ See:
 
 #### accepted
 
+ensures that a build action is only executed once
+
 ---
 
 #### Activator.CreateInstance
@@ -1099,10 +1101,12 @@ performtest ( for i 1 10 1 ( if ( == i 5 ) ( break i ) i ) ) 5
 
 #### buildprojects
 
-* projectsdirectory
-* actions
-* simulatesvn (optional; default:  False)
-* checkinmessage (optional; default:  '[commitprefix] Aktionen:')
+performs build actions
+
+* projectsdirectory: the directory below which build actions are considered
+* actions: a semicolon separated list of actions
+* simulatesvn: if "true", svn actions are simulated, otherwise they are carried out (optional; default:  False)
+* checkinmessage: the commit message (optional; default:  '[commitprefix] Aktionen:')
 
 ---
 
@@ -1119,7 +1123,9 @@ the command always returns "true"
 
 #### buildwritecallback
 
-* message
+if this callback is set, it is called, when text are to be displayed
+
+* message: the message to be displayed
 
 ---
 
@@ -1399,16 +1405,20 @@ performs a svn-checkin
 **Examples**
 
 ~~~
-performtest ( checkin c:\ 'hi' True ) 0
+performtest ( checkin '' '' True ) 0
 ~~~
 
 ---
 
 #### checkinbinaries
 
+performs a check-in into the binaries-repository
+
 ---
 
 #### checkinsources
+
+performs a check-in into the sources-repository
 
 ---
 
@@ -1422,7 +1432,7 @@ performs a svn-cleanup
 **Examples**
 
 ~~~
-performtest ( cleanup c:\ True ) 0
+performtest ( cleanup '' True ) 0
 ~~~
 
 ---
@@ -1480,6 +1490,15 @@ See:
 * https://docs.microsoft.com/en-us/dotnet/api/System.Int32.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Enum.CompareTo
 * https://docs.microsoft.com/en-us/dotnet/api/System.Numerics.BigInteger.CompareTo
+
+---
+
+#### comparetrackfiles
+
+checks two textfiles for differences
+
+* path1: path to the first textfile
+* path2: path to the second textfile
 
 ---
 
@@ -1934,6 +1953,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.CustomAttributes
+
+---
+
+#### Data
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.Data
 
 ---
 
@@ -2770,6 +2797,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.Equals
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.Equals
 * https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.Equals
@@ -3343,6 +3371,8 @@ See:
 
 #### generatedocumentation
 
+performs build actions for documentation generation
+
 ---
 
 #### GenericParameterAttributes
@@ -3398,6 +3428,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.GetAsync
+
+---
+
+#### GetBaseException
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.GetBaseException
 
 ---
 
@@ -3749,6 +3787,7 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetHashCode
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetHashCode
 * https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.GetHashCode
@@ -3924,6 +3963,7 @@ See:
 
 See:
 
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.GetObjectData
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Hashtable.GetObjectData
 
 ---
@@ -4019,6 +4059,7 @@ performtest ( size ( gettokens ( readfile ( locatefile basedirectory LICENSE ) )
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetType
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.GetType
 * https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.GetType
@@ -4223,6 +4264,14 @@ See:
 
 ---
 
+#### HelpLink
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.HelpLink
+
+---
+
 #### Host
 
 See:
@@ -4244,6 +4293,14 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Hour
+
+---
+
+#### HResult
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.HResult
 
 ---
 
@@ -4372,11 +4429,21 @@ See:
 
 ---
 
+#### InnerException
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.InnerException
+
+---
+
 #### inputbox
 
-* prompt
-* title (optional; default:  'input')
-* default (optional; default:  '')
+shows a dialog for user-input
+
+* prompt: prompt
+* title: title of the dialog (optional; default:  'input')
+* default: default value (optional; default:  '')
 
 ---
 
@@ -5129,6 +5196,12 @@ See:
 
 ---
 
+#### ismsbuildtrigger
+
+checks if a msbuild build action is to be performed in the current project directory
+
+---
+
 #### IsNested
 
 See:
@@ -5268,6 +5341,12 @@ See:
 
 ---
 
+#### ispublishdocumentationtrigger
+
+checks if a build action for publishing documents is to be performed in the current project directory
+
+---
+
 #### IsReadOnly
 
 See:
@@ -5280,6 +5359,8 @@ See:
 ---
 
 #### ISS
+
+initializes the ISS-module
 
 ---
 
@@ -5429,6 +5510,12 @@ See:
 
 ---
 
+#### istemplateexpandertrigger
+
+checks if a template expander build action is to be performed in the current project directory
+
+---
+
 #### IsThreadPoolThread
 
 See:
@@ -5442,6 +5529,12 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Type.IsTypeDefinition
+
+---
+
+#### istypedoctrigger
+
+checks if a typedoc build action is to be performed in the current project directory
 
 ---
 
@@ -6484,23 +6577,43 @@ See:
 
 #### merge
 
-* fromrepositoryurl
-* toworkspacedirectory
+performs a svn merge action
+
+* fromrepositoryurl: repository from which the merge should be performed
+* toworkspacedirectory: workspace to which the merge should be performed
 * commitmessage: the commit-message
 * test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
+
+**Examples**
+
+~~~
+performtest ( merge '' '' '' True ) 0
+~~~
 
 ---
 
 #### mergeup
 
-* branchesurl
-* startworkspacedirectory
-* commitmessage
+performs a svn merge-up action
+
+* branchesurl: repository-directory in which the branches are located
+* startworkspacedirectory: worksspace-directory from which the merges should start
+* commitmessage: the commit-message
 * test: if "true", the command is simulated, if "false" the command is performed (optional; default:  False)
 
 ---
 
 #### mergeupbinaries
+
+performs a merge-up action in a binaries-branch, beginning with the current branch
+
+---
+
+#### Message
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.Message
 
 ---
 
@@ -6798,15 +6911,21 @@ performtest (
 
 #### newstringarrayof
 
+creates a string array from the arguments
+
 ---
 
 #### newstringlist
 
-* values (optional)
+creates a string list
+
+* values: values with to the list should be initialized (optional)
 
 ---
 
 #### newstringlistof
+
+creates a string list from the arguments
 
 ---
 
@@ -7319,6 +7438,8 @@ See:
 
 #### publishdocumentation
 
+copies documentation from the binaries-workspace to the sources-workspace
+
 ---
 
 #### push
@@ -7513,6 +7634,8 @@ See:
 ---
 
 #### rebuild
+
+rebuilds a solution with the "Release"-configuration
 
 ---
 
@@ -7709,6 +7832,8 @@ runs an external program with the arguments given
 ---
 
 #### savelog
+
+saves the log, checks the log for errors and warning, and posts the results to teams
 
 ---
 
@@ -7974,6 +8099,14 @@ performtest ( sortstring 'foobar' ) 'abfoor'
 
 ---
 
+#### Source
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.Source
+
+---
+
 #### split
 
 creates an array by splitting a string at a separator
@@ -8045,6 +8178,14 @@ performtest ( square 2 ) 4
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Stack.Synchronized
+
+---
+
+#### StackTrace
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.StackTrace
 
 ---
 
@@ -8385,9 +8526,19 @@ performtest (
 
 ---
 
+#### TargetSite
+
+See:
+
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.TargetSite
+
+---
+
 #### tests
 
 various tests
+
+* writesources: if "true" the sources are formatted and the previous versions are overwritten, otherwise they are left as they are (optional; default:  False)
 
 **Returns**
 
@@ -8609,10 +8760,6 @@ See:
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpClient.Timeout
-
----
-
-#### tmp
 
 ---
 
@@ -8914,6 +9061,7 @@ performtest ( isstring ( tostring 4711 ) ) True
 See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Array.ToString
+* https://docs.microsoft.com/en-us/dotnet/api/System.Exception.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Math.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.String.ToString
 * https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MemberInfo.ToString
@@ -8971,6 +9119,8 @@ See:
 
 #### trackdebug
 
+rebuilds a solution with the "TrackDebug"-configuration
+
 ---
 
 #### TrailingHeaders
@@ -9026,6 +9176,16 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.ArrayList.TrimToSize
 * https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Queue.TrimToSize
+
+---
+
+#### try
+
+try-catch-finally
+
+* try: try-block
+* catch: catch-block
+* finally: finally-block
 
 ---
 
@@ -9645,61 +9805,6 @@ See:
 
 * https://docs.microsoft.com/en-us/dotnet/api/System.DateTime.Year
 
-#### Missing Documentation:
-
-
-* accepted
-
-* buildprojects
-  - projectsdirectory
-  - actions
-  - simulatesvn
-  - checkinmessage
-
-* buildwritecallback
-  - message
-
-* checkinbinaries
-
-* checkinsources
-
-* generatedocumentation
-
-* inputbox
-  - prompt
-  - title
-  - default
-
-* ISS
-
-* merge
-  - fromrepositoryurl
-  - toworkspacedirectory
-
-* mergeup
-  - branchesurl
-  - startworkspacedirectory
-  - commitmessage
-
-* mergeupbinaries
-
-* newstringarrayof
-
-* newstringlist
-  - values
-
-* newstringlistof
-
-* publishdocumentation
-
-* rebuild
-
-* savelog
-
-* tmp
-
-* trackdebug
-
 #### Missing Examples:
 
 * accepted
@@ -9709,11 +9814,15 @@ See:
 * checkinbinaries
 * checkinsources
 * comparefiles
+* comparetrackfiles
 * generatedocumentation
 * inputbox
+* ismsbuildtrigger
 * isnullorempty
+* ispublishdocumentationtrigger
 * ISS
-* merge
+* istemplateexpandertrigger
+* istypedoctrigger
 * mergeup
 * mergeupbinaries
 * monitorrepository
@@ -9730,6 +9839,5 @@ See:
 * savelog
 * sleep
 * tests
-* tmp
 * trackdebug
 * update

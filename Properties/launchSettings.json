@@ -6,16 +6,16 @@
     },
     "Build": {
       "commandName": "Project",
-      "commandLineArgs": "-scriptArguments \"\" buildall",
+      "commandLineArgs": "-scriptArguments \"rebuild;P4\\Source\\chiemsee\\Components,McrSys|rununittests|runtracktests\"",
       "workingDirectory": "C:\\Development\\Workspaces\\Binaries\\branches\\B5120\\P4\\Source\\chiemsee\\Components\\3dOcxUnitTests\\bin\\Release"
     },
     "Check-in and merge-up binaries": {
       "commandName": "Project",
-      "commandLineArgs": "-scriptArguments \"\" checkinbinaries;mergeupbinaries"
+      "commandLineArgs": "-scriptArguments checkinbinaries,mergeupbinaries"
     },
     "Build documentation": {
       "commandName": "Project",
-      "commandLineArgs": "-scriptArguments \"\" generatedocumentation;publishdocumentation;checkinsources"
+      "commandLineArgs": "-scriptArguments \"generatedocumentation,publishdocumentation,checkinsources\""
     }
   }
 }

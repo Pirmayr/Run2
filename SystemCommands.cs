@@ -29,12 +29,17 @@ namespace Run2
       return true;
     }
 
-    [Documentation(2, 2, null, "returns the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element")]
+    [Documentation(2, 3, null, "returns the element of an array, a list, or a string at the specified index", "object", "array, list, or string", "index", "index of the element")]
     public static object At(Items arguments)
     {
       var array = arguments.DequeueDynamic();
       var index = arguments.DequeueDynamic();
-      return array[index];
+      if (arguments.QueueCount == 0)
+      {
+        return array[index];
+      }
+      var defaultValue = arguments.DequeueObject();
+      return 0 <= index && index < array.Length ? array[index] : defaultValue;
     }
 
     [Documentation(0, 1, null, "breaks the innermost loop and returns a value", "value", "the value to be returned")]

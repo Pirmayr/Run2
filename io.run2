@@ -14,9 +14,10 @@ command comparefiles
   return ( if ( and ( == i ( size lines1 ) ) ( == i ( size lines2 ) ) ) -1 i )
 
 command inputbox
-  prompt
-  ( title 'input' )
-  ( default '' )
+  'shows a dialog for user-input' 
+  prompt 'prompt'
+  ( title 'input' ) 'title of the dialog'
+  ( default '' ) 'default value'
   Interaction.InputBox prompt title default -1 -1
 
 command readfile

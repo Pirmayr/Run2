@@ -207,10 +207,12 @@ command newstack
   Stack.new
 
 command newstringarrayof
+  'creates a string array from the arguments'
   toarray ( newstringlist arguments )
 
 command newstringlist
-  ( values )
+  'creates a string list'
+  ( values ) 'values with to the list should be initialized'
   local result (
     Activator.CreateInstance (
       Type.GetType 'System.Collections.Generic.List`1[[System.String, System.Private.CoreLib]], System.Private.CoreLib'
@@ -220,6 +222,7 @@ command newstringlist
   return result
 
 command newstringlistof
+  'creates a string list from the arguments'
   newstringlist arguments
 
 command pop
@@ -249,6 +252,23 @@ command replace
   searchstring 'string to be searched for'
   replacement 'replacement'
   Replace string searchstring replacement
+  
+command replaceexhaustive
+  'keeps replacing a substring until no replacement is possible'
+  'the modified string'
+  string 'string to be searched for the search-string'
+  searchstring 'string to be searched for'  
+  replacement 'replacement'
+  local result string
+  local oldsize (size string)
+  set result (replace result searchstring replacement)
+  local newsize (size result)
+  while (< newsize oldsize) (
+    set oldsize newsize
+	set result (replace result searchstring replacement)
+	set newsize (size result)
+    )  
+  return result
 
 command sort
   'sorts an object (e.g. an array, a list, or a string)'

@@ -32,6 +32,7 @@ set
 -
 switch
 throw
+try
 while
 Array.Exists
 Array.Fill
@@ -76,6 +77,17 @@ SyncRoot
 IsReadOnly
 IsFixedSize
 IsSynchronized
+GetBaseException
+GetObjectData
+TargetSite
+StackTrace
+Message
+Data
+InnerException
+HelpLink
+Source
+HResult
+Exception.new
 Math.Round
 Math.Sign
 Math.Truncate
@@ -555,7 +567,6 @@ DictionaryEntry.new
 Hashtable.Synchronized
 ContainsKey
 ContainsValue
-GetObjectData
 OnDeserialization
 Keys
 Values
@@ -933,7 +944,6 @@ removetrailingdirectoryseparator
 comparefiles
 inputbox
 readfile
-tmp
 write
 writefile
 average
@@ -963,8 +973,13 @@ accepted
 buildprojects
 checkinbinaries
 checkinsources
+comparetrackfiles
 generatedocumentation
 ISS
+ispublishdocumentationtrigger
+ismsbuildtrigger
+istemplateexpandertrigger
+istypedoctrigger
 mergeupbinaries
 publishdocumentation
 rebuild

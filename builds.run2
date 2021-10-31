@@ -1,6 +1,12 @@
+command accepted
+  'ensures that a build action is only executed once' 
+  and (!= projectname 'Buildtools') (itemadded handled (local key (join arguments)) (write 'performing [value]'))
+
 command builds
   'performs various initializations'
   'the command always returns "true"'
+  global simulatesvn False
+  global simulatepostmessagetoteams False
   global msbuildpath ( locatefile visualstudiodirectory 'MSBuild.exe' )
   global vstestconsolepath ( locatefile visualstudiodirectory 'vstest.console.exe' )
   global svnexepath '[programfilesdirectory]\TortoiseSVN\bin\svn.exe'
@@ -8,65 +14,63 @@ command builds
   global writecallback 'buildwritecallback'
   return True
 
+command buildprojects
+  'performs build actions'
+  projectfilepatterns 'the patterns triggering a possible action'
+  baseprojectsdirectory 'the base-directory'
+  actionpacks 'a list of action packs'
+  local handled (newset)
+  foreach actionpack (split actionpacks '|') ( 
+    local actionpackitems (split actionpack ';')
+    local actions (at actionpackitems 0)
+    local relativeprojectsdirectories (at actionpackitems 1 '\')
+    foreach action (split actions ',') (
+      if (< 0 (size actionpackitems)) (
+        foreach projectfilepattern (split projectfilepatterns ';') (
+          foreach relativeprojectsdirectory (split relativeprojectsdirectories ',') (
+            foreach projectpath (locatefiles (removetrailingdirectoryseparator '[baseprojectsdirectory]\[relativeprojectsdirectory]') projectfilepattern) (
+              local projectdirectory (getdirectory projectpath) 
+			  local projectname (getfilename projectdirectory)
+              run action))))
+        (run action))) 
+
 command buildwritecallback
-  message
-  Console.Write message
+  'if this callback is set, it is called, when text are to be displayed'
+  message 'the message to be displayed'
+  if (not (isnullorwhitespace message))
+    (Console.Write (replaceexhaustive message '~r~n~r~n' '~r~n'))
   additem buildlog (trimend message '~n')
 
 command checkin
   'performs a svn-checkin'
   branchdirectory 'the directory to check in'
   commitmessage 'the commit-message'
-  ( test False ) 'if "true", the command is not performed, if "false" the command is performed'
-  local exitcode 0
-  if ( return test ) (
-    write 'simulating checkin: "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"'
-    ) (
-    run branchdirectory "[svnexepath]" commit -m "[commitmessage]" "[branchdirectory]"
-    )
-  return exitcode
+  svn 'commit -m "[commitmessage]" "[branchdirectory]"'
 
 command cleanup
   'performs a svn-cleanup'
   branchdirectory 'the directory to update'
-  ( test False ) 'if "true", the command is not performed, if "false" the command is performed'
   local exitcode 0
-  if ( return test ) ( write 'simulating cleanup: "[svnexepath]" cleanup "[branchdirectory]"' ) ( run "[svnexepath]" 'cleanup' "[branchdirectory]" )
-  return exitcode
+  svn 'cleanup "[branchdirectory]"'
 
 command merge
-  fromrepositoryurl
-  toworkspacedirectory
-  commitmessage 'the commit-message'
-  ( test False ) 'if "true", the command is simulated, if "false" the command is performed'
-  local exitcode 0
-  if ( return test ) (
-    write 'simulating merge "svnexepath" merge --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]"'
-    ) (
-    run svnexepath 'merge' --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]"
-    )
-  return exitcode
+  'performs a svn merge action'
+  fromrepositoryurl 'repository from which the merge should be performed'
+  toworkspacedirectory 'workspace to which the merge should be performed'
+  svn 'merge --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]"'
 
 command mergeup
-  branchesurl
-  startworkspacedirectory
-  commitmessage
-  ( test False ) 'if "true", the command is simulated, if "false" the command is performed'
+  'performs a svn merge-up action'
+  branchesurl 'repository-directory in which the branches are located' 
+  startworkspacedirectory 'worksspace-directory from which the merges should start'
+  commitmessage 'the commit-message'
   local workspacesdirectory ( getdirectory startworkspacedirectory )
   foreachdirectorypair workspacesdirectory fromworkspacedirectory toworkspacedirectory (
     local frombranch ( getfname fromworkspacedirectory )
     if ( < startworkspacedirectory toworkspacedirectory ) (
-      if ( == ( update toworkspacedirectory test ) 0 ) (
-        if (
-          == (
-            merge '[branchesurl]/[frombranch]' toworkspacedirectory commitmessage test
-            )
-            0
-          )
-          ( checkin toworkspacedirectory commitmessage test )
-        )
-      )
-    )
+      if ( == ( update toworkspacedirectory ) 0 ) (
+        if (== (merge '[branchesurl]/[frombranch]' toworkspacedirectory ) 0)
+          ( checkin toworkspacedirectory commitmessage ))))
 
 command monitorrepository
   'monitors a repository for changes and starts an action if a change occurs'
@@ -79,20 +83,16 @@ command monitorrepository
   local revisionpath '[workspacedirectory]\revision.txt'
   local isfirstpass True
   local continue True
-  while ( return continue ) (
+  while (return continue) (
     local oldrevision ( readfile revisionpath '0' )
     local newrevision ( mostrecentrevision workspacedirectory )
     write '[oldrevision] / [newrevision]'
-    if (
-      or ( != oldrevision newrevision ) ( and performactiononfirstpass isfirstpass )
-      ) (
+    if (or (!= oldrevision newrevision ) ( and performactiononfirstpass isfirstpass )) (
       writefile revisionpath newrevision
-      set result ( evaluate action )
-      )
+      set result ( evaluate action ))
     set continue checkcontinuously
     set isfirstpass False
-    sleep intervall
-    )
+    sleep intervall)
   return result
 
 command mostrecentrevision
@@ -106,18 +106,23 @@ command postmessagetoteams
   title 'title'
   message 'message'
   hook 'hook-url of the channel'
-  return (
-    invokeinstancemember 'Result' (
-      PostAsync ( HttpClient.new ) ( Uri.new hook ) (
-        StringContent.new '{"Title":"[title]","Text":"[message]"}' ( Encoding.UTF8 ) 'application/json'
-        )
-      )
-    )
+  if (return simulatepostmessagetoteams)
+    (write 'simulating postmessagetoteams:~n[title]~n[message]') (
+    return (
+      invokeinstancemember 'Result' (
+        PostAsync ( HttpClient.new ) ( Uri.new hook ) (
+          StringContent.new '{"Title":"[title]","Text":"[message]"}' ( Encoding.UTF8 ) 'application/json'))))
+ 	
+command svn
+  'executes a svn-command'
+  svnarguments 'arguments to be passed to svn'
+  local exitcode 0
+  if (return simulatesvn)
+    (write 'simulating svn: [svnarguments]')
+	(run branchdirectory "[svnexepath]" [svnarguments])
+  return exitcode
 
 command update
   'performs a svn-update'
   branchdirectory 'the directory to update'
-  ( test False ) 'if "true", the command is not performed, if "false" the command is performed'
-  local exitcode 0
-  if ( return test ) ( write 'simulating update: "[svnexepath]" update "[branchdirectory]"' ) ( run "[svnexepath]" 'update' "[branchdirectory]" )
-  return exitcode
+  svn 'update: "[svnexepath]" update "[branchdirectory]"'

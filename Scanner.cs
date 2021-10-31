@@ -218,7 +218,14 @@ namespace Run2
       {
         (0 < characters.Count).Check("Unexpected end of file while escaping character");
         var result = characters.Dequeue();
-        return result == 'n' ? '\n' : result;
+        switch (result)
+        {
+          case 'n':
+            return '\n';
+          case 'r':
+            return '\r';
+        }
+        return result;
       }
       return character;
     }

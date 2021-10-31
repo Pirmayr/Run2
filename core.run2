@@ -67,6 +67,11 @@ command isnullorempty
   string 'string to be tested'
   String.IsNullOrEmpty string
 
+command isnullorwhitespace
+  'tests if a string is null, empty, or consists only of whitespace characters'
+  string 'string to be tested'
+  String.IsNullOrWhiteSpace string
+
 command isstring
   'tests if an object is a "string"-value'
   'a "bool"-value'

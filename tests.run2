@@ -295,8 +295,10 @@ command performtests
   performtest ( size ( locatefiles c:\windows\system32 kernel32.dll ) ) 1
   performtest ( isarray ( toarray ( newlist ) ) ) True
   performtest ( isstring ( tostring 4711 ) ) True
-  performtest ( checkin c:\ 'hi' True ) 0
-  performtest ( cleanup c:\ True ) 0
+  performtest ( checkin '' '' True ) 0
+  performtest ( cleanup '' True ) 0
+  performtest ( merge '' '' '' True ) 0 
+  performtest ( mergeup '' '' '' True ) 0 
   performtest (
     local value 1
     increment value
@@ -326,21 +328,24 @@ command performtests
 command tests
   'various tests'
   'if all tests succeeded, true is returned, otherwise false'
+  ( writesources False ) 'if "true" the sources are formatted and the previous versions are overwritten, otherwise they are left as they are'
   global alltests False
   performtest ( invoketests ) True
   writefile [basedirectory]\..\..\..\Commands.txt ( getcommands )
   if ( return testsok ) (
     write 'Writing results to disk ...'
     writefile [basedirectory]\..\..\..\Commands.md ( gethelp )
-    writefile [basedirectory]\..\..\..\core.run2 ( getcode core )
-    writefile [basedirectory]\..\..\..\collections.run2 ( getcode collections )
-    writefile [basedirectory]\..\..\..\filesystem.run2 ( getcode 'filesystem' )
-    writefile [basedirectory]\..\..\..\io.run2 ( getcode 'io' )
-    writefile [basedirectory]\..\..\..\math.run2 ( getcode 'math' )
-    writefile [basedirectory]\..\..\..\os.run2 ( getcode 'os' )
-    writefile [basedirectory]\..\..\..\system.run2 ( getcode 'system' )
-    writefile [basedirectory]\..\..\..\tests.run2 ( getcode 'tests' )
-    writefile [basedirectory]\..\..\..\builds.run2 ( getcode 'builds' )
-    writefile [basedirectory]\..\..\..\ISS.run2 ( getcode 'ISS' )
+    if (return writesources) (
+      writefile [basedirectory]\..\..\..\core.run2 ( getcode core )
+      writefile [basedirectory]\..\..\..\collections.run2 ( getcode collections )
+      writefile [basedirectory]\..\..\..\filesystem.run2 ( getcode 'filesystem' )
+      writefile [basedirectory]\..\..\..\io.run2 ( getcode 'io' )
+      writefile [basedirectory]\..\..\..\math.run2 ( getcode 'math' )
+      writefile [basedirectory]\..\..\..\os.run2 ( getcode 'os' )
+      writefile [basedirectory]\..\..\..\system.run2 ( getcode 'system' )
+      writefile [basedirectory]\..\..\..\tests.run2 ( getcode 'tests' )
+      writefile [basedirectory]\..\..\..\builds.run2 ( getcode 'builds' )
+      writefile [basedirectory]\..\..\..\ISS.run2 ( getcode 'ISS' )
+      )
     )
   return testsok
