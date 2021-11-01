@@ -2,7 +2,7 @@
 
 namespace Run2
 {
-  public sealed class Items : List
+  public sealed class Items : Globals.List
   {
     public int DequeueIndex { get; set; }
 
@@ -67,9 +67,9 @@ namespace Run2
       return Peek().ToString();
     }
 
-    public List ToList(bool evaluate)
+    public Globals.List ToList(bool evaluate)
     {
-      var result = new List();
+      var result = new Globals.List();
       for (var i = DequeueIndex; i < Count; ++i)
       {
         result.Add(Process(this[i], evaluate));

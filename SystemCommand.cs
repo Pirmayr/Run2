@@ -4,7 +4,7 @@ namespace Run2
 {
   public sealed class SystemCommand : ICommand
   {
-    private readonly CommandAction action;
+    private readonly Globals.CommandAction action;
 
     public string Description
     {
@@ -19,12 +19,12 @@ namespace Run2
 
     public string Name => action.Method.Name;
 
-    public List ParameterNames
+    public Globals.List ParameterNames
     {
       get
       {
         var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(action.Method, typeof(DocumentationAttribute));
-        return attribute == null ? new List() : new List(attribute.ParameterDescriptions.Keys);
+        return attribute == null ? new Globals.List() : new Globals.List(attribute.ParameterDescriptions.Keys);
       }
     }
 
@@ -32,7 +32,7 @@ namespace Run2
 
     public string Returns => "";
 
-    public SystemCommand(CommandAction action)
+    public SystemCommand(Globals.CommandAction action)
     {
       this.action = action;
     }
@@ -52,7 +52,7 @@ namespace Run2
         var actualCount = arguments.QueueCount;
         var expectedCountFrom = attribute.ArgumentsCountFrom;
         var expectedCountTo = attribute.ArgumentsCountTo;
-        (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(method.Name.ToLower(), actualCount, expectedCountFrom, expectedCountTo));
+        (expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Globals.GetInvalidParametersCountErrorMessage(method.Name.ToLower(), actualCount, expectedCountFrom, expectedCountTo));
       }
       return action(arguments);
     }

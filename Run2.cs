@@ -15,7 +15,7 @@ namespace Run2
   {
     private static readonly HashSet<string> loadedScripts = new();
 
-    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Helpers", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime", "StringSplitOptions", "Activator", "Type", "HttpClient", "StringContent", "Encoding", "HttpResponseMessage", "Uri", "Exception" };
+    private static HashSet<string> AcceptedTypes { get; } = new() { "Array", "ArrayList", "BigInteger", "Char", "CodeFormatter", "Console", "Convert", "DictionaryEntry", "Directory", "File", "Hashtable", "Globals", "Int32", "Math", "Path", "Queue", "String", "Stack", "SubCommands", "Items", "Variables", "Thread", "Interaction", "DateTime", "StringSplitOptions", "Activator", "Type", "HttpClient", "StringContent", "Encoding", "HttpResponseMessage", "Uri", "Exception" };
 
     public static object Evaluate(object value)
     {
@@ -28,7 +28,7 @@ namespace Run2
           }
           Globals.Variables.Keys.ForEach(item => stringValue = stringValue.Replace("[" + item + "]", Globals.Variables.Get(item)?.ToString()));
           return stringValue;
-        case SubCommands subCommands:
+        case Globals.SubCommands subCommands:
           return ExecuteSubCommands(subCommands);
       }
       return value;
@@ -45,7 +45,7 @@ namespace Run2
         Globals.Commands.ContainsKey(name).Check($"Command '{name}' not found");
         if (Globals.Debug)
         {
-          Helpers.WriteLine($"Begin '{name}'");
+          Globals.WriteLine($"Begin '{name}'");
         }
         arguments.DequeueIndex = 0;
         var command = Globals.Commands[name];
@@ -53,18 +53,18 @@ namespace Run2
         var result = command.Run(arguments);
         if (Globals.Debug)
         {
-          Helpers.WriteLine($"End '{name}'");
+          Globals.WriteLine($"End '{name}'");
         }
         return result;
       }
       catch (Exception exception)
       {
-        if (0 < Globals.TryCatchFinallyLevel || exception is RuntimeException)
+        if (0 < Globals.TryCatchFinallyLevel || exception is Globals.RuntimeException)
         {
           throw;
         }
-        Helpers.HandleException(exception, Globals.CurrentScriptPath, Globals.CurrentLineNumber);
-        throw new RuntimeException("Runtime error");
+        Globals.HandleException(exception, Globals.CurrentScriptPath, Globals.CurrentLineNumber);
+        throw new Globals.RuntimeException("Runtime error");
       }
       finally
       {
@@ -74,10 +74,10 @@ namespace Run2
       }
     }
 
-    public static object ExecuteSubCommands(SubCommands subCommands)
+    public static object ExecuteSubCommands(Globals.SubCommands subCommands)
     {
       object result = null;
-      foreach (SubCommand subCommand in subCommands)
+      foreach (Globals.SubCommand subCommand in subCommands)
       {
         result = ExecuteCommand(subCommand.CommandName, subCommand.Arguments);
         if (Globals.DoBreak)
@@ -131,10 +131,10 @@ namespace Run2
       if (!File.Exists(scriptPath))
       {
         var scriptFileName = $"{scriptNameOrPath}.{Globals.DefaultExtension}";
-        scriptPath = Helpers.LocateFile(Globals.ProgramDirectory, scriptFileName);
+        scriptPath = Globals.LocateFile(Globals.ProgramDirectory, scriptFileName);
         if (string.IsNullOrEmpty(scriptPath))
         {
-          scriptPath = Helpers.LocateFile(Globals.BaseDirectory, scriptFileName);
+          scriptPath = Globals.LocateFile(Globals.BaseDirectory, scriptFileName);
         }
       }
       if (!loadedScripts.Contains(scriptPath))
@@ -164,19 +164,19 @@ namespace Run2
         CreateStandardObject(new HttpClient());
         CreateStandardObject(new Uri("http://google.com"));
         Globals.Variables.globalScopeCreated += OnGlobalScopeCreated;
-        Globals.Arguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
+        Globals.ScriptArguments = new Items(CommandLineParser.GetOptionStrings("scriptArguments"));
         Globals.Debug = CommandLineParser.OptionExists("debug");
         Globals.ProgramDirectory = Path.GetDirectoryName(AppContext.BaseDirectory);
         Globals.BaseDirectory = CommandLineParser.GetOptionString("baseDirectory", Globals.ProgramDirectory);
         Globals.UserScriptFilename = CommandLineParser.GetOptionString("scriptName", Globals.DefaultUserScriptFilename);
-        Globals.UserScriptPath = Helpers.LocateFile(Globals.BaseDirectory, Globals.UserScriptFilename);
+        Globals.UserScriptPath = Globals.LocateFile(Globals.BaseDirectory, Globals.UserScriptFilename);
         File.Exists(Globals.UserScriptPath).Check($"Could not find script '{Globals.UserScriptFilename}' (base-directory: '{Globals.BaseDirectory}')");
         Globals.Variables.EnterScope();
         BuildSystemCommands();
         BuildInvokeCommands();
         LoadScript(Globals.SystemScriptName);
-        LoadScript(Globals.UserScriptPath, Globals.Arguments);
-        Helpers.WriteLine("Script terminated successfully");
+        LoadScript(Globals.UserScriptPath, Globals.ScriptArguments);
+        Globals.WriteLine("Script terminated successfully");
       }
       finally
       {
@@ -266,7 +266,7 @@ namespace Run2
       foreach (var method in typeof(SystemCommands).GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static))
       {
         var attribute = (DocumentationAttribute) Attribute.GetCustomAttribute(method, typeof(DocumentationAttribute));
-        Globals.Commands.Add(attribute?.CommandName ?? method.Name.ToLower(), new SystemCommand((CommandAction) Delegate.CreateDelegate(typeof(CommandAction), method)));
+        Globals.Commands.Add(attribute?.CommandName ?? method.Name.ToLower(), new SystemCommand((Globals.CommandAction) Delegate.CreateDelegate(typeof(Globals.CommandAction), method)));
       }
     }
 

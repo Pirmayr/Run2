@@ -25,7 +25,7 @@ namespace Run2
 
     public string Name => MemberName;
 
-    public List ParameterNames => new();
+    public Globals.List ParameterNames => new();
 
     public string Remarks => "";
 
@@ -48,7 +48,7 @@ namespace Run2
 
     public object Run(Items arguments)
     {
-      return Helpers.Invoke(MemberName, Type ?? arguments.DequeueObject(), arguments.ToList(true).ToArray());
+      return Globals.Invoke(MemberName, Type ?? arguments.DequeueObject(), arguments.ToList(true).ToArray());
     }
   }
 }

@@ -11,8 +11,6 @@ namespace Run2
 
     public event EventHandler globalScopeCreated;
 
-    public int ScopesCount => scopes.Count;
-
     public IEnumerable<string> Keys
     {
       get
@@ -35,6 +33,8 @@ namespace Run2
         return handled;
       }
     }
+
+    public int ScopesCount => scopes.Count;
 
     public void EnterScope()
     {

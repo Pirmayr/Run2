@@ -79,14 +79,14 @@ namespace Run2
       return result.ToString();
     }
 
-    private static void GetCommandNames(SubCommand subCommand, ref HashSet<string> commandNames)
+    private static void GetCommandNames(Globals.SubCommand subCommand, ref HashSet<string> commandNames)
     {
       commandNames.Add(subCommand.CommandName);
       foreach (var item in subCommand.Arguments)
       {
-        if (item is SubCommands subCommandsValue)
+        if (item is Globals.SubCommands subCommandsValue)
         {
-          foreach (SubCommand subCommandValue in subCommandsValue)
+          foreach (Globals.SubCommand subCommandValue in subCommandsValue)
           {
             GetCommandNames(subCommandValue, ref commandNames);
           }
@@ -94,14 +94,14 @@ namespace Run2
       }
     }
 
-    private static Dictionary<string, List<SubCommand>> GetCommandReferences(string filterCommandName)
+    private static Dictionary<string, List<Globals.SubCommand>> GetCommandReferences(string filterCommandName)
     {
-      var filteredSubCommands = new List<SubCommand>();
+      var filteredSubCommands = new List<Globals.SubCommand>();
       foreach (var command in Globals.Commands.Values)
       {
         if (command is UserCommand userCommand)
         {
-          foreach (SubCommand subCommand in userCommand.SubCommands)
+          foreach (Globals.SubCommand subCommand in userCommand.SubCommands)
           {
             if (subCommand.CommandName == filterCommandName)
             {
@@ -110,7 +110,7 @@ namespace Run2
           }
         }
       }
-      var result = new Dictionary<string, List<SubCommand>>();
+      var result = new Dictionary<string, List<Globals.SubCommand>>();
       foreach (var filteredSubCommand in filteredSubCommands)
       {
         var commandNames = new HashSet<string>();
@@ -121,7 +121,7 @@ namespace Run2
           {
             if (!result.TryGetValue(commandName, out var references))
             {
-              references = new List<SubCommand>();
+              references = new List<Globals.SubCommand>();
               result.Add(commandName, references);
             }
             references.Add(filteredSubCommand);

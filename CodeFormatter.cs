@@ -67,7 +67,7 @@ namespace Run2
       return result.ToString();
     }
 
-    public static string ToCode(this SubCommand subCommand, int indent, bool newLine)
+    public static string ToCode(this Globals.SubCommand subCommand, int indent, bool newLine)
     {
       var result = DoToCode(subCommand, indent, false);
       return !newLine && (Globals.MaxCodeLineLength < result.Length || result.Contains("\n")) ? DoToCode(subCommand, indent, true) : result;
@@ -81,7 +81,7 @@ namespace Run2
     }
 
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public static string ToCode(this SubCommands subCommands, int indent, bool newLine)
+    public static string ToCode(this Globals.SubCommands subCommands, int indent, bool newLine)
     {
       var result = DoToCode(subCommands, indent, newLine);
       return !newLine && Globals.MaxCodeLineLength < result.Length ? DoToCode(subCommands, indent, true) : result;
@@ -95,7 +95,7 @@ namespace Run2
       {
         switch (item)
         {
-          case SubCommands subCommandsValue:
+          case Globals.SubCommands subCommandsValue:
           {
             var subCommandsCode = subCommandsValue.ToCode(indent, newLine);
             if (Globals.MaxCodeLineLength < subCommandsCode.Length || subCommandsCode.Contains('\n'))
@@ -146,7 +146,7 @@ namespace Run2
       return result.ToString();
     }
 
-    private static string DoToCode(SubCommand subCommand, int indent, bool newLine)
+    private static string DoToCode(Globals.SubCommand subCommand, int indent, bool newLine)
     {
       var result = new StringBuilder();
       result.AppendIndented(subCommand.CommandName, indent, newLine);
@@ -154,7 +154,7 @@ namespace Run2
       return result.ToString();
     }
 
-    private static string DoToCode(SubCommands subCommands, int indent, bool newLine)
+    private static string DoToCode(Globals.SubCommands subCommands, int indent, bool newLine)
     {
       var result = new StringBuilder();
       if (1 < subCommands.Count)
@@ -163,7 +163,7 @@ namespace Run2
       }
       for (var i = 0; i < subCommands.Count; ++i)
       {
-        var subCommand = subCommands[i] as SubCommand;
+        var subCommand = subCommands[i] as Globals.SubCommand;
         if (0 < result.Length)
         {
           result.AppendNewLine(newLine);

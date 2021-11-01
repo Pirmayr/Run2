@@ -63,7 +63,7 @@ namespace Run2
     {
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
-      return Helpers.AreEqual(value1, value2);
+      return Globals.AreEqual(value1, value2);
     }
 
     [Documentation(1, int.MaxValue, null, "evaluates an object", "object", "object to be evaluated")]
@@ -199,7 +199,7 @@ namespace Run2
     {
       var memberName = arguments.DequeueString();
       var target = arguments.DequeueObject();
-      return Helpers.InvokeMember(memberName, target.GetType(), target, arguments.ToList(true).ToArray());
+      return Globals.InvokeMember(memberName, target.GetType(), target, arguments.ToList(true).ToArray());
     }
 
     [Documentation(2, 2, "<", "tests if value1 is less than value2", "value1", "first value", "value2", "second value")]
@@ -284,7 +284,7 @@ namespace Run2
     {
       var value1 = arguments.DequeueDynamic();
       var value2 = arguments.DequeueDynamic();
-      return !Helpers.AreEqual(value1, value2);
+      return !Globals.AreEqual(value1, value2);
     }
 
     [Documentation(0, 0, null, "the value 'null'")]
@@ -353,7 +353,7 @@ namespace Run2
         executablePath = commandOrPathOrDirectory;
       }
       var properties = commandOrPathOrDirectory.GetProperties();
-      Helpers.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 1, 0, maximalExitCode, out var result);
+      Globals.Execute(properties.ScriptPath, properties.LineNumber, executablePath, string.Join(' ', arguments.ToList(true)), workingDirectory, 3600000, 1, 0, maximalExitCode, out var result);
       return result;
     }
 

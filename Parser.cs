@@ -4,33 +4,33 @@
   {
     private static Token currentToken;
 
-    public static void Parse(Tokens tokens)
+    public static void Parse(Globals.Tokens tokens)
     {
       currentToken = tokens.Dequeue();
-      while (currentToken.TokenKind is TokenKind.PragmaCommand or TokenKind.PragmaReadScript)
+      while (currentToken.TokenKind is Globals.TokenKind.PragmaCommand or Globals.TokenKind.PragmaReadScript)
       {
         switch (currentToken.TokenKind)
         {
-          case TokenKind.PragmaCommand:
+          case Globals.TokenKind.PragmaCommand:
             currentToken = tokens.Dequeue();
-            currentToken.CheckToken(TokenKind.CommandName);
+            currentToken.CheckToken(Globals.TokenKind.CommandName);
             var commandName = currentToken.Value.ToString();
-            (!string.IsNullOrEmpty(commandName)).Check(currentToken, "Command names must not be null or empty");
-            Globals.Commands.TryGetValue(commandName, out var command).Check(currentToken, $"Command '{commandName}' not found while parsing");
+            (!string.IsNullOrEmpty(commandName)).Check("Command names must not be null or empty");
+            Globals.Commands.TryGetValue(commandName, out var command).Check($"Command '{commandName}' not found while parsing");
             var userCommand = command as UserCommand;
-            (userCommand != null).Check(currentToken, $"Expected command '{commandName}' to be a user-command");
+            (userCommand != null).Check($"Expected command '{commandName}' to be a user-command");
             currentToken = tokens.Dequeue();
-            if (currentToken.TokenKind == TokenKind.Quote)
+            if (currentToken.TokenKind == Globals.TokenKind.Quote)
             {
               userCommand.Description = currentToken.Value.ToString();
               currentToken = tokens.Dequeue();
             }
-            if (currentToken.TokenKind == TokenKind.Quote)
+            if (currentToken.TokenKind == Globals.TokenKind.Quote)
             {
               userCommand.Returns = currentToken.Value.ToString();
               currentToken = tokens.Dequeue();
             }
-            if (currentToken.TokenKind == TokenKind.Quote)
+            if (currentToken.TokenKind == Globals.TokenKind.Quote)
             {
               userCommand.Remarks = currentToken.Value.ToString();
               currentToken = tokens.Dequeue();
@@ -38,51 +38,51 @@
             ParseParameters(tokens, userCommand);
             ParseStatements(tokens, userCommand.SubCommands);
             break;
-          case TokenKind.PragmaReadScript:
+          case Globals.TokenKind.PragmaReadScript:
             currentToken = tokens.Dequeue();
             currentToken = tokens.Dequeue();
             break;
         }
       }
-      (currentToken.TokenKind == TokenKind.EOF).Check(currentToken, "Unexpected eof of file while parsing");
+      (currentToken.TokenKind == Globals.TokenKind.EOF).Check("Unexpected eof of file while parsing");
     }
 
-    private static void CheckToken(this Token token, TokenKind tokenKind)
+    private static void CheckToken(this Token token, Globals.TokenKind tokenKind)
     {
-      (token.TokenKind == tokenKind).Check(currentToken, $"Expected {tokenKind}");
+      (token.TokenKind == tokenKind).Check($"Expected {tokenKind}");
     }
 
-    private static void ParseParameters(Tokens tokens, UserCommand userCommand)
+    private static void ParseParameters(Globals.Tokens tokens, UserCommand userCommand)
     {
-      while (currentToken.TokenKind is TokenKind.Element or TokenKind.Text or TokenKind.LeftParenthesis)
+      while (currentToken.TokenKind is Globals.TokenKind.Element or Globals.TokenKind.Text or Globals.TokenKind.LeftParenthesis)
       {
         var parameterName = "";
         switch (currentToken.TokenKind)
         {
-          case TokenKind.Element:
-          case TokenKind.Text:
+          case Globals.TokenKind.Element:
+          case Globals.TokenKind.Text:
             parameterName = currentToken.ToString();
             userCommand.ParameterNames.Add(parameterName);
             currentToken = tokens.Dequeue();
             break;
-          case TokenKind.LeftParenthesis:
+          case Globals.TokenKind.LeftParenthesis:
             currentToken = tokens.Dequeue();
-            (currentToken.TokenKind is TokenKind.Element or TokenKind.Text).Check(currentToken, "Expected name of a parameter");
+            (currentToken.TokenKind is Globals.TokenKind.Element or Globals.TokenKind.Text).Check("Expected name of a parameter");
             parameterName = currentToken.ToString();
             var items = new Items();
             items.Enqueue(parameterName);
             userCommand.ParameterNames.Add(items);
             currentToken = tokens.Dequeue();
-            if (currentToken.TokenKind is TokenKind.Element or TokenKind.Text or TokenKind.Quote)
+            if (currentToken.TokenKind is Globals.TokenKind.Element or Globals.TokenKind.Text or Globals.TokenKind.Quote)
             {
-              items.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });
+              items.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == Globals.TokenKind.Quote, ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });
               currentToken = tokens.Dequeue();
             }
-            (currentToken.TokenKind == TokenKind.RightParenthesis).Check(currentToken, "Expected right parenthesis");
+            (currentToken.TokenKind == Globals.TokenKind.RightParenthesis).Check("Expected right parenthesis");
             currentToken = tokens.Dequeue();
             break;
         }
-        if (currentToken.TokenKind == TokenKind.Quote)
+        if (currentToken.TokenKind == Globals.TokenKind.Quote)
         {
           userCommand.ParameterDescriptions.Add(parameterName, currentToken.ToString());
           currentToken = tokens.Dequeue();
@@ -90,22 +90,22 @@
       }
     }
 
-    private static void ParseStatement(Tokens tokens, SubCommand subCommand)
+    private static void ParseStatement(Globals.Tokens tokens, Globals.SubCommand subCommand)
     {
       while (true)
       {
         switch (currentToken.TokenKind)
         {
-          case TokenKind.LeftParenthesis:
+          case Globals.TokenKind.LeftParenthesis:
             currentToken = tokens.Dequeue();
-            var subCommands = new SubCommands();
+            var subCommands = new Globals.SubCommands();
             subCommand.Arguments.Enqueue(subCommands);
             ParseStatements(tokens, subCommands);
-            (currentToken.TokenKind == TokenKind.RightParenthesis).Check(currentToken, "Expected right parenthesis");
+            (currentToken.TokenKind == Globals.TokenKind.RightParenthesis).Check("Expected right parenthesis");
             currentToken = tokens.Dequeue();
             break;
-          case TokenKind.Element or TokenKind.Text or TokenKind.Quote:
-            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == TokenKind.Quote, ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });
+          case Globals.TokenKind.Element or Globals.TokenKind.Text or Globals.TokenKind.Quote:
+            subCommand.Arguments.Enqueue(currentToken.Value, new Properties { IsQuote = currentToken.TokenKind == Globals.TokenKind.Quote, ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });
             currentToken = tokens.Dequeue();
             break;
           default:
@@ -114,11 +114,11 @@
       }
     }
 
-    private static void ParseStatements(Tokens tokens, SubCommands subCommands)
+    private static void ParseStatements(Globals.Tokens tokens, Globals.SubCommands subCommands)
     {
-      while (currentToken.TokenKind == TokenKind.CommandName)
+      while (currentToken.TokenKind == Globals.TokenKind.CommandName)
       {
-        var subCommand = new SubCommand();
+        var subCommand = new Globals.SubCommand();
         subCommands.Add(subCommand);
         subCommand.CommandName = currentToken.ToString();
         subCommand.CommandName.AddProperties(new Properties { ScriptPath = currentToken.ScriptPath, LineNumber = currentToken.LineNumber });

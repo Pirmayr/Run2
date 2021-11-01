@@ -13,9 +13,9 @@ namespace Run2
       }
       catch (Exception exception)
       {
-        Helpers.HandleException(exception);
+        Globals.HandleException(exception);
       }
-      Helpers.WriteLine("Script terminated with failure");
+      Globals.WriteLine("Script terminated with failure");
       return 1;
     }
   }

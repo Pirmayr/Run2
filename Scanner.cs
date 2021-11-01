@@ -14,7 +14,7 @@ namespace Run2
     private const char EscapeCharacter = '~';
     private const char QuoteDelimiter = '\'';
 
-    public static Tokens Scan(string scriptPath)
+    public static Globals.Tokens Scan(string scriptPath)
     {
       var previousScriptPath = Globals.CurrentScriptPath;
       var previousLineNumber = Globals.CurrentLineNumber;
@@ -24,12 +24,12 @@ namespace Run2
       }
       catch (Exception exception)
       {
-        if (exception is RuntimeException)
+        if (exception is Globals.RuntimeException)
         {
           throw;
         }
-        Helpers.HandleException(exception, Globals.CurrentScriptPath, Globals.CurrentLineNumber);
-        throw new RuntimeException("Runtime error");
+        Globals.HandleException(exception, Globals.CurrentScriptPath, Globals.CurrentLineNumber);
+        throw new Globals.RuntimeException("Runtime error");
       }
       finally
       {
@@ -38,14 +38,14 @@ namespace Run2
       }
     }
 
-    private static Tokens DoScan(string scriptPath)
+    private static Globals.Tokens DoScan(string scriptPath)
     {
       var code = File.ReadAllText(scriptPath);
-      var characters = new CharacterQueue(code);
+      var characters = new Globals.CharacterQueue(code);
       var lineNumber = 1;
       Globals.CurrentScriptPath = scriptPath;
       Globals.CurrentLineNumber = lineNumber;
-      var result = new Tokens();
+      var result = new Globals.Tokens();
       var currentCharacter = GetNextCharacter(characters, ref lineNumber);
       var blockLevel = 0;
       while (currentCharacter != EOF)
@@ -66,12 +66,12 @@ namespace Run2
               }
               break;
             case BlockBeginCharacter:
-              result.Enqueue(new Token(TokenKind.LeftParenthesis, '(', scriptPath, lineNumber));
+              result.Enqueue(new Token(Globals.TokenKind.LeftParenthesis, '(', scriptPath, lineNumber));
               ++blockLevel;
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             case BlockEndCharacter:
-              result.Enqueue(new Token(TokenKind.RightParenthesis, ')', scriptPath, lineNumber));
+              result.Enqueue(new Token(Globals.TokenKind.RightParenthesis, ')', scriptPath, lineNumber));
               --blockLevel;
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
@@ -83,9 +83,9 @@ namespace Run2
                 text += Unescape(characters, currentCharacter);
                 currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
-              (currentCharacter != EOF).Check(scriptPath, lineNumber, "Unexpected end of file while reading a text");
+              (currentCharacter != EOF).Check("Unexpected end of file while reading a text");
               text += TextDelimiter.ToString();
-              result.Enqueue(new Token(TokenKind.Text, text, scriptPath, lineNumber));
+              result.Enqueue(new Token(Globals.TokenKind.Text, text, scriptPath, lineNumber));
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             case QuoteDelimiter:
@@ -96,8 +96,8 @@ namespace Run2
                 quote += Unescape(characters, currentCharacter);
                 currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
-              (currentCharacter != EOF).Check(scriptPath, lineNumber, "Unexpected end of file while reading a quote");
-              result.Enqueue(new Token(TokenKind.Quote, quote, scriptPath, lineNumber));
+              (currentCharacter != EOF).Check("Unexpected end of file while reading a quote");
+              result.Enqueue(new Token(Globals.TokenKind.Quote, quote, scriptPath, lineNumber));
               currentCharacter = characters.GetNextCharacter(ref lineNumber);
               break;
             default:
@@ -107,7 +107,7 @@ namespace Run2
                 element += currentCharacter;
                 currentCharacter = GetNextCharacter(characters, ref lineNumber);
               }
-              result.Enqueue(new Token(TokenKind.Element, element.ToBestType(), scriptPath, lineNumber));
+              result.Enqueue(new Token(Globals.TokenKind.Element, element.ToBestType(), scriptPath, lineNumber));
               break;
           }
         }
@@ -116,14 +116,14 @@ namespace Run2
           currentCharacter = GetNextCharacter(characters, ref lineNumber);
         }
       }
-      (blockLevel == 0).Check(scriptPath, lineNumber, 0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
+      (blockLevel == 0).Check(0 < blockLevel ? "There are more left than right block-delimiter" : "There are more right than left block-delimiter");
       ImportScripts(result, Path.GetFileNameWithoutExtension(scriptPath));
       IdentifyCommands(result);
-      result.Enqueue(new Token(TokenKind.EOF, "EOF", scriptPath, lineNumber));
+      result.Enqueue(new Token(Globals.TokenKind.EOF, "EOF", scriptPath, lineNumber));
       return result;
     }
 
-    private static char GetNextCharacter(this CharacterQueue characters, ref int lineNumber)
+    private static char GetNextCharacter(this Globals.CharacterQueue characters, ref int lineNumber)
     {
       var result = 0 < characters.Count ? characters.Dequeue() : EOF;
       if (result == '\n')
@@ -134,7 +134,7 @@ namespace Run2
       return result;
     }
 
-    private static void IdentifyCommands(Tokens tokens)
+    private static void IdentifyCommands(Globals.Tokens tokens)
     {
       Token mostRecentToken = null;
       var pragmaCommandRead = false;
@@ -144,32 +144,32 @@ namespace Run2
         if (pragmaCommandRead)
         {
           pragmaCommandRead = false;
-          token.TokenKind = TokenKind.CommandName;
+          token.TokenKind = Globals.TokenKind.CommandName;
           var commandName = token.Value.ToString();
-          (!string.IsNullOrEmpty(commandName)).Check(token, "Command-name must not be null");
-          var newCommand = new UserCommand { Name = commandName, ScriptPath = token.ScriptPath, QuoteArguments = token.TokenKind == TokenKind.Text };
+          (!string.IsNullOrEmpty(commandName)).Check("Command-name must not be null");
+          var newCommand = new UserCommand { Name = commandName, ScriptPath = token.ScriptPath, QuoteArguments = token.TokenKind == Globals.TokenKind.Text };
           newCommand.AddProperties(new Properties { ScriptPath = token.ScriptPath, LineNumber = token.LineNumber });
           Globals.Commands.Add(commandName, newCommand);
         }
         else if (token.Value.ToString() == Globals.PragmaCommand)
         {
           pragmaCommandRead = true;
-          token.TokenKind = TokenKind.PragmaCommand;
+          token.TokenKind = Globals.TokenKind.PragmaCommand;
         }
       }
-      (mostRecentToken != null && !pragmaCommandRead).Check(mostRecentToken, "Unexpected end of file while identifying commands");
+      (mostRecentToken != null && !pragmaCommandRead).Check("Unexpected end of file while identifying commands");
       foreach (var token in tokens)
       {
         var valueString = token.Value.ToString();
         (valueString != null).Check("The value must not be null");
-        if (token.TokenKind == TokenKind.Element && Globals.Commands.ContainsKey(valueString))
+        if (token.TokenKind == Globals.TokenKind.Element && Globals.Commands.ContainsKey(valueString))
         {
-          token.TokenKind = TokenKind.CommandName;
+          token.TokenKind = Globals.TokenKind.CommandName;
         }
       }
     }
 
-    private static void ImportScripts(Tokens tokens, string scriptName)
+    private static void ImportScripts(Globals.Tokens tokens, string scriptName)
     {
       Token mostRecentToken = null;
       var pragmaImportRead = false;
@@ -180,7 +180,7 @@ namespace Run2
         {
           pragmaImportRead = false;
           var importName = token.Value.ToString();
-          (!string.IsNullOrEmpty(importName)).Check(token, "Script-name must not be null");
+          (!string.IsNullOrEmpty(importName)).Check("Script-name must not be null");
           Run2.LoadScript(importName);
           if (!Globals.Imports.TryGetValue(scriptName, out var importsList))
           {
@@ -192,10 +192,10 @@ namespace Run2
         else if (token.Value.ToString() == Globals.PragmaImport)
         {
           pragmaImportRead = true;
-          token.TokenKind = TokenKind.PragmaReadScript;
+          token.TokenKind = Globals.TokenKind.PragmaReadScript;
         }
       }
-      (mostRecentToken != null && !pragmaImportRead).Check(mostRecentToken, "Unexpected end of file while identifying commands");
+      (mostRecentToken != null && !pragmaImportRead).Check("Unexpected end of file while identifying commands");
     }
 
     private static bool IsElementCharacter(char character)
@@ -212,7 +212,7 @@ namespace Run2
       return !char.IsWhiteSpace(character);
     }
 
-    private static char Unescape(CharacterQueue characters, char character)
+    private static char Unescape(Globals.CharacterQueue characters, char character)
     {
       if (character == EscapeCharacter)
       {

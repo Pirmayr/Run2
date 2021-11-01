@@ -13,7 +13,7 @@ namespace Run2
 
     public Dictionary<string, string> ParameterDescriptions { get; } = new();
 
-    public List ParameterNames { get; } = new();
+    public Globals.List ParameterNames { get; } = new();
 
     public bool QuoteArguments { get; init; }
 
@@ -23,7 +23,7 @@ namespace Run2
 
     public string ScriptPath { get; init; }
 
-    public SubCommands SubCommands { get; } = new();
+    public Globals.SubCommands SubCommands { get; } = new();
 
     public string GetParameterDescription(string name)
     {
@@ -37,7 +37,7 @@ namespace Run2
       {
         var actualCount = arguments.QueueCount;
         GetParameterCounts(out var expectedCountFrom, out var expectedCountTo);
-        (ParameterNames.Count == 0 || expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Helpers.GetInvalidParametersCountErrorMessage(Name, actualCount, expectedCountFrom, expectedCountTo));
+        (ParameterNames.Count == 0 || expectedCountFrom <= actualCount && actualCount <= expectedCountTo).Check(Globals.GetInvalidParametersCountErrorMessage(Name, actualCount, expectedCountFrom, expectedCountTo));
         foreach (var item in ParameterNames)
         {
           object defaultValue = null;

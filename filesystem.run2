@@ -6,7 +6,7 @@ command copyfiles
   destinationfilename 'name of the file after beeing copied; if "null" or empty, the filename remains unchanged'
   expandincludes 'if true, includes are expanded'
   ( lineaction ) 'action to be performed on every line'
-  Helpers.CopyFiles sourcedirectory sourcespecification destinationdirectory destinationfilename expandincludes lineaction
+  Globals.CopyFiles sourcedirectory sourcespecification destinationdirectory destinationfilename expandincludes lineaction
 
 command createdirectory
   'creates specified directory'
@@ -104,28 +104,28 @@ command locatedirectories
   'an array of all directories that could be found'
   basedirectory 'directory in which the search should begin'
   pattern 'pattern to be searched for'
-  return ( Helpers.LocateDirectories basedirectory pattern )
+  return ( Globals.LocateDirectories basedirectory pattern )
 
 command locatedirectory
   'searches for a directory'
   'if the directory could be found, the directory is returned, otherwise an empty string'
   basedirectory 'directory in which the search should begin'
   pattern 'pattern to be searched for'
-  return ( Helpers.LocateDirectory basedirectory pattern )
+  return ( Globals.LocateDirectory basedirectory pattern )
 
 command locatefile
   'searches for a file'
   'if the file could be found, the path of the file is returned, otherwise an empty string'
   basedirectory 'directory in which the search should begin'
   pattern 'pattern to be searched for'
-  return ( Helpers.LocateFile basedirectory pattern )
+  return ( Globals.LocateFile basedirectory pattern )
 
 command locatefiles
   'searches files'
   'an array of all paths that could be found'
   basedirectory 'directory in which the search should begin'
   pattern 'pattern to be searched for'
-  return ( Helpers.LocateFiles basedirectory pattern )
+  return ( Globals.LocateFiles basedirectory pattern )
 
 command removetrailingdirectoryseparator
   'removes all trailing occurrences of the directory-separator from a path'

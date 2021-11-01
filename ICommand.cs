@@ -8,7 +8,7 @@
 
     string Name { get; }
 
-    List ParameterNames { get; }
+    Globals.List ParameterNames { get; }
 
     string Remarks { get; }
 

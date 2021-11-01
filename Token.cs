@@ -9,11 +9,11 @@ namespace Run2
 
     public string ScriptPath { get; }
 
-    public TokenKind TokenKind { get; set; }
+    public Globals.TokenKind TokenKind { get; set; }
 
     public object Value { get; init; }
 
-    public Token(TokenKind tokenKind, object value, string scriptPath, int lineNumber)
+    public Token(Globals.TokenKind tokenKind, object value, string scriptPath, int lineNumber)
     {
       TokenKind = tokenKind;
       Value = value;
