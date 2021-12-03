@@ -403,11 +403,11 @@ namespace Run2
           }
           expandedContents += path != null && File.Exists(path) ? File.ReadAllText(path) : "";
         }
-        else if (currentCleanLine.TryGetControlValue(TargetPragma, out var target))
+        else if (expandIncludes && currentCleanLine.TryGetControlValue(TargetPragma, out var target))
         {
           targetPath = $"{Path.GetDirectoryName(targetPath)}\\{target}";
         }
-        else if (currentCleanLine.TryGetControlValue(ReplacePragma, out var replacementInformation))
+        else if (expandIncludes && currentCleanLine.TryGetControlValue(ReplacePragma, out var replacementInformation))
         {
           var replacementItems = replacementInformation.Split('|');
           (replacementItems.Length == 2).Check("Replacement-pragma needs two arguments separated by '|'");

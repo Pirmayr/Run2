@@ -19,6 +19,7 @@ command buildprojects
   projectfilepatterns 'the patterns triggering a possible action'
   baseprojectsdirectory 'the base-directory'
   actionpacks 'a list of action packs'
+  ( buildname 'Build' ) 'External name of the build'
   local handled (newset)
   foreach actionpack (split actionpacks '|') ( 
     local actionpackitems (split actionpack ';')
@@ -55,9 +56,9 @@ command cleanup
 
 command merge
   'performs a svn merge action'
-  fromrepositoryurl 'repository from which the merge should be performed'
-  toworkspacedirectory 'workspace to which the merge should be performed'
-  svn 'merge --accept theirs-conflict "[fromrepositoryurl]" "[toworkspacedirectory]"'
+  repositoryurl 'repository from which the merge should be performed'
+  branchdirectory 'workspace to which the merge should be performed'
+  svn 'merge --accept theirs-conflict "[repositoryurl]" "[branchdirectory]"'
 
 command mergeup
   'performs a svn merge-up action'
@@ -125,4 +126,4 @@ command svn
 command update
   'performs a svn-update'
   branchdirectory 'the directory to update'
-  svn 'update: "[svnexepath]" update "[branchdirectory]"'
+  svn 'update "[branchdirectory]"'

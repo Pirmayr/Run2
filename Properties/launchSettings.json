@@ -15,7 +15,7 @@
     },
     "Build documentation": {
       "commandName": "Project",
-      "commandLineArgs": "-scriptArguments \"generatedocumentation,publishdocumentation,checkinsources\""
+      "commandLineArgs": "-scriptArguments \"generatedocumentation,publishdocumentation,checkindocumentation,mergeupsources\" \"Dokumentation upgedatet\""
     }
   }
 }

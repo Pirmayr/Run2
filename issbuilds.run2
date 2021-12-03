@@ -2,8 +2,9 @@ loadscript builds
 
 command checkindocumentation
   'performs a check-in of documentation into the sources-repository'
-  if (accepted action sourcesbranchdirectory) 
-    (checkin sourcesbranchdirectory '[commitprefix] Dokumentation upgedatet')
+  if (accepted action sourcesbranchdirectory) (
+    global checkinmessage '[commitprefix] [buildname]'
+    checkin sourcesbranchdirectory checkinmessage)
 
 command checkinbinaries
   'performs a check-in into the binaries-repository'
@@ -40,6 +41,8 @@ command issbuilds
   global buildtoolsdirectory '[binariesbranchdirectory]\Buildtools'
   global workspacesdirectory ( finddirectory userscriptdirectory Workspaces )
   global sourcesbranchdirectory (if (isnullorempty workspacesdirectory) 'C:\SRC_SVN\branches\[branch]' '[workspacesdirectory]\Sources\branches\[branch]')
+  global sourcesbranchesurl 'https://svn.moveit.at/svn/svnroot/branches'
+  global binariesbranchesurl 'https://svn.moveit.at/svn/binary/branches'
   global jumbounittestsassemblypath '[binariesbranchdirectory]\moveIT.Jumbo\UnitTests\bin\x64\Release\netcoreapp3.1\UnitTests.dll'
   global 3docxunittestsassemblypath '[binariesbranchdirectory]\P4\Source\chiemsee\Components\3dOcxUnitTests\bin\x64\Release\3dOcxUnitTests.dll'
   global trackdirectory '[IssInstallationPath]\MasterData\Jumbo\Tracks'
@@ -57,7 +60,12 @@ command issbuilds
 command mergeupbinaries
   'performs a merge-up action in a binaries-branch, beginning with the current branch'
   if ( accepted action binariesbranchdirectory ) 
-    (mergeup binariesbranchesurl binariesbranchdirectory)
+    (mergeup binariesbranchesurl binariesbranchdirectory checkinmessage)
+	
+command mergeupsources
+  'performs a merge-up action in a sources-branch, beginning with the current branch'
+  if ( accepted action sourcesbranchdirectory ) 
+    (mergeup sourcesbranchesurl sourcesbranchdirectory checkinmessage)
 	
 command msbuild
   'rebuilds a solution'
